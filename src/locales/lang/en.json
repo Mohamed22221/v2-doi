@@ -1,0 +1,27 @@
+{
+    "nav": {
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "categories": "Categories",
+        "orders": "Orders",
+        "fixedPrice": "Fixed Price Items",
+        "manageAds": "Manage Ads",
+        "payments": "Payments",
+        "support": "Support",
+        "singleMenuItem": "Single menu item",
+        "collapseMenu": {
+            "auctions": "Auctions",
+            "liveAuctions": "Live Auctions",
+            "durationAuctions": "Duration Auctions"
+        },
+        "groupMenu": {
+            "groupMenu": "Group menu",
+            "single": "Group single menu item",
+            "collapse": {
+                "collapse": "Group collapse menu",
+                "item1": "Group collapse menu item 1",
+                "item2": "Group collapse menu item 2"
+            }
+        }
+    }
+}

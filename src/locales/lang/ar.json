@@ -1,0 +1,27 @@
+{
+    "nav": {
+        "dashboard": "اللوحة الرئيسية",
+        "users": "المستخدمون",
+        "categories": "الفئات",
+        "orders": "الطلبات",
+        "fixedPrice": "العناصر بسعر ثابت",
+        "manageAds": "إدارة الإعلانات",
+        "payments": "المدفوعات",
+        "support": "الدعم",
+        "singleMenuItem": "عنصر القائمة الفردي",
+        "collapseMenu": {
+            "auctions": "المزادات",
+            "liveAuctions": "المزادات المباشرة",
+            "durationAuctions": "المزادات المدفوعة بالمدة"
+        },
+        "groupMenu": {
+            "groupMenu": "Group menu",
+            "single": "Group single menu item",
+            "collapse": {
+                "collapse": "Group collapse menu",
+                "item1": "Group collapse menu item 1",
+                "item2": "Group collapse menu item 2"
+            }
+        }
+    }
+}
