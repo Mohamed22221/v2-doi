@@ -41,11 +41,16 @@ Please read the following files **in order**:
 2. ⚙️ `src/docs/01-setup.md`  
    _Local setup, environment variables, and running the project_
 
-3. 🧱 `src/docs/02-project-structure.md`  
+3. 🧱 `src/docs/02-rules.md`  
+   _Component Development Guidelines and Contribution Rules_
+
+4. 🧱 `src/docs/03-project-structure.md`  
    _Folder structure and architectural conventions_
 
-4. 🧱 `src/docs/03-rules.md`  
-   _Component Development Guidelines and Contribution Rules_
+5. 🧱 `src/docs/04-api-layer.md`  
+   _A lightweight guide to understanding and working with the API layer in this project_
+
+A lightweight guide to understanding and working with the API layer in this project.
 
 
  📌 All contributors are expected to review the documentation before making changes to the codebase.

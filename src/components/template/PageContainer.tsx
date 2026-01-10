@@ -5,13 +5,14 @@ import {
     PAGE_CONTAINER_GUTTER_X,
     PAGE_CONTAINER_GUTTER_Y,
 } from '@/constants/theme.constant'
-import Footer from '@/components/template/Footer'
+// import Footer from '@/components/template/Footer'
 import type { CommonProps } from '@/@types/common'
 import type { Meta } from '@/@types/routes'
 import type { ElementType, ComponentPropsWithRef } from 'react'
-import type { FooterPageContainerType } from '@/components/template/Footer'
+// import type { FooterPageContainerType } from '@/components/template/Footer'
 
 export interface PageContainerProps extends CommonProps, Meta {
+    
     contained?: boolean
 }
 
@@ -32,7 +33,7 @@ const PageContainer = (props: PageContainerProps) => {
         header,
         contained = false,
         extraHeader,
-        footer = true,
+        // footer = true,
     } = props
 
     return (
@@ -81,13 +82,13 @@ const PageContainer = (props: PageContainerProps) => {
                     )}
                 </div>
             </main>
-            {footer && (
+            {/* {footer && (
                 <Footer
                     pageContainerType={
                         pageContainerType as FooterPageContainerType
                     }
                 />
-            )}
+            )} */}
         </div>
     )
 }

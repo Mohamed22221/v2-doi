@@ -10,18 +10,11 @@
   .header-action {
     @apply flex items-center;
   }
-
   .header-action-item {
-    @apply cursor-pointer p-2 rounded-full mx-1;
+    @apply cursor-pointer p-2 rounded-full mx-1 relative overflow-hidden;
   }
 
   .header-action-item-hoverable {
-    @apply hover:bg-black/5 
-      hover:text-gray-900 
-      dark:hover:bg-black/40
-      dark:hover:text-gray-100
-      transition-colors 
-      duration-300 
-      ease-in-out;
+    @apply hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-300 ease-in-out;
   }
 }

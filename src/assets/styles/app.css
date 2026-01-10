@@ -4,3 +4,11 @@
 @import './template/index.css';
 @import './vendors/index.css';
 @import './docs/index.css';
+@font-face {
+  font-family: 'Inter-fallback';
+  src: local('Arial');
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
