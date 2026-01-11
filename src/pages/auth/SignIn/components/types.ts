@@ -1,4 +1,4 @@
-import { CommonProps } from "@/@types/common"
+import { CommonProps, Platform } from "@/@types/common"
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -14,6 +14,6 @@ interface SignInPayload {
     email?: string
     phone?: string
     password: string
-    platform: 'web'
+    platform: Platform
 }
 export type { SignInFormProps, SignInFormSchema, SignInPayload }

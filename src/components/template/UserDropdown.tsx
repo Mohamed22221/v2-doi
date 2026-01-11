@@ -26,18 +26,26 @@ const dropdownItemList: DropdownList[] = [
 
 const _UserDropdown = ({ className }: CommonProps) => {
     const { signOut } = useAuth()
-    const { data , isLoading } = useGetProfile()
+    const { data, isLoading } = useGetProfile()
     const dataProfile = data?.data
     const UserAvatar = (
         <div className={classNames(className, 'flex items-center gap-2')}>
             <Avatar size={32} shape="circle" icon={<HiOutlineUser />} />
             <div className="min-w-0 w-[92px]">
                 <div className="text-xs capitalize truncate ">
-                    {!isLoading ? dataProfile?.role : <Skeleton className="w-23 h-3 my-[2px]" />}
+                    {!isLoading ? (
+                        dataProfile?.role
+                    ) : (
+                        <Skeleton className="w-23 h-3 my-[2px]" />
+                    )}
                 </div>
 
                 <div className="font-bold truncate">
-                    {!isLoading ? dataProfile?.email : <Skeleton className="w-25 h-3 " />}
+                    {!isLoading ? (
+                        dataProfile?.email
+                    ) : (
+                        <Skeleton className="w-25 h-3 " />
+                    )}
                 </div>
             </div>
         </div>
@@ -55,12 +63,12 @@ const _UserDropdown = ({ className }: CommonProps) => {
                         <Avatar shape="circle" icon={<HiOutlineUser />} />
                         <div>
                             <div className="font-bold text-gray-900 dark:text-gray-100">
-                                {dataProfile ? dataProfile.role : 'admin'}
-                            </div>
-                            <div className="text-xs">
                                 {dataProfile
                                     ? dataProfile.email
                                     : 'user01@mail.com'}
+                            </div>
+                            <div className="text-xs">
+                                {dataProfile ? dataProfile.role : 'admin'}
                             </div>
                         </div>
                     </div>

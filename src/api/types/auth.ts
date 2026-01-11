@@ -9,6 +9,8 @@ export type LoginRequest = {
 
 export type LoginResponse = {
     access_token: string
+    otpSessionId?: string
+    code?: string
     user: {
         id: string
         email: string 
@@ -17,6 +19,15 @@ export type LoginResponse = {
 }
 }
 
+export type VerifyOtpRequest = {
+    code: string
+    otpSessionId: string
+}
+
+export type VerifyOtpResponse = {
+    access_token: string
+    user: LoginResponse['user']
+}
 export type ProfileResponse = {
   sub: string;
   phone: string;
