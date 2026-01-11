@@ -7,7 +7,11 @@ import AuthServices from '../services/auth'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { ACCESS_TOKEN } from '../constants/api.constant'
 import { getApiErrorMessage } from '../error'
-import { LoginResponse, VerifyOtpResponse } from '../types/auth'
+import {
+    LoginResponse,
+    VerifyOtpRequest,
+    VerifyOtpResponse,
+} from '../types/auth'
 
 // Helpers to set cookies
 const setAccessTokenCookie = (token: string) => {
@@ -32,9 +36,11 @@ export const useLogin = () => {
 
             // 1) OTP flow
             if (data?.code) {
-                localStorage.setItem("otp-code", data.code);
-                localStorage.setItem("otp-session-id", data.otpSessionId || "");
-                navigate('/verify-otp', { replace: false })
+                localStorage.setItem('otp-code', data.code)
+                localStorage.setItem('otp-session-id', data.otpSessionId || '')
+                navigate('/verify-otp', {
+                    replace: false,
+                })
                 return
             }
 
@@ -60,7 +66,6 @@ export const useLogin = () => {
     }
 }
 
-
 export const useVerifyOtp = () => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -71,7 +76,7 @@ export const useVerifyOtp = () => {
 
         onSuccess: async ({ data }: { data: VerifyOtpResponse }) => {
             const accessToken = data?.access_token
-            if (!accessToken) return;
+            if (!accessToken) return
             // 2) Token flow
             if (accessToken) {
                 setAccessTokenCookie(accessToken)
@@ -88,6 +93,25 @@ export const useVerifyOtp = () => {
     return {
         ...mutation,
         verifyOtp: mutation.mutateAsync,
+        errorMessage: mutation.error
+            ? getApiErrorMessage(mutation.error)
+            : null,
+    }
+}
+
+export const useResendOtp = () => {
+    const mutation = useMutation({
+        mutationKey: [ReactQueryKeys.RESEND_OTP],
+        mutationFn: AuthServices.resendOtp,
+        onSuccess: async ({ data }: { data: VerifyOtpRequest }) => {
+            const newCode = data?.code
+            localStorage.setItem('otp-code', newCode)
+        },
+    })
+
+    return {
+        ...mutation,
+        resendOtp: mutation.mutateAsync,
         errorMessage: mutation.error
             ? getApiErrorMessage(mutation.error)
             : null,

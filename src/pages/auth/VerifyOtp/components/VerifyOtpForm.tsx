@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button'
 import { FormContainer, FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 // API
-import { useVerifyOtp } from '@/api/hooks/auth'
+import { useResendOtp, useVerifyOtp } from '@/api/hooks/auth'
 import { getApiErrorMessage } from '@/api/error'
 // Validation
 import validationSchema from './schema'
@@ -13,13 +13,19 @@ import validationSchema from './schema'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 // Types
 import type { OtpFormProps, VerifyOtpPayload } from './types'
+import ResendOtp from './ResendOtp'
+import { useEffect, useState } from 'react'
 
 const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
     const { verifyOtp, isPending } = useVerifyOtp()
+    const { resendOtp, isSuccess } = useResendOtp()
     const [message, setMessage] = useTimeOutMessage()
+
     // Retrieve stored OTP session ID and code
-    const getOtpSessionId = localStorage.getItem('otp-session-id') || ''
-    const otpCode = localStorage.getItem('otp-code') || ''
+        const [initialValues, setInitialValues] = useState<VerifyOtpPayload>({
+        otpSessionId: "",
+        code: "",
+    })
     // Handle form submission
 
     const handleSignIn = async (
@@ -29,8 +35,8 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
         setMessage('')
 
         const payload: VerifyOtpPayload = {
-            code: values.code || otpCode,
-            otpSessionId: getOtpSessionId,
+            code: values.code || initialValues.code,
+            otpSessionId: initialValues.otpSessionId,
             platform: 'web',
         }
 
@@ -43,11 +49,17 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
         }
     }
     // Initial form values
-    const initialValues: VerifyOtpPayload = {
-        otpSessionId: getOtpSessionId,
-        code: otpCode,
-    }
 
+    useEffect(() => {
+        const storedOtpSessionId = localStorage.getItem('otp-session-id') || ''
+        const storedOtpCode = localStorage.getItem('otp-code') || ''
+        setInitialValues({
+            otpSessionId: storedOtpSessionId,
+            code: storedOtpCode,
+        })
+
+    }, [isSuccess])
+    console.log('initialValues', initialValues)
     return (
         <div className={className}>
             {message && (
@@ -59,6 +71,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
+                enableReinitialize
                 onSubmit={(values, { setSubmitting }) => {
                     if (disableSubmit) return setSubmitting(false)
                     handleSignIn(values, setSubmitting)
@@ -88,18 +101,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                                     />
                                 </FormItem>
 
-                                <div className="flex justify-center mb-6">
-                                    <span className="text-sm text-gray-600">
-                                        Didn&apos;t receive the code?
-                                    </span>
-                                    &nbsp;
-                                    <a
-                                        href="#"
-                                        className="text-blue-500 hover:underline"
-                                    >
-                                        Resend OTP
-                                    </a>
-                                </div>
+                                <ResendOtp setMessage={setMessage} onResend={(payload) => resendOtp(payload).then(() => {})} />
 
                                 <Button
                                     block

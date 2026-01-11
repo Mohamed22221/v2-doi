@@ -3,6 +3,7 @@ const ReactQueryKeys = {
   GET_PROFILE: "get-profile",
   REFRESH_TOKEN: "refresh-token",
   VERIFY_OTP: "verify-otp",
+  RESEND_OTP: "resend-otp",
   LOGOUT: "logout"
 
 }

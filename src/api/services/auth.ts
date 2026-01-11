@@ -3,6 +3,7 @@ import {
     LoginRequest,
     LoginResponse,
     ProfileResponse,
+    ResendOtpRequest,
     VerifyOtpRequest,
     VerifyOtpResponse,
 } from '../types/auth'
@@ -16,6 +17,11 @@ const AuthServices = {
         payload: VerifyOtpRequest,
     ): Promise<TAPIResponse<VerifyOtpResponse>> => {
         return api.post('/auth/verify-otp', payload)
+    },
+    resendOtp: (
+        payload: ResendOtpRequest,
+    ): Promise<TAPIResponse<VerifyOtpRequest>> => {
+        return api.post('/auth/resend-otp', payload)
     },
     getProfile: () => api.get<ProfileResponse>('/auth/profile'),
 }
