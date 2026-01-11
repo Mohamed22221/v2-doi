@@ -1,30 +1,22 @@
-export type SignInCredential = {
-    userName: string
+
+export type LoginRequest = {
+    email?: string
+    phone?: string
     password: string
+    fcmToken?: string
+    platform?: 'web' | 'ios' | 'android'
 }
 
-export type SignInResponse = {
-    token: string,
-    access_token: string;
+export type LoginResponse = {
+    access_token: string
     user: {
-        userName: string
-        email: string,
-        role: string
-    }
+        id: string
+        email: string 
+        phone: string 
+        language: string
+}
 }
 
-export type SignUpResponse = SignInResponse
 
-export type SignUpCredential = {
-    userName: string
-    email: string
-    password: string
-}
 
-export type ForgotPassword = {
-    email: string
-}
-
-export type ResetPassword = {
-    password: string
-}
+// New login types for email/phone login

@@ -1,15 +1,15 @@
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
-import Checkbox from '@/components/ui/Checkbox'
 import { FormItem, FormContainer } from '@/components/ui/Form'
 import Alert from '@/components/ui/Alert'
 import PasswordInput from '@/components/shared/PasswordInput'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
-import useAuth from '@/utils/hooks/useAuth'
+import { useLogin } from '@/api/hooks/auth'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import type { CommonProps } from '@/@types/common'
+import { getApiErrorMessage } from '@/api/error'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -18,15 +18,40 @@ interface SignInFormProps extends CommonProps {
 }
 
 type SignInFormSchema = {
-    userName: string
+    identifier: string
     password: string
-    rememberMe: boolean
 }
 
+interface SignInPayload {
+    email?: string
+    phone?: string
+    password: string
+    platform: 'web'
+}
+
+// E.164 phone regex: starts with +, followed by 1-15 digits
+const phoneRegex = /^\+[1-9]\d{7,14}$/
+
+const normalizePhone = (value: string) => value.replace(/[\s-]/g, '').trim()
+
+const isEmail = (value: string) =>
+    Yup.string().email().isValidSync(value.trim())
+
+const isPhone = (value: string) => phoneRegex.test(normalizePhone(value))
+
 const validationSchema = Yup.object().shape({
-    userName: Yup.string().required('Please enter your user name'),
+    identifier: Yup.string()
+        .trim()
+        .required('Email or phone number is required')
+        .test(
+            'email-or-phone',
+            'Please enter a valid email or a valid phone number  (e.g., +966501234567)',
+            (value) => {
+                if (!value) return false
+                return isEmail(value) || isPhone(value)
+            },
+        ),
     password: Yup.string().required('Please enter your password'),
-    rememberMe: Yup.bool(),
 })
 
 const SignInForm = (props: SignInFormProps) => {
@@ -38,37 +63,54 @@ const SignInForm = (props: SignInFormProps) => {
     } = props
 
     const [message, setMessage] = useTimeOutMessage()
-
-    const { signIn } = useAuth()
+    const { login, isPending } = useLogin()
 
     const onSignIn = async (
         values: SignInFormSchema,
         setSubmitting: (isSubmitting: boolean) => void,
     ) => {
-        const { userName, password } = values
-        setSubmitting(true)
+        const { identifier, password } = values
 
-        const result = await signIn({ userName, password })
+        setMessage('')
 
-        if (result?.status === 'failed') {
-            setMessage(result.message)
+        const trimmedIdentifier = identifier.trim()
+
+        const loginPayload: SignInPayload = {
+            password,
+            platform: 'web',
         }
 
-        setSubmitting(false)
+        // Send only ONE of them
+        if (isEmail(trimmedIdentifier)) {
+            loginPayload.email = trimmedIdentifier
+        } else {
+            loginPayload.phone = normalizePhone(trimmedIdentifier)
+        }
+
+        try {
+            await login(loginPayload)
+        } catch (error) {
+            const errorMsg = getApiErrorMessage(error)
+            setMessage(errorMsg)
+        } finally {
+            setSubmitting(false)
+        }
     }
+
+    const displayError = message
 
     return (
         <div className={className}>
-            {message && (
+            {displayError && (
                 <Alert showIcon className="mb-4" type="danger">
-                    <>{message}</>
+                    <>{displayError}</>
                 </Alert>
             )}
+
             <Formik
                 initialValues={{
-                    userName: 'admin',
-                    password: '123Qwe',
-                    rememberMe: true,
+                    identifier: '',
+                    password: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -79,67 +121,73 @@ const SignInForm = (props: SignInFormProps) => {
                     }
                 }}
             >
-                {({ touched, errors, isSubmitting }) => (
-                    <Form>
-                        <FormContainer>
-                            <FormItem
-                                label="User Name"
-                                invalid={
-                                    (errors.userName &&
-                                        touched.userName) as boolean
-                                }
-                                errorMessage={errors.userName}
-                            >
-                                <Field
-                                    type="text"
-                                    autoComplete="off"
-                                    name="userName"
-                                    placeholder="User Name"
-                                    component={Input}
-                                />
-                            </FormItem>
-                            <FormItem
-                                label="Password"
-                                invalid={
-                                    (errors.password &&
-                                        touched.password) as boolean
-                                }
-                                errorMessage={errors.password}
-                            >
-                                <Field
-                                    autoComplete="off"
-                                    name="password"
-                                    placeholder="Password"
-                                    component={PasswordInput}
-                                />
-                            </FormItem>
-                            <div className="flex justify-between mb-6">
-                                <Field
-                                    className="mb-0"
-                                    name="rememberMe"
-                                    component={Checkbox}
+                {({ touched, errors, isSubmitting }) => {
+                    const isFormSubmitting = isSubmitting || isPending
+
+                    return (
+                        <Form>
+                            <FormContainer>
+                                <FormItem
+                                    label="Email or Phone"
+                                    invalid={
+                                        (errors.identifier &&
+                                            touched.identifier) as boolean
+                                    }
+                                    errorMessage={errors.identifier}
                                 >
-                                    Remember Me
-                                </Field>
-                                <ActionLink to={forgotPasswordUrl}>
-                                    Forgot Password?
-                                </ActionLink>
-                            </div>
-                            <Button
-                                block
-                                loading={isSubmitting}
-                                variant="solid"
-                                type="submit"
-                            >
-                                {isSubmitting ? 'Signing in...' : 'Sign In'}
-                            </Button>
-                            <div className="mt-4 text-center">
-                                <span>{`Don't have an account yet?`} </span>
-                                <ActionLink to={signUpUrl}>Sign up</ActionLink>
-                            </div>
-                        </FormContainer>
-                    </Form>
-                )}
+                                    <Field
+                                        type="text"
+                                        autoComplete="username"
+                                        name="identifier"
+                                        placeholder="Email or Phone (test@mail.com or +966501234567)"
+                                        component={Input}
+                                    />
+                                </FormItem>
+
+                                <FormItem
+                                    label="Password"
+                                    invalid={
+                                        (errors.password &&
+                                            touched.password) as boolean
+                                    }
+                                    errorMessage={errors.password}
+                                >
+                                    <Field
+                                        autoComplete="current-password"
+                                        name="password"
+                                        placeholder="Password"
+                                        component={PasswordInput}
+                                    />
+                                </FormItem>
+
+                                <div className="flex justify-end mb-6">
+                                    <ActionLink to={forgotPasswordUrl}>
+                                        Forgot Password?
+                                    </ActionLink>
+                                </div>
+
+                                <Button
+                                    block
+                                    loading={isFormSubmitting}
+                                    variant="solid"
+                                    type="submit"
+                                    disabled={isFormSubmitting || disableSubmit}
+                                >
+                                    {isFormSubmitting
+                                        ? 'Signing in...'
+                                        : 'Sign In'}
+                                </Button>
+
+                                <div className="mt-4 text-center">
+                                    <span>{`Don't have an account yet?`} </span>
+                                    <ActionLink to={signUpUrl}>
+                                        Sign up
+                                    </ActionLink>
+                                </div>
+                            </FormContainer>
+                        </Form>
+                    )
+                }}
             </Formik>
         </div>
     )

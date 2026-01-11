@@ -1,128 +1,76 @@
-// api.ts (axios setup)
+// api.ts
 import axios, {
-    AxiosError,
-    AxiosResponse,
-    InternalAxiosRequestConfig,
-} from 'axios'
-import Cookies from 'js-cookie'
-// import { toast } from "react-toastify";
-import { ACCESS_TOKEN , TOKEN_TYPE } from './constants/api.constant'
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN, TOKEN_TYPE } from "./constants/api.constant";
+import { ApiErrorClass, normalizeApiError } from "./error";
+import { API_URL, API_VERSION } from "@/configs/env";
 
-const apiVersion = 'v1'
-const apiUrl = `https://doueh.com/api`
+let redirecting = false;
 
 const api = axios.create({
-    baseURL: `${apiUrl}/${apiVersion}`,
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json',
-    },
-})
-
-// Request queue during refresh
-let isRefreshing = false
-let failedQueue: Array<{
-    resolve: (value?: unknown) => void
-    reject: (reason?: unknown) => void
-}> = []
-
-const processQueue = (
-    error: AxiosError | null,
-    token: string | null = null,
-) => {
-    failedQueue.forEach((prom) => {
-        if (error) prom.reject(error)
-        else prom.resolve(token)
-    })
-    failedQueue = []
-}
+  baseURL: `${API_URL}/${API_VERSION}`,
+  withCredentials: false,
+  headers: {
+    "Content-Type": "application/json",
+    accept: "application/json",
+  },
+});
 
 function onRequest(config: InternalAxiosRequestConfig) {
-    config.headers.Authorization = `${TOKEN_TYPE}${Cookies.get(ACCESS_TOKEN)}`
-    config.headers['lang'] = localStorage.getItem('i18nextLng')
-    return config
+  const token = Cookies.get(ACCESS_TOKEN);
+
+  if (token) {
+    config.headers.Authorization = `${TOKEN_TYPE}${token}`;
+  } else if ("Authorization" in config.headers) {
+    delete config.headers.Authorization;
+  }
+
+  const lang = localStorage.getItem("i18nextLng");
+  if (lang) config.headers["lang"] = lang;
+
+  return config;
 }
 
-function onResponse(res: AxiosResponse): AxiosResponse['data'] {
-    return res?.data
+function onResponse(res: AxiosResponse) {
+  return res.data;
 }
 
-async function errorHandler(
-    error: AxiosError<{ error: { message: string; details: string[] } }>,
-) {
-    const originalRequest = error.config as
-        | (InternalAxiosRequestConfig & {
-              _retry?: boolean
-          })
-        | undefined
-    const status = error.response?.status
-    const errorMsg =
-        error.response?.data?.error?.message || 'Unexpected API error'
+function isCanceled(error: unknown): boolean {
+  if (!axios.isAxiosError(error)) return false;
+  if (error.code === "ERR_CANCELED") return true;
 
-    // Handle 401 with refresh flow
-    if (status === 401 && originalRequest && !originalRequest._retry) {
-        if (isRefreshing) {
-            // Queue until refresh finishes
-            return new Promise((resolve, reject) => {
-                failedQueue.push({ resolve, reject })
-            })
-                .then(() => api(originalRequest))
-                .catch((err) => Promise.reject(err))
-        }
+  const msg = typeof error.message === "string" ? error.message.toLowerCase() : "";
+  return msg.includes("canceled") || msg.includes("cancelled");
+}
 
-        originalRequest._retry = true
-        isRefreshing = true
+function onResponseError(error: unknown) {
+  // 1) Ignore canceled requests (no UX error)
+  if (isCanceled(error)) {
+    return Promise.reject(error);
+  }
 
-        try {
-            // Call refresh endpoint (cookies carry refresh token)
-            const resp = await axios.post(
-                `${apiUrl}/${apiVersion}/auth/refresh-token`,
-                {},
-                { withCredentials: true },
-            )
-            const newAccessToken = resp.data?.data?.accessToken
+  // 2) Redirect on 401 (except login)
+  if (axios.isAxiosError(error)) {
+    const status = error.response?.status;
+    const url = error.config?.url ?? "";
 
-            if (newAccessToken) {
-                Cookies.set(ACCESS_TOKEN, newAccessToken, {
-                    expires: 1 / 96,
-                })
-                api.defaults.headers.common.Authorization = `${TOKEN_TYPE}${newAccessToken}`
-                if (originalRequest.headers)
-                    originalRequest.headers.Authorization = `${TOKEN_TYPE}${newAccessToken}`
-
-                processQueue(null, newAccessToken)
-                return api(originalRequest)
-            }
-
-            throw new Error('No access token returned from refresh')
-        } catch (refreshErr) {
-            processQueue(refreshErr as AxiosError, null)
-            Cookies.remove(ACCESS_TOKEN)
-            window.location.href = '/auth/sign-in'
-            return Promise.reject(refreshErr)
-        } finally {
-            isRefreshing = false
-        }
+    const isLogin = url.includes("/login");
+    if (status === 401 && !isLogin && !redirecting) {
+      redirecting = true;
+      Cookies.remove(ACCESS_TOKEN);
+      window.location.replace("/sign-in");
     }
+  }
 
-    // Notify
-    //   toast.error(errorMsg, { toastId: errorMsg });
-    //   error.response?.data?.error.details?.map((item) =>
-    //     toast.error(item, { toastId: item })
-    //   );
-
-    // ...existing code to build custom error...
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const customError: any = new Error(errorMsg)
-    customError.isApiError = true
-    customError.status = status
-    customError.original = error
-
-    return Promise.reject(customError)
+  // 3) Normalize + throw ApiErrorClass
+  const normalized = normalizeApiError(error);
+  return Promise.reject(new ApiErrorClass(normalized));
 }
 
-api.interceptors.request.use(onRequest, errorHandler)
-api.interceptors.response.use(onResponse, errorHandler)
+api.interceptors.request.use(onRequest);
+api.interceptors.response.use(onResponse, onResponseError);
 
-export default api
+export default api;

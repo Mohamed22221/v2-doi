@@ -12,7 +12,6 @@ import type { ElementType, ComponentPropsWithRef } from 'react'
 // import type { FooterPageContainerType } from '@/components/template/Footer'
 
 export interface PageContainerProps extends CommonProps, Meta {
-    
     contained?: boolean
 }
 

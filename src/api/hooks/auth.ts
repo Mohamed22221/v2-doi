@@ -1,40 +1,44 @@
+// External libraries
+import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import Cookies from 'js-cookie'
+// Internal constants & services
+import AuthServices from '../services/auth'
+import ReactQueryKeys from '../constants/apikeys.constant'
+import { ACCESS_TOKEN } from '../constants/api.constant'
+import { getApiErrorMessage } from '../error'
+import { LoginResponse } from '../types/auth'
 
-import AuthServices from "../services/auth";
-import ReactQueryKeys from "../constants/apikeys.constant";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import {ACCESS_TOKEN } from "../constants/api.constant";
-import { useMutation, useQuery } from "@tanstack/react-query";
+// Helpers to set cookies
+const setAccessTokenCookie = (token: string) => {
+    Cookies.set(ACCESS_TOKEN, token, {
+        expires: 1 / 96,// 15 minutes
+        sameSite: 'strict',
+        secure: true,
+    })
+}
 
-const refetchTokenInterval = 12 * 60 * 1000; // 12 min
+// Hook login and handle errors
+export const useLogin = () => {
+    const navigate = useNavigate()
 
-export const useSignIn = () => {
-  const navigate = useNavigate();
-  return useMutation({
-    mutationFn: AuthServices.signIn,
-    mutationKey: [ReactQueryKeys.SIGN_IN],
-    onSuccess: (data) => {
-      const {
-        access_token,
-        user: { role },
-      } = data.data;
-      if (access_token) {
-        Cookies.set(ACCESS_TOKEN, access_token, {
-          expires: 1 / 96,
-        });
-        navigate("/", { replace: true });
-      }
-      if (role) Cookies.set("role", role);
-    },
-  });
-};
+    const mutation = useMutation({
+        mutationKey: [ReactQueryKeys.SIGN_IN],
+        mutationFn: AuthServices.login,
+        onSuccess: ({ data }: { data: LoginResponse }) => {
+            const accessToken = data?.access_token
+            if (!accessToken) return
 
-export const useRefreshToken = () => {
-  return useQuery({
-    queryKey: [ReactQueryKeys.REFRESH_TOKEN],
-    queryFn: AuthServices.refreshToken,
-    refetchInterval: refetchTokenInterval,
-    retry: 0,
-  });
-};
+            setAccessTokenCookie(accessToken)
+            navigate('/', { replace: true })
+        },
+    })
 
+    return {
+        ...mutation,
+        login: mutation.mutateAsync,
+        errorMessage: mutation.error
+            ? getApiErrorMessage(mutation.error)
+            : null,
+    }
+}
