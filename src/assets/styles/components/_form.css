@@ -28,7 +28,7 @@
   }
 
   .form-explain {
-    @apply text-red-500 absolute;
+    @apply  text-sm text-red-500 leading-snug text-start whitespace-normal break-words;
   }
 
   .form-container {

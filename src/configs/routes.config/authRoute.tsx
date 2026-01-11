@@ -9,12 +9,6 @@ const authRoute: Routes = [
         authority: [],
     },
     {
-        key: 'signUp',
-        path: `/sign-up`,
-        component: lazy(() => import('@/pages/auth/SignUp')),
-        authority: [],
-    },
-    {
         key: 'forgotPassword',
         path: `/forgot-password`,
         component: lazy(() => import('@/pages/auth/ForgotPassword')),

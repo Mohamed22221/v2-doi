@@ -4,13 +4,13 @@ import Button from '@/components/ui/Button'
 import Alert from '@/components/ui/Alert'
 import PasswordInput from '@/components/shared/PasswordInput'
 import ActionLink from '@/components/shared/ActionLink'
-import { apiResetPassword } from '@/services/AuthService'
+
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useNavigate } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import type { CommonProps } from '@/@types/common'
-import type { AxiosError } from 'axios'
+
 
 interface ResetPasswordFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -33,9 +33,9 @@ const validationSchema = Yup.object().shape({
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
 
-    const [resetComplete, setResetComplete] = useState(false)
+    const [resetComplete] = useState(false)
 
-    const [message, setMessage] = useTimeOutMessage()
+    const [message] = useTimeOutMessage()
 
     const navigate = useNavigate()
 
@@ -43,21 +43,9 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
         values: ResetPasswordFormSchema,
         setSubmitting: (isSubmitting: boolean) => void,
     ) => {
-        const { password } = values
+
         setSubmitting(true)
-        try {
-            const resp = await apiResetPassword({ password })
-            if (resp.data) {
-                setSubmitting(false)
-                setResetComplete(true)
-            }
-        } catch (errors) {
-            setMessage(
-                (errors as AxiosError<{ message: string }>)?.response?.data
-                    ?.message || (errors as Error).toString(),
-            )
-            setSubmitting(false)
-        }
+
     }
 
     const onContinue = () => {

@@ -4,12 +4,12 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Alert from '@/components/ui/Alert'
 import ActionLink from '@/components/shared/ActionLink'
-import { apiForgotPassword } from '@/services/AuthService'
+
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import type { CommonProps } from '@/@types/common'
-import type { AxiosError } from 'axios'
+// import type { AxiosError } from 'axios'
 
 interface ForgotPasswordFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -27,28 +27,16 @@ const validationSchema = Yup.object().shape({
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
 
-    const [emailSent, setEmailSent] = useState(false)
+    const [emailSent] = useState(false)
 
-    const [message, setMessage] = useTimeOutMessage()
+    const [message] = useTimeOutMessage()
 
     const onSendMail = async (
         values: ForgotPasswordFormSchema,
         setSubmitting: (isSubmitting: boolean) => void,
     ) => {
         setSubmitting(true)
-        try {
-            const resp = await apiForgotPassword(values)
-            if (resp.data) {
-                setSubmitting(false)
-                setEmailSent(true)
-            }
-        } catch (errors) {
-            setMessage(
-                (errors as AxiosError<{ message: string }>)?.response?.data
-                    ?.message || (errors as Error).toString(),
-            )
-            setSubmitting(false)
-        }
+
     }
 
     return (
