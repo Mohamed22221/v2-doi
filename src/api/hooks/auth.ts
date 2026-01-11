@@ -1,6 +1,6 @@
 // External libraries
 import { useNavigate } from 'react-router-dom'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 // Internal constants & services
 import AuthServices from '../services/auth'
@@ -12,7 +12,7 @@ import { LoginResponse } from '../types/auth'
 // Helpers to set cookies
 const setAccessTokenCookie = (token: string) => {
     Cookies.set(ACCESS_TOKEN, token, {
-        expires: 1 / 96,// 15 minutes
+        expires: 1 / 96, // 15 minutes
         sameSite: 'strict',
         secure: true,
     })
@@ -21,14 +21,16 @@ const setAccessTokenCookie = (token: string) => {
 // Hook login and handle errors
 export const useLogin = () => {
     const navigate = useNavigate()
-
+    const queryClient = useQueryClient()
     const mutation = useMutation({
-        mutationKey: [ReactQueryKeys.SIGN_IN],
+        mutationKey: [ReactQueryKeys.SIGN_IN ],
         mutationFn: AuthServices.login,
-        onSuccess: ({ data }: { data: LoginResponse }) => {
+        onSuccess: async ({ data }: { data: LoginResponse }) => {
             const accessToken = data?.access_token
             if (!accessToken) return
-
+            await queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_PROFILE],
+            })
             setAccessTokenCookie(accessToken)
             navigate('/', { replace: true })
         },
@@ -41,4 +43,10 @@ export const useLogin = () => {
             ? getApiErrorMessage(mutation.error)
             : null,
     }
+}
+export const useGetProfile = () => {
+  return useQuery({
+    queryKey: [ReactQueryKeys.GET_PROFILE],
+    queryFn: AuthServices.getProfile,
+  })
 }

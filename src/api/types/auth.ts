@@ -17,6 +17,11 @@ export type LoginResponse = {
 }
 }
 
-
+export type ProfileResponse = {
+  sub: string;
+  phone: string;
+  email: string;
+  role: string;
+};
 
 // New login types for email/phone login
