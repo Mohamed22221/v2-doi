@@ -3,6 +3,7 @@ import {
     LoginRequest,
     LoginResponse,
     ProfileResponse,
+    RequestChangePassword,
     ResendOtpRequest,
     VerifyOtpRequest,
     VerifyOtpResponse,
@@ -22,6 +23,9 @@ const AuthServices = {
         payload: ResendOtpRequest,
     ): Promise<TAPIResponse<VerifyOtpRequest>> => {
         return api.post('/auth/resend-otp', payload)
+    },
+    changePassword: (payload: RequestChangePassword) => {
+        return api.post('/auth/change-password', payload)
     },
     getProfile: () => api.get<ProfileResponse>('/auth/profile'),
 }

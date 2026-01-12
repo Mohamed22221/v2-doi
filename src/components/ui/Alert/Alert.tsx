@@ -124,7 +124,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
         )
     }
 
-const alertDefaultClass = 'p-4 relative flex w-full max-w-lg mx-auto'
+    const alertDefaultClass = 'p-4 relative flex w-full  mx-auto'
     const alertClass = classNames(
         'alert',
         alertDefaultClass,
@@ -158,7 +158,7 @@ const alertDefaultClass = 'p-4 relative flex w-full max-w-lg mx-auto'
             }}
             {...rest}
         >
-<div className={`flex ${title ? '' : 'items-center'} w-full min-w-0`}>
+            <div className={`flex ${title ? '' : 'items-center'} w-full `}>
                 {showIcon && (
                     <StatusIcon
                         iconColor={typeMap.iconColor}

@@ -42,4 +42,7 @@ export type ProfileResponse = {
   role: string;
 };
 
-// New login types for email/phone login
+export type RequestChangePassword = {
+    oldPassword: string
+    newPassword: string
+};

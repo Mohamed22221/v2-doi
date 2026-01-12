@@ -118,6 +118,22 @@ export const useResendOtp = () => {
             : null,
     }
 }
+
+export const useChangePassword = () => {
+    const mutation = useMutation({
+        mutationKey: [ReactQueryKeys.CHANGE_PASSWORD],
+        mutationFn: AuthServices.changePassword,
+    })
+
+    return {
+        ...mutation,
+        changePassword: mutation.mutateAsync,
+        errorMessage: mutation.error
+            ? getApiErrorMessage(mutation.error)
+            : null,
+    }
+}
+
 export const useGetProfile = () => {
     return useQuery({
         queryKey: [ReactQueryKeys.GET_PROFILE],

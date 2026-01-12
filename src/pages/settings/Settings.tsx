@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Container from '@/components/shared/Container'
 import Tabs from '@/components/ui/Tabs'
 import AdaptableCard from '@/components/shared/AdaptableCard'
+import { useGetProfile } from '@/api/hooks/auth'
 // Lazy load settings tabs
 const Profile = lazy(() => import('./Profile'))
 const Password = lazy(() => import('./Password'))
@@ -22,45 +23,46 @@ const settingsMenu: Record<
 }
 // setting component
 const Settings = () => {
-  const [currentTab, setCurrentTab] = useState('profile')
-  const navigate = useNavigate()
-  const location = useLocation()
+    const [currentTab, setCurrentTab] = useState('profile')
+    const navigate = useNavigate()
+    const location = useLocation()
 
-  const onTabChange = (val: string) => {
-    setCurrentTab(val)
-    navigate(`/settings/${val}`) 
-  }
-  
+    const onTabChange = (val: string) => {
+        setCurrentTab(val)
+        navigate(`/settings/${val}`)
+    }
+
     const path = location.pathname.substring(
         location.pathname.lastIndexOf('/') + 1,
     )
     useEffect(() => {
         setCurrentTab(path)
     }, [path])
-  return (
-    <Container>
+    // Render data profile
+    const { data } = useGetProfile()
+    const dataProfile = data?.data
+    return (
+        <Container>
+            <AdaptableCard>
+                <Tabs value={currentTab} onChange={(val) => onTabChange(val)}>
+                    <TabList>
+                        {Object.keys(settingsMenu).map((key) => (
+                            <TabNav key={key} value={key}>
+                                {settingsMenu[key].label}
+                            </TabNav>
+                        ))}
+                    </TabList>
+                </Tabs>
 
-
-      <AdaptableCard>
-        <Tabs value={currentTab} onChange={(val) => onTabChange(val)}>
-          <TabList>
-            {Object.keys(settingsMenu).map((key) => (
-              <TabNav key={key} value={key}>
-                {settingsMenu[key].label}
-              </TabNav>
-            ))}
-          </TabList>
-        </Tabs>
-
-        <div className="px-4 py-6">
-          <Suspense fallback={<></>}>
-            {currentTab === 'profile' && <Profile />}
-            {currentTab === 'password' && <Password />}
-          </Suspense>
-        </div>
-      </AdaptableCard>
-    </Container>
-  )
+                <div className="px-4 py-6">
+                    <Suspense fallback={<></>}>
+                        {currentTab === 'profile' && dataProfile && <Profile data={dataProfile} />} 
+                        {currentTab === 'password' && <Password />}
+                    </Suspense>
+                </div>
+            </AdaptableCard>
+        </Container>
+    )
 }
 
 export default Settings

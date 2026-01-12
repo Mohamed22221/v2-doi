@@ -3,8 +3,8 @@ import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
 import { FormContainer } from '@/components/ui/Form'
-import FormDesription from '../components/FormDesription'
-import FormRow from '../components/FormRow'
+import FormDesription from '../../components/FormDesription'
+import FormRow from '../../components/FormRow'
 import { Field, Form, Formik } from 'formik'
 import {
     HiOutlineMail,
