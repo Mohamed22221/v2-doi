@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
+
 // Internal constants & services
 import AuthServices from '../services/auth'
 import ReactQueryKeys from '../constants/apikeys.constant'
@@ -12,11 +13,14 @@ import {
     VerifyOtpRequest,
     VerifyOtpResponse,
 } from '../types/auth'
+import { REDIRECT_URL_KEY } from '@/constants/app.constant'
+import appConfig from '@/configs/app.config'
+import useQueryLocation from '@/utils/useQueryLocation'
 
 // Helpers to set cookies
 const setAccessTokenCookie = (token: string) => {
     Cookies.set(ACCESS_TOKEN, token, {
-        expires: 1 / 96, // 15 minutes
+        expires: 1 / 2880, // 15 minutes
         sameSite: 'strict',
         secure: true,
     })
@@ -26,6 +30,8 @@ const setAccessTokenCookie = (token: string) => {
 export const useLogin = () => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
+    const query = useQueryLocation()
+    const redirectUrl = query.get(REDIRECT_URL_KEY)
 
     const mutation = useMutation({
         mutationKey: [ReactQueryKeys.SIGN_IN],
@@ -38,16 +44,25 @@ export const useLogin = () => {
             if (data?.code) {
                 localStorage.setItem('otp-code', data.code)
                 localStorage.setItem('otp-session-id', data.otpSessionId || '')
-                navigate('/verify-otp', {
-                    replace: false,
-                })
+
+                navigate(
+                    redirectUrl
+                        ? '/verify-otp?redirectUrl=' + redirectUrl
+                        : '/verify-otp',
+                )
+
                 return
             }
 
             // 2) Token flow
             if (accessToken) {
                 setAccessTokenCookie(accessToken)
-                navigate('/', { replace: true })
+                navigate(
+                    redirectUrl
+                        ? redirectUrl
+                        : appConfig.authenticatedEntryPath,
+                    { replace: true },
+                )
 
                 await queryClient.invalidateQueries({
                     queryKey: [ReactQueryKeys.GET_PROFILE],
@@ -68,6 +83,7 @@ export const useLogin = () => {
 
 export const useVerifyOtp = () => {
     const navigate = useNavigate()
+    const query = useQueryLocation()
     const queryClient = useQueryClient()
 
     const mutation = useMutation({
@@ -80,7 +96,12 @@ export const useVerifyOtp = () => {
             // 2) Token flow
             if (accessToken) {
                 setAccessTokenCookie(accessToken)
-                navigate('/', { replace: true })
+                const redirectUrl = query.get(REDIRECT_URL_KEY)
+                navigate(
+                    redirectUrl
+                        ? redirectUrl
+                        : appConfig.authenticatedEntryPath,
+                )
 
                 await queryClient.invalidateQueries({
                     queryKey: [ReactQueryKeys.GET_PROFILE],
@@ -104,7 +125,6 @@ export const useResendOtp = () => {
         mutationKey: [ReactQueryKeys.RESEND_OTP],
         mutationFn: AuthServices.resendOtp,
         onSuccess: async ({ data }: { data: VerifyOtpRequest }) => {
-    
             localStorage.setItem('otp-code', data?.code)
             localStorage.setItem('otp-session-id', data.otpSessionId || '')
         },
