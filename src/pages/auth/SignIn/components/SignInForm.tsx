@@ -17,6 +17,7 @@ import validationSchema from './schema'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 // Types
 import type { SignInFormProps, SignInFormSchema, SignInPayload } from './types'
+import { Notification, toast } from '@/components/ui'
 
 const SignInForm = ({
     disableSubmit = false,
@@ -46,6 +47,8 @@ const SignInForm = ({
 
         try {
             await login(payload)
+            // Success notification
+            toast.push(<Notification title="Sign in successful" type="success" />)
         } catch (error) {
             setMessage(getApiErrorMessage(error))
         } finally {

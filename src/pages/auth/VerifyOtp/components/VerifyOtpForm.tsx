@@ -5,7 +5,11 @@ import Button from '@/components/ui/Button'
 import { FormContainer, FormItem } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 // API
-import { useResendOtp, useVerifyOtp } from '@/api/hooks/auth'
+import {
+    useResendOtp,
+    useVerifyForgotOtp,
+    useVerifyOtp,
+} from '@/api/hooks/auth'
 import { getApiErrorMessage } from '@/api/error'
 // Validation
 import validationSchema from './schema'
@@ -15,11 +19,17 @@ import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import type { OtpFormProps, VerifyOtpPayload } from './types'
 import ResendOtp from './ResendOtp'
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { Notification, toast } from '@/components/ui'
 
 const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
     const { verifyOtp, isPending } = useVerifyOtp()
+    const { verifyForgotOtp, isPending: isVerifyForgotOtpPending } =
+        useVerifyForgotOtp()
+
     const { resendOtp, isSuccess } = useResendOtp()
     const [message, setMessage] = useTimeOutMessage()
+    const { state } = useLocation()
 
     // Retrieve stored OTP session ID and code
     const [initialValues, setInitialValues] = useState<VerifyOtpPayload>({
@@ -41,7 +51,19 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
         }
 
         try {
-            await verifyOtp(payload)
+            if (state?.otp === 'forgot') {
+                const payloadVerify = {
+                    phone: localStorage.getItem('forgot-phone') || '',
+                    sessionId: initialValues.otpSessionId,
+                    otp: values.code || initialValues.code,
+                }
+                await verifyForgotOtp(payloadVerify)
+            } else {
+                await verifyOtp(payload)
+                toast.push(
+                    <Notification title="Sign in successful" type="success" />,
+                )
+            }
         } catch (error) {
             setMessage(getApiErrorMessage(error))
         } finally {
@@ -77,7 +99,8 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                 }}
             >
                 {({ touched, errors, isSubmitting }) => {
-                    const isFormSubmitting = isSubmitting || isPending
+                    const isFormSubmitting =
+                        isSubmitting || isPending || isVerifyForgotOtpPending
 
                     return (
                         <Form>
@@ -111,8 +134,15 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                                     block
                                     variant="solid"
                                     type="submit"
-                                    loading={isFormSubmitting}
-                                    disabled={isFormSubmitting || disableSubmit}
+                                    loading={
+                                        isFormSubmitting ||
+                                        isVerifyForgotOtpPending
+                                    }
+                                    disabled={
+                                        isFormSubmitting ||
+                                        isVerifyForgotOtpPending ||
+                                        disableSubmit
+                                    }
                                 >
                                     {isFormSubmitting
                                         ? 'Verifying...'
