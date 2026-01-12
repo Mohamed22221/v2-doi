@@ -1,12 +1,12 @@
-
+import { Button } from '@/components/ui'
 import { useEffect, useState } from 'react'
 
 const RESEND_SECONDS = 60
 interface ResendOtpProps {
     setMessage: (message: string) => void
-    onResend: (payload: {otpSessionId: string}) => Promise<void>
+    onResend: (payload: { otpSessionId: string }) => Promise<void>
 }
-const ResendOtp = ({setMessage , onResend} : ResendOtpProps) => {
+const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
     const [resendIn, setResendIn] = useState(0)
     const [isResending, setIsResending] = useState(false)
 
@@ -27,7 +27,7 @@ const ResendOtp = ({setMessage , onResend} : ResendOtpProps) => {
         setIsResending(true)
         try {
             const otpSessionId = localStorage.getItem('otp-session-id') || ''
-            await onResend({otpSessionId})
+            await onResend({ otpSessionId })
             setResendIn(RESEND_SECONDS)
         } catch (error) {
             setMessage('Failed to resend OTP')
@@ -40,7 +40,7 @@ const ResendOtp = ({setMessage , onResend} : ResendOtpProps) => {
     const ss = String(resendIn % 60).padStart(2, '0')
 
     return (
-        <div className="flex justify-center mb-6 gap-2 text-sm">
+        <div className="flex justify-center items-center mb-6  text-sm">
             <span className="text-gray-600">Didn&apos;t receive the code?</span>
 
             {resendIn > 0 ? (
@@ -48,14 +48,16 @@ const ResendOtp = ({setMessage , onResend} : ResendOtpProps) => {
                     Resend in {mm}:{ss}
                 </span>
             ) : (
-                <button
+                <Button
                     type="button"
                     disabled={isResending}
-                    className="text-blue-500 hover:underline font-semibold disabled:opacity-50"
+                    size="xs"
+                    variant="link"
+                    loading={isResending}
                     onClick={handleResend}
                 >
                     {isResending ? 'Sending...' : 'Resend OTP'}
-                </button>
+                </Button>
             )}
         </div>
     )

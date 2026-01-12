@@ -104,8 +104,9 @@ export const useResendOtp = () => {
         mutationKey: [ReactQueryKeys.RESEND_OTP],
         mutationFn: AuthServices.resendOtp,
         onSuccess: async ({ data }: { data: VerifyOtpRequest }) => {
-            const newCode = data?.code
-            localStorage.setItem('otp-code', newCode)
+    
+            localStorage.setItem('otp-code', data?.code)
+            localStorage.setItem('otp-session-id', data.otpSessionId || '')
         },
     })
 

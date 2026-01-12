@@ -22,9 +22,9 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
     const [message, setMessage] = useTimeOutMessage()
 
     // Retrieve stored OTP session ID and code
-        const [initialValues, setInitialValues] = useState<VerifyOtpPayload>({
-        otpSessionId: "",
-        code: "",
+    const [initialValues, setInitialValues] = useState<VerifyOtpPayload>({
+        otpSessionId: '',
+        code: '',
     })
     // Handle form submission
 
@@ -57,9 +57,8 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
             otpSessionId: storedOtpSessionId,
             code: storedOtpCode,
         })
-
     }, [isSuccess])
-    console.log('initialValues', initialValues)
+
     return (
         <div className={className}>
             {message && (
@@ -69,9 +68,9 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
             )}
 
             <Formik
+                enableReinitialize
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                enableReinitialize
                 onSubmit={(values, { setSubmitting }) => {
                     if (disableSubmit) return setSubmitting(false)
                     handleSignIn(values, setSubmitting)
@@ -101,7 +100,12 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                                     />
                                 </FormItem>
 
-                                <ResendOtp setMessage={setMessage} onResend={(payload) => resendOtp(payload).then(() => {})} />
+                                <ResendOtp
+                                    setMessage={setMessage}
+                                    onResend={(payload) =>
+                                        resendOtp(payload).then(() => {})
+                                    }
+                                />
 
                                 <Button
                                     block

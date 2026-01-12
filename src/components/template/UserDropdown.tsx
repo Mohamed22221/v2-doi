@@ -19,7 +19,7 @@ type DropdownList = {
 const dropdownItemList: DropdownList[] = [
     {
         label: 'Profile',
-        path: '/app/account/settings/profile',
+        path: '/settings/profile',
         icon: <HiOutlineUser />,
     },
 ]
