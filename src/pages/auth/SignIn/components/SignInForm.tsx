@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Field, Form, Formik } from 'formik'
 // UI Components
 import Alert from '@/components/ui/Alert'
@@ -24,6 +25,7 @@ const SignInForm = ({
     className,
     forgotPasswordUrl = '/forgot-password',
 }: SignInFormProps) => {
+    const { t } = useTranslation()
     const { login, isPending } = useLogin()
     const [message, setMessage] = useTimeOutMessage()
 
@@ -46,9 +48,12 @@ const SignInForm = ({
         }
 
         try {
-            await login(payload)
-            // Success notification
-            toast.push(<Notification title="Sign in successful" type="success" />)
+            const res = await login(payload)
+            if (res.data.access_token) {
+                toast.push(
+                    <Notification title={t('auth.login.success')} type="success" />,
+                )
+            }
         } catch (error) {
             setMessage(getApiErrorMessage(error))
         } finally {
@@ -71,7 +76,7 @@ const SignInForm = ({
 
             <Formik
                 initialValues={initialValues}
-                validationSchema={validationSchema}
+                validationSchema={validationSchema(t)}
                 onSubmit={(values, { setSubmitting }) => {
                     if (disableSubmit) return setSubmitting(false)
                     handleSignIn(values, setSubmitting)
@@ -84,7 +89,7 @@ const SignInForm = ({
                         <Form>
                             <FormContainer>
                                 <FormItem
-                                    label="Email or Phone"
+                                    label={t('auth.login.emailOrPhone')}
                                     invalid={Boolean(
                                         touched.identifier && errors.identifier,
                                     )}
@@ -94,13 +99,13 @@ const SignInForm = ({
                                         type="text"
                                         name="identifier"
                                         autoComplete="username"
-                                        placeholder="Email or Phone (test@mail.com or +966501234567)"
+                                        placeholder={t('auth.login.emailOrPhonePlaceholder')}
                                         component={Input}
                                     />
                                 </FormItem>
 
                                 <FormItem
-                                    label="Password"
+                                    label={t('auth.login.password')}
                                     invalid={Boolean(
                                         touched.password && errors.password,
                                     )}
@@ -109,14 +114,14 @@ const SignInForm = ({
                                     <Field
                                         name="password"
                                         autoComplete="current-password"
-                                        placeholder="Password"
+                                        placeholder={t('auth.login.passwordPlaceholder')}
                                         component={PasswordInput}
                                     />
                                 </FormItem>
 
                                 <div className="flex justify-end mb-6">
                                     <ActionLink to={forgotPasswordUrl}>
-                                        Forgot Password?
+                                        {t('auth.login.forgotPassword')}
                                     </ActionLink>
                                 </div>
 
@@ -128,8 +133,8 @@ const SignInForm = ({
                                     disabled={isFormSubmitting || disableSubmit}
                                 >
                                     {isFormSubmitting
-                                        ? 'Signing in...'
-                                        : 'Sign In'}
+                                        ? t('auth.login.signingIn')
+                                        : t('auth.login.signIn')}
                                 </Button>
                             </FormContainer>
                         </Form>

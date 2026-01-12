@@ -23,5 +23,115 @@
                 "item2": "Group collapse menu item 2"
             }
         }
+    },
+    "auth": {
+        "login": {
+            "welcome": "مرحباً بعودتك!",
+            "subtitle": "يرجى إدخال بيانات الاعتماد الخاصة بك لتسجيل الدخول!",
+            "success": "تم تسجيل الدخول بنجاح",
+            "emailOrPhone": "البريد الإلكتروني أو الهاتف",
+            "emailOrPhonePlaceholder": "البريد الإلكتروني أو الهاتف (test@mail.com أو +966501234567)",
+            "password": "كلمة المرور",
+            "passwordPlaceholder": "كلمة المرور",
+            "forgotPassword": "نسيت كلمة المرور؟",
+            "signingIn": "جاري تسجيل الدخول...",
+            "signIn": "تسجيل الدخول"
+        },
+        "forgot": {
+            "title": "نسيت كلمة المرور",
+            "subtitle": "يرجى إدخال رقم هاتفك لتلقي رمز التحقق",
+            "phonePlaceholder": "الهاتف (+966501234567)",
+            "sendCode": "إرسال الرمز",
+            "resendCode": "إعادة إرسال الرمز",
+            "backTo": "العودة إلى ",
+            "signIn": "تسجيل الدخول"
+        },
+        "reset": {
+            "done": "تم إعادة التعيين",
+            "doneSubtitle": "تم إعادة تعيين كلمة المرور الخاصة بك بنجاح",
+            "setNewPassword": "تعيين كلمة مرور جديدة",
+            "setNewPasswordSubtitle": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور السابقة",
+            "password": "كلمة المرور",
+            "passwordPlaceholder": "كلمة المرور",
+            "confirmPassword": "تأكيد كلمة المرور",
+            "confirmPasswordPlaceholder": "تأكيد كلمة المرور",
+            "submitting": "جاري الإرسال...",
+            "submit": "إرسال",
+            "continue": "متابعة",
+            "backTo": "العودة إلى ",
+            "signIn": "تسجيل الدخول"
+        },
+        "newPassword": {
+            "title": "كلمة مرور جديدة",
+            "subtitle": "يرجى إدخال كلمة المرور الجديدة أدناه لتحديث حسابك.",
+            "placeholder": "كلمة مرور جديدة",
+            "updating": "جاري تحديث كلمة المرور",
+            "update": "تحديث كلمة المرور",
+            "backTo": "العودة إلى ",
+            "signIn": "تسجيل الدخول",
+            "success": "تم تحديث كلمة المرور"
+        },
+        "verifyOtp": {
+            "title": "التحقق من رمز OTP",
+            "subtitle": "يرجى إدخال رمز OTP المكون من 4 أرقام للمتابعة.",
+            "otpCode": "رمز OTP",
+            "otpCodePlaceholder": "أدخل رمز OTP",
+            "verifying": "جاري التحقق...",
+            "verifyOtp": "التحقق من OTP",
+            "didntReceive": "لم تستلم الرمز؟",
+            "resendIn": "إعادة الإرسال خلال",
+            "sending": "جاري الإرسال...",
+            "resendOtp": "إعادة إرسال OTP",
+            "failedToResend": "فشل إعادة إرسال OTP"
+        },
+        "errors": {
+            "emailOrPhoneRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+            "invalidEmailOrPhone": "يرجى إدخال بريد إلكتروني صالح أو رقم هاتف صالح (+966501234567)",
+            "passwordRequired": "يرجى إدخال كلمة المرور",
+            "phoneRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+            "invalidPhone": "يرجى إدخال رقم هاتف صالح (+966501234567)",
+            "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+            "passwordIsRequired": "كلمة المرور مطلوبة",
+            "otpRequired": "يرجى إدخال رمز OTP المكون من 4 أرقام."
+        }
+    },
+    "settings": {
+        "tabs": {
+            "profile": "الملف الشخصي",
+            "password": "كلمة المرور"
+        },
+        "profile": {
+            "title": "عام",
+            "description": "المعلومات الأساسية، مثل اسمك وعنوانك التي ستظهر علناً",
+            "email": "البريد الإلكتروني",
+            "phone": "الهاتف",
+            "role": "الدور",
+            "reset": "إعادة تعيين",
+            "updating": "جاري التحديث",
+            "update": "تحديث",
+            "success": "تم تحديث الملف الشخصي"
+        },
+        "password": {
+            "title": "كلمة المرور",
+            "description": "أدخل كلمة المرور الحالية والجديدة لإعادة تعيين كلمة المرور",
+            "currentPassword": "كلمة المرور الحالية",
+            "newPassword": "كلمة المرور الجديدة",
+            "reset": "إعادة تعيين",
+            "updating": "جاري التحديث",
+            "updatePassword": "تحديث كلمة المرور",
+            "success": "تم تحديث كلمة المرور"
+        },
+        "errors": {
+            "passwordRequired": "كلمة المرور مطلوبة",
+            "newPasswordRequired": "أدخل كلمة المرور الجديدة",
+            "passwordTooShort": "قصيرة جداً! الحد الأدنى 8 أحرف"
+        }
+    },
+    "userDropdown": {
+        "profile": "الملف الشخصي",
+        "signOut": "تسجيل الخروج"
+    },
+    "routes": {
+        "settings": "الإعدادات"
     }
 }

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui'
 import { useEffect, useState } from 'react'
 
@@ -7,6 +8,7 @@ interface ResendOtpProps {
     onResend: (payload: { otpSessionId: string }) => Promise<void>
 }
 const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
+    const { t } = useTranslation()
     const [resendIn, setResendIn] = useState(0)
     const [isResending, setIsResending] = useState(false)
 
@@ -30,7 +32,7 @@ const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
             await onResend({ otpSessionId })
             setResendIn(RESEND_SECONDS)
         } catch (error) {
-            setMessage('Failed to resend OTP')
+            setMessage(t('auth.verifyOtp.failedToResend'))
         } finally {
             setIsResending(false)
         }
@@ -41,11 +43,11 @@ const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
 
     return (
         <div className="flex justify-center items-center mb-6  text-sm">
-            <span className="text-gray-600">Didn&apos;t receive the code?</span>
+            <span className="text-gray-600">{t('auth.verifyOtp.didntReceive')}</span>
 
             {resendIn > 0 ? (
                 <span className="font-semibold opacity-70">
-                    Resend in {mm}:{ss}
+                    {t('auth.verifyOtp.resendIn')} {mm}:{ss}
                 </span>
             ) : (
                 <Button
@@ -56,7 +58,7 @@ const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
                     loading={isResending}
                     onClick={handleResend}
                 >
-                    {isResending ? 'Sending...' : 'Resend OTP'}
+                    {isResending ? t('auth.verifyOtp.sending') : t('auth.verifyOtp.resendOtp')}
                 </Button>
             )}
         </div>

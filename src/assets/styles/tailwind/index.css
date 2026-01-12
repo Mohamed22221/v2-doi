@@ -12,6 +12,12 @@
     border-color: var(--color-gray-200, currentColor);
   }
 
+html[dir="rtl"] {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+
+}
+
+
   button, [role=button] {
 		cursor: pointer;
 	}

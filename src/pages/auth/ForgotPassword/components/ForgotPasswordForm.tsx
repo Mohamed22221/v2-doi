@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FormItem, FormContainer } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -23,26 +24,27 @@ type ForgotPasswordFormSchema = {
     phone: string
 }
 
-const validationSchema = Yup.object().shape({
-    phone: Yup.string()
-        .trim()
-        .required('Email or phone number is required')
-        .test(
-            'phone',
-            'Please enter a valid phone number (+966501234567)',
-            (value) => {
-                if (!value) return false
-                return isPhone(value)
-            },
-        ),
-})
-
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
+    const { t } = useTranslation()
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
     const { forgotPassword } = useForgotPassword()
     const [emailSent] = useState(false)
 
     const [message, setMessage] = useTimeOutMessage()
+
+    const validationSchema = Yup.object().shape({
+        phone: Yup.string()
+            .trim()
+            .required(t('auth.errors.phoneRequired'))
+            .test(
+                'phone',
+                t('auth.errors.invalidPhone'),
+                (value) => {
+                    if (!value) return false
+                    return isPhone(value)
+                },
+            ),
+    })
 
     const onSendPhone = async (
         values: ForgotPasswordFormSchema,
@@ -64,10 +66,9 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         <div className={className}>
             <div className="mb-6">
                 <>
-                    <h3 className="mb-1">Forgot Password</h3>
+                    <h3 className="mb-1">{t('auth.forgot.title')}</h3>
                     <p>
-                        Please enter your phone number to receive a verification
-                        code
+                        {t('auth.forgot.subtitle')}
                     </p>
                 </>
             </div>
@@ -101,7 +102,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                                         type="phone"
                                         autoComplete="off"
                                         name="phone"
-                                        placeholder="Phone (+966501234567)"
+                                        placeholder={t('auth.forgot.phonePlaceholder')}
                                         component={Input}
                                     />
                                 </FormItem>
@@ -112,11 +113,11 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                                 variant="solid"
                                 type="submit"
                             >
-                                {emailSent ? 'Resend Code' : 'Send Code'}
+                                {emailSent ? t('auth.forgot.resendCode') : t('auth.forgot.sendCode')}
                             </Button>
                             <div className="mt-4 text-center">
-                                <span>Back to </span>
-                                <ActionLink to={signInUrl}>Sign in</ActionLink>
+                                <span>{t('auth.forgot.backTo')}</span>
+                                <ActionLink to={signInUrl}>{t('auth.forgot.signIn')}</ActionLink>
                             </div>
                         </FormContainer>
                     </Form>

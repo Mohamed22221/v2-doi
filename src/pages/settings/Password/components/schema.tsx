@@ -1,9 +1,11 @@
 import * as Yup from 'yup'
+import type { TFunction } from 'i18next'
 
-const validationSchema = Yup.object().shape({
-    oldPassword: Yup.string().required('Password Required'),
+const getValidationSchema = (t: TFunction) => Yup.object().shape({
+    oldPassword: Yup.string().required(t('settings.errors.passwordRequired')),
     newPassword: Yup.string()
-        .required('Enter your new password')
-        .min(8, 'Too Short! Minimum 8 characters')
+        .required(t('settings.errors.newPasswordRequired'))
+        .min(8, t('settings.errors.passwordTooShort'))
 })
-export default validationSchema
+
+export default getValidationSchema

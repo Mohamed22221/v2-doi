@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FormItem, FormContainer } from '@/components/ui/Form'
 import Button from '@/components/ui/Button'
 import Alert from '@/components/ui/Alert'
@@ -14,7 +15,7 @@ import { getApiErrorMessage } from '@/api/error'
 import { PasswordInput } from '@/components/shared'
 import { useLocation } from 'react-router-dom'
 import toast from '@/components/ui/toast/toast'
-// import type { AxiosError } from 'axios'
+
 
 interface NewPasswordForm extends CommonProps {
     disableSubmit?: boolean
@@ -25,16 +26,17 @@ type NewPasswordFormSchema = {
     password: string
 }
 
-const validationSchema = Yup.object().shape({
-    password: Yup.string().trim().required('Password is required'),
-})
-
 const NewPasswordForm = (props: NewPasswordForm) => {
+    const { t } = useTranslation()
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
     const { newPassword } = useNewPassword()
     const [emailSent] = useState(false)
     const { state } = useLocation()
     const [message, setMessage] = useTimeOutMessage()
+
+    const validationSchema = Yup.object().shape({
+        password: Yup.string().trim().required(t('auth.errors.passwordIsRequired')),
+    })
 
     const onSendPhone = async (
         values: NewPasswordFormSchema,
@@ -48,7 +50,7 @@ const NewPasswordForm = (props: NewPasswordForm) => {
                 newPassword: values.password,
             })
             // Success notification
-            toast.push(<Notification title="Password updated" type="success" />)
+            toast.push(<Notification title={t('auth.newPassword.success')} type="success" />)
         } catch (error) {
             setMessage(getApiErrorMessage(error))
         } finally {
@@ -60,10 +62,9 @@ const NewPasswordForm = (props: NewPasswordForm) => {
         <div className={className}>
             <div className="mb-6">
                 <>
-                    <h3 className="mb-1">New Password</h3>
+                    <h3 className="mb-1">{t('auth.newPassword.title')}</h3>
                     <p>
-                        Please enter your new password below to update your
-                        account.
+                        {t('auth.newPassword.subtitle')}
                     </p>
                 </>
             </div>
@@ -99,7 +100,7 @@ const NewPasswordForm = (props: NewPasswordForm) => {
                                         type="password"
                                         autoComplete="off"
                                         name="password"
-                                        placeholder="new password"
+                                        placeholder={t('auth.newPassword.placeholder')}
                                         component={PasswordInput}
                                     />
                                 </FormItem>
@@ -111,12 +112,12 @@ const NewPasswordForm = (props: NewPasswordForm) => {
                                 type="submit"
                             >
                                 {emailSent
-                                    ? 'Updating Password'
-                                    : 'Update Password'}
+                                    ? t('auth.newPassword.updating')
+                                    : t('auth.newPassword.update')}
                             </Button>
                             <div className="mt-4 text-center">
-                                <span>Back to </span>
-                                <ActionLink to={signInUrl}>Sign in</ActionLink>
+                                <span>{t('auth.newPassword.backTo')}</span>
+                                <ActionLink to={signInUrl}>{t('auth.newPassword.signIn')}</ActionLink>
                             </div>
                         </FormContainer>
                     </Form>

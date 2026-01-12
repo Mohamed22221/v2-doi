@@ -1,4 +1,5 @@
 
+import { useTranslation } from 'react-i18next'
 // UI Components
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
@@ -26,6 +27,7 @@ type PasswordFormModel = {
 }
 
 const Password = () => {
+    const { t } = useTranslation()
     const { changePassword, isPending } = useChangePassword()
     const [message, setMessage] = useTimeOutMessage()
 
@@ -42,7 +44,7 @@ const Password = () => {
 
             // Success notification
             toast.push(
-                <Notification title="Password updated" type="success" />,
+                <Notification title={t('settings.password.success')} type="success" />,
             )
 
             resetForm()
@@ -73,7 +75,7 @@ const Password = () => {
                     oldPassword: '',
                     newPassword: '',
                 }}
-                validationSchema={validationSchema}
+                validationSchema={validationSchema(t)}
                 onSubmit={(values, { setSubmitting, resetForm }) =>
                     onFormSubmit(values, setSubmitting, resetForm)
                 }
@@ -87,21 +89,21 @@ const Password = () => {
                             <FormContainer>
                                 {/* Form Header */}
                                 <FormDesription
-                                    title="Password"
-                                    desc="Enter your current & new password to reset your password"
+                                    title={t('settings.password.title')}
+                                    desc={t('settings.password.description')}
                                 />
 
                                 {/* Current Password */}
                                 <FormRow
                                     name="oldPassword"
-                                    label="Current Password"
+                                    label={t('settings.password.currentPassword')}
                                     {...validatorProps}
                                 >
                                     <Field
                                         type="password"
                                         autoComplete="off"
                                         name="oldPassword"
-                                        placeholder="Current Password"
+                                        placeholder={t('settings.password.currentPassword')}
                                         component={PasswordInput}
                                     />
                                 </FormRow>
@@ -109,14 +111,14 @@ const Password = () => {
                                 {/* New Password */}
                                 <FormRow
                                     name="newPassword"
-                                    label="New Password"
+                                    label={t('settings.password.newPassword')}
                                     {...validatorProps}
                                 >
                                     <Field
                                         type="password"
                                         autoComplete="off"
                                         name="newPassword"
-                                        placeholder="New Password"
+                                        placeholder={t('settings.password.newPassword')}
                                         component={PasswordInput}
                                     />
                                 </FormRow>
@@ -128,7 +130,7 @@ const Password = () => {
                                         type="button"
                                 onClick={() => resetForm()}
                                     >
-                                        Reset
+                                        {t('settings.password.reset')}
                                     </Button>
 
                                     <Button
@@ -138,8 +140,8 @@ const Password = () => {
                                         type="submit"
                                     >
                                         {isSubmitting
-                                            ? 'Updating'
-                                            : 'Update Password'}
+                                            ? t('settings.password.updating')
+                                            : t('settings.password.updatePassword')}
                                     </Button>
                                 </div>
                             </FormContainer>

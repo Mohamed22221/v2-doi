@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
@@ -16,18 +17,19 @@ type DropdownList = {
     icon: JSX.Element
 }
 
-const dropdownItemList: DropdownList[] = [
-    {
-        label: 'Profile',
-        path: '/settings/profile',
-        icon: <HiOutlineUser />,
-    },
-]
-
 const _UserDropdown = ({ className }: CommonProps) => {
+    const { t } = useTranslation()
     const { signOut } = useAuth()
     const { data, isLoading } = useGetProfile()
     const dataProfile = data?.data
+
+    const dropdownItemList: DropdownList[] = [
+        {
+            label: t('userDropdown.profile'),
+            path: '/settings/profile',
+            icon: <HiOutlineUser />,
+        },
+    ]
     const UserAvatar = (
         <div className={classNames(className, 'flex items-center gap-2')}>
             <Avatar size={32} shape="circle" icon={<HiOutlineUser />} />
@@ -102,7 +104,7 @@ const _UserDropdown = ({ className }: CommonProps) => {
                     <span className="text-xl opacity-50">
                         <HiOutlineLogout />
                     </span>
-                    <span>Sign Out</span>
+                    <span>{t('userDropdown.signOut')}</span>
                 </Dropdown.Item>
             </Dropdown>
         </div>

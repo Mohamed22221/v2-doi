@@ -1,6 +1,8 @@
 import { lazy } from 'react'
 import authRoute from './authRoute'
+
 import type { Routes } from '@/@types/routes'
+import SettingsHeader from '@/pages/settings/components/SettingsHeader'
 // Merge public and protected routes
 export const publicRoutes: Routes = [...authRoute]
 // Protected routes
@@ -71,7 +73,7 @@ export const protectedRoutes = [
         path: `/settings/:tab`,
         component: lazy(() => import('@/pages/settings')),
         meta: {
-            header: 'Settings',
+            header: SettingsHeader,
             headerContainer: true,
         },
     },

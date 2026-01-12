@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Field, Form, Formik } from 'formik'
 // UI Components
 import Alert from '@/components/ui/Alert'
@@ -23,6 +24,7 @@ import { useLocation } from 'react-router-dom'
 import { Notification, toast } from '@/components/ui'
 
 const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
+    const { t } = useTranslation()
     const { verifyOtp, isPending } = useVerifyOtp()
     const { verifyForgotOtp, isPending: isVerifyForgotOtpPending } =
         useVerifyForgotOtp()
@@ -61,7 +63,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
             } else {
                 await verifyOtp(payload)
                 toast.push(
-                    <Notification title="Sign in successful" type="success" />,
+                    <Notification title={t('auth.login.success')} type="success" />,
                 )
             }
         } catch (error) {
@@ -92,7 +94,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
             <Formik
                 enableReinitialize
                 initialValues={initialValues}
-                validationSchema={validationSchema}
+                validationSchema={validationSchema(t)}
                 onSubmit={(values, { setSubmitting }) => {
                     if (disableSubmit) return setSubmitting(false)
                     handleSignIn(values, setSubmitting)
@@ -106,7 +108,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                         <Form>
                             <FormContainer>
                                 <FormItem
-                                    label="OTP Code"
+                                    label={t('auth.verifyOtp.otpCode')}
                                     invalid={Boolean(
                                         touched.code && errors.code,
                                     )}
@@ -116,7 +118,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                                         type="text"
                                         name="code"
                                         autoComplete="one-time-code"
-                                        placeholder="Enter OTP Code"
+                                        placeholder={t('auth.verifyOtp.otpCodePlaceholder')}
                                         component={Input}
                                         maxLength={4}
                                         inputMode="numeric"
@@ -145,8 +147,8 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                                     }
                                 >
                                     {isFormSubmitting
-                                        ? 'Verifying...'
-                                        : 'Verify OTP'}
+                                        ? t('auth.verifyOtp.verifying')
+                                        : t('auth.verifyOtp.verifyOtp')}
                                 </Button>
                             </FormContainer>
                         </Form>

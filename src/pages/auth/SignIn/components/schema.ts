@@ -3,21 +3,21 @@
 import { isEmail } from '@/components/validation/email'
 import { isPhone } from '@/components/validation/phone'
 import * as Yup from 'yup'
+import type { TFunction } from 'i18next'
 
-
-const validationSchema = Yup.object().shape({
+const getValidationSchema = (t: TFunction) => Yup.object().shape({
     identifier: Yup.string()
         .trim()
-        .required('Email or phone number is required')
+        .required(t('auth.errors.emailOrPhoneRequired'))
         .test(
             'email-or-phone',
-            'Please enter a valid email or a valid phone number  (+966501234567)',
+            t('auth.errors.invalidEmailOrPhone'),
             (value) => {
                 if (!value) return false
                 return isEmail(value) || isPhone(value)
             },
         ),
-    password: Yup.string().required('Please enter your password'),
+    password: Yup.string().required(t('auth.errors.passwordRequired')),
 })
 
-export default validationSchema
+export default getValidationSchema

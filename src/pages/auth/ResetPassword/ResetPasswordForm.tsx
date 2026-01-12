@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FormItem, FormContainer } from '@/components/ui/Form'
 import Button from '@/components/ui/Button'
 import Alert from '@/components/ui/Alert'
@@ -22,15 +23,8 @@ type ResetPasswordFormSchema = {
     confirmPassword: string
 }
 
-const validationSchema = Yup.object().shape({
-    password: Yup.string().required('Please enter your password'),
-    confirmPassword: Yup.string().oneOf(
-        [Yup.ref('password')],
-        'Your passwords do not match',
-    ),
-})
-
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
+    const { t } = useTranslation()
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
 
     const [resetComplete] = useState(false)
@@ -38,6 +32,14 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
     const [message] = useTimeOutMessage()
 
     const navigate = useNavigate()
+
+    const validationSchema = Yup.object().shape({
+        password: Yup.string().required(t('auth.errors.passwordRequired')),
+        confirmPassword: Yup.string().oneOf(
+            [Yup.ref('password')],
+            t('auth.errors.passwordsDoNotMatch'),
+        ),
+    })
 
     const onSubmit = async (
         values: ResetPasswordFormSchema,
@@ -57,14 +59,14 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
             <div className="mb-6">
                 {resetComplete ? (
                     <>
-                        <h3 className="mb-1">Reset done</h3>
-                        <p>Your password has been successfully reset</p>
+                        <h3 className="mb-1">{t('auth.reset.done')}</h3>
+                        <p>{t('auth.reset.doneSubtitle')}</p>
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-1">Set new password</h3>
+                        <h3 className="mb-1">{t('auth.reset.setNewPassword')}</h3>
                         <p>
-                            Your new password must different to previos password
+                            {t('auth.reset.setNewPasswordSubtitle')}
                         </p>
                     </>
                 )}
@@ -94,7 +96,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                             {!resetComplete ? (
                                 <>
                                     <FormItem
-                                        label="Password"
+                                        label={t('auth.reset.password')}
                                         invalid={
                                             errors.password && touched.password
                                         }
@@ -103,12 +105,12 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                                         <Field
                                             autoComplete="off"
                                             name="password"
-                                            placeholder="Password"
+                                            placeholder={t('auth.reset.passwordPlaceholder')}
                                             component={PasswordInput}
                                         />
                                     </FormItem>
                                     <FormItem
-                                        label="Confirm Password"
+                                        label={t('auth.reset.confirmPassword')}
                                         invalid={
                                             errors.confirmPassword &&
                                             touched.confirmPassword
@@ -118,7 +120,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                                         <Field
                                             autoComplete="off"
                                             name="confirmPassword"
-                                            placeholder="Confirm Password"
+                                            placeholder={t('auth.reset.confirmPasswordPlaceholder')}
                                             component={PasswordInput}
                                         />
                                     </FormItem>
@@ -129,8 +131,8 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                                         type="submit"
                                     >
                                         {isSubmitting
-                                            ? 'Submiting...'
-                                            : 'Submit'}
+                                            ? t('auth.reset.submitting')
+                                            : t('auth.reset.submit')}
                                     </Button>
                                 </>
                             ) : (
@@ -140,13 +142,13 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                                     type="button"
                                     onClick={onContinue}
                                 >
-                                    Continue
+                                    {t('auth.reset.continue')}
                                 </Button>
                             )}
 
                             <div className="mt-4 text-center">
-                                <span>Back to </span>
-                                <ActionLink to={signInUrl}>Sign in</ActionLink>
+                                <span>{t('auth.reset.backTo')}</span>
+                                <ActionLink to={signInUrl}>{t('auth.reset.signIn')}</ActionLink>
                             </div>
                         </FormContainer>
                     </Form>

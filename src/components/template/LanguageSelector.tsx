@@ -55,6 +55,7 @@ const _LanguageSelector = ({ className }: CommonProps) => {
 
         const dispatchLang = () => {
             i18n.changeLanguage(formattedLang)
+  
             dispatch(setLang(lang))
             setLoading(false)
         }

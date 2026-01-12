@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Notification from '@/components/ui/Notification'
@@ -29,12 +30,13 @@ const FormUpdateProfile = ({
         phone: '',
     },
 }: ProfileProps) => {
+    const { t } = useTranslation()
     const onFormSubmit = (
         values: ProfileFormModel,
         setSubmitting: (isSubmitting: boolean) => void,
     ) => {
         console.log('values', values)
-        toast.push(<Notification title={'Profile updated'} type="success" />, {
+        toast.push(<Notification title={t('settings.profile.success')} type="success" />, {
             placement: 'top-center',
         })
         setSubmitting(false)
@@ -57,12 +59,12 @@ const FormUpdateProfile = ({
                     <Form>
                         <FormContainer>
                             <FormDesription
-                                title="General"
-                                desc="Basic info, like your name and address that will displayed in public"
+                                title={t('settings.profile.title')}
+                                desc={t('settings.profile.description')}
                             />
                             <FormRow
                                 name="email"
-                                label="Email"
+                                label={t('settings.profile.email')}
                                 {...validatorProps}
                                 border={false}
                             >
@@ -70,7 +72,7 @@ const FormUpdateProfile = ({
                                     type="email"
                                     autoComplete="off"
                                     name="email"
-                                    placeholder="Email"
+                                    placeholder={t('settings.profile.email')}
                                     component={Input}
                                     prefix={
                                         <HiOutlineMail className="text-xl" />
@@ -79,7 +81,7 @@ const FormUpdateProfile = ({
                             </FormRow>
                             <FormRow
                                 name="phone"
-                                label="Phone"
+                                label={t('settings.profile.phone')}
                                 {...validatorProps}
                                 border={false}
                             >
@@ -87,7 +89,7 @@ const FormUpdateProfile = ({
                                     type="tel"
                                     autoComplete="off"
                                     name="phone"
-                                    placeholder="Phone"
+                                    placeholder={t('settings.profile.phone')}
                                     component={Input}
                                     prefix={
                                         <HiOutlinePhone className="text-xl" />
@@ -96,7 +98,7 @@ const FormUpdateProfile = ({
                             </FormRow>
                             <FormRow
                                 name="role"
-                                label="Role"
+                                label={t('settings.profile.role')}
                                 {...validatorProps}
 
                             >
@@ -104,7 +106,7 @@ const FormUpdateProfile = ({
                                     type="text"
                                     autoComplete="off"
                                     name="role"
-                                    placeholder="Role"
+                                    placeholder={t('settings.profile.role')}
                                     component={Input}
                                     disabled={true}
                                     prefix={
@@ -119,14 +121,14 @@ const FormUpdateProfile = ({
                                     type="button"
                                     onClick={() => resetForm()}
                                 >
-                                    Reset
+                                    {t('settings.profile.reset')}
                                 </Button>
                                 <Button
                                     variant="solid"
                                     loading={isSubmitting}
                                     type="submit"
                                 >
-                                    {isSubmitting ? 'Updating' : 'Update'}
+                                    {isSubmitting ? t('settings.profile.updating') : t('settings.profile.update')}
                                 </Button>
                             </div>
                         </FormContainer>
