@@ -25,32 +25,19 @@ type ColorLevelList = {
 }
 
 const colorList: ColorList[] = [
-    { label: 'Red', value: 'red' },
-    { label: 'Orange', value: 'orange' },
-    { label: 'Amber', value: 'amber' },
-    { label: 'Yellow', value: 'yellow' },
-    { label: 'Lime', value: 'lime' },
-    { label: 'Green', value: 'green' },
-    { label: 'Emerald', value: 'emerald' },
-    { label: 'Teal', value: 'teal' },
-    { label: 'Cyan', value: 'cyan' },
-    { label: 'Sky', value: 'sky' },
-    { label: 'Blue', value: 'blue' },
-    { label: 'Indigo', value: 'indigo' },
-    { label: 'Violet', value: 'violet' },
-    { label: 'Purple', value: 'purple' },
-    { label: 'Fuchsia', value: 'fuchsia' },
-    { label: 'Pink', value: 'pink' },
-    { label: 'Rose', value: 'rose' },
+    { label: 'primary', value: 'primary' },
 ]
 
 const colorLevelList: ColorLevelList[] = [
+    { label: '300', value: 300 },
+
     { label: '400', value: 400 },
     { label: '500', value: 500 },
     { label: '600', value: 600 },
     { label: '700', value: 700 },
     { label: '800', value: 800 },
     { label: '900', value: 900 },
+
 ]
 
 const ColorBadge = ({
@@ -67,7 +54,7 @@ const ColorBadge = ({
     return (
         <Badge
             className={className}
-            innerClass={classNames(`bg-${themeColor}-${primaryColorLevel}`)}
+            innerClass={classNames(`bg-${themeColor}-${primaryColorLevel} w-4 h-4`)}
         />
     )
 }
@@ -82,8 +69,8 @@ const CustomSelectOption = ({
         <div
             className={`flex items-center justify-between p-2 ${
                 isSelected
-                    ? 'bg-gray-100 dark:bg-gray-500'
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-600'
+                    ? 'bg-primary-100 dark:bg-primary-500'
+                    : 'hover:bg-primary-50 dark:hover:bg-primary-500'
             }`}
             {...innerProps}
         >

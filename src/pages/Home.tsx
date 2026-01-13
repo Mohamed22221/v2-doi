@@ -1,5 +1,7 @@
+import BackgroundRounded from "@/components/shared/BackgroundRounded"
+
 const HomePage = () => {
-    return <div>Home</div>
+    return <BackgroundRounded>Home</BackgroundRounded>
 }
 
 export default HomePage

@@ -1,8 +1,7 @@
 import ModeSwitcher from './ModeSwitcher'
-// import LayoutSwitcher from './LayoutSwitcher'
-// import ThemeSwitcher from './ThemeSwitcher'
-// import NavModeSwitcher from './NavModeSwitcher'
 import DirectionSwitcher from './DirectionSwitcher'
+import NavModeSwitcher from './NavModeSwitcher'
+
 
 
 export type ThemeConfiguratorProps = {
@@ -27,18 +26,11 @@ const ThemeConfigurator = ({ callBackClose }: ThemeConfiguratorProps) => {
                     </div>
                     <DirectionSwitcher callBackClose={callBackClose} />
                 </div>
-                {/* <div>
+                <div>
                     <h6 className="mb-3">Nav Mode</h6>
                     <NavModeSwitcher />
                 </div>
-                <div>
-                    <h6 className="mb-3">Theme</h6>
-                    <ThemeSwitcher />
-                </div>
-                <div>
-                    <h6 className="mb-3">Layout</h6>
-                    <LayoutSwitcher />
-                </div> */}
+
             </div>
 
         </div>

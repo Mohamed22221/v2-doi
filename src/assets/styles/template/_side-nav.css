@@ -17,10 +17,10 @@
   }
 
   .side-nav-dark {
-    @apply bg-gray-800 border-r border-gray-600;
+    @apply bg-primary-900 border-r border-gray-600;
   }
 
   .side-nav-transparent {
-    @apply bg-transparent;
+    @apply  bg-white dark:bg-primary-900;
   }
 }

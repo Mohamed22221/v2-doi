@@ -24,6 +24,6 @@
   }
 
   .menu-transparent {
-    @apply bg-transparent;
+    @apply bg-transparent ;
   }
 }

@@ -55,6 +55,7 @@ const AllRoutes = (props: AllRoutesProps) => {
                 ))}
                 <Route path="*" element={<Navigate replace to="/" />} />
             </Route>
+           
             <Route path="/" element={<PublicRoute />}>
                 {publicRoutes.map((route) => (
                     <Route
@@ -70,6 +71,7 @@ const AllRoutes = (props: AllRoutesProps) => {
                     />
                 ))}
             </Route>
+            
         </Routes>
     )
 }
@@ -77,6 +79,7 @@ const AllRoutes = (props: AllRoutesProps) => {
 const Views = (props: ViewsProps) => {
     return (
         <Suspense fallback={<Loading loading={true} />}>
+            
             <AllRoutes {...props} />
         </Suspense>
     )

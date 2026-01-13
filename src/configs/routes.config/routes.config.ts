@@ -36,13 +36,13 @@ export const protectedRoutes = [
         authority: [],
     },
     {
-        key: 'collapseMenu_item1',
+        key: 'live-auctions',
         path: '/live-auctions',        
         component: lazy(() => import('@/pages/live-auctions')),
         authority: [],
     },
     {
-        key: 'collapseMenu_item2',
+        key: 'duration-auctions',
         path: '/duration-auctions',        
         component: lazy(() => import('@/pages/duration-auctions')),
         authority: [],
