@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
@@ -7,6 +8,8 @@ import classNames from 'classnames'
 import { HiOutlineLogout, HiOutlineUser } from 'react-icons/hi'
 import type { CommonProps } from '@/@types/common'
 import type { JSX } from 'react'
+import { useGetProfile } from '@/api/hooks/auth'
+import { Skeleton } from '../ui'
 
 type DropdownList = {
     label: string
@@ -14,23 +17,38 @@ type DropdownList = {
     icon: JSX.Element
 }
 
-const dropdownItemList: DropdownList[] = [
-        {
-        label: 'Profile',
-        path: '/app/account/settings/profile',
-        icon: <HiOutlineUser />,
-    },
-]
-
 const _UserDropdown = ({ className }: CommonProps) => {
+    const { t } = useTranslation()
     const { signOut } = useAuth()
+    const { data, isLoading } = useGetProfile()
+    const dataProfile = data?.data
 
+    const dropdownItemList: DropdownList[] = [
+        {
+            label: t('userDropdown.profile'),
+            path: '/settings/profile',
+            icon: <HiOutlineUser />,
+        },
+    ]
     const UserAvatar = (
         <div className={classNames(className, 'flex items-center gap-2')}>
             <Avatar size={32} shape="circle" icon={<HiOutlineUser />} />
-            <div className="hidden md:block">
-                <div className="text-xs capitalize">admin</div>
-                <div className="font-bold">User01</div>
+            <div className="min-w-0 w-[92px]">
+                <div className="text-xs capitalize truncate ">
+                    {!isLoading ? (
+                        dataProfile?.role
+                    ) : (
+                        <Skeleton className="w-23 h-3 my-[2px]" />
+                    )}
+                </div>
+
+                <div className="font-bold truncate">
+                    {!isLoading ? (
+                        dataProfile?.email
+                    ) : (
+                        <Skeleton className="w-25 h-3 " />
+                    )}
+                </div>
             </div>
         </div>
     )
@@ -47,9 +65,13 @@ const _UserDropdown = ({ className }: CommonProps) => {
                         <Avatar shape="circle" icon={<HiOutlineUser />} />
                         <div>
                             <div className="font-bold text-gray-900 dark:text-gray-100">
-                                User01
+                                {dataProfile
+                                    ? dataProfile.email
+                                    : 'user01@mail.com'}
                             </div>
-                            <div className="text-xs">user01@mail.com</div>
+                            <div className="text-xs">
+                                {dataProfile ? dataProfile.role : 'admin'}
+                            </div>
                         </div>
                     </div>
                 </Dropdown.Item>
@@ -82,7 +104,7 @@ const _UserDropdown = ({ className }: CommonProps) => {
                     <span className="text-xl opacity-50">
                         <HiOutlineLogout />
                     </span>
-                    <span>Sign Out</span>
+                    <span>{t('userDropdown.signOut')}</span>
                 </Dropdown.Item>
             </Dropdown>
         </div>

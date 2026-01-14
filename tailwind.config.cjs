@@ -50,6 +50,7 @@ module.exports = {
 					'"Courier New"',
 					'monospace',
 				],
+				arabic: ['Cairo', 'Tajawal', 'sans-serif'],
 			},
 			screens: {
 				xs: '576',

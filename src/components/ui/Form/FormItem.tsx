@@ -105,7 +105,7 @@ const FormItem = forwardRef<HTMLDivElement, FormItemProps>((props, ref) => {
             <div
                 className={
                     formItemLayout === LAYOUT.HORIZONTAL
-                        ? 'w-full flex flex-col justify-center relative'
+                        ? 'w-full flex flex-col justify-center relative '
                         : ''
                 }
             >

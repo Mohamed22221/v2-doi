@@ -16,3 +16,5 @@ export type TableQueries = {
         key: string | number
     }
 }
+
+export type Platform = 'web' | 'android' | 'ios'

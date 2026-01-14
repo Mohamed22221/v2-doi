@@ -23,5 +23,115 @@
                 "item2": "Group collapse menu item 2"
             }
         }
+    },
+    "auth": {
+        "login": {
+            "welcome": "Welcome back!",
+            "subtitle": "Please enter your credentials to sign in!",
+            "success": "Sign in successful",
+            "emailOrPhone": "Email or Phone",
+            "emailOrPhonePlaceholder": "Email or Phone (test@mail.com or +966501234567)",
+            "password": "Password",
+            "passwordPlaceholder": "Password",
+            "forgotPassword": "Forgot Password?",
+            "signingIn": "Signing in...",
+            "signIn": "Sign In"
+        },
+        "forgot": {
+            "title": "Forgot Password",
+            "subtitle": "Please enter your phone number to receive a verification code",
+            "phonePlaceholder": "Phone (+966501234567)",
+            "sendCode": "Send Code",
+            "resendCode": "Resend Code",
+            "backTo": "Back to ",
+            "signIn": "Sign in"
+        },
+        "reset": {
+            "done": "Reset done",
+            "doneSubtitle": "Your password has been successfully reset",
+            "setNewPassword": "Set new password",
+            "setNewPasswordSubtitle": "Your new password must different to previos password",
+            "password": "Password",
+            "passwordPlaceholder": "Password",
+            "confirmPassword": "Confirm Password",
+            "confirmPasswordPlaceholder": "Confirm Password",
+            "submitting": "Submiting...",
+            "submit": "Submit",
+            "continue": "Continue",
+            "backTo": "Back to ",
+            "signIn": "Sign in"
+        },
+        "newPassword": {
+            "title": "New Password",
+            "subtitle": "Please enter your new password below to update your account.",
+            "placeholder": "new password",
+            "updating": "Updating Password",
+            "update": "Update Password",
+            "backTo": "Back to ",
+            "signIn": "Sign in",
+            "success": "Password updated"
+        },
+        "verifyOtp": {
+            "title": "Verify OTP",
+            "subtitle": "Please enter the 4-digit OTP code to continue.",
+            "otpCode": "OTP Code",
+            "otpCodePlaceholder": "Enter OTP Code",
+            "verifying": "Verifying...",
+            "verifyOtp": "Verify OTP",
+            "didntReceive": "Didn't receive the code?",
+            "resendIn": "Resend in",
+            "sending": "Sending...",
+            "resendOtp": "Resend OTP",
+            "failedToResend": "Failed to resend OTP"
+        },
+        "errors": {
+            "emailOrPhoneRequired": "Email or phone number is required",
+            "invalidEmailOrPhone": "Please enter a valid email or a valid phone number  (+966501234567)",
+            "passwordRequired": "Please enter your password",
+            "phoneRequired": "Email or phone number is required",
+            "invalidPhone": "Please enter a valid phone number (+966501234567)",
+            "passwordsDoNotMatch": "Your passwords do not match",
+            "passwordIsRequired": "Password is required",
+            "otpRequired": "Please enter the 4-digit OTP code."
+        }
+    },
+    "settings": {
+        "tabs": {
+            "profile": "Profile",
+            "password": "Password"
+        },
+        "profile": {
+            "title": "General",
+            "description": "Basic info, like your name and address that will displayed in public",
+            "email": "Email",
+            "phone": "Phone",
+            "role": "Role",
+            "reset": "Reset",
+            "updating": "Updating",
+            "update": "Update",
+            "success": "Profile updated"
+        },
+        "password": {
+            "title": "Password",
+            "description": "Enter your current & new password to reset your password",
+            "currentPassword": "Current Password",
+            "newPassword": "New Password",
+            "reset": "Reset",
+            "updating": "Updating",
+            "updatePassword": "Update Password",
+            "success": "Password updated"
+        },
+        "errors": {
+            "passwordRequired": "Password Required",
+            "newPasswordRequired": "Enter your new password",
+            "passwordTooShort": "Too Short! Minimum 8 characters"
+        }
+    },
+    "userDropdown": {
+        "profile": "Profile",
+        "signOut": "Sign Out"
+    },
+    "routes": {
+        "settings": "Settings"
     }
 }

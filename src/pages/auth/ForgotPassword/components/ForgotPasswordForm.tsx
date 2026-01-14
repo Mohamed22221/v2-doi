@@ -1,15 +1,19 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FormItem, FormContainer } from '@/components/ui/Form'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Alert from '@/components/ui/Alert'
 import ActionLink from '@/components/shared/ActionLink'
-import { apiForgotPassword } from '@/services/AuthService'
+
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import type { CommonProps } from '@/@types/common'
-import type { AxiosError } from 'axios'
+import { useForgotPassword } from '@/api/hooks/auth'
+import { isPhone } from '@/components/validation/phone'
+import { getApiErrorMessage } from '@/api/error'
+// import type { AxiosError } from 'axios'
 
 interface ForgotPasswordFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -17,36 +21,43 @@ interface ForgotPasswordFormProps extends CommonProps {
 }
 
 type ForgotPasswordFormSchema = {
-    email: string
+    phone: string
 }
 
-const validationSchema = Yup.object().shape({
-    email: Yup.string().required('Please enter your email'),
-})
-
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
+    const { t } = useTranslation()
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
-
-    const [emailSent, setEmailSent] = useState(false)
+    const { forgotPassword } = useForgotPassword()
+    const [emailSent] = useState(false)
 
     const [message, setMessage] = useTimeOutMessage()
 
-    const onSendMail = async (
+    const validationSchema = Yup.object().shape({
+        phone: Yup.string()
+            .trim()
+            .required(t('auth.errors.phoneRequired'))
+            .test(
+                'phone',
+                t('auth.errors.invalidPhone'),
+                (value) => {
+                    if (!value) return false
+                    return isPhone(value)
+                },
+            ),
+    })
+
+    const onSendPhone = async (
         values: ForgotPasswordFormSchema,
         setSubmitting: (isSubmitting: boolean) => void,
     ) => {
-        setSubmitting(true)
+        setMessage('')
+
         try {
-            const resp = await apiForgotPassword(values)
-            if (resp.data) {
-                setSubmitting(false)
-                setEmailSent(true)
-            }
-        } catch (errors) {
-            setMessage(
-                (errors as AxiosError<{ message: string }>)?.response?.data
-                    ?.message || (errors as Error).toString(),
-            )
+            await forgotPassword(values)
+            localStorage.setItem('forgot-phone', values.phone)  
+        } catch (error) {
+            setMessage(getApiErrorMessage(error))
+        } finally {
             setSubmitting(false)
         }
     }
@@ -54,37 +65,26 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     return (
         <div className={className}>
             <div className="mb-6">
-                {emailSent ? (
-                    <>
-                        <h3 className="mb-1">Check your email</h3>
-                        <p>
-                            We have sent a password recovery instruction to your
-                            email
-                        </p>
-                    </>
-                ) : (
-                    <>
-                        <h3 className="mb-1">Forgot Password</h3>
-                        <p>
-                            Please enter your email address to receive a
-                            verification code
-                        </p>
-                    </>
-                )}
+                <>
+                    <h3 className="mb-1">{t('auth.forgot.title')}</h3>
+                    <p>
+                        {t('auth.forgot.subtitle')}
+                    </p>
+                </>
             </div>
             {message && (
-                <Alert showIcon className="mb-4" type="danger">
+                <Alert showIcon className="mb-4" type="danger" duration={7000}>
                     {message}
                 </Alert>
             )}
             <Formik
                 initialValues={{
-                    email: 'admin@mail.com',
+                    phone: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     if (!disableSubmit) {
-                        onSendMail(values, setSubmitting)
+                        onSendPhone(values, setSubmitting)
                     } else {
                         setSubmitting(false)
                     }
@@ -95,14 +95,14 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         <FormContainer>
                             <div className={emailSent ? 'hidden' : ''}>
                                 <FormItem
-                                    invalid={errors.email && touched.email}
-                                    errorMessage={errors.email}
+                                    invalid={errors.phone && touched.phone}
+                                    errorMessage={errors.phone}
                                 >
                                     <Field
-                                        type="email"
+                                        type="phone"
                                         autoComplete="off"
-                                        name="email"
-                                        placeholder="Email"
+                                        name="phone"
+                                        placeholder={t('auth.forgot.phonePlaceholder')}
                                         component={Input}
                                     />
                                 </FormItem>
@@ -113,11 +113,11 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                                 variant="solid"
                                 type="submit"
                             >
-                                {emailSent ? 'Resend Email' : 'Send Email'}
+                                {emailSent ? t('auth.forgot.resendCode') : t('auth.forgot.sendCode')}
                             </Button>
                             <div className="mt-4 text-center">
-                                <span>Back to </span>
-                                <ActionLink to={signInUrl}>Sign in</ActionLink>
+                                <span>{t('auth.forgot.backTo')}</span>
+                                <ActionLink to={signInUrl}>{t('auth.forgot.signIn')}</ActionLink>
                             </div>
                         </FormContainer>
                     </Form>

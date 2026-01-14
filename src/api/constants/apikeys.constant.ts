@@ -1,7 +1,13 @@
 const ReactQueryKeys = {
   SIGN_IN: "sign-in",
-  SIGN_UP: "sign-up",
+  GET_PROFILE: "get-profile",
   REFRESH_TOKEN: "refresh-token",
+  VERIFY_OTP: "verify-otp",
+  RESEND_OTP: "resend-otp",
+  FORGOT_PASSWORD: "forgot-password",
+  CHANGE_PASSWORD: "change-password",
+  RESET_PASSWORD: "reset-password",
   LOGOUT: "logout"
+
 }
 export default ReactQueryKeys

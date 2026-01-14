@@ -21,7 +21,7 @@ export interface ButtonProps
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void
     shape?: TypeAttributes.Shape
     size?: TypeAttributes.Size
-    variant?: 'solid' | 'twoTone' | 'plain' | 'default'
+    variant?: 'solid' | 'twoTone' | 'plain' | 'default' | 'link'
 }
 
 type ButtonColor = {
@@ -78,7 +78,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
                     `h-${CONTROL_SIZES.sm}`,
                     icon && !children
                         ? `w-${CONTROL_SIZES.sm} ${sizeIconClass} text-lg`
-                        : 'px-3 py-2 text-sm',
+                        : 'px-1 py-2 text-sm',
                 )
                 break
             case SIZES.XS:
@@ -154,7 +154,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
         }
         return getBtnColor(btn)
     }
-
+    const LinkColor = () => {
+        const btn = {
+            bgColor: active
+                ? `bg-gray-100 dark:bg-gray-500`
+                : 'bg-transparent border border-transparent',
+            textColor: `text-blue-500 dark:text-gray-100`,
+            hoverColor: active ? '' : `hover:bg-gray-50 dark:hover:bg-gray-600`,
+            activeColor: `active:bg-gray-100 dark:active:bg-gray-500 dark:active:border-gray-500`,
+        }
+        return getBtnColor(btn)
+    }
     const getBtnColor = ({
         bgColor,
         hoverColor,
@@ -176,6 +186,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
                 return plainColor()
             case 'default':
                 return defaultColor()
+            case 'link':
+                return LinkColor()
             default:
                 return defaultColor()
         }

@@ -1,6 +1,8 @@
 import { lazy } from 'react'
 import authRoute from './authRoute'
+
 import type { Routes } from '@/@types/routes'
+import SettingsHeader from '@/pages/settings/components/SettingsHeader'
 // Merge public and protected routes
 export const publicRoutes: Routes = [...authRoute]
 // Protected routes
@@ -37,18 +39,17 @@ export const protectedRoutes = [
     },
     {
         key: 'collapseMenu_item1',
-        path: '/live-auctions',        
+        path: '/live-auctions',
         component: lazy(() => import('@/pages/live-auctions')),
         authority: [],
     },
     {
         key: 'collapseMenu_item2',
-        path: '/duration-auctions',        
+        path: '/duration-auctions',
         component: lazy(() => import('@/pages/duration-auctions')),
         authority: [],
     },
     {
-
         key: 'manageAds',
         path: '/manage-ads',
         component: lazy(() => import('@/pages/manage-ads')),
@@ -67,6 +68,16 @@ export const protectedRoutes = [
         authority: [],
     },
 
-    /** Example purpose only, please remove */
+        {
+        key: 'settings',
+        path: `/settings/:tab`,
+        component: lazy(() => import('@/pages/settings')),
+        meta: {
+            header: SettingsHeader,
+            headerContainer: true,
+        },
+    },
 
+
+    /** Example purpose only, please remove */
 ]
