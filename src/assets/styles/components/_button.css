@@ -3,7 +3,7 @@
     @apply font-semibold focus:outline-none whitespace-nowrap;
 
     &.radius-round {
-      @apply rounded-md;
+      @apply rounded-[12px];
     }
 
     &.radius-circle {

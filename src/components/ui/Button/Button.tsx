@@ -214,13 +214,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
         }
 
         if (icon && !children && !loading) {
-            return <>{icon}</>
+            return <div>{icon}</div>
         }
 
         if (icon && children && !loading) {
             return (
                 <span className="flex items-center justify-center">
-                    <span className="text-lg">{icon}</span>
+                    <span className="text-lg text-color-red">{icon}</span>
                     <span className="ltr:ml-1 rtl:mr-1">{children}</span>
                 </span>
             )
