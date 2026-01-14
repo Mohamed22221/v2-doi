@@ -1,5 +1,5 @@
-import { useRef, useEffect, useCallback, useMemo } from 'react'
-import ApexChart from 'react-apexcharts'
+import React, { useRef, useEffect, useCallback, useMemo } from 'react'
+
 import {
     apexLineChartDefaultOption,
     apexBarChartDefaultOption,
@@ -14,6 +14,7 @@ import type { ReactNode } from 'react'
 const notDonut = ['line', 'bar', 'area']
 
 type ChartType = 'line' | 'bar' | 'area' | 'donut'
+const ApexChart = React.lazy(() => import('react-apexcharts'));
 
 export interface ChartProps {
     series?: ApexOptions['series']
