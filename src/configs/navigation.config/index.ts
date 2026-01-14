@@ -56,7 +56,7 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
-        key: 'collapseMenu',
+        key: 'liveAuctions',
         path: '',
         title: 'Auctions',
         translateKey: 'nav.collapseMenu.auctions',
@@ -65,17 +65,17 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [
             {
-                key: 'collapseMenu.item1',
+                key: 'live-auctions',
                 path: '/live-auctions',
                 title: 'Live Auctions',
                 translateKey: 'nav.collapseMenu.liveAuctions',
                 icon: 'liveAuctions',
-                type: NAV_ITEM_TYPE_ITEM,
+                type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [],
             },
             {
-                key: 'collapseMenu.item2',
+                key: 'duration-auctions',
                 path: '/duration-auctions',
                 title: 'Duration Auctions',
                 translateKey: 'nav.collapseMenu.durationAuctions',

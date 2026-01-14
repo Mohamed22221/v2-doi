@@ -23,7 +23,7 @@ const Logo = (props: LogoProps) => {
 
     return (
         <div
-            className={classNames('logo', className)}
+            className={classNames('logo', className )}
             style={{
                 ...style,
                 ...{ width: logoWidth },

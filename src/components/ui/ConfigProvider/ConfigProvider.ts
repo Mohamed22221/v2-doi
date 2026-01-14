@@ -18,7 +18,7 @@ export const defaultConfig = {
     direction: 'ltr',
     mode: 'light',
     locale: 'en',
-    primaryColorLevel: 600,
+    primaryColorLevel: 500,
     cardBordered: false,
     controlSize: SIZES.MD,
     navMode: 'light',
