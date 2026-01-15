@@ -17,8 +17,6 @@ import { TableRowSkeleton } from '@/components/shared'
 import ErrorState from '@/components/shared/ErrorState'
 import EmptyState from '@/components/shared/EmptyState'
 
-
-
 type Option = {
     value: number
     label: string
@@ -35,7 +33,6 @@ export interface ViewTableProps<
     data: TData[]
     /** Server-side pagination */
     total: number
-    currentPage: number
     pageSize: number
     onPageChange: (page: number) => void
     /** Optional: if you support changing page size */
@@ -55,6 +52,7 @@ export interface ViewTableProps<
     emptyText?: string
     isError?: boolean
     errorText?: string
+    requestedPage:number
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -67,7 +65,6 @@ const ViewTable = <TData extends Record<string, unknown>>({
     columns,
     data,
     total,
-    currentPage,
     pageSize,
     onPageChange,
     showSearch = true,
@@ -83,6 +80,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
     emptyText,
     isError,
     errorText,
+    requestedPage
 }: ViewTableProps<TData>) => {
     // Make sure filters always have a value string (controlled)
     const safeFilters = useMemo<FilterConfig[]>(
@@ -99,6 +97,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
         columns,
         getCoreRowModel: getCoreRowModel(),
     })
+
 
     return (
         <div>
@@ -146,7 +145,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
                         </Tr>
                     ))}
                 </THead>
-                {isLoading  ? (
+                {isLoading ? (
                     <TableRowSkeleton
                         columns={columns.length}
                         rows={pageSize}
@@ -175,10 +174,11 @@ const ViewTable = <TData extends Record<string, unknown>>({
             {!isLoading && !isError && data.length === 0 && (
                 <EmptyState text={emptyText} />
             )}
+
             <div className="flex items-center justify-between mt-4">
                 <Pagination
                     pageSize={pageSize}
-                    currentPage={currentPage}
+                    currentPage={requestedPage}
                     total={total}
                     onChange={onPageChange}
                 />

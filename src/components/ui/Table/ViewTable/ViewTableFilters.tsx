@@ -13,11 +13,6 @@ export interface FilterOption {
 export interface FilterConfig {
     key: string
     label?: string
-    /**
-     * ✅ القيمة المخزنة/المتحكم فيها (raw):
-     * - null = All / no filter
-     * - string | number | boolean = القيمة الأصلية
-     */
     value: FilterValue | null
     options: FilterOption[]
     placeholder?: string
@@ -29,28 +24,17 @@ export interface ViewTableFiltersProps {
     searchPlaceholder?: string
     searchValue: string
     onSearchChange: (value: string) => void
-
     filters?: FilterConfig[]
-    /**
-     * ✅ بيرجع القيمة الأصلية (boolean/number/string) أو null للـ All
-     */
     onFilterChange?: (key: string, value: FilterValue | null) => void
-
     showClearAll?: boolean
     onClearAll?: () => void
 }
 
-/**
- * ✅ Helper: يضمن إن الـ Select يلاقي الـ option صح حتى لو حصل mismatch
- * مثال: filter.value = "false" (string) و option.value = false (boolean)
- */
 const isSameValue = (a: FilterValue, b: FilterValue) => {
     if (a === b) return true
     // normalize common cases between URL-string and raw values
-    if (typeof a === 'boolean' && typeof b === 'string')
-        return String(a) === b
-    if (typeof a === 'string' && typeof b === 'boolean')
-        return a === String(b)
+    if (typeof a === 'boolean' && typeof b === 'string') return String(a) === b
+    if (typeof a === 'string' && typeof b === 'boolean') return a === String(b)
 
     if (typeof a === 'number' && typeof b === 'string') return String(a) === b
     if (typeof a === 'string' && typeof b === 'number')
@@ -71,7 +55,7 @@ const ViewTableFilters = ({
 }: ViewTableFiltersProps) => {
     const visibleFilters = useMemo(
         () => filters.filter((f) => !f.hidden),
-        [filters]
+        [filters],
     )
 
     const hasActiveFilters = useMemo(() => {
@@ -97,7 +81,9 @@ const ViewTableFilters = ({
                 {showSearch && (
                     <div className="max-w-[400px] flex-1 w-full md:w-auto min-w-0">
                         <Input
-                            prefix={<HiOutlineSearch className="text-gray-400" />}
+                            prefix={
+                                <HiOutlineSearch className="text-gray-400" />
+                            }
                             placeholder={searchPlaceholder}
                             value={searchValue}
                             onChange={(e) => onSearchChange(e.target.value)}
@@ -110,9 +96,12 @@ const ViewTableFilters = ({
                 {visibleFilters.map((filter) => {
                     const selectedOption =
                         filter.value !== null
-                            ? filter.options.find((opt) =>
-                                  isSameValue(opt.value, filter.value as FilterValue)
-                              ) ?? null
+                            ? (filter.options.find((opt) =>
+                                  isSameValue(
+                                      opt.value,
+                                      filter.value as FilterValue,
+                                  ),
+                              ) ?? null)
                             : null
 
                     return (
@@ -125,7 +114,7 @@ const ViewTableFilters = ({
                                     {filter.label}
                                 </label>
                             )}
-
+                            
                             <div className="min-w-[140px]">
                                 <Select<FilterOption>
                                     size="sm"
@@ -136,7 +125,7 @@ const ViewTableFilters = ({
                                     onChange={(option) =>
                                         onFilterChange?.(
                                             filter.key,
-                                            option?.value ?? null
+                                            option?.value ?? null,
                                         )
                                     }
                                 />
