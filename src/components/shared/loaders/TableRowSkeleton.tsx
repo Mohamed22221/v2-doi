@@ -12,7 +12,7 @@ type TableRowSkeletonProps = {
 const { Tr, Td, TBody } = Table
 
 const TableRowSkeleton = (props: TableRowSkeletonProps) => {
-    const { columns = 1, rows = 10, avatarInColumns = [], avatarProps } = props
+    const { columns = 1, rows = 5, avatarInColumns = [], avatarProps } = props
 
     return (
         <TBody>
@@ -27,6 +27,7 @@ const TableRowSkeleton = (props: TableRowSkeletonProps) => {
                                             <Skeleton
                                                 variant="circle"
                                                 {...avatarProps}
+                                                animation
                                             />
                                         </div>
                                     )}

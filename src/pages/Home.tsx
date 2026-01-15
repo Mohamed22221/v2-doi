@@ -44,7 +44,7 @@ export default function Home() {
     const tableQ = useServerTable({
         pageSize: 10,
         initialFilters,
-        searchParamKey: 'search', // لو API بتستخدم search بدل q غيّرها
+        searchParamKey: 'search',
         pageParamKey: 'page',
         limitParamKey: 'limit',
     })
@@ -149,13 +149,14 @@ export default function Home() {
                 searchValue={tableQ.searchValue}
                 filters={tableQ.filters}
                 isLoading={loading}
+                emptyText="No items match your filters."
                 onClearAll={tableQ.clearAll}
                 onSearchChange={tableQ.onSearchChange}
                 onFilterChange={tableQ.onFilterChange}
                 onPageChange={tableQ.setCurrentPage}
-                // error={error}
-                // emptyText="No items match your filters."
+                // isError={true}
             />
+            
         </BackgroundRounded>
     )
 }

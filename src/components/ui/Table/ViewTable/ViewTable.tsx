@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { lazy, useMemo } from 'react'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
 import {
@@ -9,9 +9,12 @@ import {
 import type { ColumnDef } from '@tanstack/react-table'
 import Button from '../../Button'
 import { HiDownload } from 'react-icons/hi'
-
 import ViewTableFilters, { type FilterConfig } from './ViewTableFilters'
-import { Loading } from '@/components/shared'
+import { TableRowSkeleton } from '@/components/shared'
+
+const EmptyState = lazy(() => import('@/components/shared/EmptyState'))
+const ErrorState = lazy(() => import('@/components/shared/ErrorState'))
+
 
 type Option = {
     value: number
@@ -45,6 +48,10 @@ export interface ViewTableProps<
     showClearAll?: boolean
     onClearAll?: () => void
     isLoading?: boolean
+    avatarInColumns?: number[]
+    emptyText?: string
+    isError?: boolean
+    errorText?: string
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -69,6 +76,10 @@ const ViewTable = <TData extends Record<string, unknown>>({
     showClearAll = true,
     onClearAll,
     isLoading,
+    avatarInColumns,
+    emptyText,
+    isError,
+    errorText,
 }: ViewTableProps<TData>) => {
     // Make sure filters always have a value string (controlled)
     const safeFilters = useMemo<FilterConfig[]>(
@@ -117,75 +128,59 @@ const ViewTable = <TData extends Record<string, unknown>>({
                 onFilterChange={onFilterChange}
             />
 
-            <>
-                <Loading loading={isLoading && data.length !== 0} type="cover">
-                    <Table>
-                        <THead>
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <Tr key={headerGroup.id}>
-                                    {headerGroup.headers.map((header) => (
-                                        <Th
-                                            key={header.id}
-                                            colSpan={header.colSpan}
-                                        >
-                                            {flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext(),
-                                            )}
-                                        </Th>
-                                    ))}
-                                </Tr>
+            <Table>
+                <THead>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <Tr key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => (
+                                <Th key={header.id} colSpan={header.colSpan}>
+                                    {flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext(),
+                                    )}
+                                </Th>
                             ))}
-                        </THead>
-
-                        <TBody>
-                            {table.getRowModel().rows.map((row) => (
-                                <Tr key={row.id}>
-                                    {row.getVisibleCells().map((cell) => (
-                                        <Td key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext(),
-                                            )}
-                                        </Td>
-                                    ))}
-                                </Tr>
-                            ))}
-                        </TBody>
-                    </Table>
-                    {/* {showError && (
-                    <div className="h-[200px]  flex items-center justify-center">
-                        <div className="text-center px-4">
-                            <div className="text-sm font-semibold text-primary-800 dark:text-primary-100">
-                                Failed to load data
-                            </div>
-                            <div className="mt-1 text-sm text-primary-800 dark:text-primary-100">
-                                {error}
-                            </div>
-
-                        </div>
-                    </div>
-                )} */}
-
-                    {/* ✅ Empty Overlay */}
-                    {/* {showEmpty && (
-                    <div className="h-[200px]  flex items-center justify-center">
-                        <div className="text-sm text-primary-800 dark:text-primary-100">
-                            {emptyText}
-                        </div>
-                    </div>
-                )} */}
-                    <div className="flex items-center justify-between mt-4">
-                        <Pagination
-                            pageSize={pageSize}
-                            currentPage={currentPage}
-                            total={total}
-                            onChange={onPageChange}
-                        />
-                        <div style={{ minWidth: 130 }} />
-                    </div>
-                </Loading>
-            </>
+                        </Tr>
+                    ))}
+                </THead>
+                {isLoading && data.length !== 0 ? (
+                    <TableRowSkeleton
+                        columns={columns.length}
+                        rows={pageSize}
+                        avatarInColumns={avatarInColumns}
+                    />
+                ) : (
+                    <TBody>
+                        {table.getRowModel().rows.map((row) => (
+                            <Tr key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <Td key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext(),
+                                        )}
+                                    </Td>
+                                ))}
+                            </Tr>
+                        ))}
+                    </TBody>
+                )}
+            </Table>
+            {!isLoading && data.length === 0 && isError && (
+                <ErrorState message={errorText} />
+            )}
+            {!isLoading && !isError && data.length === 0 && (
+                <EmptyState text={emptyText} />
+            )}
+            <div className="flex items-center justify-between mt-4">
+                <Pagination
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    total={total}
+                    onChange={onPageChange}
+                />
+                <div style={{ minWidth: 130 }} />
+            </div>
         </div>
     )
 }
