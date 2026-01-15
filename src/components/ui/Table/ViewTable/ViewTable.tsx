@@ -1,4 +1,4 @@
-import { lazy, useMemo } from 'react'
+import {  useMemo } from 'react'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
 import {
@@ -9,11 +9,14 @@ import {
 import type { ColumnDef } from '@tanstack/react-table'
 import Button from '../../Button'
 import { HiDownload } from 'react-icons/hi'
-import ViewTableFilters, { type FilterConfig } from './ViewTableFilters'
+import ViewTableFilters, {
+    FilterValue,
+    type FilterConfig,
+} from './ViewTableFilters'
 import { TableRowSkeleton } from '@/components/shared'
+import ErrorState from '@/components/shared/ErrorState'
+import EmptyState from '@/components/shared/EmptyState'
 
-const EmptyState = lazy(() => import('@/components/shared/EmptyState'))
-const ErrorState = lazy(() => import('@/components/shared/ErrorState'))
 
 
 type Option = {
@@ -44,7 +47,7 @@ export interface ViewTableProps<
     searchValue: string
     onSearchChange: (value: string) => void
     filters?: FilterConfig[]
-    onFilterChange?: (key: string, value: string) => void
+    onFilterChange?: (key: string, value: FilterValue | null) => void
     showClearAll?: boolean
     onClearAll?: () => void
     isLoading?: boolean
@@ -143,7 +146,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
                         </Tr>
                     ))}
                 </THead>
-                {isLoading && data.length !== 0 ? (
+                {isLoading  ? (
                     <TableRowSkeleton
                         columns={columns.length}
                         rows={pageSize}

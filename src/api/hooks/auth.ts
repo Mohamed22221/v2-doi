@@ -21,11 +21,12 @@ import useQueryLocation from '@/utils/useQueryLocation'
 
 // Helpers to set cookies
 const setAccessTokenCookie = (token: string) => {
-    Cookies.set(ACCESS_TOKEN, token, {
-        expires: 1 / 96, // 15 minutes
-        sameSite: 'strict',
-        secure: true,
-    })
+Cookies.set(ACCESS_TOKEN, token, {
+  expires: 1 / 96,
+  sameSite: 'lax',
+  secure: false, // مهم
+  path: '/',
+})
 }
 
 // Hook login and handle errors

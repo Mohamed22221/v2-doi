@@ -3,16 +3,22 @@ import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import { HiOutlineSearch } from 'react-icons/hi'
 
+export type FilterValue = string | number | boolean
+
 export interface FilterOption {
     label: string
-    value: string
+    value: FilterValue
 }
 
 export interface FilterConfig {
-    /** Unique key used to build query params, e.g. "status", "category" */
     key: string
     label?: string
-    value: string
+    /**
+     * ✅ القيمة المخزنة/المتحكم فيها (raw):
+     * - null = All / no filter
+     * - string | number | boolean = القيمة الأصلية
+     */
+    value: FilterValue | null
     options: FilterOption[]
     placeholder?: string
     hidden?: boolean
@@ -25,10 +31,32 @@ export interface ViewTableFiltersProps {
     onSearchChange: (value: string) => void
 
     filters?: FilterConfig[]
-    onFilterChange?: (key: string, value: string) => void
+    /**
+     * ✅ بيرجع القيمة الأصلية (boolean/number/string) أو null للـ All
+     */
+    onFilterChange?: (key: string, value: FilterValue | null) => void
 
     showClearAll?: boolean
     onClearAll?: () => void
+}
+
+/**
+ * ✅ Helper: يضمن إن الـ Select يلاقي الـ option صح حتى لو حصل mismatch
+ * مثال: filter.value = "false" (string) و option.value = false (boolean)
+ */
+const isSameValue = (a: FilterValue, b: FilterValue) => {
+    if (a === b) return true
+    // normalize common cases between URL-string and raw values
+    if (typeof a === 'boolean' && typeof b === 'string')
+        return String(a) === b
+    if (typeof a === 'string' && typeof b === 'boolean')
+        return a === String(b)
+
+    if (typeof a === 'number' && typeof b === 'string') return String(a) === b
+    if (typeof a === 'string' && typeof b === 'number')
+        return Number(a) === b && a.trim() !== ''
+
+    return false
 }
 
 const ViewTableFilters = ({
@@ -48,7 +76,7 @@ const ViewTableFilters = ({
 
     const hasActiveFilters = useMemo(() => {
         const hasSearch = showSearch && searchValue.trim() !== ''
-        const hasFilterValues = visibleFilters.some((f) => f.value.trim() !== '')
+        const hasFilterValues = visibleFilters.some((f) => f.value !== null)
         return hasSearch || hasFilterValues
     }, [showSearch, searchValue, visibleFilters])
 
@@ -58,9 +86,8 @@ const ViewTableFilters = ({
             return
         }
 
-        // Default clear behavior (controlled from parent)
         onSearchChange('')
-        visibleFilters.forEach((f) => onFilterChange?.(f.key, ''))
+        visibleFilters.forEach((f) => onFilterChange?.(f.key, null))
     }
 
     return (
@@ -80,37 +107,43 @@ const ViewTableFilters = ({
                 )}
 
                 {/* Dropdown filters */}
-                {visibleFilters.map((filter) => (
-                    <div
-                        key={filter.key}
-                        className="flex items-center gap-2 flex-shrink-0"
-                    >
-                        {filter.label && (
-                            <label className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                                {filter.label}
-                            </label>
-                        )}
+                {visibleFilters.map((filter) => {
+                    const selectedOption =
+                        filter.value !== null
+                            ? filter.options.find((opt) =>
+                                  isSameValue(opt.value, filter.value as FilterValue)
+                              ) ?? null
+                            : null
 
-                        <div className="min-w-[140px]">
-                            <Select<FilterOption>
-                                size="sm"
-                                isSearchable={false}
-                                placeholder={filter.placeholder || 'All'}
-                                value={
-                                    filter.value
-                                        ? filter.options.find(
-                                              (opt) => opt.value === filter.value
-                                          ) ?? null
-                                        : null
-                                }
-                                options={filter.options}
-                                onChange={(option) =>
-                                    onFilterChange?.(filter.key, option?.value ?? '')
-                                }
-                            />
+                    return (
+                        <div
+                            key={filter.key}
+                            className="flex items-center gap-2 flex-shrink-0"
+                        >
+                            {filter.label && (
+                                <label className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                    {filter.label}
+                                </label>
+                            )}
+
+                            <div className="min-w-[140px]">
+                                <Select<FilterOption>
+                                    size="sm"
+                                    isSearchable={false}
+                                    placeholder={filter.placeholder || 'All'}
+                                    value={selectedOption}
+                                    options={filter.options}
+                                    onChange={(option) =>
+                                        onFilterChange?.(
+                                            filter.key,
+                                            option?.value ?? null
+                                        )
+                                    }
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    )
+                })}
 
                 {/* Clear All */}
                 {showClearAll && hasActiveFilters && (
