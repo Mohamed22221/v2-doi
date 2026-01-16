@@ -8,6 +8,12 @@ export type UserItem = {
     isActive: boolean
     createdAt: string
     image?: string
+    isPhoneVerified?: boolean
+    isEmailVerified?: boolean
+      role?: {
+    id: string
+    name: string
+  }
 }
 
 

@@ -50,10 +50,10 @@ export type RequestForgotPassword = {
     phone: string
 }
 export type ResponseForgotPassword = {
-    otpSessionId: {
-        sessionId: string
+
         code: string
-    }
+        otpSessionId: string
+    
 }
 export type VerifyForgotOtpRequest = {
     phone: string

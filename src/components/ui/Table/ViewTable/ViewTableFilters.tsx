@@ -74,7 +74,7 @@ const ViewTableFilters = ({
         onSearchChange('')
         visibleFilters.forEach((f) => onFilterChange?.(f.key, null))
     }
-
+    
     return (
         <div className="px-3 md:px-5 py-3">
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-start md:items-center">
@@ -124,23 +124,19 @@ const ViewTableFilters = ({
                                     value={selectedOption}
                                     options={filter.options}
                                     maxMenuHeight={230}
+                                    hasMore={filter?.infinity?.hasNextPage}
+                                    isLoadingMore={filter?.infinity?.isFetching}
+                                    loadMoreLabel="Load More"
                                     onChange={(option) =>
                                         onFilterChange?.(
                                             filter.key,
                                             option?.value ?? null,
                                         )
                                     }
-                                    onMenuScrollToBottom={() => {
-                                        if (
-                                            filter.infinity &&
-                                            filter.infinity.hasNextPage &&
-                                            !filter.infinity.isFetchingNextPage
-                                        )
-                                            filter.infinity.fetchNextPage()
-                                    }}
-                                    
+                                    onLoadMore={() =>
+                                        filter?.infinity?.fetchNextPage()
+                                    }
                                 />
-
                             </div>
                         </div>
                     )

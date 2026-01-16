@@ -20,6 +20,11 @@ export const protectedRoutes = [
         authority: [],
     },
     {
+        key: 'users',
+        path: `/users/:id`,
+        component: lazy(() => import('@/pages/users/DetailsUser')),
+    },
+    {
         key: 'categories',
         path: '/categories',
         component: lazy(() => import('@/pages/categories')),
@@ -39,13 +44,13 @@ export const protectedRoutes = [
     },
     {
         key: 'live-auctions',
-        path: '/live-auctions',        
+        path: '/live-auctions',
         component: lazy(() => import('@/pages/live-auctions')),
         authority: [],
     },
     {
         key: 'duration-auctions',
-        path: '/duration-auctions',        
+        path: '/duration-auctions',
         component: lazy(() => import('@/pages/duration-auctions')),
         authority: [],
     },
@@ -68,7 +73,7 @@ export const protectedRoutes = [
         authority: [],
     },
 
-        {
+    {
         key: 'settings',
         path: `/settings/:tab`,
         component: lazy(() => import('@/pages/settings')),
@@ -77,7 +82,6 @@ export const protectedRoutes = [
             headerContainer: true,
         },
     },
-
 
     /** Example purpose only, please remove */
 ]

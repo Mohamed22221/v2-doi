@@ -6,18 +6,22 @@ export type TAPIResponse<T> = {
 }
 
 export type TAPIResponseItems<T> = {
-  status: true
-  message: string
-  data: {
-    items: T
-  } & TPaginationSimple
+    status: true
+    message: string
+    data: {
+        items: T
+    } & TPaginationSimple
 }
 
-
+export type TAPIResponseItem<T> = {
+    status: true
+    message: string
+    data: T
+}
 
 export type TPaginationSimple = {
-  page: number
-  limit: number
-  total: number
-  totalPages: number
+    page: number
+    limit: number
+    total: number
+    totalPages: number
 }

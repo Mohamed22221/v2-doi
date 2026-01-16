@@ -1,14 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { formatDateTime } from '@/utils/formatDateTime'
+import { UserItem } from '@/api/types/users'
 import TwoLineText from '@/components/shared/table/TwoLineText'
 import StatusPill from '@/components/shared/table/StatusPill'
 import Button from '@/components/ui/Button'
-import { formatDateTime } from '@/utils/formatDateTime'
-import { UserItem } from '@/api/types/users'
 
-/* -------- Item type -------- */
 
 /* -------- Hook that returns columns -------- */
 export function useUserTableColumns() {
@@ -57,7 +55,6 @@ export function useUserTableColumns() {
                     const { date, time } = formatDateTime(
                         row.original.createdAt,
                     )
-
                     return (
                         <TwoLineText title={date} subtitle={time} size="sm" />
                     )

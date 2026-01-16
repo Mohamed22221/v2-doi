@@ -25,3 +25,11 @@ export const useGetAllUsers = () => {
         errorMessage: query.error ? getApiErrorMessage(query.error) : null,
     }
 }
+
+export const useGetUserDetails = (id: number | string) => {
+  return useQuery({
+    queryKey: [ReactQueryKeys.GET_USER_DETAILS, id],
+    queryFn: () => UsersServices.getUserDetails(id),
+    enabled: !!id,
+  });
+};

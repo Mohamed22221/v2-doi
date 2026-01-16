@@ -26,6 +26,7 @@ export default function UserTable() {
         isFetchingNextPage,
         isLoading: isLoadingRoles,
         isError: isRolesError,
+        isFetching
     } = useInfiniteRoles()
 
     const columns = useUserTableColumns()
@@ -38,7 +39,7 @@ export default function UserTable() {
             })),
         [data?.items],
     )
-
+    
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
             {
@@ -63,11 +64,11 @@ export default function UserTable() {
                     : isRolesError
                       ? 'Failed roles'
                       : 'All Roles',
-                loading: isLoadingRoles,
                 infinity: {
                     fetchNextPage,
                     hasNextPage,
                     isFetchingNextPage,
+                    isFetching
                 },
             },
         ],
@@ -78,6 +79,7 @@ export default function UserTable() {
             hasNextPage,
             isFetchingNextPage,
             fetchNextPage,
+            isFetching
         ],
     )
 

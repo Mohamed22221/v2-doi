@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstack/react-query'
+import {
+    FetchNextPageOptions,
+    InfiniteQueryObserverResult,
+} from '@tanstack/react-query'
 
 /* ------------------ Types ------------------ */
 
@@ -10,12 +13,12 @@ export type FilterValueType = 'string' | 'number' | 'boolean'
 export type FilterOption = { label: string; value: FilterValue }
 
 export type InfinityControls = {
-  fetchNextPage: (
-    options?: FetchNextPageOptions
-  ) => Promise<InfiniteQueryObserverResult>
-  hasNextPage?: boolean
-  isFetchingNextPage?: boolean
-  isFetching? : boolean
+    fetchNextPage: (
+        options?: FetchNextPageOptions,
+    ) => Promise<InfiniteQueryObserverResult>
+    hasNextPage?: boolean
+    isFetchingNextPage?: boolean
+    isFetching?: boolean
 }
 
 export type ServerFilterConfig = {
@@ -26,20 +29,18 @@ export type ServerFilterConfig = {
     options: FilterOption[]
     placeholder?: string
     hidden?: boolean
-    loading? : boolean
-    infinity? : InfinityControls
+    loading?: boolean
+    infinity?: InfinityControls
 }
 
 type ParamsValue = string | number | boolean | undefined
 
 /* ------------------ Helpers ------------------ */
 
-
 function serializeFilterValue(v: FilterValue | null): string {
     if (v === null) return ''
     return String(v)
 }
-
 
 function parseFilterValue(raw: string, type: FilterValueType): FilterValue {
     if (type === 'boolean') return raw === 'true'
@@ -289,33 +290,32 @@ export function useServerTable(opts: {
 
     /* ---------- 4) Sync state → URL (✅ serialize raw) ---------- */
 
-useEffect(() => {
-  const next = new URLSearchParams()
+    useEffect(() => {
+        const next = new URLSearchParams()
 
+        const rawQ = searchValue.trim()
+        const qForUrl = rawQ === '' ? '' : debouncedSearchValue.trim()
 
-  const rawQ = searchValue.trim()
-  const qForUrl = rawQ === '' ? '' : debouncedSearchValue.trim()
+        if (qForUrl !== '') next.set(searchParamKey, qForUrl)
 
-  if (qForUrl !== '') next.set(searchParamKey, qForUrl)
+        if (currentPage > 1) next.set(pageParamKey, String(currentPage))
 
-  if (currentPage > 1) next.set(pageParamKey, String(currentPage))
+        filters.forEach((f) => {
+            if (f.hidden) return
+            const urlV = serializeFilterValue(f.value)
+            if (urlV !== '') next.set(f.key, urlV)
+        })
 
-  filters.forEach((f) => {
-    if (f.hidden) return
-    const urlV = serializeFilterValue(f.value)
-    if (urlV !== '') next.set(f.key, urlV)
-  })
-
-  setSearchParams(next, { replace: true })
-}, [
-  searchValue,          
-  debouncedSearchValue,  
-  currentPage,
-  filters,
-  searchParamKey,
-  pageParamKey,
-  setSearchParams,
-])
+        setSearchParams(next, { replace: true })
+    }, [
+        searchValue,
+        debouncedSearchValue,
+        currentPage,
+        filters,
+        searchParamKey,
+        pageParamKey,
+        setSearchParams,
+    ])
 
     /* ---------- 5) Handlers ---------- */
 
@@ -341,7 +341,9 @@ useEffect(() => {
         setCurrentPage(1)
         setFilters((prev) => prev.map((f) => ({ ...f, value: null })))
     }, [])
-
+    useEffect(() => {
+        setFilters(initialFilters)
+    }, [initialFilters])
     return {
         searchValue,
         currentPage,

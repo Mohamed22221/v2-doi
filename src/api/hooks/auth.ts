@@ -182,10 +182,10 @@ export const useForgotPassword = () => {
         mutationFn: AuthServices.forgotPassword,
 
         onSuccess: async ({ data }: { data: ResponseForgotPassword }) => {
-            const otpSessionId = data?.otpSessionId
+            const otpSessionId = data
             if (!otpSessionId) return
-            localStorage.setItem('otp-code', otpSessionId.code)
-            localStorage.setItem('otp-session-id', otpSessionId.sessionId)
+            localStorage.setItem('otp-code', data.code)
+            localStorage.setItem('otp-session-id', data.otpSessionId)
             navigate('/verify-otp', {
                 state: {
                     otp: 'forgot',
