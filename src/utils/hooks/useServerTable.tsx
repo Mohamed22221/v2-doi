@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstack/react-query'
 
 /* ------------------ Types ------------------ */
 
@@ -7,6 +8,15 @@ export type FilterValue = string | number | boolean
 export type FilterValueType = 'string' | 'number' | 'boolean'
 
 export type FilterOption = { label: string; value: FilterValue }
+
+export type InfinityControls = {
+  fetchNextPage: (
+    options?: FetchNextPageOptions
+  ) => Promise<InfiniteQueryObserverResult>
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
+  isFetching? : boolean
+}
 
 export type ServerFilterConfig = {
     key: string
@@ -17,6 +27,7 @@ export type ServerFilterConfig = {
     placeholder?: string
     hidden?: boolean
     loading? : boolean
+    infinity? : InfinityControls
 }
 
 type ParamsValue = string | number | boolean | undefined

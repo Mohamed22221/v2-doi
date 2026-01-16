@@ -46,18 +46,12 @@ export default function TwoLineText({
   image,
   imageAlt = 'avatar',
   imageSize = 'md',
-  align = 'start',
   size = 'md',
   className = '',
   titleClassName = '',
   subtitleClassName = '',
 }: Props) {
-  const alignClass =
-    align === 'center'
-      ? 'items-center text-center'
-      : align === 'end'
-      ? 'items-end text-right'
-      : 'items-start text-left'
+
 
   const sizes = {
     sm: { title: 'text-sm', subtitle: 'text-xs', gap: 'gap-0.5' },
@@ -72,7 +66,7 @@ export default function TwoLineText({
   } as const
 
   return (
-    <div className={['flex gap-3', alignClass, className].join(' ')}>
+    <div className={['flex gap-3', className].join(' ')}>
       {/* Image / Avatar */}
       {image && (
         <div className="flex-shrink-0">

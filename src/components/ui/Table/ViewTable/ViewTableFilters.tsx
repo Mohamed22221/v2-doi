@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import { HiOutlineSearch } from 'react-icons/hi'
-
+import { InfinityControls } from '@/utils/hooks/useServerTable'
 export type FilterValue = string | number | boolean
 
 export interface FilterOption {
@@ -17,6 +17,7 @@ export interface FilterConfig {
     options: FilterOption[]
     placeholder?: string
     hidden?: boolean
+    infinity?: InfinityControls
 }
 
 export interface ViewTableFiltersProps {
@@ -114,7 +115,7 @@ const ViewTableFilters = ({
                                     {filter.label}
                                 </label>
                             )}
-                            
+
                             <div className="min-w-[140px]">
                                 <Select<FilterOption>
                                     size="sm"
@@ -122,13 +123,24 @@ const ViewTableFilters = ({
                                     placeholder={filter.placeholder || 'All'}
                                     value={selectedOption}
                                     options={filter.options}
+                                    maxMenuHeight={230}
                                     onChange={(option) =>
                                         onFilterChange?.(
                                             filter.key,
                                             option?.value ?? null,
                                         )
                                     }
+                                    onMenuScrollToBottom={() => {
+                                        if (
+                                            filter.infinity &&
+                                            filter.infinity.hasNextPage &&
+                                            !filter.infinity.isFetchingNextPage
+                                        )
+                                            filter.infinity.fetchNextPage()
+                                    }}
+                                    
                                 />
+
                             </div>
                         </div>
                     )

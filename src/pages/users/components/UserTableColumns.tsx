@@ -10,7 +10,6 @@ import { UserItem } from '@/api/types/users'
 
 /* -------- Item type -------- */
 
-
 /* -------- Hook that returns columns -------- */
 export function useUserTableColumns() {
     const navigate = useNavigate()
@@ -82,5 +81,5 @@ export function useUserTableColumns() {
                 ),
             },
         ]
-    }, [])
+    }, [navigate])
 }
