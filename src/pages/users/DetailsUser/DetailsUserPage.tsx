@@ -3,26 +3,72 @@ import { lazy, Suspense } from 'react'
 
 import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton'
 import { useParams } from 'react-router-dom'
+// import AccountStatisticsCard from './components/AccountStatisticsCard'
+import { formatDateTime } from '@/utils/formatDateTime'
+import StatusPill from '@/components/shared/table/StatusPill'
+import PersonalAndShippingCardSkeleton from '@/components/skeleton/PersonalAndShippingCardSkeleton'
+import ErrorState from '@/components/shared/ErrorState'
 
 const UserInfo = lazy(() => import('./components/UserInfo'))
+const PersonalAndShippingCard = lazy(() => import('./components/PersonalAndShippingCard'))
+
 const DetailsUserPage = () => {
-    
     const { id } = useParams()
-    const { data , isError , isLoading } = useGetUserDetails(id!)
+    const { data, isError, isLoading , error } = useGetUserDetails(id!)
 
     if (isError) {
         return (
-        <div>
-            <p>isError</p>
-        </div>
+            <div>
+               <ErrorState message={error.message} fullPage={true} />
+            </div>
         )
-
     }
+    const { date } = formatDateTime(data?.data.createdAt || '')
     return (
         <div>
             <Suspense fallback={<UserInfoSkeleton />}>
-               {isLoading ? <UserInfoSkeleton /> : <UserInfo data={data?.data} />}  
+                {isLoading ? (
+                    <UserInfoSkeleton />
+                ) : (
+                    <UserInfo data={data?.data} />
+                )}
             </Suspense>
+
+            <div className="grid gap-6 lg:grid-cols-12">
+                {/* Left big card */}
+                <div className="lg:col-span-12 mt-5">
+                    <Suspense fallback={<PersonalAndShippingCardSkeleton />}>
+                        {isLoading ? (
+                            <PersonalAndShippingCardSkeleton />
+                        ) : (
+                            <PersonalAndShippingCard
+                                email={data?.data?.email}
+                                phone={data?.data?.phone}
+                                registrationDate={date}
+                                accountStatus={
+                                    <StatusPill
+                                        value={data?.data.isActive}
+                                        activeText="Active"
+                                        inactiveText="Blocked"
+                                        size="sm"
+                                    />
+                                }
+                                fullAddress="123 Market St, Suite 400"
+                                cityDistrict="Riyadh, Al-Malaz"
+                                country="Saudi Arabia"
+                            />
+                        )}
+                    </Suspense>
+                </div>
+
+                {/* Right column */}
+                {/* <div className="lg:col-span-4 space-y-6 mt-5">
+                    <AccountStatisticsCard
+                        totalSpent="$2,450.00"
+                        totalOrders="24"
+                    />
+                </div> */}
+            </div>
         </div>
     )
 }

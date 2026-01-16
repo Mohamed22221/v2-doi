@@ -38,9 +38,9 @@ const UserInfo = ({ data }: Props) => {
                                 {data?.firstName + ' ' + data?.lastName}
                             </h2>
                             <StatusPill
-                                value={data?.isActive}
-                                activeText="Active"
-                                inactiveText="Blocked"
+                                value={data?.isPhoneVerified}
+                                activeText="Verified"
+                                inactiveText="Not Verified"
                                 size="sm"
                             />
                             {data?.role?.name && (
@@ -50,7 +50,7 @@ const UserInfo = ({ data }: Props) => {
                             )}
                         </div>
 
-                        <div className="mt-1 flex items-center justify-center gap-1 sm:justify-start">
+                        <div className="mt-1  sm:flex  items-center justify-center gap-1 sm:justify-start">
                             <p className="text-primary-700 dark:text-primary-200">
                                 Account ID:
                             </p>
