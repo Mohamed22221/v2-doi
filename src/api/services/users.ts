@@ -8,8 +8,15 @@ const UsersServices = {
     ): Promise<TAPIResponseItems<UserItem[]>> =>
         api.get(`/admin/users?${searchParams}`),
 
-    getUserDetails: (id: number | string): Promise<TAPIResponseItem<UserItem>> =>
-        api.get(`/admin/users/${id}`),
+    getUserDetails: (
+        id: number | string,
+    ): Promise<TAPIResponseItem<UserItem>> => api.get(`/admin/users/${id}`),
+
+    toggleUserStatus: (
+        id: number | string,
+        isActive: boolean,
+    ): Promise<TAPIResponseItem<UserItem>> =>
+        api.patch(`/admin/users/${id}/${isActive ? 'deactivate' : 'activate'}`),
 }
 
 export default UsersServices

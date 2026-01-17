@@ -10,21 +10,26 @@ import PersonalAndShippingCardSkeleton from '@/components/skeleton/PersonalAndSh
 import ErrorState from '@/components/shared/ErrorState'
 
 const UserInfo = lazy(() => import('./components/UserInfo'))
-const PersonalAndShippingCard = lazy(() => import('./components/PersonalAndShippingCard'))
+const PersonalAndShippingCard = lazy(
+    () => import('./components/PersonalAndShippingCard'),
+)
 
 const DetailsUserPage = () => {
     const { id } = useParams()
-    const { data, isError, isLoading , error } = useGetUserDetails(id!)
+    const { data , isError, isLoading, error } = useGetUserDetails(id!)
 
-    if (isError) {
+    if (isError ) {
         return (
             <div>
-               <ErrorState message={error.message} fullPage={true} />
+                <ErrorState message={error?.message} fullPage={true} />
             </div>
         )
     }
-    const { date } = formatDateTime(data?.data.createdAt || '')
+
+    const { date, time } = formatDateTime(data?.data?.createdAt || '')
+    // if (!data) return null
     return (
+        
         <div>
             <Suspense fallback={<UserInfoSkeleton />}>
                 {isLoading ? (
@@ -44,10 +49,10 @@ const DetailsUserPage = () => {
                             <PersonalAndShippingCard
                                 email={data?.data?.email}
                                 phone={data?.data?.phone}
-                                registrationDate={date}
+                                registrationDate={`${date}-${time}`}
                                 accountStatus={
                                     <StatusPill
-                                        value={data?.data.isActive}
+                                        value={data?.data?.isActive}
                                         activeText="Active"
                                         inactiveText="Blocked"
                                         size="sm"

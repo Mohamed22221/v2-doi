@@ -58,6 +58,7 @@ export const useLogin = () => {
 
             // 2) Token flow
             if (accessToken) {
+                queryClient.clear() 
                 setAccessTokenCookie(accessToken)
                 navigate(
                     redirectUrl
@@ -66,9 +67,6 @@ export const useLogin = () => {
                     { replace: true },
                 )
 
-                await queryClient.invalidateQueries({
-                    queryKey: [ReactQueryKeys.GET_PROFILE],
-                })
                 return
             }
         },
@@ -97,6 +95,7 @@ export const useVerifyOtp = () => {
             if (!accessToken) return
             // 2) Token flow
             if (accessToken) {
+                queryClient.clear() 
                 setAccessTokenCookie(accessToken)
                 const redirectUrl = query.get(REDIRECT_URL_KEY)
                 navigate(
@@ -105,9 +104,6 @@ export const useVerifyOtp = () => {
                         : appConfig.authenticatedEntryPath,
                 )
 
-                await queryClient.invalidateQueries({
-                    queryKey: [ReactQueryKeys.GET_PROFILE],
-                })
                 return
             }
         },

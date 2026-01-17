@@ -1,16 +1,59 @@
 import { UserItem } from '@/api/types/users'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { Avatar, Button } from '@/components/ui'
+import { Avatar, Badge, Button, Notification, toast } from '@/components/ui'
 import Icon from '@/components/ui/Icon/Icon'
 import { formatDateTime } from '@/utils/formatDateTime'
-import React from 'react'
+import React, { useState } from 'react'
+import SuspendUserModal from './SuspendUserModal'
+import { useToggleUserStatus } from '@/api/hooks/users'
+import { getApiErrorMessage } from '@/api/error'
 
 type Props = {
-    data: UserItem | undefined
+    data?: UserItem
 }
 const UserInfo = ({ data }: Props) => {
     const { date } = formatDateTime(data?.createdAt || '')
+    const [dialogIsOpen, setIsOpen] = useState(false)
+    const { mutate, isPending } = useToggleUserStatus()
+
+    const openDialog = () => {
+        setIsOpen(true)
+    }
+
+    const onDialogClose = () => {
+        setIsOpen(false)
+    }
+
+    const onDialogOk = () => {
+        mutate(
+            { id: data!.id, isActive: data!.isActive },
+            {
+                onSuccess: () => {
+                    onDialogClose()
+                    toast.push(
+                        <Notification
+                            title={
+                                data?.isActive
+                                    ? 'User account suspended successfully'
+                                    : 'User account activated successfully'
+                            }
+                            type="success"
+                        />,
+                    )
+                },
+                onError: (error) => {
+                    toast.push(
+                        <Notification
+                            title={getApiErrorMessage(error)}
+                            type="danger"
+                        />,
+                    )
+                },
+            },
+        )
+    }
+
     return (
         <BackgroundRounded>
             <div className="flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
@@ -44,9 +87,11 @@ const UserInfo = ({ data }: Props) => {
                                 size="sm"
                             />
                             {data?.role?.name && (
-                                <span className="rounded-md bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
-                                    {data.role.name}
-                                </span>
+                                <Badge
+                                    className="mr-4 border border-gray-400"
+                                    content={data.role.name}
+                                    innerClass="bg-white text-gray-500"
+                                />
                             )}
                         </div>
 
@@ -72,10 +117,23 @@ const UserInfo = ({ data }: Props) => {
 
                 {/* Right Side Actions */}
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-end">
-                    <Button className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition">
-                        Suspend User
+                    <Button
+                        color={data?.isActive ? 'red' : 'green'} // className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition"
+                        onClick={() => openDialog()}
+                        variant="default"
+                    >
+                        {data?.isActive ? 'Suspend User' : 'Activation User'}
                     </Button>
                 </div>
+                <SuspendUserModal
+                    dialogIsOpen={dialogIsOpen}
+                    firstName={data?.firstName}
+                    lastName={data?.lastName}
+                    isActive={data?.isActive}
+                    onDialogClose={onDialogClose}
+                    onDialogConfirm={onDialogOk}
+                    isLoading={isPending}
+                />
             </div>
         </BackgroundRounded>
     )

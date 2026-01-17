@@ -1,9 +1,9 @@
-import {  useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import UsersServices from '../services/users'
 import { getApiErrorMessage } from '../error'
-import type { TAPIResponseItems } from '../types/api' 
+import type { TAPIResponseItems } from '../types/api'
 import { UserItem } from '../types/users'
 
 export const useGetAllUsers = () => {
@@ -27,9 +27,26 @@ export const useGetAllUsers = () => {
 }
 
 export const useGetUserDetails = (id: number | string) => {
-  return useQuery({
-    queryKey: [ReactQueryKeys.GET_USER_DETAILS, id],
-    queryFn: () => UsersServices.getUserDetails(id),
-    enabled: !!id,
-  });
-};
+    return useQuery({
+        queryKey: [ReactQueryKeys.GET_USER_DETAILS, id],
+        queryFn: () => UsersServices.getUserDetails(id),
+    })
+}
+
+export const useToggleUserStatus = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({
+            id,
+            isActive,
+        }: {
+            id: number | string
+            isActive: boolean
+        }) => UsersServices.toggleUserStatus(id, isActive),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_USER_DETAILS],
+            })
+        },
+    })
+}
