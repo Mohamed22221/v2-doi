@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import SuspendUserModal from './SuspendUserModal'
 import { useToggleUserStatus } from '@/api/hooks/users'
 import { getApiErrorMessage } from '@/api/error'
+import DropdownOptions from './DropdownOptions'
 
 type Props = {
     data?: UserItem
@@ -37,8 +38,12 @@ const UserInfo = ({ data }: Props) => {
                         <Notification
                             title={
                                 data?.isActive
-                                    ? t('users.userDetails.notifications.suspendedSuccess')
-                                    : t('users.userDetails.notifications.activatedSuccess')
+                                    ? t(
+                                          'users.userDetails.notifications.suspendedSuccess',
+                                      )
+                                    : t(
+                                          'users.userDetails.notifications.activatedSuccess',
+                                      )
                             }
                             type="success"
                         />,
@@ -84,8 +89,12 @@ const UserInfo = ({ data }: Props) => {
                             </h2>
                             <StatusPill
                                 value={data?.isPhoneVerified}
-                                activeText={t('users.userDetails.status.verified')}
-                                inactiveText={t('users.userDetails.status.notVerified')}
+                                activeText={t(
+                                    'users.userDetails.status.verified',
+                                )}
+                                inactiveText={t(
+                                    'users.userDetails.status.notVerified',
+                                )}
                                 size="sm"
                             />
                             {data?.role?.name && (
@@ -111,23 +120,29 @@ const UserInfo = ({ data }: Props) => {
                                 <Icon name="location" /> Riyadh, Al-Malaz
                             </span>
                             <span className="flex items-center gap-1">
-                                <Icon name="date" /> {t('users.userDetails.joined')} {date}
+                                <Icon name="date" />{' '}
+                                {t('users.userDetails.joined')} {date}
                             </span>
                         </div>
                     </div>
                 </div>
 
                 {/* Right Side Actions */}
-                <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-end">
+                <div className="flex w-full items-center flex-col gap-3 sm:w-auto sm:flex-row sm:justify-end">
                     <Button
                         color={data?.isActive ? 'red' : 'green'} // className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition"
                         onClick={() => openDialog()}
                         variant="default"
                     >
-                        {data?.isActive 
-                            ? t('users.userDetails.actions.suspendUser') 
+                        {data?.isActive
+                            ? t('users.userDetails.actions.suspendUser')
                             : t('users.userDetails.actions.activateUser')}
                     </Button>
+                    <DropdownOptions
+                        firstName={data?.firstName || ""}
+                        lastName={data?.lastName || ""}
+                        id={data!.id}
+                    />
                 </div>
                 <SuspendUserModal
                     dialogIsOpen={dialogIsOpen}

@@ -1,3 +1,15 @@
+type ApiAddress = {
+  id?: string
+  isPrimary?: boolean | null
+  buildingNumber?: string | null
+  floorNumber?: string | null
+  apartmentNumber?: string | null
+  addressDetails?: string | null
+  city?: string | null
+  area?: string | null
+  region?: string | null
+  country?: string | null
+}
 export type UserItem = {
     id: string
     firstName: string
@@ -14,6 +26,8 @@ export type UserItem = {
     id: string
     name: string
   }
+  addresses?: ApiAddress[]
 }
+
 
 

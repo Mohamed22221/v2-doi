@@ -1,4 +1,7 @@
 {
+    "common": {
+        "unknownUser": "Unknown user"
+    },
     "nav": {
         "dashboard": "Dashboard",
         "users": "Registered Users",
@@ -152,7 +155,9 @@
                 "blocked": "Blocked"
             },
             "actions": {
-                "view": "View"
+                "view": "View",
+                "softDelete": "Soft Delete",
+                "hardDelete": "Hard Delete"
             },
             "filters": {
                 "status": "Status:",
@@ -207,6 +212,22 @@
             "notifications": {
                 "suspendedSuccess": "User account suspended successfully",
                 "activatedSuccess": "User account activated successfully"
+            },
+            "softDeleteModal": {
+                "title": "Delete user (temporary)",
+                "message": "Are you sure you want to temporarily delete <strong>{{name}}</strong>?",
+                "description": "You can restore this user at any time.",
+                "cancel": "Cancel",
+                "confirm": "Delete temporarily",
+                "success": "The user has been deleted temporarily."
+            },
+            "hardDeleteModal": {
+                "title": "Permanently delete user",
+                "message": "Are you sure you want to permanently delete <strong>{{name}}</strong>?",
+                "warning": "This action cannot be undone.",
+                "cancel": "Cancel",
+                "confirm": "Delete permanently",
+                "success": "The user has been permanently deleted"
             },
             "accountId": "Account ID",
             "joined": "Joined"

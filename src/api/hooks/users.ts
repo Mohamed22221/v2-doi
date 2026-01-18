@@ -50,3 +50,35 @@ export const useToggleUserStatus = () => {
         },
     })
 }
+
+export const useSoftDeleteUser = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: ({ id }: { id: number | string }) =>
+            UsersServices.softDeleteUser(id),
+
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_USER_DETAILS, variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_USERS],
+            })
+        },
+    })
+}
+
+export const useHardDeleteUser = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id }: { id: number | string }) =>
+            UsersServices.hardDeleteUser(id),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_USERS],
+            })
+        },
+    })
+}

@@ -17,6 +17,13 @@ const UsersServices = {
         isActive: boolean,
     ): Promise<TAPIResponseItem<UserItem>> =>
         api.patch(`/admin/users/${id}/${isActive ? 'deactivate' : 'activate'}`),
+
+    softDeleteUser: (id: number | string) =>
+        api.delete(`/admin/users/${id}`),
+
+    
+    hardDeleteUser: (id: number | string) =>
+        api.delete(`/admin/users/${id}/hard`),
 }
 
 export default UsersServices

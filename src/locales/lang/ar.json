@@ -1,4 +1,7 @@
 {
+    "common": {
+        "unknownUser": "مستخدم غير معروف"
+    },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
         "users": "المستخدمون",
@@ -152,7 +155,9 @@
                 "blocked": "محظور"
             },
             "actions": {
-                "view": "عرض"
+                "view": "عرض",
+                "softDelete": "حذف مؤقت",
+                "hardDelete": "حذف نهائي"
             },
             "filters": {
                 "status": "الحالة:",
@@ -207,6 +212,22 @@
             "notifications": {
                 "suspendedSuccess": "تم تعليق حساب المستخدم بنجاح",
                 "activatedSuccess": "تم تفعيل حساب المستخدم بنجاح"
+            },
+            "hardDeleteModal": {
+                "title": "حذف المستخدم نهائيًا",
+                "message": "هل أنت متأكد من حذف المستخدم <strong>{{name}}</strong> نهائيًا؟",
+                "warning": "لا يمكن التراجع عن هذا الإجراء.",
+                "cancel": "إلغاء",
+                "confirm": "حذف نهائي",
+                "success": "تم حذف المستخدم نهائيًا بنجاح."
+            },
+            "softDeleteModal": {
+                "title": "حذف مؤقت للمستخدم",
+                "message": "هل أنت متأكد من حذف المستخدم <strong>{{name}}</strong> مؤقتًا؟",
+                "description": "يمكنك استعادة المستخدم لاحقًا في أي وقت.",
+                "cancel": "إلغاء",
+                "confirm": "حذف مؤقت",
+                "success": "تم حذف المستخدم مؤقتًا بنجاح."
             },
             "accountId": "معرف الحساب",
             "joined": "انضم في"
