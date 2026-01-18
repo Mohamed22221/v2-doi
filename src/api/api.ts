@@ -12,7 +12,7 @@ let redirecting = false;
 
 const api = axios.create({
   baseURL: `${API_URL}/${API_VERSION}`,
-  withCredentials: false,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
