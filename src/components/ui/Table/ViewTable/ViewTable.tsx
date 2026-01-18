@@ -1,4 +1,5 @@
 import {  useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
 import {
@@ -58,9 +59,9 @@ export interface ViewTableProps<
 const { Tr, Th, Td, THead, TBody } = Table
 
 const ViewTable = <TData extends Record<string, unknown>>({
-    title = 'Table',
+    title,
     showExportButton = true,
-    exportButtonText = 'Export CSV',
+    exportButtonText,
     onExport,
     columns,
     data,
@@ -68,7 +69,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
     pageSize,
     onPageChange,
     showSearch = true,
-    searchPlaceholder = 'Search...',
+    searchPlaceholder,
     searchValue,
     onSearchChange,
     filters = [],
@@ -82,6 +83,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
     errorText,
     requestedPage
 }: ViewTableProps<TData>) => {
+    const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
     const safeFilters = useMemo<FilterConfig[]>(
         () =>
@@ -102,7 +104,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
     return (
         <div>
             <div className="px-3 md:px-5 flex justify-between items-center md:h-[90px] h-[70px]">
-                <h3 className="text-[17px] md:text-[24px]">{title}</h3>
+                <h3 className="text-[17px] md:text-[24px]">{title || t('viewTable.defaultTitle')}</h3>
 
                 {showExportButton && (
                     <Button
@@ -112,7 +114,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
                         }
                         onClick={onExport}
                     >
-                        {exportButtonText}
+                        {exportButtonText || t('viewTable.defaultExportButtonText')}
                     </Button>
                 )}
             </div>
@@ -121,7 +123,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
 
             <ViewTableFilters
                 showSearch={showSearch}
-                searchPlaceholder={searchPlaceholder}
+                searchPlaceholder={searchPlaceholder || t('viewTable.defaultSearchPlaceholder')}
                 searchValue={searchValue}
                 filters={safeFilters}
                 showClearAll={showClearAll}

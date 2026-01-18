@@ -1,5 +1,6 @@
 import { useGetUserDetails } from '@/api/hooks/users'
 import { lazy, Suspense } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton'
 import { useParams } from 'react-router-dom'
@@ -15,6 +16,7 @@ const PersonalAndShippingCard = lazy(
 )
 
 const DetailsUserPage = () => {
+    const { t } = useTranslation()
     const { id } = useParams()
     const { data , isError, isLoading, error } = useGetUserDetails(id!)
 
@@ -53,8 +55,8 @@ const DetailsUserPage = () => {
                                 accountStatus={
                                     <StatusPill
                                         value={data?.data?.isActive}
-                                        activeText="Active"
-                                        inactiveText="Blocked"
+                                        activeText={t('users.table.status.active')}
+                                        inactiveText={t('users.table.status.blocked')}
                                         size="sm"
                                     />
                                 }

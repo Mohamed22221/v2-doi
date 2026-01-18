@@ -133,5 +133,93 @@
     },
     "routes": {
         "settings": "Settings"
+    },
+    "users": {
+        "table": {
+            "title": "Registered Users",
+            "searchPlaceholder": "Search by user name , email , phone",
+            "emptyText": "No users match your filters.",
+            "columns": {
+                "name": "Name",
+                "email": "Email Address",
+                "phone": "Phone",
+                "status": "Status",
+                "registeredDate": "Registered Date",
+                "idPrefix": "ID:"
+            },
+            "status": {
+                "active": "Active",
+                "blocked": "Blocked"
+            },
+            "actions": {
+                "view": "View"
+            },
+            "filters": {
+                "status": "Status:",
+                "role": "Role:",
+                "allStatus": "All Status",
+                "allRoles": "All Roles",
+                "loading": "Loading...",
+                "failedRoles": "Failed roles"
+            }
+        },
+        "userDetails": {
+            "accountStatistics": {
+                "title": "Account Statistics",
+                "totalSpent": "Total Spent",
+                "totalOrders": "Total Orders"
+            },
+            "personalInfo": {
+                "title": "Personal Information",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "registrationDate": "Registration Date",
+                "accountStatus": "Account Status"
+            },
+            "shippingAddress": {
+                "title": "Shipping Address",
+                "fullAddress": "Full Address",
+                "cityDistrict": "City & District",
+                "country": "Country"
+            },
+            "recentTransactions": {
+                "title": "Recent Transactions",
+                "emptyText": "No transactions.",
+                "viewAllActivity": "View All Activity"
+            },
+            "suspendModal": {
+                "titleSuspend": "Suspend User Account",
+                "titleActivate": "Activation User Account",
+                "confirmSuspendMessage": "Are you sure you want to suspend <strong>{{name}}</strong>? This will immediately revoke their access to all platform features and active sessions.",
+                "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will restore their access to all platform features and active sessions.",
+                "cancel": "Cancel",
+                "confirmSuspension": "Confirm Suspension",
+                "confirmActivation": "Confirm Activation"
+            },
+            "status": {
+                "verified": "Verified",
+                "notVerified": "Not Verified"
+            },
+            "actions": {
+                "suspendUser": "Suspend User",
+                "activateUser": "Activation User"
+            },
+            "notifications": {
+                "suspendedSuccess": "User account suspended successfully",
+                "activatedSuccess": "User account activated successfully"
+            },
+            "accountId": "Account ID",
+            "joined": "Joined"
+        }
+    },
+    "viewTable": {
+        "defaultTitle": "Table",
+        "defaultExportButtonText": "Export CSV",
+        "defaultSearchPlaceholder": "Search...",
+        "filters": {
+            "all": "All",
+            "loadMore": "Load More",
+            "clearAll": "Clear All"
+        }
     }
 }

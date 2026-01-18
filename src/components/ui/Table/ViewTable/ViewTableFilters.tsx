@@ -1,8 +1,11 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import { HiOutlineSearch } from 'react-icons/hi'
 import { InfinityControls } from '@/utils/hooks/useServerTable'
+
 export type FilterValue = string | number | boolean
 
 export interface FilterOption {
@@ -46,7 +49,7 @@ const isSameValue = (a: FilterValue, b: FilterValue) => {
 
 const ViewTableFilters = ({
     showSearch = true,
-    searchPlaceholder = 'Search...',
+    searchPlaceholder,
     searchValue,
     onSearchChange,
     filters = [],
@@ -54,6 +57,7 @@ const ViewTableFilters = ({
     showClearAll = true,
     onClearAll,
 }: ViewTableFiltersProps) => {
+    const { t } = useTranslation()
     const visibleFilters = useMemo(
         () => filters.filter((f) => !f.hidden),
         [filters],
@@ -87,8 +91,8 @@ const ViewTableFilters = ({
                             }
                             placeholder={searchPlaceholder}
                             value={searchValue}
-                            onChange={(e) => onSearchChange(e.target.value)}
                             className="rounded-xl"
+                            onChange={(e) => onSearchChange(e.target.value)}
                         />
                     </div>
                 )}
@@ -120,21 +124,21 @@ const ViewTableFilters = ({
                                 <Select<FilterOption>
                                     size="sm"
                                     isSearchable={false}
-                                    placeholder={filter.placeholder || 'All'}
+                                    placeholder={filter.placeholder || t('viewTable.filters.all')}
                                     value={selectedOption}
                                     options={filter.options}
                                     maxMenuHeight={230}
                                     hasMore={filter?.infinity?.hasNextPage}
                                     isLoadingMore={filter?.infinity?.isFetching}
-                                    loadMoreLabel="Load More"
+                                    loadMoreLabel={t('viewTable.filters.loadMore')}
+                                    onLoadMore={() =>
+                                        filter?.infinity?.fetchNextPage()
+                                    }
                                     onChange={(option) =>
                                         onFilterChange?.(
                                             filter.key,
                                             option?.value ?? null,
                                         )
-                                    }
-                                    onLoadMore={() =>
-                                        filter?.infinity?.fetchNextPage()
                                     }
                                 />
                             </div>
@@ -146,11 +150,11 @@ const ViewTableFilters = ({
                 {showClearAll && hasActiveFilters && (
                     <div className="ml-auto md:ml-0">
                         <button
-                            onClick={handleClearAll}
                             type="button"
                             className="text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer whitespace-nowrap"
+                            onClick={handleClearAll}
                         >
-                            Clear All
+                            {t('viewTable.filters.clearAll')}
                         </button>
                     </div>
                 )}

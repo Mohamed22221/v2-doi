@@ -5,6 +5,7 @@ import { Avatar, Badge, Button, Notification, toast } from '@/components/ui'
 import Icon from '@/components/ui/Icon/Icon'
 import { formatDateTime } from '@/utils/formatDateTime'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import SuspendUserModal from './SuspendUserModal'
 import { useToggleUserStatus } from '@/api/hooks/users'
 import { getApiErrorMessage } from '@/api/error'
@@ -13,6 +14,7 @@ type Props = {
     data?: UserItem
 }
 const UserInfo = ({ data }: Props) => {
+    const { t } = useTranslation()
     const { date } = formatDateTime(data?.createdAt || '')
     const [dialogIsOpen, setIsOpen] = useState(false)
     const { mutate, isPending } = useToggleUserStatus()
@@ -35,8 +37,8 @@ const UserInfo = ({ data }: Props) => {
                         <Notification
                             title={
                                 data?.isActive
-                                    ? 'User account suspended successfully'
-                                    : 'User account activated successfully'
+                                    ? t('users.userDetails.notifications.suspendedSuccess')
+                                    : t('users.userDetails.notifications.activatedSuccess')
                             }
                             type="success"
                         />,
@@ -82,8 +84,8 @@ const UserInfo = ({ data }: Props) => {
                             </h2>
                             <StatusPill
                                 value={data?.isPhoneVerified}
-                                activeText="Verified"
-                                inactiveText="Not Verified"
+                                activeText={t('users.userDetails.status.verified')}
+                                inactiveText={t('users.userDetails.status.notVerified')}
                                 size="sm"
                             />
                             {data?.role?.name && (
@@ -97,7 +99,7 @@ const UserInfo = ({ data }: Props) => {
 
                         <div className="mt-1  sm:flex  items-center justify-center gap-1 sm:justify-start">
                             <p className="text-primary-700 dark:text-primary-200">
-                                Account ID:
+                                {t('users.userDetails.accountId')}:
                             </p>
                             <span className="font-medium text-black dark:text-white">
                                 {data?.id}
@@ -109,7 +111,7 @@ const UserInfo = ({ data }: Props) => {
                                 <Icon name="location" /> Riyadh, Al-Malaz
                             </span>
                             <span className="flex items-center gap-1">
-                                <Icon name="date" /> Joined {date}
+                                <Icon name="date" /> {t('users.userDetails.joined')} {date}
                             </span>
                         </div>
                     </div>
@@ -122,7 +124,9 @@ const UserInfo = ({ data }: Props) => {
                         onClick={() => openDialog()}
                         variant="default"
                     >
-                        {data?.isActive ? 'Suspend User' : 'Activation User'}
+                        {data?.isActive 
+                            ? t('users.userDetails.actions.suspendUser') 
+                            : t('users.userDetails.actions.activateUser')}
                     </Button>
                 </div>
                 <SuspendUserModal

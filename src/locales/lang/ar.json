@@ -133,5 +133,93 @@
     },
     "routes": {
         "settings": "الإعدادات"
+    },
+    "users": {
+        "table": {
+            "title": "المستخدمون المسجلون",
+            "searchPlaceholder": "البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف",
+            "emptyText": "لا يوجد مستخدمون يتطابقون مع المرشحات الخاصة بك.",
+            "columns": {
+                "name": "الاسم",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "status": "الحالة",
+                "registeredDate": "تاريخ التسجيل",
+                "idPrefix": "المعرف:"
+            },
+            "status": {
+                "active": "نشط",
+                "blocked": "محظور"
+            },
+            "actions": {
+                "view": "عرض"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "role": "الدور:",
+                "allStatus": "جميع الحالات",
+                "allRoles": "جميع الأدوار",
+                "loading": "جاري التحميل...",
+                "failedRoles": "فشل تحميل الأدوار"
+            }
+        },
+        "userDetails": {
+            "accountStatistics": {
+                "title": "إحصائيات الحساب",
+                "totalSpent": "إجمالي الإنفاق",
+                "totalOrders": "إجمالي الطلبات"
+            },
+            "personalInfo": {
+                "title": "المعلومات الشخصية",
+                "email": "البريد الإلكتروني",
+                "phone": "رقم الهاتف",
+                "registrationDate": "تاريخ التسجيل",
+                "accountStatus": "حالة الحساب"
+            },
+            "shippingAddress": {
+                "title": "عنوان الشحن",
+                "fullAddress": "العنوان الكامل",
+                "cityDistrict": "المدينة والحي",
+                "country": "الدولة"
+            },
+            "recentTransactions": {
+                "title": "المعاملات الأخيرة",
+                "emptyText": "لا توجد معاملات.",
+                "viewAllActivity": "عرض جميع الأنشطة"
+            },
+            "suspendModal": {
+                "titleSuspend": "تعليق حساب المستخدم",
+                "titleActivate": "تفعيل حساب المستخدم",
+                "confirmSuspendMessage": "هل أنت متأكد أنك تريد تعليق حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى إلغاء وصوله فوراً إلى جميع ميزات المنصة والجلسات النشطة.",
+                "confirmActivateMessage": "هل أنت متأكد أنك تريد تفعيل حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى استعادة وصوله إلى جميع ميزات المنصة والجلسات النشطة.",
+                "cancel": "إلغاء",
+                "confirmSuspension": "تأكيد التعليق",
+                "confirmActivation": "تأكيد التفعيل"
+            },
+            "status": {
+                "verified": "موثق",
+                "notVerified": "غير موثق"
+            },
+            "actions": {
+                "suspendUser": "تعليق المستخدم",
+                "activateUser": "تفعيل المستخدم"
+            },
+            "notifications": {
+                "suspendedSuccess": "تم تعليق حساب المستخدم بنجاح",
+                "activatedSuccess": "تم تفعيل حساب المستخدم بنجاح"
+            },
+            "accountId": "معرف الحساب",
+            "joined": "انضم في"
+        }
+    },
+    "viewTable": {
+        "defaultTitle": "الجدول",
+        "defaultExportButtonText": "تصدير CSV",
+        "defaultSearchPlaceholder": "بحث...",
+        "filters": {
+            "all": "الكل",
+            "loadMore": "تحميل المزيد",
+            "clearAll": "مسح الكل"
+        }
     }
 }

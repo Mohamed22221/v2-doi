@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import ViewTable from '@/components/ui/Table/ViewTable/ViewTable'
 import {
     ServerFilterConfig,
@@ -10,6 +11,7 @@ import { useGetAllUsers } from '@/api/hooks/users'
 import { useInfiniteRoles } from '@/api/hooks/roles'
 
 export default function UserTable() {
+    const { t } = useTranslation()
     const {
         users,
         isLoading: isLoadingUsers,
@@ -44,26 +46,26 @@ export default function UserTable() {
         () => [
             {
                 key: 'isActive',
-                label: 'Status:',
+                label: t('users.table.filters.status'),
                 value: null,
                 valueType: 'boolean',
                 options: [
-                    { label: 'Active', value: true },
-                    { label: 'Blocked', value: false },
+                    { label: t('users.table.status.active'), value: true },
+                    { label: t('users.table.status.blocked'), value: false },
                 ],
-                placeholder: 'All Status',
+                placeholder: t('users.table.filters.allStatus'),
             },
             {
                 key: 'roleId',
-                label: 'Role:',
+                label: t('users.table.filters.role'),
                 value: null,
                 valueType: 'number',
                 options: roleOptions,
                 placeholder: isLoadingRoles
-                    ? 'Loading...'
+                    ? t('users.table.filters.loading')
                     : isRolesError
-                      ? 'Failed roles'
-                      : 'All Roles',
+                      ? t('users.table.filters.failedRoles')
+                      : t('users.table.filters.allRoles'),
                 infinity: {
                     fetchNextPage,
                     hasNextPage,
@@ -79,7 +81,8 @@ export default function UserTable() {
             hasNextPage,
             isFetchingNextPage,
             fetchNextPage,
-            isFetching
+            isFetching,
+            t
         ],
     )
 
@@ -94,24 +97,24 @@ export default function UserTable() {
     return (
         <ViewTable<UserItem>
             showSearch
-            title="Registered Users"
+            title={t('users.table.title')}
             columns={columns}
             data={users ?? []}
             total={total ?? 0}
             pageSize={tableQ.pageSize}
-            searchPlaceholder="Search by user name , email , phone"
+            searchPlaceholder={t('users.table.searchPlaceholder')}
             searchValue={tableQ.searchValue}
             filters={tableQ.filters}
             isLoading={isLoadingUsers}
-            emptyText="No users match your filters."
-            onPageChange={tableQ.onPageChange}
-            onFilterChange={tableQ.onFilterChange}
-            onSearchChange={tableQ.onSearchChange}
-            onClearAll={tableQ.clearAll}
+            emptyText={t('users.table.emptyText')}
             avatarInColumns={[0]}
             requestedPage={tableQ.requestedPage}
             isError={isUsersError}
             errorText={errorMessage ?? ''}
+            onPageChange={tableQ.onPageChange}
+            onFilterChange={tableQ.onFilterChange}
+            onSearchChange={tableQ.onSearchChange}
+            onClearAll={tableQ.clearAll}
         />
     )
 }

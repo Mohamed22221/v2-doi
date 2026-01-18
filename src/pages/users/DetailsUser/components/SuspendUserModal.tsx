@@ -1,5 +1,6 @@
 import { Button, Dialog } from '@/components/ui'
 import React from 'react'
+import { useTranslation, Trans } from 'react-i18next'
 
 type SuspendModalProps = {
     dialogIsOpen: boolean
@@ -19,6 +20,8 @@ const SuspendUserModal = ({
     isActive,
     isLoading,
 }: SuspendModalProps) => {
+    const { t } = useTranslation()
+    
     return (
         <Dialog
             isOpen={dialogIsOpen}
@@ -31,23 +34,23 @@ const SuspendUserModal = ({
             }}
         >
             <h5 className="mb-4 text-center">
-                {isActive ? 'Suspend User Account' : 'Activation User Account'}
+                {isActive 
+                    ? t('users.userDetails.suspendModal.titleSuspend') 
+                    : t('users.userDetails.suspendModal.titleActivate')}
             </h5>
             <p>
                 {isActive ? (
-                    <>
-                        Are you sure you want to suspend{' '}
-                        <strong>{`${firstName} ${lastName}`}</strong>? This will
-                        immediately revoke their access to all platform features
-                        and active sessions.
-                    </>
+                    <Trans
+                        i18nKey="users.userDetails.suspendModal.confirmSuspendMessage"
+                        values={{ name: `${firstName} ${lastName}` }}
+                        components={{ strong: <strong /> }}
+                    />
                 ) : (
-                    <>
-                        Are you sure you want to activate{' '}
-                        <strong>{`${firstName} ${lastName}`}</strong>? This will
-                        restore their access to all platform features and active
-                        sessions.
-                    </>
+                    <Trans
+                        i18nKey="users.userDetails.suspendModal.confirmActivateMessage"
+                        values={{ name: `${firstName} ${lastName}` }}
+                        components={{ strong: <strong /> }}
+                    />
                 )}
             </p>
             <div className="text-right mt-6">
@@ -56,14 +59,16 @@ const SuspendUserModal = ({
                     variant="plain"
                     onClick={onDialogClose}
                 >
-                    Cancel
+                    {t('users.userDetails.suspendModal.cancel')}
                 </Button>
                 <Button
                     variant="solid"
                     onClick={onDialogConfirm}
                     loading={isLoading}
                 >
-                    {isActive ? 'Confirm Suspension' : 'Confirm Activation'}
+                    {isActive 
+                        ? t('users.userDetails.suspendModal.confirmSuspension') 
+                        : t('users.userDetails.suspendModal.confirmActivation')}
                 </Button>
             </div>
         </Dialog>
