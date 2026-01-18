@@ -1,14 +1,28 @@
-type ApiAddress = {
-  id?: string
-  isPrimary?: boolean | null
-  buildingNumber?: string | null
-  floorNumber?: string | null
-  apartmentNumber?: string | null
-  addressDetails?: string | null
-  city?: string | null
-  area?: string | null
-  region?: string | null
-  country?: string | null
+
+export type LocalizedEntity = {
+  id: string
+  name: string
+  nameAr: string
+}
+export type ApiAddress = {
+  id: string
+  userId: string
+  addressDetails: string
+  apartmentNumber: string
+  buildingNumber: string
+  floorNumber: string
+  areaId: string
+  area: LocalizedEntity
+  cityId: string
+  city: LocalizedEntity
+  regionId: string
+  region: LocalizedEntity
+  gpsLatitude: number
+  gpsLongitude: number
+  isPrimary: boolean
+  createdAt: string
+  updatedAt: string
+  deletedAt: string | null
 }
 export type UserItem = {
     id: string

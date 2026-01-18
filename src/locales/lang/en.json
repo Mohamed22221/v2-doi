@@ -182,7 +182,7 @@
                 "accountStatus": "Account Status"
             },
             "shippingAddress": {
-                "title": "Shipping Address",
+                "title": "Main Address",
                 "fullAddress": "Full Address",
                 "cityDistrict": "City & District",
                 "country": "Country"
@@ -241,6 +241,21 @@
             "all": "All",
             "loadMore": "Load More",
             "clearAll": "Clear All"
+        }
+    },
+    "address": {
+        "noArea": "No area",
+        "noCity": "No city",
+        "noRegion": "No region",
+        "noBuilding": "Building not found",
+        "noFloor": "Floor not found",
+
+        "building": "Building {{number}}",
+        "floor": "Floor {{number}}",
+
+        "cityRegion": "{{city}}, {{region}}",
+        "country": {
+            "sa": "Saudi Arabia"
         }
     }
 }

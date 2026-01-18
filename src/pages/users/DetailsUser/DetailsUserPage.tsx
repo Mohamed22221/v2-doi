@@ -18,9 +18,9 @@ const PersonalAndShippingCard = lazy(
 const DetailsUserPage = () => {
     const { t } = useTranslation()
     const { id } = useParams()
-    const { data , isError, isLoading, error } = useGetUserDetails(id!)
+    const { data, isError, isLoading, error } = useGetUserDetails(id!)
 
-    if (isError ) {
+    if (isError) {
         return (
             <div>
                 <ErrorState message={error?.message} fullPage={true} />
@@ -29,9 +29,11 @@ const DetailsUserPage = () => {
     }
 
     const { date, time } = formatDateTime(data?.data?.createdAt || '')
-    // if (!data) return null
+
+    const primaryAddress = data?.data?.addresses?.find(
+        (address) => address.isPrimary === true,
+    )
     return (
-        
         <div>
             <Suspense fallback={<UserInfoSkeleton />}>
                 {isLoading ? (
@@ -55,14 +57,17 @@ const DetailsUserPage = () => {
                                 accountStatus={
                                     <StatusPill
                                         value={data?.data?.isActive}
-                                        activeText={t('users.table.status.active')}
-                                        inactiveText={t('users.table.status.blocked')}
+                                        activeText={t(
+                                            'users.table.status.active',
+                                        )}
+                                        inactiveText={t(
+                                            'users.table.status.blocked',
+                                        )}
                                         size="sm"
                                     />
                                 }
-                                fullAddress="123 Market St, Suite 400"
-                                cityDistrict="Riyadh, Al-Malaz"
-                                country="Saudi Arabia"
+                                primaryAddress={primaryAddress}
+                                country={t('address.country.sa')}
                             />
                         )}
                     </Suspense>

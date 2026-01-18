@@ -182,7 +182,7 @@
                 "accountStatus": "حالة الحساب"
             },
             "shippingAddress": {
-                "title": "عنوان الشحن",
+                "title": "العنوان الرئيسي",
                 "fullAddress": "العنوان الكامل",
                 "cityDistrict": "المدينة والحي",
                 "country": "الدولة"
@@ -241,6 +241,19 @@
             "all": "الكل",
             "loadMore": "تحميل المزيد",
             "clearAll": "مسح الكل"
+        }
+    },
+    "address": {
+        "noArea": "لا توجد منطقة",
+        "noCity": "لا توجد مدينة",
+        "noRegion": "لا توجد منطقة",
+        "noBuilding": "رقم المبنى غير متوفر",
+        "noFloor": "رقم الدور غير متوفر",
+        "building": "مبنى {{number}}",
+        "floor": "دور {{number}}",
+        "cityRegion": "{{city}} ، {{region}}",
+        "country": {
+            "sa": "المملكة العربية السعودية"
         }
     }
 }
