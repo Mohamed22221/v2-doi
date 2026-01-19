@@ -10,10 +10,12 @@ import DeleteUserModal from './DeleteUserModal'
 import { useTranslation } from 'react-i18next'
 import SoftDeleteUserModal from './SoftDeleteUserModal'
 import { useNavigate } from 'react-router-dom'
+
 type PropsDropdown = {
     id: string | number
     firstName: string
     lastName: string
+    isDeleted?: boolean
 }
 const Toggle = () => {
     return (
@@ -22,7 +24,12 @@ const Toggle = () => {
         </Button>
     )
 }
-const DropdownOptions = ({ id, firstName, lastName }: PropsDropdown) => {
+const DropdownOptions = ({
+    id,
+    firstName,
+    lastName,
+    isDeleted,
+}: PropsDropdown) => {
     const navigate = useNavigate()
 
     const [dialogIsOpen, setIsOpen] = useState(false)
@@ -64,12 +71,16 @@ const DropdownOptions = ({ id, firstName, lastName }: PropsDropdown) => {
                 <Dropdown.Item variant="divider" />
 
                 {/* Soft delete */}
-                <Dropdown.Item eventKey="soft" onClick={openSoftDelete}>
-                    <HiOutlineTrash />
-                    {t('users.table.actions.softDelete')}
-                </Dropdown.Item>
+                {isDeleted === true && (
+                    <>
+                        <Dropdown.Item eventKey="soft" onClick={openSoftDelete}>
+                            <HiOutlineTrash />
+                            {t('users.table.actions.softDelete')}
+                        </Dropdown.Item>
 
-                <Dropdown.Item variant="divider" />
+                        <Dropdown.Item variant="divider" />
+                    </>
+                )}
 
                 {/* Hard delete */}
                 <Dropdown.Item

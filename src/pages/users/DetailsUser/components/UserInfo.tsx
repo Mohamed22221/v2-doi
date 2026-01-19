@@ -4,7 +4,7 @@ import StatusPill from '@/components/shared/table/StatusPill'
 import { Avatar, Badge, Button, Notification, toast } from '@/components/ui'
 import Icon from '@/components/ui/Icon/Icon'
 import { formatDateTime } from '@/utils/formatDateTime'
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SuspendUserModal from './SuspendUserModal'
 import { useToggleUserStatus } from '@/api/hooks/users'
@@ -12,7 +12,6 @@ import { getApiErrorMessage } from '@/api/error'
 import DropdownOptions from './DropdownOptions'
 import { formatCityRegion } from '../utils/cityRegionFormatter'
 import RestoreUser from './RestoreUser'
-
 
 type Props = {
     data?: UserItem
@@ -153,8 +152,10 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                         firstName={data?.firstName || ''}
                         lastName={data?.lastName || ''}
                         id={data!.id}
+                        isDeleted={data?.isDeleted}
                     />
                 </div>
+
                 <SuspendUserModal
                     dialogIsOpen={dialogIsOpen}
                     firstName={data?.firstName}
@@ -165,13 +166,13 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                     isLoading={isPending}
                 />
             </div>
-
+            {data?.isDeleted === true && (
                 <RestoreUser
                     firstName={data?.firstName}
                     lastName={data?.lastName}
                     id={data?.id}
                 />
-         
+            )}
         </BackgroundRounded>
     )
 }
