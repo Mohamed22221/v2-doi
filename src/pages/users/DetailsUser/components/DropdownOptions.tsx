@@ -1,11 +1,15 @@
 import Dropdown from '@/components/ui/Dropdown'
-import { HiDotsHorizontal, HiOutlineTrash } from 'react-icons/hi'
+import {
+    HiDotsHorizontal,
+    HiOutlinePencil,
+    HiOutlineTrash,
+} from 'react-icons/hi'
 import { Button } from '@/components/ui'
 import { useState } from 'react'
 import DeleteUserModal from './DeleteUserModal'
 import { useTranslation } from 'react-i18next'
 import SoftDeleteUserModal from './SoftDeleteUserModal'
-
+import { useNavigate } from 'react-router-dom'
 type PropsDropdown = {
     id: string | number
     firstName: string
@@ -19,6 +23,8 @@ const Toggle = () => {
     )
 }
 const DropdownOptions = ({ id, firstName, lastName }: PropsDropdown) => {
+    const navigate = useNavigate()
+
     const [dialogIsOpen, setIsOpen] = useState(false)
     const [softDialogIsOpen, setIsSotfOpen] = useState(false)
 
@@ -46,12 +52,26 @@ const DropdownOptions = ({ id, firstName, lastName }: PropsDropdown) => {
                 placement="bottom-end"
                 menuClass="mt-3"
             >
+                {/* Edit */}
+                <Dropdown.Item
+                    eventKey="edit"
+                    onClick={() => navigate(`/users/${id}/edit `)}
+                >
+                    <HiOutlinePencil />
+                    {t('users.update.submitUpdate')}
+                </Dropdown.Item>
+
+                <Dropdown.Item variant="divider" />
+
+                {/* Soft delete */}
                 <Dropdown.Item eventKey="soft" onClick={openSoftDelete}>
                     <HiOutlineTrash />
                     {t('users.table.actions.softDelete')}
                 </Dropdown.Item>
-                <Dropdown.Item eventKey="soft" variant="divider" />
 
+                <Dropdown.Item variant="divider" />
+
+                {/* Hard delete */}
                 <Dropdown.Item
                     eventKey="hard"
                     className="text-red-500"
@@ -61,6 +81,7 @@ const DropdownOptions = ({ id, firstName, lastName }: PropsDropdown) => {
                     {t('users.table.actions.hardDelete')}
                 </Dropdown.Item>
             </Dropdown>
+
             <DeleteUserModal
                 dialogIsOpen={dialogIsOpen}
                 firstName={firstName}

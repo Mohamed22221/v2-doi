@@ -1,5 +1,5 @@
 import { TAPIResponseItem, TAPIResponseItems } from '../types/api'
-import { UserItem } from '../types/users'
+import { TUserPayload, UserItem } from '../types/users'
 import api from '../api'
 
 const UsersServices = {
@@ -11,7 +11,15 @@ const UsersServices = {
     getUserDetails: (
         id: number | string,
     ): Promise<TAPIResponseItem<UserItem>> => api.get(`/admin/users/${id}`),
+    createUser: (
+        data: TUserPayload,
+    ): Promise<TAPIResponseItem<UserItem>> => api.post(`/admin/users`, data),
 
+    updateUser: (
+        id: number | string,
+        data: TUserPayload,
+    ): Promise<TAPIResponseItem<UserItem>> =>
+        api.put(`/admin/users/${id}`, data),
     toggleUserStatus: (
         id: number | string,
         isActive: boolean,

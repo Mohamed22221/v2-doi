@@ -25,6 +25,11 @@ export const protectedRoutes = [
         component: lazy(() => import('@/pages/users/DetailsUser')),
     },
     {
+        key: 'users',
+        path: `/users/:id/edit`,
+        component: lazy(() => import('@/pages/users/UpdateUser')),
+    },
+    {
         key: 'categories',
         path: '/categories',
         component: lazy(() => import('@/pages/categories')),

@@ -1,6 +1,7 @@
 {
     "common": {
-        "unknownUser": "Unknown user"
+        "unknownUser": "Unknown user",
+        "back": "Back"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -138,6 +139,22 @@
         "settings": "Settings"
     },
     "users": {
+        "img": "Image",
+        "imgSubtitle": "Add or change the user image",
+        "upload": {
+            "oneOnly": "Please upload only one image.",
+            "invalidType": "Please upload a valid image (jpeg, png, webp).",
+            "tooLarge": "Image size must be less than 5MB.",
+            "success": "Image uploaded successfully",
+            "failed": "Upload failed",
+            "noImg": "No image",
+            "change": "Change",
+            "choose": "Upload",
+            "support": "Supported: jpeg, png, webp",
+            "removeTitle": "Remove image",
+            "removeConfirm": "Are you sure you want to remove this image?",
+            "noUrl": "Upload failed: no image URL returned."
+        },
         "table": {
             "title": "Registered Users",
             "searchPlaceholder": "Search by user name , email , phone",
@@ -230,8 +247,8 @@
                 "success": "The user has been permanently deleted"
             },
             "restoreDeleteModal": {
-                "msgRestore" : "This user has been deleted. You can restore the user.",
-                "btnRestore" : "Restore user",
+                "msgRestore": "This user has been deleted. You can restore the user.",
+                "btnRestore": "Restore user",
                 "title": "Restore user",
                 "message": "Are you sure you want to restore <strong>{{name}}</strong>? The user will be reactivated and regain access to the system.",
                 "confirm": "Restore user",
@@ -240,6 +257,42 @@
             },
             "accountId": "Account ID",
             "joined": "Joined"
+        },
+
+        "create": {
+            "title": "Add New User",
+            "subtitle": "Fill in the information below to create a new user",
+            "submit": "Create User",
+            "success": "User created successfully"
+        },
+        "update": {
+            "title": "Update User",
+            "subtitle": "Edit user information and save your changes",
+            "submit": "Update User",
+            "success": "User updated successfully",
+            "submitUpdate": "Update User"
+        },
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "password": "Password",
+        "role": "Role",
+        "rolePlaceholder": "Select role",
+        "image": "Profile Image URL",
+        "isActive": "Active",
+        "rolesLoadError": "Failed to load roles",
+        "errors": {
+            "firstNameRequired": "First name is required",
+            "lastNameRequired": "Last name is required",
+            "emailRequired": "Email is required",
+            "invalidEmail": "Please enter a valid email address",
+            "phoneRequired": "Phone number is required",
+            "invalidPhone": "Please enter a valid phone number",
+            "passwordRequired": "Password is required",
+            "roleRequired": "Role is required",
+            "imageRequired": "Image URL is required",
+            "invalidImageUrl": "Please enter a valid image URL"
         }
     },
     "viewTable": {
@@ -258,10 +311,8 @@
         "noRegion": "No region",
         "noBuilding": "Building not found",
         "noFloor": "Floor not found",
-
         "building": "Building {{number}}",
         "floor": "Floor {{number}}",
-
         "cityRegion": "{{city}}, {{region}}",
         "country": {
             "sa": "Saudi Arabia"

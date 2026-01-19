@@ -1,10 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import UsersServices from '../services/users'
 import { getApiErrorMessage } from '../error'
-import type { TAPIResponseItems } from '../types/api'
-import { UserItem } from '../types/users'
+import type { TAPIResponseItem, TAPIResponseItems } from '../types/api'
+import { TUserPayload, UserItem } from '../types/users'
 
 export const useGetAllUsers = () => {
     const [searchParams] = useSearchParams()
@@ -26,13 +26,20 @@ export const useGetAllUsers = () => {
     }
 }
 
-export const useGetUserDetails = (id: number | string) => {
-    return useQuery({
+
+export const useGetUserDetails = (
+    id: number | string,
+    options?: Omit<
+        UseQueryOptions<TAPIResponseItem<UserItem>>,
+        'queryKey' | 'queryFn'
+    >,
+) => {
+    return useQuery<TAPIResponseItem<UserItem>>({
         queryKey: [ReactQueryKeys.GET_USER_DETAILS, id],
         queryFn: () => UsersServices.getUserDetails(id),
+        ...options,
     })
 }
-
 export const useToggleUserStatus = () => {
     const queryClient = useQueryClient()
     return useMutation({
@@ -96,6 +103,49 @@ export const useRestoreDeletedUser = () => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ALL_USERS],
             })
+        },
+    })
+}
+
+
+export const useCreateUser = () => {
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
+
+    return useMutation({
+        mutationFn: (data: TUserPayload) =>
+            UsersServices.createUser(data),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_USERS],
+            })
+            navigate('/users')
+        },
+    })
+}
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
+
+    return useMutation({
+        mutationFn: ({
+            id,
+            data,
+        }: {
+            id: number | string
+            data: TUserPayload
+        }) => UsersServices.updateUser(id, data),
+
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_USER_DETAILS, variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_USERS],
+            })
+            navigate(`/users/${variables.id}`)
         },
     })
 }

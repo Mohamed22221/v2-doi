@@ -43,5 +43,14 @@ export type UserItem = {
   addresses?: ApiAddress[]
 }
 
-
+export type TUserPayload = {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    password: string
+    roleId: number
+    isActive: boolean
+    image: string
+}
 
