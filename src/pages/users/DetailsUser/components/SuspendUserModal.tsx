@@ -53,7 +53,7 @@ const SuspendUserModal = ({
                     />
                 )}
             </p>
-            <div className="text-right mt-6">
+            <div className="mt-6 flex justify-end">
                 <Button
                     className="ltr:mr-2 rtl:ml-2"
                     variant="plain"

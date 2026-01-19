@@ -77,7 +77,7 @@ const HardDeleteUserModal = ({
                 {t('users.userDetails.hardDeleteModal.warning')}
             </p>
 
-            <div className="mt-6">
+            <div className="mt-6 flex justify-end">
                 <Button
                     className="ltr:mr-2 rtl:ml-2"
                     variant="plain"
@@ -89,7 +89,7 @@ const HardDeleteUserModal = ({
                 <Button
                     variant="solid"
                     // لو عندك variant="danger" استخدمه بدل solid
-                    className="bg-red-600 hover:bg-red-700"
+                    color='red'
                     onClick={onDialogOk}
                     loading={isPending}
                 >

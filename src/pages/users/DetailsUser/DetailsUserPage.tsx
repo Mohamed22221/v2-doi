@@ -39,7 +39,7 @@ const DetailsUserPage = () => {
                 {isLoading ? (
                     <UserInfoSkeleton />
                 ) : (
-                    <UserInfo data={data?.data} />
+                    <UserInfo data={data?.data} primaryAddress={primaryAddress} />
                 )}
             </Suspense>
 

@@ -82,3 +82,20 @@ export const useHardDeleteUser = () => {
         },
     })
 }
+
+export const useRestoreDeletedUser = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id }: { id: number | string }) =>
+            UsersServices.restoreDeleteUser(id),
+
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_USER_DETAILS, variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_USERS],
+            })
+        },
+    })
+}

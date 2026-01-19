@@ -1,20 +1,24 @@
-import { UserItem } from '@/api/types/users'
+import { ApiAddress, UserItem } from '@/api/types/users'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { Avatar, Badge, Button, Notification, toast } from '@/components/ui'
 import Icon from '@/components/ui/Icon/Icon'
 import { formatDateTime } from '@/utils/formatDateTime'
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SuspendUserModal from './SuspendUserModal'
 import { useToggleUserStatus } from '@/api/hooks/users'
 import { getApiErrorMessage } from '@/api/error'
 import DropdownOptions from './DropdownOptions'
+import { formatCityRegion } from '../utils/cityRegionFormatter'
+import RestoreUser from './RestoreUser'
+
 
 type Props = {
     data?: UserItem
+    primaryAddress?: ApiAddress
 }
-const UserInfo = ({ data }: Props) => {
+const UserInfo = ({ data, primaryAddress }: Props) => {
     const { t } = useTranslation()
     const { date } = formatDateTime(data?.createdAt || '')
     const [dialogIsOpen, setIsOpen] = useState(false)
@@ -116,9 +120,16 @@ const UserInfo = ({ data }: Props) => {
                         </div>
 
                         <div className="mt-2 flex flex-col items-center gap-2 text-sm text-neutral-400 sm:flex-row sm:items-center sm:gap-4">
-                            <span className="flex items-center gap-1">
-                                <Icon name="location" /> Riyadh, Al-Malaz
-                            </span>
+                            {primaryAddress && (
+                                <span className="flex items-center gap-1">
+                                    <Icon name="location" />{' '}
+                                    {formatCityRegion({
+                                        address: primaryAddress,
+                                        t,
+                                    })}
+                                </span>
+                            )}
+
                             <span className="flex items-center gap-1">
                                 <Icon name="date" />{' '}
                                 {t('users.userDetails.joined')} {date}
@@ -128,7 +139,7 @@ const UserInfo = ({ data }: Props) => {
                 </div>
 
                 {/* Right Side Actions */}
-                <div className="flex w-full items-center flex-col gap-3 sm:w-auto sm:flex-row sm:justify-end">
+                <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
                     <Button
                         color={data?.isActive ? 'red' : 'green'} // className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition"
                         onClick={() => openDialog()}
@@ -139,8 +150,8 @@ const UserInfo = ({ data }: Props) => {
                             : t('users.userDetails.actions.activateUser')}
                     </Button>
                     <DropdownOptions
-                        firstName={data?.firstName || ""}
-                        lastName={data?.lastName || ""}
+                        firstName={data?.firstName || ''}
+                        lastName={data?.lastName || ''}
                         id={data!.id}
                     />
                 </div>
@@ -154,6 +165,13 @@ const UserInfo = ({ data }: Props) => {
                     isLoading={isPending}
                 />
             </div>
+
+                <RestoreUser
+                    firstName={data?.firstName}
+                    lastName={data?.lastName}
+                    id={data?.id}
+                />
+         
         </BackgroundRounded>
     )
 }

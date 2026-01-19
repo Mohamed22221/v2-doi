@@ -1,9 +1,9 @@
 import { getApiErrorMessage } from '@/api/error'
-import { useSoftDeleteUser } from '@/api/hooks/users'
+import { useRestoreDeletedUser } from '@/api/hooks/users'
 import { Button, Dialog, Notification, toast } from '@/components/ui'
 import { useTranslation, Trans } from 'react-i18next'
 
-type DeleteModalProps = {
+type RestoreDeleteModalProps = {
     dialogIsOpen: boolean
     id: string | number
     onDialogClose: () => void
@@ -11,17 +11,19 @@ type DeleteModalProps = {
     lastName?: string
 }
 
-const SoftDeleteUserModal = ({
+const RestoreDeleteModal = ({
     dialogIsOpen,
     onDialogClose,
     firstName,
     lastName,
     id,
-}: DeleteModalProps) => {
+}: RestoreDeleteModalProps) => {
     const { t } = useTranslation()
-    const { mutate, isPending } = useSoftDeleteUser()
+    const { mutate, isPending } = useRestoreDeletedUser()
+
     const name =
         `${firstName ?? ''} ${lastName ?? ''}`.trim() || t('common.unknownUser')
+
     const onDialogOk = () => {
         mutate(
             { id },
@@ -30,7 +32,7 @@ const SoftDeleteUserModal = ({
                     onDialogClose()
                     toast.push(
                         <Notification
-                            title={t('users.userDetails.softDeleteModal.success')}
+                            title={t('users.userDetails.restoreDeleteModal.success')}
                             type="success"
                         />,
                     )
@@ -46,6 +48,7 @@ const SoftDeleteUserModal = ({
             },
         )
     }
+
     return (
         <Dialog
             isOpen={dialogIsOpen}
@@ -58,12 +61,12 @@ const SoftDeleteUserModal = ({
             }}
         >
             <h5 className="mb-4 text-center">
-                {t('users.userDetails.softDeleteModal.title')}
+                {t('users.userDetails.restoreDeleteModal.title')}
             </h5>
 
             <p className="text-center">
                 <Trans
-                    i18nKey="users.userDetails.softDeleteModal.message"
+                    i18nKey="users.userDetails.restoreDeleteModal.message"
                     values={{ name }}
                     components={{ strong: <strong /> }}
                 />
@@ -75,20 +78,20 @@ const SoftDeleteUserModal = ({
                     variant="plain"
                     onClick={onDialogClose}
                 >
-                    {t('users.userDetails.softDeleteModal.cancel')}
+                    {t('users.userDetails.restoreDeleteModal.cancel')}
                 </Button>
 
                 <Button
                     variant="solid"
-                    color='red'
+                    color="green"
                     onClick={onDialogOk}
                     loading={isPending}
                 >
-                    {t('users.userDetails.softDeleteModal.confirm')}
+                    {t('users.userDetails.restoreDeleteModal.confirm')}
                 </Button>
             </div>
         </Dialog>
     )
 }
 
-export default SoftDeleteUserModal
+export default RestoreDeleteModal

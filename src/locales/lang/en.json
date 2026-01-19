@@ -156,8 +156,8 @@
             },
             "actions": {
                 "view": "View",
-                "softDelete": "Soft Delete",
-                "hardDelete": "Hard Delete"
+                "softDelete": "Temporary Delete",
+                "hardDelete": "Permanently Delete"
             },
             "filters": {
                 "status": "Status:",
@@ -228,6 +228,15 @@
                 "cancel": "Cancel",
                 "confirm": "Delete permanently",
                 "success": "The user has been permanently deleted"
+            },
+            "restoreDeleteModal": {
+                "msgRestore" : "This user has been deleted. You can restore the user.",
+                "btnRestore" : "Restore user",
+                "title": "Restore user",
+                "message": "Are you sure you want to restore <strong>{{name}}</strong>? The user will be reactivated and regain access to the system.",
+                "confirm": "Restore user",
+                "cancel": "Cancel",
+                "success": "User restored successfully"
             },
             "accountId": "Account ID",
             "joined": "Joined"
