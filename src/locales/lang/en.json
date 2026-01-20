@@ -355,6 +355,7 @@
         "parentCategory": "Parent Category",
         "subCategory": "Sub Category",
         "selectParent": "Select Parent Category",
+        "addCategory": "Add Category",
         "errors": {
             "nameEnRequired": "Category name in English is required",
             "nameArRequired": "Category name in Arabic is required",
@@ -370,6 +371,32 @@
             "failed": "Upload failed",
             "choose": "Upload Image",
             "noUrl": "Upload failed: no image URL returned."
+        },
+        "deleteModal": {
+            "cannotDeleteTitle": "Cannot Delete Category",
+            "canDeleteTitle": "Delete Category",
+            "descriptionBlocked": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. Hard deletion is disabled to prevent massive data loss.",
+            "descriptionAllowed": "Category <strong >{{name}} </strong > is empty (no items or sub-categories) so soft delete is allowed, and hard delete is optional.",
+            "disableOption": "Deactivate Category (Recommended)",
+            "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
+            "bulkMoveOption": "Bulk Move",
+            "bulkMoveDescription": "Transfer all items and sub-categories to a new parent category before deletion.",
+            "softDeleteOption": "Soft Delete (Recommended)",
+            "softDeleteDescription": "Move category to trash. You can restore it later if needed.",
+            "hardDeleteOption": "Hard Delete",
+            "hardDeleteDescription": "Permanently remove the category and all its data. This action cannot be undone.",
+            "destinationLabel": "Destination Category",
+            "destinationPlaceholder": "Select Destination Category...",
+            "confirmDisable": "Deactivate Category",
+            "confirmMove": "Move Items",
+            "confirmSoftDelete": "Soft Delete",
+            "confirmHardDelete": "Hard Delete",
+            "cancel": "Cancel",
+            "successDisable": "Category deactivated successfully",
+            "successMove": "Items moved successfully",
+            "successSoftDelete": "Category moved to trash successfully",
+            "successHardDelete": "Category deleted permanently",
+            "errorMove": "Failed to move items"
         }
     },
     "viewTable": {

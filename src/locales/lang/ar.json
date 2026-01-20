@@ -7,9 +7,9 @@
         "edit": "تعديل",
         "view": "عرض",
         "cancelChanges": "إلغاء التغييرات",
-    "dropImage": "اسحب الصورة هنا، أو",
-    "browse": "تصفح",
-    "supportFormats": "الصيغ المدعومة: jpeg, png, webp"
+        "dropImage": "اسحب الصورة هنا، أو",
+        "browse": "تصفح",
+        "supportFormats": "الصيغ المدعومة: jpeg, png, webp"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -355,6 +355,7 @@
         "parentCategory": "فئة رئيسية",
         "subCategory": "فئة فرعية",
         "selectParent": "اختر الفئة الرئيسية",
+        "addCategory": "اضافة فئه ",
         "errors": {
             "nameEnRequired": "اسم الفئة بالإنجليزية مطلوب",
             "nameArRequired": "اسم الفئة بالعربية مطلوب",
@@ -370,6 +371,32 @@
             "failed": "فشل رفع الصورة",
             "choose": "رفع صورة",
             "noUrl": "فشل الرفع: لم يتم إرجاع رابط للصورة."
+        },
+        "deleteModal": {
+            "cannotDeleteTitle": "لا يمكن حذف الفئة",
+            "canDeleteTitle": "حذف الفئة",
+            "descriptionBlocked": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة و/أو <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. تم تعطيل الحذف النهائي لمنع فقدان البيانات بشكل كبير.",
+            "descriptionAllowed": "الفئة <strong>{{name}}</strong> فارغة (لا توجد عناصر أو فئات فرعية) لذا يسمح بالحذف المؤقت، والحذف النهائي اختياري.",
+            "disableOption": "تعطيل الفئة (موصى به)",
+            "disableDescription": "التعطيل يحافظ على البيانات ولكن يخفيها عن المستخدمين ويمنع أي استخدام آخر.",
+            "bulkMoveOption": "نقل بالجملة",
+            "bulkMoveDescription": "نقل جميع العناصر والفئات الفرعية إلى فئة رئيسية جديدة قبل الحذف.",
+            "softDeleteOption": "حذف مؤقت (موصى به)",
+            "softDeleteDescription": "نقل الفئة إلى المهملات. يمكنك استعادتها لاحقًا إذا لزم الأمر.",
+            "hardDeleteOption": "حذف نهائي",
+            "hardDeleteDescription": "إزالة الفئة وجميع بياناتها بشكل دائم. لا يمكن التراجع عن هذا الإجراء.",
+            "destinationLabel": "الفئة المستهدفة",
+            "destinationPlaceholder": "اختر الفئة المستهدفة...",
+            "confirmDisable": "تعطيل الفئة",
+            "confirmMove": "نقل العناصر",
+            "confirmSoftDelete": "حذف مؤقت",
+            "confirmHardDelete": "حذف نهائي",
+            "cancel": "إلغاء",
+            "successDisable": "تم تعطيل الفئة بنجاح",
+            "successMove": "تم نقل العناصر بنجاح",
+            "successSoftDelete": "تم نقل الفئة إلى المهملات بنجاح",
+            "successHardDelete": "تم حذف الفئة نهائيًا",
+            "errorMove": "فشل في نقل العناصر"
         }
     },
     "viewTable": {

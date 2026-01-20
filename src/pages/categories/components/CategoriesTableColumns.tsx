@@ -8,7 +8,11 @@ import Button from '@/components/ui/Button'
 import { CategoryTableRow } from '@/api/types/categories'
 import Icon from '@/components/ui/Icon/Icon'
 
-export function useCategoriesTableColumns() {
+export function useCategoriesTableColumns({
+    onDelete,
+}: {
+    onDelete: (row: CategoryTableRow) => void
+}) {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
@@ -72,16 +76,17 @@ export function useCategoriesTableColumns() {
                 ),
             },
             {
-                header: '',
+                header: t(''),
                 id: 'actions',
                 cell: ({ row }) => (
                     <div className="flex items-center gap-2">
                         <Button
                             size="sm"
                             variant="plain"
-                            onClick={() =>
+                            onClick={(e) => {
+                                e.stopPropagation()
                                 navigate(`/categories/${row.original.id}/edit`)
-                            }
+                            }}
                         >
                             <Icon
                                 name={'edit'}
@@ -92,6 +97,10 @@ export function useCategoriesTableColumns() {
                         <Button
                             size="sm"
                             variant="plain"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                onDelete(row.original)
+                            }}
                         >
                             <Icon
                                 name={'delete'}
@@ -102,5 +111,5 @@ export function useCategoriesTableColumns() {
                 ),
             },
         ]
-    }, [navigate, t])
+    }, [navigate, t, onDelete])
 }

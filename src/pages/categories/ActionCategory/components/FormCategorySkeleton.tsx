@@ -40,8 +40,8 @@ const FormCategorySkeleton = () => {
                     <div>
                         <Skeleton className="h-4 w-32 mb-2" />
                         <Skeleton
-                            className="w-full rounded-lg"
-                            style={{ paddingBottom: '56.25%' }}
+                            className="w-full rounded-lg h-66"
+                            
                         />
                     </div>
                 </BackgroundRounded>
