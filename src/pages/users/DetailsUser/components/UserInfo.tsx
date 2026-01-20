@@ -138,23 +138,24 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                 </div>
 
                 {/* Right Side Actions */}
-                <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
-                    <Button
-                        color={data?.isActive ? 'red' : 'green'} // className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition"
-                        onClick={() => openDialog()}
-                        variant="default"
-                    >
-                        {data?.isActive
-                            ? t('users.userDetails.actions.suspendUser')
-                            : t('users.userDetails.actions.activateUser')}
-                    </Button>
-                    <DropdownOptions
-                        firstName={data?.firstName || ''}
-                        lastName={data?.lastName || ''}
-                        id={data!.id}
-                        isDeleted={data?.isDeleted}
-                    />
-                </div>
+                {data?.deletedAt === null && (
+                    <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
+                        <Button
+                            color={data?.isActive ? 'red' : 'green'} // className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition"
+                            onClick={() => openDialog()}
+                            variant="default"
+                        >
+                            {data?.isActive
+                                ? t('users.userDetails.actions.suspendUser')
+                                : t('users.userDetails.actions.activateUser')}
+                        </Button>
+                        <DropdownOptions
+                            firstName={data?.firstName || ''}
+                            lastName={data?.lastName || ''}
+                            id={data!.id}
+                        />
+                    </div>
+                )}
 
                 <SuspendUserModal
                     dialogIsOpen={dialogIsOpen}
@@ -166,7 +167,7 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                     isLoading={isPending}
                 />
             </div>
-            {data?.isDeleted === true && (
+            {data?.deletedAt != null && (
                 <RestoreUser
                     firstName={data?.firstName}
                     lastName={data?.lastName}

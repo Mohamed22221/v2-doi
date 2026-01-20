@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query'
+import {
+    useMutation,
+    useQuery,
+    useQueryClient,
+    UseQueryOptions,
+} from '@tanstack/react-query'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import UsersServices from '../services/users'
@@ -26,7 +31,6 @@ export const useGetAllUsers = () => {
     }
 }
 
-
 export const useGetUserDetails = (
     id: number | string,
     options?: Omit<
@@ -50,9 +54,12 @@ export const useToggleUserStatus = () => {
             id: number | string
             isActive: boolean
         }) => UsersServices.toggleUserStatus(id, isActive),
-        onSuccess: () => {
+        onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.GET_USER_DETAILS],
+                queryKey: [ReactQueryKeys.GET_USER_DETAILS, variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_USERS],
             })
         },
     })
@@ -82,7 +89,10 @@ export const useHardDeleteUser = () => {
         mutationFn: ({ id }: { id: number | string }) =>
             UsersServices.hardDeleteUser(id),
 
-        onSuccess: () => {
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_USER_DETAILS, variables.id],
+            })
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ALL_USERS],
             })
@@ -107,14 +117,12 @@ export const useRestoreDeletedUser = () => {
     })
 }
 
-
 export const useCreateUser = () => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
     return useMutation({
-        mutationFn: (data: TUserPayload) =>
-            UsersServices.createUser(data),
+        mutationFn: (data: TUserPayload) => UsersServices.createUser(data),
 
         onSuccess: () => {
             queryClient.invalidateQueries({

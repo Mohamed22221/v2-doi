@@ -28,7 +28,7 @@ export default function UserTable() {
         isFetchingNextPage,
         isLoading: isLoadingRoles,
         isError: isRolesError,
-        isFetching
+        isFetching,
     } = useInfiniteRoles()
 
     const columns = useUserTableColumns()
@@ -41,7 +41,7 @@ export default function UserTable() {
             })),
         [data?.items],
     )
-    
+
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
             {
@@ -52,6 +52,17 @@ export default function UserTable() {
                 options: [
                     { label: t('users.table.status.active'), value: true },
                     { label: t('users.table.status.blocked'), value: false },
+                ],
+                placeholder: t('users.table.filters.allStatus'),
+            },
+            {
+                key: 'isDeleted',
+                label: t('users.table.filters.isDeleted'),
+                value: null,
+                valueType: 'boolean',
+                options: [
+                    { label: t('users.table.status.isDeleted'), value: true },
+                    { label: t('users.table.status.nonDeleted'), value: false },
                 ],
                 placeholder: t('users.table.filters.allStatus'),
             },
@@ -70,7 +81,7 @@ export default function UserTable() {
                     fetchNextPage,
                     hasNextPage,
                     isFetchingNextPage,
-                    isFetching
+                    isFetching,
                 },
             },
         ],
@@ -82,7 +93,7 @@ export default function UserTable() {
             isFetchingNextPage,
             fetchNextPage,
             isFetching,
-            t
+            t,
         ],
     )
 

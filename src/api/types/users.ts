@@ -41,6 +41,7 @@ export type UserItem = {
     name: string
   }
   isDeleted: boolean
+  deletedAt : null | string
   addresses?: ApiAddress[]
 }
 

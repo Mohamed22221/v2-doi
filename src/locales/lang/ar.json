@@ -158,7 +158,7 @@
         "table": {
             "title": "المستخدمون المسجلون",
             "searchPlaceholder": "البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف",
-            "emptyText": "لا يوجد مستخدمون يتطابقون مع المرشحات الخاصة بك.",
+            "emptyText": "No users found",
             "columns": {
                 "name": "الاسم",
                 "email": "البريد الإلكتروني",
@@ -169,7 +169,10 @@
             },
             "status": {
                 "active": "نشط",
-                "blocked": "محظور"
+                "blocked": "محظور",
+                "isDeleted": "محذوف",
+                "nonDeleted": "غير محذوف",
+                "status" : "الحالة"
             },
             "actions": {
                 "view": "عرض",
@@ -182,7 +185,8 @@
                 "allStatus": "جميع الحالات",
                 "allRoles": "جميع الأدوار",
                 "loading": "جاري التحميل...",
-                "failedRoles": "فشل تحميل الأدوار"
+                "failedRoles": "فشل تحميل الأدوار",
+                "isDeleted": "حالة الحذف:"
             }
         },
         "userDetails": {

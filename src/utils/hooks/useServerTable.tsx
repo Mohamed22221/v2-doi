@@ -341,9 +341,24 @@ export function useServerTable(opts: {
         setCurrentPage(1)
         setFilters((prev) => prev.map((f) => ({ ...f, value: null })))
     }, [])
+    
     useEffect(() => {
-        setFilters(initialFilters)
-    }, [initialFilters])
+        setFilters((prev) => {
+            const prevMap = new Map(prev.map((f) => [f.key, f]))
+
+            return initialFilters.map((f) => {
+                const fromUrl = searchParams.get(f.key)
+                if (fromUrl !== null && fromUrl.trim() !== '') {
+                    const type: FilterValueType = f.valueType ?? 'string'
+                    return { ...f, value: parseFilterValue(fromUrl, type) }
+                }
+
+                const existing = prevMap.get(f.key)
+                return { ...f, value: existing?.value ?? f.value ?? null }
+            })
+        })
+    }, [initialFilters, searchParams])
+
     return {
         searchValue,
         currentPage,

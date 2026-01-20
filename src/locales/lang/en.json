@@ -169,7 +169,10 @@
             },
             "status": {
                 "active": "Active",
-                "blocked": "Blocked"
+                "blocked": "Blocked",
+                "isDeleted": "Deleted",
+                "nonDeleted": "Not deleted",
+                "status" : "Status"
             },
             "actions": {
                 "view": "View",
@@ -177,6 +180,7 @@
                 "hardDelete": "Permanently Delete"
             },
             "filters": {
+                "isDeleted": "Deletion status:",
                 "status": "Status:",
                 "role": "Role:",
                 "allStatus": "All Status",

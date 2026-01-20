@@ -27,6 +27,7 @@ import { PasswordInput } from '@/components/shared'
 import UserImageUpload from './userImageUpload'
 import FormUpdateSkeleton from './FormUpdateSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
+import ProtectedEditRoute from '../../DetailsUser/components/ProtectedEditRoute'
 
 // Types
 type RoleOption = {
@@ -122,8 +123,9 @@ const FormUpdate = () => {
             </div>
         )
     }
+    
     return (
-        <div>
+        <ProtectedEditRoute deletedAt={userDetails?.data?.deletedAt || null }>
             <Formik
                 enableReinitialize
                 initialValues={
@@ -288,7 +290,7 @@ const FormUpdate = () => {
 
                                 {/* Status (RESPONSIVE wrapper, same layout) */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    <FormItem label={t('users.isActive')}>
+                                    <FormItem label={t('users.table.status.status')}>
                                         <Field name="isActive">
                                             {({
                                                 field,
@@ -338,7 +340,7 @@ const FormUpdate = () => {
                     )
                 }}
             </Formik>
-        </div>
+        </ProtectedEditRoute>
     )
 }
 

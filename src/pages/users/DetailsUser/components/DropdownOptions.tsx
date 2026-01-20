@@ -15,7 +15,7 @@ type PropsDropdown = {
     id: string | number
     firstName: string
     lastName: string
-    isDeleted?: boolean
+
 }
 const Toggle = () => {
     return (
@@ -28,7 +28,7 @@ const DropdownOptions = ({
     id,
     firstName,
     lastName,
-    isDeleted,
+    
 }: PropsDropdown) => {
     const navigate = useNavigate()
 
@@ -71,7 +71,7 @@ const DropdownOptions = ({
                 <Dropdown.Item variant="divider" />
 
                 {/* Soft delete */}
-                {isDeleted === true && (
+                
                     <>
                         <Dropdown.Item eventKey="soft" onClick={openSoftDelete}>
                             <HiOutlineTrash />
@@ -80,7 +80,7 @@ const DropdownOptions = ({
 
                         <Dropdown.Item variant="divider" />
                     </>
-                )}
+               
 
                 {/* Hard delete */}
                 <Dropdown.Item

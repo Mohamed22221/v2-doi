@@ -84,7 +84,7 @@ const ViewTableFilters = ({
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-start md:items-center">
                 {/* Search */}
                 {showSearch && (
-                    <div className="max-w-[400px] flex-1 w-full md:w-auto min-w-0">
+                    <div className="max-w-[320px] flex-1 w-full md:w-auto min-w-0">
                         <Input
                             prefix={
                                 <HiOutlineSearch className="text-gray-400" />
