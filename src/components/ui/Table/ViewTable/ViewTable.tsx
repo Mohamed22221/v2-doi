@@ -1,4 +1,5 @@
-import { lazy, useMemo } from 'react'
+import {  useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
 import {
@@ -9,12 +10,13 @@ import {
 import type { ColumnDef } from '@tanstack/react-table'
 import Button from '../../Button'
 import { HiDownload } from 'react-icons/hi'
-import ViewTableFilters, { type FilterConfig } from './ViewTableFilters'
+import ViewTableFilters, {
+    FilterValue,
+    type FilterConfig,
+} from './ViewTableFilters'
 import { TableRowSkeleton } from '@/components/shared'
-
-const EmptyState = lazy(() => import('@/components/shared/EmptyState'))
-const ErrorState = lazy(() => import('@/components/shared/ErrorState'))
-
+import ErrorState from '@/components/shared/ErrorState'
+import EmptyState from '@/components/shared/EmptyState'
 
 type Option = {
     value: number
@@ -32,7 +34,6 @@ export interface ViewTableProps<
     data: TData[]
     /** Server-side pagination */
     total: number
-    currentPage: number
     pageSize: number
     onPageChange: (page: number) => void
     /** Optional: if you support changing page size */
@@ -44,7 +45,7 @@ export interface ViewTableProps<
     searchValue: string
     onSearchChange: (value: string) => void
     filters?: FilterConfig[]
-    onFilterChange?: (key: string, value: string) => void
+    onFilterChange?: (key: string, value: FilterValue | null) => void
     showClearAll?: boolean
     onClearAll?: () => void
     isLoading?: boolean
@@ -52,23 +53,23 @@ export interface ViewTableProps<
     emptyText?: string
     isError?: boolean
     errorText?: string
+    requestedPage:number
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
 
 const ViewTable = <TData extends Record<string, unknown>>({
-    title = 'Table',
+    title,
     showExportButton = true,
-    exportButtonText = 'Export CSV',
+    exportButtonText,
     onExport,
     columns,
     data,
     total,
-    currentPage,
     pageSize,
     onPageChange,
     showSearch = true,
-    searchPlaceholder = 'Search...',
+    searchPlaceholder,
     searchValue,
     onSearchChange,
     filters = [],
@@ -80,7 +81,9 @@ const ViewTable = <TData extends Record<string, unknown>>({
     emptyText,
     isError,
     errorText,
+    requestedPage
 }: ViewTableProps<TData>) => {
+    const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
     const safeFilters = useMemo<FilterConfig[]>(
         () =>
@@ -97,10 +100,11 @@ const ViewTable = <TData extends Record<string, unknown>>({
         getCoreRowModel: getCoreRowModel(),
     })
 
+
     return (
         <div>
             <div className="px-3 md:px-5 flex justify-between items-center md:h-[90px] h-[70px]">
-                <h3 className="text-[17px] md:text-[24px]">{title}</h3>
+                <h3 className="text-[17px] md:text-[24px]">{title || t('viewTable.defaultTitle')}</h3>
 
                 {showExportButton && (
                     <Button
@@ -110,7 +114,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
                         }
                         onClick={onExport}
                     >
-                        {exportButtonText}
+                        {exportButtonText || t('viewTable.defaultExportButtonText')}
                     </Button>
                 )}
             </div>
@@ -119,7 +123,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
 
             <ViewTableFilters
                 showSearch={showSearch}
-                searchPlaceholder={searchPlaceholder}
+                searchPlaceholder={searchPlaceholder || t('viewTable.defaultSearchPlaceholder')}
                 searchValue={searchValue}
                 filters={safeFilters}
                 showClearAll={showClearAll}
@@ -143,7 +147,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
                         </Tr>
                     ))}
                 </THead>
-                {isLoading && data.length !== 0 ? (
+                {isLoading ? (
                     <TableRowSkeleton
                         columns={columns.length}
                         rows={pageSize}
@@ -172,10 +176,11 @@ const ViewTable = <TData extends Record<string, unknown>>({
             {!isLoading && !isError && data.length === 0 && (
                 <EmptyState text={emptyText} />
             )}
+
             <div className="flex items-center justify-between mt-4">
                 <Pagination
                     pageSize={pageSize}
-                    currentPage={currentPage}
+                    currentPage={requestedPage}
                     total={total}
                     onChange={onPageChange}
                 />

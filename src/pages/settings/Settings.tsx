@@ -2,11 +2,10 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 // Components
-import Container from '@/components/shared/Container'
 import Tabs from '@/components/ui/Tabs'
-import AdaptableCard from '@/components/shared/AdaptableCard'
 import { useGetProfile } from '@/api/hooks/auth'
 import { Loading } from '@/components/shared'
+import BackgroundRounded from '@/components/shared/BackgroundRounded'
 // Lazy load settings tabs
 const Profile = lazy(() => import('./Profile'))
 const Password = lazy(() => import('./Password'))
@@ -55,8 +54,8 @@ const Settings = () => {
     const { data } = useGetProfile()
     const dataProfile = data?.data
     return (
-        <Container>
-            <AdaptableCard>
+        <BackgroundRounded>
+            
                 <Tabs value={currentTab} onChange={(val) => onTabChange(val)}>
                     <TabList>
                         {Object.keys(settingsMenu).map((key) => (
@@ -77,8 +76,8 @@ const Settings = () => {
                         {currentTab === 'password' && <Password />}
                     </Suspense>
                 </div>
-            </AdaptableCard>
-        </Container>
+      
+        </BackgroundRounded>
     )
 }
 

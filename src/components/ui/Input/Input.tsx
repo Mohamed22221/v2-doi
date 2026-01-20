@@ -123,12 +123,16 @@ const Input = forwardRef<ElementType | HTMLInputElement, InputProps>(
                 return
             }
 
-            if (prefixNodeWidth) {
-                setPrefixGutter(prefixNodeWidth)
+            if (typeof prefixNodeWidth === 'number') {
+                setPrefixGutter((prev) =>
+                    prev === prefixNodeWidth ? prev : prefixNodeWidth,
+                )
             }
 
-            if (suffixNodeWidth) {
-                setSuffixGutter(suffixNodeWidth)
+            if (typeof suffixNodeWidth === 'number') {
+                setSuffixGutter((prev) =>
+                    prev === suffixNodeWidth ? prev : suffixNodeWidth,
+                )
             }
         }
 

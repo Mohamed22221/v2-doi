@@ -1,7 +1,11 @@
 {
+    "common": {
+        "unknownUser": "Unknown user",
+        "back": "Back"
+    },
     "nav": {
         "dashboard": "Dashboard",
-        "users": "Users",
+        "users": "Registered Users",
         "categories": "Categories",
         "orders": "Orders",
         "fixedPrice": "Fixed Price Items",
@@ -133,5 +137,185 @@
     },
     "routes": {
         "settings": "Settings"
+    },
+    "users": {
+        "img": "Image",
+        "imgSubtitle": "Add or change the user image",
+        "upload": {
+            "oneOnly": "Please upload only one image.",
+            "invalidType": "Please upload a valid image (jpeg, png, webp).",
+            "tooLarge": "Image size must be less than 5MB.",
+            "success": "Image uploaded successfully",
+            "failed": "Upload failed",
+            "noImg": "No image",
+            "change": "Change",
+            "choose": "Upload",
+            "support": "Supported: jpeg, png, webp",
+            "removeTitle": "Remove image",
+            "removeConfirm": "Are you sure you want to remove this image?",
+            "noUrl": "Upload failed: no image URL returned."
+        },
+        "table": {
+            "title": "Registered Users",
+            "searchPlaceholder": "Search by user name , email , phone",
+            "emptyText": "No users match your filters.",
+            "columns": {
+                "name": "Name",
+                "email": "Email Address",
+                "phone": "Phone",
+                "status": "Status",
+                "registeredDate": "Registered Date",
+                "idPrefix": "ID:"
+            },
+            "status": {
+                "active": "Active",
+                "blocked": "Blocked"
+            },
+            "actions": {
+                "view": "View",
+                "softDelete": "Temporary Delete",
+                "hardDelete": "Permanently Delete"
+            },
+            "filters": {
+                "status": "Status:",
+                "role": "Role:",
+                "allStatus": "All Status",
+                "allRoles": "All Roles",
+                "loading": "Loading...",
+                "failedRoles": "Failed roles"
+            }
+        },
+        "userDetails": {
+            "accountStatistics": {
+                "title": "Account Statistics",
+                "totalSpent": "Total Spent",
+                "totalOrders": "Total Orders"
+            },
+            "personalInfo": {
+                "title": "Personal Information",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "registrationDate": "Registration Date",
+                "accountStatus": "Account Status"
+            },
+            "shippingAddress": {
+                "title": "Main Address",
+                "fullAddress": "Full Address",
+                "cityDistrict": "City & District",
+                "country": "Country"
+            },
+            "recentTransactions": {
+                "title": "Recent Transactions",
+                "emptyText": "No transactions.",
+                "viewAllActivity": "View All Activity"
+            },
+            "suspendModal": {
+                "titleSuspend": "Suspend User Account",
+                "titleActivate": "Activation User Account",
+                "confirmSuspendMessage": "Are you sure you want to suspend <strong>{{name}}</strong>? This will immediately revoke their access to all platform features and active sessions.",
+                "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will restore their access to all platform features and active sessions.",
+                "cancel": "Cancel",
+                "confirmSuspension": "Confirm Suspension",
+                "confirmActivation": "Confirm Activation"
+            },
+            "status": {
+                "verified": "Verified",
+                "notVerified": "Not Verified"
+            },
+            "actions": {
+                "suspendUser": "Suspend User",
+                "activateUser": "Activation User"
+            },
+            "notifications": {
+                "suspendedSuccess": "User account suspended successfully",
+                "activatedSuccess": "User account activated successfully"
+            },
+            "softDeleteModal": {
+                "title": "Delete user (temporary)",
+                "message": "Are you sure you want to temporarily delete <strong>{{name}}</strong>?",
+                "description": "You can restore this user at any time.",
+                "cancel": "Cancel",
+                "confirm": "Delete temporarily",
+                "success": "The user has been deleted temporarily."
+            },
+            "hardDeleteModal": {
+                "title": "Permanently delete user",
+                "message": "Are you sure you want to permanently delete <strong>{{name}}</strong>?",
+                "warning": "This action cannot be undone.",
+                "cancel": "Cancel",
+                "confirm": "Delete permanently",
+                "success": "The user has been permanently deleted"
+            },
+            "restoreDeleteModal": {
+                "msgRestore": "This user has been deleted. You can restore the user.",
+                "btnRestore": "Restore user",
+                "title": "Restore user",
+                "message": "Are you sure you want to restore <strong>{{name}}</strong>? The user will be reactivated and regain access to the system.",
+                "confirm": "Restore user",
+                "cancel": "Cancel",
+                "success": "User restored successfully"
+            },
+            "accountId": "Account ID",
+            "joined": "Joined"
+        },
+
+        "create": {
+            "title": "Add New User",
+            "subtitle": "Fill in the information below to create a new user",
+            "submit": "Create User",
+            "success": "User created successfully"
+        },
+        "update": {
+            "title": "Update User",
+            "subtitle": "Edit user information and save your changes",
+            "submit": "Update User",
+            "success": "User updated successfully",
+            "submitUpdate": "Update User"
+        },
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "password": "Password",
+        "role": "Role",
+        "rolePlaceholder": "Select role",
+        "image": "Profile Image URL",
+        "isActive": "Active",
+        "rolesLoadError": "Failed to load roles",
+        "errors": {
+            "firstNameRequired": "First name is required",
+            "lastNameRequired": "Last name is required",
+            "emailRequired": "Email is required",
+            "invalidEmail": "Please enter a valid email address",
+            "phoneRequired": "Phone number is required",
+            "invalidPhone": "Please enter a valid phone number",
+            "passwordRequired": "Password is required",
+            "roleRequired": "Role is required",
+            "imageRequired": "Image URL is required",
+            "invalidImageUrl": "Please enter a valid image URL"
+        }
+    },
+    "viewTable": {
+        "defaultTitle": "Table",
+        "defaultExportButtonText": "Export CSV",
+        "defaultSearchPlaceholder": "Search...",
+        "filters": {
+            "all": "All",
+            "loadMore": "Load More",
+            "clearAll": "Clear All"
+        }
+    },
+    "address": {
+        "noArea": "No area",
+        "noCity": "No city",
+        "noRegion": "No region",
+        "noBuilding": "Building not found",
+        "noFloor": "Floor not found",
+        "building": "Building {{number}}",
+        "floor": "Floor {{number}}",
+        "cityRegion": "{{city}}, {{region}}",
+        "country": {
+            "sa": "Saudi Arabia"
+        }
     }
 }

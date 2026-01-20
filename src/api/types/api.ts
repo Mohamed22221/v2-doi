@@ -1,24 +1,28 @@
 export type TAPIResponse<T> = {
-  status: true;
-  message: string;
-  data: T ;
-  pagination?: TPagination;
-};
+    status: true
+    message: string
+    data: T
+    pagination?: TPaginationSimple
+}
 
 export type TAPIResponseItems<T> = {
-  status: true;
-  message: string;
-  data:  { items: T } ;
-  pagination?: TPagination;
-};
+    status: true
+    message: string
+    data: {
+        items: T
+    } & TPaginationSimple
+}
 
-export type TPagination = {
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  nextPage: null | number;
-  prevPage: null | number;
-};
+export type TAPIResponseItem<T> = {
+    status: true
+    message: string
+    data: T
+}
+
+export type TPaginationSimple = {
+    page: number
+    limit: number
+    total: number
+    totalPages: number
+}
+

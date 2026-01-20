@@ -7,7 +7,10 @@ const ReactQueryKeys = {
   FORGOT_PASSWORD: "forgot-password",
   CHANGE_PASSWORD: "change-password",
   RESET_PASSWORD: "reset-password",
-  LOGOUT: "logout"
+  LOGOUT: "logout",
+  // users
+  ALL_USERS : "all-users",
+  GET_USER_DETAILS : "details-user"
 
 }
 export default ReactQueryKeys

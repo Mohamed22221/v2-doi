@@ -1,4 +1,8 @@
 {
+    "common": {
+        "unknownUser": "مستخدم غير معروف",
+        "back": "العوده"
+    },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
         "users": "المستخدمون",
@@ -133,5 +137,185 @@
     },
     "routes": {
         "settings": "الإعدادات"
+    },
+    "users": {
+        "img": "الصورة",
+        "imgSubtitle": "أضف أو غيّر صورة المستخدم",
+        "upload": {
+            "oneOnly": "يرجى رفع صورة واحدة فقط.",
+            "invalidType": "يرجى رفع صورة بصيغة صحيحة (jpeg أو png أو webp).",
+            "tooLarge": "يجب ألا يزيد حجم الصورة عن 5 ميجابايت.",
+            "success": "تم رفع الصورة بنجاح",
+            "failed": "فشل رفع الصورة",
+            "noImg": "لا توجد صورة",
+            "change": "تغيير",
+            "choose": "رفع",
+            "support": "المدعوم: jpeg، png، webp",
+            "removeTitle": "حذف الصورة",
+            "removeConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
+            "noUrl": "فشل الرفع: لم يتم إرجاع رابط للصورة."
+        },
+        "table": {
+            "title": "المستخدمون المسجلون",
+            "searchPlaceholder": "البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف",
+            "emptyText": "لا يوجد مستخدمون يتطابقون مع المرشحات الخاصة بك.",
+            "columns": {
+                "name": "الاسم",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "status": "الحالة",
+                "registeredDate": "تاريخ التسجيل",
+                "idPrefix": "المعرف:"
+            },
+            "status": {
+                "active": "نشط",
+                "blocked": "محظور"
+            },
+            "actions": {
+                "view": "عرض",
+                "softDelete": "حذف مؤقت",
+                "hardDelete": "حذف نهائي"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "role": "الدور:",
+                "allStatus": "جميع الحالات",
+                "allRoles": "جميع الأدوار",
+                "loading": "جاري التحميل...",
+                "failedRoles": "فشل تحميل الأدوار"
+            }
+        },
+        "userDetails": {
+            "accountStatistics": {
+                "title": "إحصائيات الحساب",
+                "totalSpent": "إجمالي الإنفاق",
+                "totalOrders": "إجمالي الطلبات"
+            },
+            "personalInfo": {
+                "title": "المعلومات الشخصية",
+                "email": "البريد الإلكتروني",
+                "phone": "رقم الهاتف",
+                "registrationDate": "تاريخ التسجيل",
+                "accountStatus": "حالة الحساب"
+            },
+            "shippingAddress": {
+                "title": "العنوان الرئيسي",
+                "fullAddress": "العنوان الكامل",
+                "cityDistrict": "المدينة والحي",
+                "country": "الدولة"
+            },
+            "recentTransactions": {
+                "title": "المعاملات الأخيرة",
+                "emptyText": "لا توجد معاملات.",
+                "viewAllActivity": "عرض جميع الأنشطة"
+            },
+            "suspendModal": {
+                "titleSuspend": "تعليق حساب المستخدم",
+                "titleActivate": "تفعيل حساب المستخدم",
+                "confirmSuspendMessage": "هل أنت متأكد أنك تريد تعليق حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى إلغاء وصوله فوراً إلى جميع ميزات المنصة والجلسات النشطة.",
+                "confirmActivateMessage": "هل أنت متأكد أنك تريد تفعيل حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى استعادة وصوله إلى جميع ميزات المنصة والجلسات النشطة.",
+                "cancel": "إلغاء",
+                "confirmSuspension": "تأكيد التعليق",
+                "confirmActivation": "تأكيد التفعيل"
+            },
+            "status": {
+                "verified": "موثق",
+                "notVerified": "غير موثق"
+            },
+            "actions": {
+                "suspendUser": "تعليق المستخدم",
+                "activateUser": "تفعيل المستخدم"
+            },
+            "notifications": {
+                "suspendedSuccess": "تم تعليق حساب المستخدم بنجاح",
+                "activatedSuccess": "تم تفعيل حساب المستخدم بنجاح"
+            },
+            "hardDeleteModal": {
+                "title": "حذف المستخدم نهائيًا",
+                "message": "هل أنت متأكد من حذف المستخدم <strong>{{name}}</strong> نهائيًا؟",
+                "warning": "لا يمكن التراجع عن هذا الإجراء.",
+                "cancel": "إلغاء",
+                "confirm": "حذف نهائي",
+                "success": "تم حذف المستخدم نهائيًا بنجاح."
+            },
+            "softDeleteModal": {
+                "title": "حذف مؤقت للمستخدم",
+                "message": "هل أنت متأكد من حذف المستخدم <strong>{{name}}</strong> مؤقتًا؟",
+                "description": "يمكنك استعادة المستخدم لاحقًا في أي وقت.",
+                "cancel": "إلغاء",
+                "confirm": "حذف مؤقت",
+                "success": "تم حذف المستخدم مؤقتًا بنجاح."
+            },
+            "restoreDeleteModal": {
+                "msgRestore": "تم حذف هذا المستخدم. يمكنك استعادته مرة أخرى.",
+                "btnRestore": "استعادة المستخدم",
+                "title": "استعادة المستخدم",
+                "message": "هل أنت متأكد أنك تريد استعادة <strong>{{name}}</strong>؟ سيتم إعادة تفعيل المستخدم ومنحه إمكانية الوصول إلى النظام مرة أخرى.",
+                "confirm": "استعادة المستخدم",
+                "cancel": "إلغاء",
+                "success": "تمت استعادة المستخدم بنجاح"
+            },
+            "accountId": "معرف الحساب",
+            "joined": "انضم في"
+        },
+        "create": {
+            "title": "إضافة مستخدم جديد",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء مستخدم جديد",
+            "submit": "إضافة المستخدم",
+            "success": "تم إنشاء المستخدم بنجاح"
+        },
+        "update": {
+            "title": "تعديل بيانات المستخدم",
+            "subtitle": "قم بتعديل بيانات المستخدم ثم احفظ التغييرات",
+            "submit": "حفظ التعديلات",
+            "success": "تم تحديث بيانات المستخدم بنجاح",
+            "submitUpdate": "تحديث المستخدم"
+        },
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "password": "كلمة المرور",
+        "role": "الدور",
+        "rolePlaceholder": "اختر الدور",
+        "image": "رابط صورة الملف الشخصي",
+        "isActive": "مفعل",
+        "rolesLoadError": "فشل تحميل الأدوار",
+
+        "errors": {
+            "firstNameRequired": "الاسم الأول مطلوب",
+            "lastNameRequired": "اسم العائلة مطلوب",
+            "emailRequired": "البريد الإلكتروني مطلوب",
+            "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+            "phoneRequired": "رقم الهاتف مطلوب",
+            "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
+            "passwordRequired": "كلمة المرور مطلوبة",
+            "roleRequired": "الدور مطلوب",
+            "imageRequired": "رابط الصورة مطلوب",
+            "invalidImageUrl": "يرجى إدخال رابط صورة صحيح"
+        }
+    },
+    "viewTable": {
+        "defaultTitle": "الجدول",
+        "defaultExportButtonText": "تصدير CSV",
+        "defaultSearchPlaceholder": "بحث...",
+        "filters": {
+            "all": "الكل",
+            "loadMore": "تحميل المزيد",
+            "clearAll": "مسح الكل"
+        }
+    },
+    "address": {
+        "noArea": "لا توجد منطقة",
+        "noCity": "لا توجد مدينة",
+        "noRegion": "لا توجد منطقة",
+        "noBuilding": "رقم المبنى غير متوفر",
+        "noFloor": "رقم الدور غير متوفر",
+        "building": "مبنى {{number}}",
+        "floor": "دور {{number}}",
+        "cityRegion": "{{city}} ، {{region}}",
+        "country": {
+            "sa": "المملكة العربية السعودية"
+        }
     }
 }

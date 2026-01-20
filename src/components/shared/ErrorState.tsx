@@ -28,7 +28,7 @@ const ErrorState: React.FC<ErrorStateProps> = ({
         <div
             className={[
                 'flex flex-col items-center justify-center gap-2 text-center px-4',
-                fullPage ? 'min-h-screen' : '',
+                fullPage ? 'min-h-[80vh]' : '',
                 className,
             ].join(' ')}
             style={style}

@@ -20,6 +20,7 @@ import type {
 import type { AsyncProps } from 'react-select/async'
 import type { CreatableProps } from 'react-select/creatable'
 import type { ForwardedRef } from 'react'
+import LoadMoreMenuList from './LoadMoreMenuList'
 
 interface DefaultOptionProps {
     innerProps: JSX.IntrinsicElements['div']
@@ -111,6 +112,11 @@ export interface SelectProps<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form?: any
     componentAs?: ReactSelect | CreatableSelect | AsyncSelect
+      // ✅ Load more props
+  hasMore?: boolean
+  isLoadingMore?: boolean
+  onLoadMore?: () => void 
+  loadMoreLabel?: string
 }
 
 function _Select<
@@ -279,6 +285,7 @@ function _Select<
                 LoadingIndicator: DefaultLoadingIndicator,
                 DropdownIndicator: DefaultDropdownIndicator,
                 ClearIndicator: DefaultClearIndicator,
+                MenuList: LoadMoreMenuList,
                 ...components,
             }}
             {...field}
