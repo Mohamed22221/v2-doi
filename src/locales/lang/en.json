@@ -5,7 +5,11 @@
         "active": "Active",
         "inactive": "Inactive",
         "edit": "Edit",
-        "view": "View"
+        "view": "View",
+        "cancelChanges": "Cancel Changes",
+        "dropImage": "Drop your image here, or",
+        "browse": "browse",
+        "supportFormats": "Support: jpeg, png, webp"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -266,7 +270,6 @@
             "accountId": "Account ID",
             "joined": "Joined"
         },
-
         "create": {
             "title": "Add New User",
             "subtitle": "Fill in the information below to create a new user",
@@ -322,6 +325,51 @@
                 "active": "Active",
                 "inactive": "Inactive"
             }
+        },
+        "create": {
+            "title": "Add New Category",
+            "subtitle": "Fill in the information below to create a new category",
+            "submit": "Create Category",
+            "success": "Category created successfully"
+        },
+        "update": {
+            "title": "Update Category",
+            "subtitle": "Edit category information and save your changes",
+            "submit": "Save Changes",
+            "success": "Category updated successfully"
+        },
+        "generalInformation": "General Information",
+        "mediaAssets": "Media Assets",
+        "publishing": "Publishing",
+        "classification": "Classification",
+        "nameEn": "Category Name (English)",
+        "nameAr": "Category Name (Arabic)",
+        "descriptionEn": "Description (English)",
+        "descriptionAr": "Description (Arabic)",
+        "nameEnAdd": "Enter Category Name (English)",
+        "nameArAdd": "Enter Category Name (Arabic)",
+        "descriptionEnAdd": "Enter Description (English)",
+        "descriptionArAdd": "Enter Description (Arabic)",
+        "coverImage": "Cover Image",
+        "activeStatus": "Active Status",
+        "parentCategory": "Parent Category",
+        "subCategory": "Sub Category",
+        "selectParent": "Select Parent Category",
+        "errors": {
+            "nameEnRequired": "Category name in English is required",
+            "nameArRequired": "Category name in Arabic is required",
+            "statusRequired": "Publishing status is required",
+            "imageRequired": "Cover image is required",
+            "invalidImageUrl": "Please enter a valid image URL or relative path"
+        },
+        "upload": {
+            "oneOnly": "Please upload only one image.",
+            "invalidType": "Please upload a valid image (jpeg, png, webp).",
+            "tooLarge": "Image size must be less than 5MB.",
+            "success": "Image uploaded successfully",
+            "failed": "Upload failed",
+            "choose": "Upload Image",
+            "noUrl": "Upload failed: no image URL returned."
         }
     },
     "viewTable": {

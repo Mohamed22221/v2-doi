@@ -52,11 +52,7 @@ export const icons = {
         </svg>
     ),
     edit: (
-        <svg
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M15.108 1.94173C16.4746 0.575511 18.6926 0.575154 20.0588 1.94173C21.3394 3.22287 21.4187 5.25233 20.2978 6.62666L20.0575 6.89253L7.82214 19.1306C7.5034 19.4483 7.11134 19.6831 6.68079 19.814L2.69006 21.0239H2.68738C2.20308 21.1694 1.67831 21.0374 1.32043 20.6801C0.962655 20.3228 0.829215 19.7977 0.973998 19.3132L0.975341 19.3105L2.18652 15.3211V15.3184C2.30218 14.9412 2.49761 14.5935 2.75854 14.2993L2.87402 14.1771L15.108 1.94173ZM18.7617 3.2375C18.152 2.62788 17.1845 2.58988 16.53 3.12337L16.4038 3.2375L4.16846 15.4755C4.06231 15.5815 3.98419 15.7122 3.94018 15.8555L3.93884 15.8542L2.97876 19.0191L6.1477 18.059L6.25244 18.0201C6.35425 17.9749 6.44693 17.9111 6.52637 17.8321L18.7617 5.59541L18.8759 5.46919C19.4093 4.8148 19.3714 3.8473 18.7617 3.2375Z"
                 fill="currentColor"
@@ -69,7 +65,6 @@ export const icons = {
     ),
     delete: (
         <svg
-
             width="22"
             height="22"
             viewBox="0 0 22 22"
@@ -95,6 +90,142 @@ export const icons = {
             <path
                 d="M13.7505 5.50043V3.6662C13.7502 3.16082 13.3388 2.75043 12.8334 2.75043H9.16626C8.66103 2.75067 8.25073 3.16097 8.25049 3.6662V5.50043C8.25025 6.00648 7.83949 6.4162 7.33337 6.4162C6.82726 6.4162 6.4165 6.00648 6.41626 5.50043V3.6662C6.4165 2.14845 7.64851 0.916441 9.16626 0.916199H12.8334C14.3513 0.916199 15.5831 2.1483 15.5834 3.6662V5.50043C15.5831 6.00648 15.1724 6.4162 14.6663 6.4162C14.1604 6.41596 13.7507 6.00633 13.7505 5.50043Z"
                 fill="currentColor"
+            />
+        </svg>
+    ),
+    info: (
+        <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="36" height="36" rx="12" fill="#EEF2FF" />
+            <path
+                d="M9.66663 18C9.66663 22.5993 13.4007 26.3333 18 26.3333C22.5993 26.3333 26.3333 22.5993 26.3333 18C26.3333 13.4007 22.5993 9.66663 18 9.66663C13.4007 9.66663 9.66663 13.4007 9.66663 18V18"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M18 21.3333V18"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M18 14.6666H18.0083"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    ),
+
+    assets: (
+        <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="36" height="36" rx="12" fill="#EEF2FF" />
+            <path
+                d="M12.1667 10.5H23.8333C24.7538 10.5 25.5 11.2462 25.5 12.1667V23.8333C25.5 24.7538 24.7538 25.5 23.8333 25.5H12.1667C11.2462 25.5 10.5 24.7538 10.5 23.8333V12.1667C10.5 11.2462 11.2462 10.5 12.1667 10.5V10.5"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M13.8333 15.5C13.8333 16.4198 14.5801 17.1666 15.4999 17.1666C16.4198 17.1666 17.1666 16.4198 17.1666 15.5C17.1666 14.5801 16.4198 13.8333 15.4999 13.8333C14.5801 13.8333 13.8333 14.5801 13.8333 15.5V15.5"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M25.5 20.5L22.9283 17.9283C22.2775 17.2777 21.2225 17.2777 20.5717 17.9283L13 25.5"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    ),
+    show: (
+        <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="36" height="36" rx="12" fill="#EEF2FF" />
+            <path
+                d="M9.71835 18.2901C9.6489 18.103 9.6489 17.8972 9.71835 17.7101C11.1017 14.3558 14.3717 12.1672 18 12.1672C21.6283 12.1672 24.8983 14.3558 26.2817 17.7101C26.3511 17.8972 26.3511 18.103 26.2817 18.2901C24.8983 21.6443 21.6283 23.8329 18 23.8329C14.3717 23.8329 11.1017 21.6443 9.71835 18.2901"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M15.5 18C15.5 19.3798 16.6202 20.5 18 20.5C19.3798 20.5 20.5 19.3798 20.5 18C20.5 16.6202 19.3798 15.5 18 15.5C16.6202 15.5 15.5 16.6202 15.5 18V18"
+                stroke="#728FC0"
+                strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    ),
+    classification: (
+        <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="36" height="36" rx="12" fill="#EEF2FF" />
+            <path
+                d="M18.8333 12.1667H25.4999"
+                stroke="#728FC0"
+               strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M18.8333 18H25.4999"
+                stroke="#728FC0"
+               strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M18.8333 23.8333H25.4999"
+                stroke="#728FC0"
+               strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M10.5 22.1667L12.1667 23.8333L15.5 20.5"
+                stroke="#728FC0"
+               strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M10.5 13.8334L12.1667 15.5L15.5 12.1667"
+                stroke="#728FC0"
+               strokeWidth="1.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     ),

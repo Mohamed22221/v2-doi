@@ -36,6 +36,17 @@ export const protectedRoutes = [
         authority: [],
     },
     {
+        key: 'categories',
+        path: '/categories/create',
+        component: lazy(() => import('@/pages/categories/ActionCategory/CreateCategory')),
+        authority: [],
+    },
+    {
+        key: 'categories',
+        path: '/categories/:id/edit',
+        component: lazy(() => import('@/pages/categories/ActionCategory/UpdateCategory')),
+    },
+    {
         key: 'orders',
         path: '/orders',
         component: lazy(() => import('@/pages/orders')),

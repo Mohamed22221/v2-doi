@@ -55,3 +55,16 @@ export type CategoryTableRow = {
   children: ChildCategory[]              
   image: string | null
 }
+
+export interface CategoryPayload {
+    translations: CategoryTranslation[]
+    parentId?: string | null
+    status: CategoryStatus
+    sortOrder: number
+    image?: string | null
+}
+
+// Category tree node type
+export interface CategoryTreeNode extends Omit<Category, 'children'> {
+    children: CategoryTreeNode[]
+}

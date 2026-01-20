@@ -76,20 +76,19 @@ const Switcher = forwardRef<HTMLInputElement, SwitcherProps>((props, ref) => {
 
     const controlProps = getControlProps()
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const nextChecked = !switcherChecked
+const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const nextChecked = !switcherChecked
 
-        if (disabled || readOnly || isLoading) {
-            return
-        }
+    if (disabled || readOnly || isLoading) return
 
-        if (typeof checked === 'undefined') {
-            setSwitcherChecked(nextChecked)
-            onChange?.(nextChecked, e)
-        } else {
-            onChange?.(switcherChecked as boolean, e)
-        }
+    if (typeof checked === 'undefined') {
+        setSwitcherChecked(nextChecked)
+        onChange?.(nextChecked, e)
+    } else {
+        onChange?.(nextChecked, e) // ✅ هنا التعديل
     }
+}
+
 
     const switcherColor = color || `${themeColor}-${primaryColorLevel}`
 

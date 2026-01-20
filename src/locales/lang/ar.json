@@ -5,7 +5,11 @@
         "active": "نشط",
         "inactive": "غير نشط",
         "edit": "تعديل",
-        "view": "عرض"
+        "view": "عرض",
+        "cancelChanges": "إلغاء التغييرات",
+    "dropImage": "اسحب الصورة هنا، أو",
+    "browse": "تصفح",
+    "supportFormats": "الصيغ المدعومة: jpeg, png, webp"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -289,7 +293,6 @@
         "image": "رابط صورة الملف الشخصي",
         "isActive": "مفعل",
         "rolesLoadError": "فشل تحميل الأدوار",
-
         "errors": {
             "firstNameRequired": "الاسم الأول مطلوب",
             "lastNameRequired": "اسم العائلة مطلوب",
@@ -322,6 +325,51 @@
                 "active": "نشط",
                 "inactive": "غير نشط"
             }
+        },
+        "create": {
+            "title": "إضافة فئة جديدة",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء فئة جديدة",
+            "submit": "إنشاء الفئة",
+            "success": "تم إنشاء الفئة بنجاح"
+        },
+        "update": {
+            "title": "تعديل الفئة",
+            "subtitle": "قم بتعديل بيانات الفئة ثم احفظ التغييرات",
+            "submit": "حفظ التعديلات",
+            "success": "تم تحديث الفئة بنجاح"
+        },
+        "generalInformation": "المعلومات العامة",
+        "mediaAssets": "الوسائط",
+        "publishing": "النشر",
+        "classification": "التصنيف",
+        "nameEn": "اسم الفئة بالإنجليزية",
+        "nameAr": "اسم الفئة بالعربية",
+        "descriptionEn": "الوصف بالإنجليزية",
+        "descriptionAr": "الوصف بالعربية",
+        "nameEnAdd": "ادخل اسم الفئة (بالإنجليزية)",
+        "nameArAdd": "ادخل اسم الفئة (بالعربية)",
+        "descriptionEnAdd": "ادخل الوصف (بالإنجليزية)",
+        "descriptionArAdd": "ادخل الوصف (بالعربية)",
+        "coverImage": "صورة الغلاف",
+        "activeStatus": "حالة النشر",
+        "parentCategory": "فئة رئيسية",
+        "subCategory": "فئة فرعية",
+        "selectParent": "اختر الفئة الرئيسية",
+        "errors": {
+            "nameEnRequired": "اسم الفئة بالإنجليزية مطلوب",
+            "nameArRequired": "اسم الفئة بالعربية مطلوب",
+            "statusRequired": "حالة النشر مطلوبة",
+            "imageRequired": "صورة الغلاف مطلوبة",
+            "invalidImageUrl": "يرجى إدخال رابط صورة صحيح أو مسار نسبي"
+        },
+        "upload": {
+            "oneOnly": "يرجى رفع صورة واحدة فقط.",
+            "invalidType": "يرجى رفع صورة بصيغة صحيحة (jpeg، png، webp).",
+            "tooLarge": "يجب ألا يزيد حجم الصورة عن 5 ميجابايت.",
+            "success": "تم رفع الصورة بنجاح",
+            "failed": "فشل رفع الصورة",
+            "choose": "رفع صورة",
+            "noUrl": "فشل الرفع: لم يتم إرجاع رابط للصورة."
         }
     },
     "viewTable": {

@@ -44,4 +44,13 @@ export default defineConfig({
             },
         },
     },
+      server: {
+    proxy: {
+      "/uploads": {
+        target: "https://doueh.com",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
 })

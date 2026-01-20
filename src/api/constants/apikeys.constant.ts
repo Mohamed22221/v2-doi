@@ -9,10 +9,12 @@ const ReactQueryKeys = {
   RESET_PASSWORD: "reset-password",
   LOGOUT: "logout",
   // users
-  ALL_USERS : "all-users",
-  GET_USER_DETAILS : "details-user",
+  ALL_USERS: "all-users",
+  GET_USER_DETAILS: "details-user",
   // categories
-  ALL_CATEGORIES: "all-categories"
+  ALL_CATEGORIES: "all-categories",
+  CATEGORY_BY_ID: "category-by-id",
+  CATEGORIES_TREE: "categories-tree"
 
 }
 export default ReactQueryKeys
