@@ -1,4 +1,4 @@
-import {  useMemo } from 'react'
+import {  ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
@@ -23,9 +23,7 @@ type Option = {
     label: string
 }
 
-export interface ViewTableProps<
-    TData extends Record<string, unknown> = Record<string, unknown>,
-> {
+export interface ViewTableProps<TData extends object = object> {
     title?: string
     showExportButton?: boolean
     exportButtonText?: string
@@ -54,11 +52,12 @@ export interface ViewTableProps<
     isError?: boolean
     errorText?: string
     requestedPage:number
+    headerActions?: ReactNode
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
 
-const ViewTable = <TData extends Record<string, unknown>>({
+const ViewTable = <TData extends object>({
     title,
     showExportButton = true,
     exportButtonText,
@@ -81,7 +80,8 @@ const ViewTable = <TData extends Record<string, unknown>>({
     emptyText,
     isError,
     errorText,
-    requestedPage
+    requestedPage,
+    headerActions
 }: ViewTableProps<TData>) => {
     const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
@@ -105,10 +105,11 @@ const ViewTable = <TData extends Record<string, unknown>>({
         <div>
             <div className="px-3 md:px-5 flex justify-between items-center md:h-[90px] h-[70px]">
                 <h3 className="text-[17px] md:text-[24px]">{title || t('viewTable.defaultTitle')}</h3>
-
+                <div className="flex items-center gap-2">
+                {headerActions}
                 {showExportButton && (
                     <Button
-                        size="sm"
+                        size="md"
                         icon={
                             <HiDownload className="text-primary-500 dark:text-primary-100" />
                         }
@@ -117,6 +118,7 @@ const ViewTable = <TData extends Record<string, unknown>>({
                         {exportButtonText || t('viewTable.defaultExportButtonText')}
                     </Button>
                 )}
+                </div>
             </div>
 
             <hr className="py-3" />

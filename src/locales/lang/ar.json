@@ -1,7 +1,11 @@
 {
     "common": {
         "unknownUser": "مستخدم غير معروف",
-        "back": "العوده"
+        "back": "العوده",
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "edit": "تعديل",
+        "view": "عرض"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -172,7 +176,7 @@
                 "blocked": "محظور",
                 "isDeleted": "محذوف",
                 "nonDeleted": "غير محذوف",
-                "status" : "الحالة"
+                "status": "الحالة"
             },
             "actions": {
                 "view": "عرض",
@@ -297,6 +301,27 @@
             "roleRequired": "الدور مطلوب",
             "imageRequired": "رابط الصورة مطلوب",
             "invalidImageUrl": "يرجى إدخال رابط صورة صحيح"
+        }
+    },
+    "categories": {
+        "table": {
+            "columns": {
+                "categoryName": "اسم التصنيف",
+                "status": "الحالة",
+                "items": "العناصر",
+                "subCategories": "التصنيفات الفرعية"
+            },
+            "title": "إدارة الفئات",
+            "searchPlaceholder": "ابحث عن تصنيف (عربي / إنجليزي)",
+            "emptyText": "لا توجد تصنيفات.",
+            "filters": {
+                "status": "الحالة",
+                "allStatus": "كل الحالات"
+            },
+            "status": {
+                "active": "نشط",
+                "inactive": "غير نشط"
+            }
         }
     },
     "viewTable": {

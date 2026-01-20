@@ -10,7 +10,9 @@ const ReactQueryKeys = {
   LOGOUT: "logout",
   // users
   ALL_USERS : "all-users",
-  GET_USER_DETAILS : "details-user"
+  GET_USER_DETAILS : "details-user",
+  // categories
+  ALL_CATEGORIES: "all-categories"
 
 }
 export default ReactQueryKeys

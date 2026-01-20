@@ -67,7 +67,7 @@ const UserImageUpload = ({
     }
 
     return (
-        <AdaptableCard className="mb-4">
+        <AdaptableCard className="mb-4 bg-transparent">
             <h5>{title ?? t('users.img')}</h5>
             <p className="mb-6">{subtitle ?? t('users.imgSubtitle')}</p>
 

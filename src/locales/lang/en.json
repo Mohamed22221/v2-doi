@@ -1,7 +1,11 @@
 {
     "common": {
         "unknownUser": "Unknown user",
-        "back": "Back"
+        "back": "Back",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "view": "View"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -172,7 +176,7 @@
                 "blocked": "Blocked",
                 "isDeleted": "Deleted",
                 "nonDeleted": "Not deleted",
-                "status" : "Status"
+                "status": "Status"
             },
             "actions": {
                 "view": "View",
@@ -297,6 +301,27 @@
             "roleRequired": "Role is required",
             "imageRequired": "Image URL is required",
             "invalidImageUrl": "Please enter a valid image URL"
+        }
+    },
+    "categories": {
+        "table": {
+            "columns": {
+                "categoryName": "Category Name",
+                "status": "Status",
+                "items": "Items",
+                "subCategories": "Sub Categories"
+            },
+            "title": "Categories Management",
+            "searchPlaceholder": "Search categories (English / Arabic)",
+            "emptyText": "No categories found.",
+            "filters": {
+                "status": "Status",
+                "allStatus": "All status"
+            },
+            "status": {
+                "active": "Active",
+                "inactive": "Inactive"
+            }
         }
     },
     "viewTable": {
