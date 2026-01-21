@@ -18,7 +18,8 @@ export default function CategoriesTable() {
     const navigate = useNavigate()
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState<CategoryTableRow | null>(null)
+    const [selectedCategory, setSelectedCategory] =
+        useState<CategoryTableRow | null>(null)
 
     const { categories, isLoading, total, errorMessage, isError, limit } =
         useGetAllCategories()
@@ -56,24 +57,24 @@ export default function CategoriesTable() {
             },
             {
                 key: 'level',
-                label: t('المستوي'),
+                label: t('categories.table.filters.level'),
                 value: null,
                 valueType: 'number',
                 options: [
                     {
-                        label: 'التصنيف الرئيسي',
+                        label: t('categories.table.level.main'),
                         value: 1,
                     },
                     {
-                        label: 'التصنيف الفرعي الاول',
+                        label: t('categories.table.level.sub'),
                         value: 2,
                     },
                     {
-                        label: 'التصنيف الفرعي الثاني',
+                        label: t('categories.table.level.nested'),
                         value: 3,
                     },
                 ],
-                placeholder: t('level'),
+                placeholder: t('categories.table.level.placeholder'),
             },
         ],
         [t],
@@ -142,7 +143,7 @@ export default function CategoriesTable() {
                 categoryName={selectedCategoryName}
                 itemsCount={selectedCategory?.itemsCount ?? 0}
                 subCategoriesCount={selectedCategory?.children.length ?? 0}
-                status={selectedCategory?.status ?? "active"}
+                status={selectedCategory?.status ?? 'active'}
             />
         </>
     )

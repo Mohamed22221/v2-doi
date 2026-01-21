@@ -319,11 +319,18 @@
             "emptyText": "لا توجد تصنيفات.",
             "filters": {
                 "status": "الحالة",
-                "allStatus": "كل الحالات"
+                "allStatus": "كل الحالات",
+                "level": "المستوى"
             },
             "status": {
                 "active": "نشط",
                 "inactive": "غير نشط"
+            },
+            "level": {
+                "placeholder": "اختر المستوى",
+                "main": "تصنيف رئيسي",
+                "sub": "تصنيف فرعي",
+                "nested": "تصنيف فرعي فرعي"
             }
         },
         "create": {

@@ -319,12 +319,19 @@
             "emptyText": "No categories found.",
             "filters": {
                 "status": "Status",
-                "allStatus": "All status"
+                "allStatus": "All status",
+                "level": "Level"
             },
             "status": {
                 "active": "Active",
                 "inactive": "Inactive"
-            }
+            },
+                "level": {
+      "placeholder": "Select level",
+      "main": "Main Category",
+      "sub": "Subcategory",
+      "nested": "Nested Subcategory"
+    }
         },
         "create": {
             "title": "Add New Category",

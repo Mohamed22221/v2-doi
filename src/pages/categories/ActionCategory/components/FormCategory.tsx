@@ -128,12 +128,12 @@ const FormCategory = () => {
                     {
                         languageCode: 'en',
                         name: values.nameEn,
-                        description: values.descriptionEn || undefined,
+                        description: values.descriptionEn || "",
                     },
                     {
                         languageCode: 'ar',
                         name: values.nameAr,
-                        description: values.descriptionAr || undefined,
+                        description: values.descriptionAr || "",
                     },
                 ],
                 parentId: values.parentId || null,

@@ -109,7 +109,7 @@ const DeleteCategoryModal = ({
                     onSuccess('categories.deleteModal.successHardDelete'),
                 onError,
             })
-            onDialogClose()
+       
         } else if (selectedOption === 'softDelete') {
             softDelete(id.toString(), {
                 onSuccess: () =>
