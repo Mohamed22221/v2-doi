@@ -376,7 +376,7 @@
             "cannotDeleteTitle": "Cannot Delete Category",
             "canDeleteTitle": "Delete Category",
             "descriptionBlocked": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. Hard deletion is disabled to prevent massive data loss.",
-            "descriptionAllowed": "Category <strong >{{name}} </strong > is empty (no items or sub-categories) so soft delete is allowed, and hard delete is optional.",
+            "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, permanent deletion, and moving it to another category are allowed.",
             "disableOption": "Deactivate Category (Recommended)",
             "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
             "bulkMoveOption": "Bulk Move",

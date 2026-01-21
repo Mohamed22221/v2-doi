@@ -38,6 +38,7 @@ const DefaultOption = ({
     isSelected,
     isDisabled,
     isFocused,
+    
 }: DefaultOptionProps) => {
     const { themeColor } = selectProps
     return (
@@ -117,15 +118,18 @@ export interface SelectProps<
   isLoadingMore?: boolean
   onLoadMore?: () => void 
   loadMoreLabel?: string
+    menuPortalZ? : number
 }
 
 function _Select<
     Option,
     IsMulti extends boolean = false,
     Group extends GroupBase<Option> = GroupBase<Option>,
+    
 >(
     props: SelectProps<Option, IsMulti, Group>,
     ref: ForwardedRef<ReactSelect | CreatableSelect | AsyncSelect>,
+  
 ) {
     const {
         size,
@@ -135,6 +139,7 @@ function _Select<
         field,
         components,
         componentAs: Component = ReactSelect,
+        menuPortalZ,
         ...rest
     } = props
 
@@ -219,9 +224,12 @@ function _Select<
 
     return (
         <Component<Option, IsMulti, Group>
+                          menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
+
             ref={ref}
             className={selectClass}
             classNamePrefix={'select'}
+            
             classNames={{
                 control: () =>
                     `h-${CONTROL_SIZES[selectSize]} min-h-${CONTROL_SIZES[selectSize]}`,
@@ -251,6 +259,8 @@ function _Select<
                         },
                     }
                 },
+       
+                 menuPortal: (base) => ({ ...base, zIndex: menuPortalZ ? menuPortalZ : 50 }),
                 menu: (provided) => ({ ...provided, zIndex: 50 }),
                 ...style,
             }}

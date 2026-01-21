@@ -7,6 +7,9 @@ import StatusPill from '@/components/shared/table/StatusPill'
 import Button from '@/components/ui/Button'
 import { CategoryTableRow } from '@/api/types/categories'
 import Icon from '@/components/ui/Icon/Icon'
+import StatusSwitcher from './StatusSwitcher'
+
+
 
 export function useCategoriesTableColumns({
     onDelete,
@@ -107,6 +110,8 @@ export function useCategoriesTableColumns({
                                 className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
                             />
                         </Button>
+
+                        <StatusSwitcher row={row.original} />
                     </div>
                 ),
             },

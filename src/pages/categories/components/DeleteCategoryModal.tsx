@@ -58,10 +58,10 @@ const DeleteCategoryModal = ({
 
     useEffect(() => {
         if (dialogIsOpen) {
-            setSelectedOption(isDeletionBlocked ? 'disable' : 'softDelete')
+            setSelectedOption(isDeletionBlocked && status === "active" ? 'disable' : status !== "active" ? "move" : 'softDelete')
             setDestinationId(null)
         }
-    }, [dialogIsOpen, isDeletionBlocked])
+    }, [dialogIsOpen, isDeletionBlocked , status])
 
     // Filter out the current category from destination list
     const destinationOptions = useMemo(() => {
@@ -104,23 +104,16 @@ const DeleteCategoryModal = ({
             })
         } else if (selectedOption === 'move' && destinationId) {
             // Bulk move logic: Placeholder for now
-            toast.push(
-                <Notification
-                    title={t('categories.deleteModal.successMove')}
-                    type="success"
-                />,
-            )
+            hardDelete(id.toString(), {
+                onSuccess: () =>
+                    onSuccess('categories.deleteModal.successHardDelete'),
+                onError,
+            })
             onDialogClose()
         } else if (selectedOption === 'softDelete') {
             softDelete(id.toString(), {
                 onSuccess: () =>
                     onSuccess('categories.deleteModal.successSoftDelete'),
-                onError,
-            })
-        } else if (selectedOption === 'hardDelete') {
-            hardDelete(id.toString(), {
-                onSuccess: () =>
-                    onSuccess('categories.deleteModal.successHardDelete'),
                 onError,
             })
         }
@@ -153,7 +146,6 @@ const DeleteCategoryModal = ({
             onClose={onDialogClose}
             onRequestClose={onDialogClose}
             width={550}
-            
         >
             <div className="flex flex-col items-center text-center p-2 ">
                 <img
@@ -198,7 +190,7 @@ const DeleteCategoryModal = ({
                     vertical
                     value={selectedOption}
                     onChange={(val) => setSelectedOption(val as DeleteOption)}
-                    className="w-full space-y-4"
+                    className="w-full space-y-4 max-h-54 overflow-y-auto"
                 >
                     {isDeletionBlocked ? (
                         <>
@@ -232,60 +224,6 @@ const DeleteCategoryModal = ({
                                     />
                                 </div>
                             )}
-
-                            <div
-                                className={getOptionClasses('move', 'flex-col')}
-                                onClick={() => setSelectedOption('move')}
-                            >
-                                <div className="flex items-start gap-4">
-                                    <Radio value="move" className="mt-1" />
-                                    <div className="flex-1 text-start">
-                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                            {t(
-                                                'categories.deleteModal.bulkMoveOption',
-                                            )}
-                                        </span>
-                                        <p className="text-xs text-neutral-400 leading-relaxed ltr:mr-8 rtl:ml-8">
-                                            {t(
-                                                'categories.deleteModal.bulkMoveDescription',
-                                            )}
-                                        </p>
-                                    </div>
-                                    <Icon
-                                        name="externalLink"
-                                        className="shrink-0 text-primary-500 dark:text-primary-100"
-                                    />
-                                </div>
-
-                                {selectedOption === 'move' && (
-                                    <div
-                                        className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100  uppercase tracking-wider mb-2">
-                                            {t(
-                                                'categories.deleteModal.destinationLabel',
-                                            )}
-                                        </label>
-                                        <Select
-                                            placeholder={t(
-                                                'categories.deleteModal.destinationPlaceholder',
-                                            )}
-                                            options={destinationOptions}
-                                            value={destinationOptions.find(
-                                                (opt) =>
-                                                    opt.value === destinationId,
-                                            )}
-                                            onChange={(opt) =>
-                                                setDestinationId(
-                                                    opt?.value ?? null,
-                                                )
-                                            }
-                                            isLoading={isLoadingCategories}
-                                        />
-                                    </div>
-                                )}
-                            </div>
                         </>
                     ) : (
                         <>
@@ -317,31 +255,59 @@ const DeleteCategoryModal = ({
                                     className="shrink-0 text-primary-500 dark:text-primary-100"
                                 />
                             </div>
-
-                            <div
-                                className={getOptionClasses('hardDelete')}
-                                onClick={() => setSelectedOption('hardDelete')}
-                            >
-                                <Radio value="hardDelete" className="mt-1" />
-                                <div className="flex-1 text-start">
-                                    <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                        {t(
-                                            'categories.deleteModal.hardDeleteOption',
-                                        )}
-                                    </span>
-                                    <p className="text-xs text-neutral-400 leading-relaxed ltr:mr-8 rtl:ml-8">
-                                        {t(
-                                            'categories.deleteModal.hardDeleteDescription',
-                                        )}
-                                    </p>
-                                </div>
-                                <Icon
-                                    name="delete"
-                                    className="shrink-0 text-red-500 "
-                                />
-                            </div>
                         </>
                     )}
+                    <div
+                        className={getOptionClasses('move', 'flex-col ')}
+                        onClick={() => setSelectedOption('move')}
+                    >
+                        <div className="flex items-start  gap-4 w-full">
+                            <Radio value="move" className="mt-1" />
+                            <div className="flex-1 text-start">
+                                <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
+                                    {t('categories.deleteModal.bulkMoveOption')}
+                                </span>
+                                <p className="text-xs text-neutral-400 leading-relaxed ltr:mr-8 rtl:ml-8">
+                                    {t(
+                                        'categories.deleteModal.bulkMoveDescription',
+                                    )}
+                                </p>
+                            </div>
+                            <Icon
+                                name="externalLink"
+                                className="text-primary-500 dark:text-primary-100"
+                            />
+                        </div>
+
+                        {selectedOption === 'move' && (
+                            <div
+                                className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100  uppercase tracking-wider mb-2">
+                                    {t(
+                                        'categories.deleteModal.destinationLabel',
+                                    )}
+                                </label>
+                                <Select
+                                    size='sm'
+                                    maxMenuHeight={110}
+                                    placeholder={t(
+                                        'categories.deleteModal.destinationPlaceholder',
+                                    )}
+                                    menuPortalZ={9999}
+                                    options={destinationOptions}
+                                    value={destinationOptions.find(
+                                        (opt) => opt.value === destinationId,
+                                    )}
+                                    onChange={(opt) =>
+                                        setDestinationId(opt?.value ?? null)
+                                    }
+                                    isLoading={isLoadingCategories}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </Radio.Group>
             </div>
 
@@ -357,7 +323,7 @@ const DeleteCategoryModal = ({
                 <Button
                     variant="solid"
                     color={
-                        selectedOption === 'hardDelete' ||
+                        selectedOption === 'softDelete' ||
                         selectedOption === 'disable'
                             ? 'red'
                             : 'primary'
