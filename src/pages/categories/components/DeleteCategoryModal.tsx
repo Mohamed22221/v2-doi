@@ -70,9 +70,9 @@ const DeleteCategoryModal = ({
             .map((cat) => {
                 const name =
                     cat.translations.find((t) => t.languageCode === 'en')
-                        ?.name ||
+                        ?.value ||
                     cat.translations.find((t) => t.languageCode === 'ar')
-                        ?.name ||
+                        ?.value ||
                     cat.slug
                 return {
                     value: cat.id.toString(),

@@ -9,6 +9,9 @@ import { useUserTableColumns } from './UserTableColumns'
 import { UserItem } from '@/api/types/users'
 import { useGetAllUsers } from '@/api/hooks/users'
 import { useInfiniteRoles } from '@/api/hooks/roles'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
+import UsersServices from '@/api/services/users'
+import { useUserCsvColumns } from './users.csv-columns'
 
 export default function UserTable() {
     const { t } = useTranslation()
@@ -75,8 +78,8 @@ export default function UserTable() {
                 placeholder: isLoadingRoles
                     ? t('users.table.filters.loading')
                     : isRolesError
-                      ? t('users.table.filters.failedRoles')
-                      : t('users.table.filters.allRoles'),
+                        ? t('users.table.filters.failedRoles')
+                        : t('users.table.filters.allRoles'),
                 infinity: {
                     fetchNextPage,
                     hasNextPage,
@@ -105,6 +108,19 @@ export default function UserTable() {
         limitParamKey: 'limit',
     })
 
+    const csvColumns = useUserCsvColumns()
+
+    const HeaderActions = () => {
+        return (
+            <ServerCsvExportButton
+                fileNamePrefix="users"
+                columns={csvColumns}
+                currentData={users}
+                serviceMethod={UsersServices.getAllUsers}
+            />
+        )
+    }
+
     return (
         <ViewTable<UserItem>
             showSearch
@@ -126,6 +142,8 @@ export default function UserTable() {
             onFilterChange={tableQ.onFilterChange}
             onSearchChange={tableQ.onSearchChange}
             onClearAll={tableQ.clearAll}
+            headerActions={<HeaderActions />}
+            showExportButton={false}
         />
     )
 }

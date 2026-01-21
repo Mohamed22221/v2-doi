@@ -4,7 +4,7 @@ export type CategoryLevel = 1 | 2 | 3;
 
 export interface CategoryTranslation {
   languageCode: LanguageCode;
-  name: string;
+  value: string;
   description?: string;
 }
 

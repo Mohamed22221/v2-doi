@@ -153,7 +153,7 @@ const UserImageUpload = ({
                                         {current?.url ? (
                                             <>
                                                 <img
-                                                    src={current.url}
+                                                    src={"users/profile-images/2c839d13-ec23-44eb-8205-72c8aef2603d.png"}
                                                     alt={current.name}
                                                     className="h-full w-full object-cover"
                                                 />

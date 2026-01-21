@@ -127,12 +127,12 @@ const FormCategory = () => {
                 translations: [
                     {
                         languageCode: 'en',
-                        name: values.nameEn,
+                        value: values.nameEn,
                         description: values.descriptionEn || "",
                     },
                     {
                         languageCode: 'ar',
-                        name: values.nameAr,
+                        value: values.nameAr,
                         description: values.descriptionAr || "",
                     },
                 ],
@@ -193,11 +193,11 @@ const FormCategory = () => {
                           nameEn:
                               categoryDetails.data.translations?.find(
                                   (t) => t.languageCode === 'en',
-                              )?.name ?? '',
+                              )?.value ?? '',
                           nameAr:
                               categoryDetails.data.translations?.find(
                                   (t) => t.languageCode === 'ar',
-                              )?.name ?? '',
+                              )?.value ?? '',
                           descriptionEn:
                               categoryDetails.data.translations?.find(
                                   (t) => t.languageCode === 'en',

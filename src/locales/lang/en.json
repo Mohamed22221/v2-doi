@@ -326,12 +326,12 @@
                 "active": "Active",
                 "inactive": "Inactive"
             },
-                "level": {
-      "placeholder": "Select level",
-      "main": "Main Category",
-      "sub": "Subcategory",
-      "nested": "Nested Subcategory"
-    }
+            "level": {
+                "placeholder": "Select level",
+                "main": "Main Category",
+                "sub": "Subcategory",
+                "nested": "Nested Subcategory"
+            }
         },
         "create": {
             "title": "Add New Category",
@@ -410,6 +410,9 @@
         "defaultTitle": "Table",
         "defaultExportButtonText": "Export CSV",
         "defaultSearchPlaceholder": "Search...",
+        "exporting": "Exporting...",
+        "exportCurrentPage": "Export Current Page",
+        "exportAll": "Export All Results",
         "filters": {
             "all": "All",
             "loadMore": "Load More",

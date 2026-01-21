@@ -30,12 +30,12 @@ export function useCategoriesTableColumns({
                     const enName =
                         row.original.translations.find(
                             (tr) => tr.languageCode === 'en',
-                        )?.name ?? row.original.slug
+                        )?.value ?? row.original.slug
 
                     const arName =
                         row.original.translations.find(
                             (tr) => tr.languageCode === 'ar',
-                        )?.name ?? row.original.slug
+                        )?.value ?? row.original.slug
 
                     return (
                         <TwoLineText

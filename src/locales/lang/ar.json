@@ -410,6 +410,9 @@
         "defaultTitle": "الجدول",
         "defaultExportButtonText": "تصدير CSV",
         "defaultSearchPlaceholder": "بحث...",
+        "exporting": "جاري التصدير...",
+        "exportCurrentPage": "تصدير الصفحة الحالية",
+        "exportAll": "تصدير جميع النتائج",
         "filters": {
             "all": "الكل",
             "loadMore": "تحميل المزيد",

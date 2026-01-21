@@ -12,6 +12,9 @@ import { Button } from '@/components/ui'
 import { HiOutlinePlus } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import DeleteCategoryModal from './DeleteCategoryModal'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
+import CategoriesServices from '@/api/services/categories'
+import { useCategoryCsvColumns } from './categories.csv-columns'
 
 export default function CategoriesTable() {
     const { t } = useTranslation()
@@ -103,11 +106,27 @@ export default function CategoriesTable() {
         )
     }
 
+    const csvColumns = useCategoryCsvColumns()
+
+    const HeaderActions = () => {
+        return (
+            <div className="flex items-center gap-2">
+                <ServerCsvExportButton
+                    fileNamePrefix="categories"
+                    columns={csvColumns}
+                    currentData={categories}
+                    serviceMethod={CategoriesServices.getAllCategories}
+                />
+                <ButtonCreateLink />
+            </div>
+        )
+    }
+
     const selectedCategoryName = useMemo(() => {
         if (!selectedCategory) return ''
         return (
             selectedCategory.translations.find((tr) => tr.languageCode === 'en')
-                ?.name ?? selectedCategory.slug
+                ?.value ?? selectedCategory.slug
         )
     }, [selectedCategory])
 
@@ -133,7 +152,8 @@ export default function CategoriesTable() {
                 onFilterChange={tableQ.onFilterChange}
                 onSearchChange={tableQ.onSearchChange}
                 onClearAll={tableQ.clearAll}
-                headerActions={<ButtonCreateLink />}
+                headerActions={<HeaderActions />}
+                showExportButton={false}
             />
 
             <DeleteCategoryModal
