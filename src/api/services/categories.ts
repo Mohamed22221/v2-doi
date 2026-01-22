@@ -42,6 +42,12 @@ const CategoriesServices = {
 
     getCategoriesTree: (): Promise<TAPIResponseItem<CategoryTreeNode[]>> =>
         api.get('/admin/categories/tree'),
+
+    getInfinityCategories: (
+        page: number,
+        limit: number = 10,
+    ): Promise<TAPIResponseItems<Category[]>> =>
+        api.get(`/admin/categories?page=${page}&limit=${limit}`),
 }
 
 export default CategoriesServices

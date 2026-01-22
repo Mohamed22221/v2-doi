@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import { lazy, Suspense } from 'react'
 import FormUpdateSkeleton from './components/FormUpdateSkeleton'
+import HeaderInformation from '@/components/shared/cards/HeaderInformation'
+import { Icon } from '@/components/ui'
 
 const FormUpdate = lazy(() => import('./components/FormUpdate'))
 
@@ -18,13 +20,16 @@ const UpdateUser = () => {
             <BackgroundRounded className="p-6">
                 {/* Title */}
                 <div className="mb-6">
-                    <h3 className="text-lg font-semibold">
-                        {isUpdateMode
-                            ? t('users.update.title') // مثال: "Update User"
-                            : t('users.create.title')}
-                    </h3>
+                    <HeaderInformation
+                        title={
+                            isUpdateMode
+                                ? t('users.update.title') // مثال: "Update User"
+                                : t('users.create.title')
+                        }
+                        icon={<Icon name="info" />}
+                    />
 
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 mt-3">
                         {isUpdateMode
                             ? t('users.update.subtitle')
                             : t('users.create.subtitle')}

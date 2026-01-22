@@ -45,7 +45,7 @@ const FormUpdate = () => {
         data: userDetails,
         isLoading,
         isError,
-        error
+        error,
     } = useGetUserDetails(id as string, {
         enabled: isUpdateMode,
     })
@@ -123,9 +123,9 @@ const FormUpdate = () => {
             </div>
         )
     }
-    
+
     return (
-        <ProtectedEditRoute deletedAt={userDetails?.data?.deletedAt || null }>
+        <ProtectedEditRoute deletedAt={userDetails?.data?.deletedAt || null}>
             <Formik
                 enableReinitialize
                 initialValues={
@@ -158,6 +158,7 @@ const FormUpdate = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <FormItem
+                                        asterisk
                                         label={t('users.firstName')}
                                         invalid={Boolean(
                                             touched.firstName &&
@@ -172,6 +173,7 @@ const FormUpdate = () => {
                                     </FormItem>
 
                                     <FormItem
+                                        asterisk
                                         label={t('users.lastName')}
                                         invalid={Boolean(
                                             touched.lastName && errors.lastName,
@@ -188,6 +190,7 @@ const FormUpdate = () => {
                                 {/* Email + Phone (RESPONSIVE) */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <FormItem
+                                        asterisk
                                         label={t('users.email')}
                                         invalid={Boolean(
                                             touched.email && errors.email,
@@ -198,19 +201,25 @@ const FormUpdate = () => {
                                     </FormItem>
 
                                     <FormItem
+                                        asterisk
                                         label={t('users.phone')}
                                         invalid={Boolean(
                                             touched.phone && errors.phone,
                                         )}
                                         errorMessage={errors.phone}
                                     >
-                                        <Field name="phone" component={Input} />
+                                        <Field
+                                            name="phone"
+                                            component={Input}
+                                            disabled={isUpdateMode}
+                                        />
                                     </FormItem>
                                 </div>
 
                                 {/* Role + Password (+ spacer) (RESPONSIVE) */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <FormItem
+                                        asterisk
                                         label={t('users.role')}
                                         invalid={Boolean(
                                             touched.roleId && errors.roleId,
@@ -272,6 +281,7 @@ const FormUpdate = () => {
                                     </FormItem>
 
                                     <FormItem
+                                        asterisk
                                         label={t('users.password')}
                                         invalid={Boolean(
                                             touched.password && errors.password,
@@ -290,22 +300,28 @@ const FormUpdate = () => {
 
                                 {/* Status (RESPONSIVE wrapper, same layout) */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    <FormItem label={t('users.table.status.status')}>
+                                    <FormItem
+                                        asterisk
+                                        label={t('users.table.status.status')}
+                                    >
                                         <Field name="isActive">
                                             {({
                                                 field,
                                                 form,
                                             }: FieldProps<boolean>) => (
                                                 <Switcher
-                                                    field={{
-                                                        name: field.name,
-                                                        value: field.value,
-                                                        checked: field.value,
-                                                    }}
+                                                        checked={
+                                                            field.value ===
+                                                            true
+                                                        }
+
                                                     onChange={(checked) => {
                                                         form.setFieldValue(
                                                             field.name,
-                                                            checked,
+                                                            checked
+                                                                ? true
+                                                                : false,
+                                                            
                                                         )
                                                     }}
                                                 />
@@ -321,7 +337,7 @@ const FormUpdate = () => {
                                         onClick={() => navigate(-1)}
                                         disabled={submitting}
                                     >
-                                        {t('common.back')}
+                                        {t('common.cancelChanges')}
                                     </Button>
 
                                     <Button

@@ -55,7 +55,7 @@ const CategoryImageUpload = ({
     }
 
     return (
-        <Field name={name}>
+        <Field asterisk name={name}>
             {({ field, form, meta }: FieldProps<string>) => {
                 const invalid = Boolean(meta.touched && meta.error)
                 const errorMessage = meta.error
@@ -148,6 +148,7 @@ const CategoryImageUpload = ({
                         ) : (
                             // Upload Mode
                             <Upload
+                            
                                 draggable
                                 multiple={false}
                                 uploadLimit={1}
@@ -169,6 +170,7 @@ const CategoryImageUpload = ({
                                             : 'border-gray-300 dark:border-gray-600',
                                     ].join(' ')}
                                 >
+
                                     <div className="my-10 text-center w-fit ">
                                         <div className="text-6xl mb-4 flex justify-center">
                                             {/* <FcImageFile /> */}

@@ -3,6 +3,7 @@ import {
     useMutation,
     useQueryClient,
     UseQueryOptions,
+    useInfiniteQuery,
 } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
@@ -251,4 +252,21 @@ export const useDeactivateCategory = () => {
             ? getApiErrorMessage(mutation.error)
             : null,
     }
+}
+
+export function useGetAllCategoriesSelect() {
+    return useInfiniteQuery({
+        queryKey: ['optionsCategories'],
+        initialPageParam: 1,
+        queryFn: ({ pageParam }) =>
+            CategoriesServices.getInfinityCategories(pageParam as number),
+        getNextPageParam: (lastPage: any) =>
+            lastPage.data.page < lastPage.data.totalPages
+                ? lastPage.data.page + 1
+                : undefined,
+        select: (data) => ({
+            ...data,
+            items: data.pages.flatMap((p) => p.data.items),
+        }),
+    })
 }

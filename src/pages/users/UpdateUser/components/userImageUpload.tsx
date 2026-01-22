@@ -48,8 +48,6 @@ const UserImageUpload = ({
         setTimeout(() => setSelectedImg(null), 300)
     }
 
-
-
     const beforeUpload = (fileList: FileList | null) => {
         if (!fileList || fileList.length === 0) return false
 
@@ -68,7 +66,11 @@ const UserImageUpload = ({
 
     return (
         <AdaptableCard className="mb-4 bg-transparent">
-            <h5>{title ?? t('users.img')}</h5>
+            <div className='flex gap-1 items-center'>
+                <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">*</span>
+                <h5>{title ?? t('users.img')}</h5>
+            </div>
+
             <p className="mb-6">{subtitle ?? t('users.imgSubtitle')}</p>
 
             <FormItem>
@@ -153,7 +155,9 @@ const UserImageUpload = ({
                                         {current?.url ? (
                                             <>
                                                 <img
-                                                    src={"users/profile-images/2c839d13-ec23-44eb-8205-72c8aef2603d.png"}
+                                                    src={
+                                                        'users/profile-images/2c839d13-ec23-44eb-8205-72c8aef2603d.png'
+                                                    }
                                                     alt={current.name}
                                                     className="h-full w-full object-cover"
                                                 />

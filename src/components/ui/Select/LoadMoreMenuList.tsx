@@ -1,5 +1,6 @@
 import { components, GroupBase, MenuListProps } from "react-select";
 import Button from "../Button";
+import { useTranslation } from "react-i18next";
 
 function LoadMoreMenuList<
   Option,
@@ -18,8 +19,8 @@ function LoadMoreMenuList<
   const hasMore = !!selectProps.hasMore;
   const isLoadingMore = selectProps.isLoadingMore;
   const onLoadMore = selectProps.onLoadMore;
-  const label = selectProps.loadMoreLabel ?? "Load more";
-
+  const label = selectProps.loadMoreLabel 
+  const {t} = useTranslation()
   return (
     <components.MenuList {...props}>
       {children}
@@ -37,7 +38,7 @@ function LoadMoreMenuList<
             }}
             loading={isLoadingMore}
           >
-            {isLoadingMore ? "Loading..." : label}
+            {isLoadingMore ? t("common.loading") : label}
           </Button>
         </div>
       )}

@@ -9,7 +9,8 @@
         "cancelChanges": "Cancel Changes",
         "dropImage": "Drop your image here, or",
         "browse": "browse",
-        "supportFormats": "Support: jpeg, png, webp"
+        "supportFormats": "Support: jpeg, png, webp",
+        "loading": "Loading"
     },
     "nav": {
         "dashboard": "Dashboard",

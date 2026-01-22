@@ -9,7 +9,8 @@
         "cancelChanges": "إلغاء التغييرات",
         "dropImage": "اسحب الصورة هنا، أو",
         "browse": "تصفح",
-        "supportFormats": "الصيغ المدعومة: jpeg, png, webp"
+        "supportFormats": "الصيغ المدعومة: jpeg, png, webp",
+         "loading": "تحميل"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Field, FieldProps, Form, Formik } from 'formik'
@@ -9,23 +10,20 @@ import Switcher from '@/components/ui/Switcher'
 // import Card from '@/components/ui/Card'
 import {
     Notification,
-    // Select,
+    Select,
     toast,
     Radio,
     FormContainer,
     FormItem,
 } from '@/components/ui'
-import {} from // HiOutlineInformationCircle,
-// HiOutlineDocumentText,
-// HiOutlinePhotograph,
-'react-icons/hi'
+import classNames from 'classnames'
 
 // API hooks
 import {
     useCreateCategory,
     useGetCategoryById,
     useUpdateCategory,
-    // useGetCategoriesTree,
+    useGetAllCategoriesSelect,
 } from '@/api/hooks/categories'
 import { getApiErrorMessage } from '@/api/error'
 
@@ -38,15 +36,14 @@ import FormCategorySkeleton from './FormCategorySkeleton'
 import ErrorState from '@/components/shared/ErrorState'
 
 // Types
-import type { CategoryPayload } from '@/api/types/categories'
+import type {
+    Category,
+    CategoryPayload,
+    
+} from '@/api/types/categories'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 import Icon from '@/components/ui/Icon/Icon'
-
-// type CategoryOption = {
-//     label: string
-//     value: string
-// }
 
 type FormValues = {
     nameEn: string
@@ -78,34 +75,42 @@ const FormCategory = () => {
     const { mutateAsync: updateCategory, isPending: isUpdating } =
         useUpdateCategory()
 
-    // const { data: treeData, isLoading: isLoadingTree } = useGetCategoriesTree()
+    const {
+        data: categoriesData,
+        hasNextPage,
+        fetchNextPage,
+        isFetchingNextPage,
+        isLoading: isLoadingCategoriesList,
+    } = useGetAllCategoriesSelect()
 
-    // Build category options from tree (flatten for dropdown)
-    // const categoryOptions: CategoryOption[] = []
-    // const flattenTree = (
-    //     nodes: typeof treeData,
-    //     prefix = '',
-    // ): CategoryOption[] => {
-    //     if (!nodes) return []
-    //     const options: CategoryOption[] = []
-    //     nodes.forEach((node) => {
-    //         const enTranslation = node.translations?.find(
-    //             (t) => t.languageCode === 'en',
-    //         )
-    //         const label = enTranslation?.name || node.slug
-    //         options.push({
-    //             label: prefix + label,
-    //             value: node.id,
-    //         })
-    //         if (node.children && node.children.length > 0) {
-    //             options.push(...flattenTree(node.children, prefix + '  '))
-    //         }
-    //     })
-    //     return options
-    // }
-    // if (treeData) {
-    //     categoryOptions.push(...flattenTree(treeData))
-    // }
+    const categoryOptions =
+        categoriesData?.items?.map((cat: Category) => {
+           const name =
+                cat.translations.find((t) => t.languageCode === 'en')?.value ||
+                cat.translations.find((t) => t.languageCode === 'ar')?.value ||
+                cat.slug
+            return {
+                label: name,
+                value: cat.id,
+            }
+        }) ?? []
+
+    const [categoryType, setCategoryType] = useState<'main' | 'sub'>('main')
+
+    const getOptionClasses = (
+        option: 'main' | 'sub',
+        baseClassName: string = '',
+    ) => {
+        const isActive = categoryType === option
+
+        return classNames(
+            'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
+            isActive
+                ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
+                : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 hover:border-neutral-200 dark:hover:border-neutral-700',
+            baseClassName,
+        )
+    }
 
     const initialValues: FormValues = {
         nameEn: '',
@@ -128,12 +133,12 @@ const FormCategory = () => {
                     {
                         languageCode: 'en',
                         value: values.nameEn,
-                        description: values.descriptionEn || "",
+                        description: values.descriptionEn || '',
                     },
                     {
                         languageCode: 'ar',
                         value: values.nameAr,
-                        description: values.descriptionAr || "",
+                        description: values.descriptionAr || '',
                     },
                 ],
                 parentId: values.parentId || null,
@@ -171,6 +176,13 @@ const FormCategory = () => {
             setSubmitting(false)
         }
     }
+    useEffect(() => {
+        if (categoryDetails?.data.parentId) {
+            setCategoryType('sub')
+        } else if (isUpdateMode && categoryDetails?.data?.parentId === null) {
+            setCategoryType('main')
+        }
+    }, [categoryDetails?.data.parentId, isUpdateMode, categoryDetails])
 
     if (isLoading) {
         return <FormCategorySkeleton />
@@ -217,8 +229,11 @@ const FormCategory = () => {
                 handleSubmit(values, setSubmitting)
             }
         >
-            {({ touched, errors, isSubmitting }) => {
+            {({ touched, errors, isSubmitting, setFieldValue, values }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
+
+                // Initialize categoryType based on values.parentId
+
                 return (
                     <Form>
                         <FormContainer>
@@ -236,6 +251,7 @@ const FormCategory = () => {
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3">
                                             <FormItem
+                                                asterisk
                                                 label={t('categories.nameEn')}
                                                 invalid={Boolean(
                                                     touched.nameEn &&
@@ -252,6 +268,7 @@ const FormCategory = () => {
                                                 />
                                             </FormItem>
                                             <FormItem
+                                                asterisk
                                                 label={t('categories.nameAr')}
                                                 invalid={Boolean(
                                                     touched.nameAr &&
@@ -306,8 +323,8 @@ const FormCategory = () => {
                                                             textArea
                                                             rows={4}
                                                             placeholder={t(
-                                                    'categories.descriptionArAdd',
-                                                )}
+                                                                'categories.descriptionArAdd',
+                                                            )}
                                                         />
                                                     )}
                                                 </Field>
@@ -323,6 +340,9 @@ const FormCategory = () => {
                                         />
                                         <div className="space-y-3 py-3">
                                             <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                                <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">
+                                                    *
+                                                </span>
                                                 {t('categories.coverImage')}{' '}
                                                 (16:9)
                                             </label>
@@ -386,112 +406,186 @@ const FormCategory = () => {
 
                                         <div className="space-y-4 py-3">
                                             <div>
-                                                <Field name="parentId">
-                                                    {({
-                                                        field,
-                                                        form,
-                                                    }: FieldProps<
-                                                        string | null
-                                                    >) => (
-                                                        <Radio.Group
-                                                            value={
-                                                                field.value
-                                                                    ? 'sub'
-                                                                    : 'parent'
+                                                <Radio.Group
+                                                    vertical
+                                                    value={categoryType}
+                                                    onChange={(val) => {
+                                                        const newType = val as
+                                                            | 'main'
+                                                            | 'sub'
+                                                        setCategoryType(newType)
+                                                        if (
+                                                            newType === 'main'
+                                                        ) {
+                                                            const isOriginallyMain =
+                                                                categoryDetails
+                                                                    ?.data
+                                                                    ?.parentId ===
+                                                                    null ||
+                                                                categoryDetails
+                                                                    ?.data
+                                                                    ?.level ===
+                                                                    1
+                                                            if (
+                                                                isUpdateMode &&
+                                                                isOriginallyMain
+                                                            ) {
+                                                                setFieldValue(
+                                                                    'parentId',
+                                                                    categoryDetails
+                                                                        ?.data
+                                                                        ?.parentId,
+                                                                )
+                                                            } else {
+                                                                setFieldValue(
+                                                                    'parentId',
+                                                                    null,
+                                                                )
                                                             }
-                                                            onChange={(val) => {
-                                                                if (
-                                                                    val ===
-                                                                    'parent'
-                                                                ) {
-                                                                    form.setFieldValue(
-                                                                        field.name,
-                                                                        null,
-                                                                    )
-                                                                }
-                                                            }}
-                                                        >
-                                                            <Radio
-                                                                value="parent"
-                                                                className="mb-3"
-                                                            >
-                                                                {t(
-                                                                    'categories.parentCategory',
-                                                                )}
-                                                            </Radio>
+                                                        }
+                                                    }}
+                                                    className="w-full space-y-4"
+                                                >
+                                                    <div
+                                                        className={getOptionClasses(
+                                                            'main',
+                                                        )}
+                                                        onClick={() => {
+                                                            setCategoryType(
+                                                                'main',
+                                                            )
+                                                            const isOriginallyMain =
+                                                                categoryDetails
+                                                                    ?.data
+                                                                    ?.parentId ===
+                                                                    null ||
+                                                                categoryDetails
+                                                                    ?.data
+                                                                    ?.level ===
+                                                                    1
+                                                            if (
+                                                                isUpdateMode &&
+                                                                isOriginallyMain
+                                                            ) {
+                                                                setFieldValue(
+                                                                    'parentId',
+                                                                    categoryDetails
+                                                                        ?.data
+                                                                        ?.parentId,
+                                                                )
+                                                            } else {
+                                                                setFieldValue(
+                                                                    'parentId',
+                                                                    null,
+                                                                )
+                                                            }
+                                                        }}
+                                                    >
+                                                        <Radio
+                                                            value="main"
+                                                            className="mt-1"
+                                                        />
+                                                        <div className="flex-1 text-left">
+                                                            <div className="flex justify-between items-center mb-1">
+                                                                <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
+                                                                    {t(
+                                                                        'categories.parentCategory',
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        className={getOptionClasses(
+                                                            'sub',
+                                                            'flex-col',
+                                                        )}
+                                                        onClick={() =>
+                                                            setCategoryType(
+                                                                'sub',
+                                                            )
+                                                        }
+                                                    >
+                                                        <div className="flex items-start gap-4 w-full">
                                                             <Radio
                                                                 value="sub"
-                                                                className="mb-3"
+                                                                className="mt-1"
+                                                            />
+                                                            <div className="flex-1 text-start">
+                                                                <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
+                                                                    {t(
+                                                                        'categories.subCategory',
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        {categoryType ===
+                                                            'sub' && (
+                                                            <div
+                                                                className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
+                                                                onClick={(e) =>
+                                                                    e.stopPropagation()
+                                                                }
                                                             >
-                                                                {t(
-                                                                    'categories.subCategory',
-                                                                )}
-                                                            </Radio>
-                                                        </Radio.Group>
-                                                    )}
-                                                </Field>
-                                            </div>
-
-                                            {/* {values.parentId !== null && (
-                                                <div>
-                                                    <Field name="parentId">
-                                                        {({
-                                                            field,
-                                                            form,
-                                                        }: FieldProps<
-                                                            string | null
-                                                        >) => {
-                                                            const selected =
-                                                                categoryOptions.find(
-                                                                    (o) =>
-                                                                        o.value ===
-                                                                        field.value,
-                                                                ) ?? null
-
-                                                            return (
-                                                                <Select<CategoryOption>
+                                                                <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
+                                                                    {t(
+                                                                        'categories.selectParent',
+                                                                    )}
+                                                                </label>
+                                                                <Select
                                                                     size="sm"
-                                                                    isSearchable={
-                                                                        true
+                                                                    maxMenuHeight={
+                                                                        300
                                                                     }
                                                                     placeholder={t(
                                                                         'categories.selectParent',
                                                                     )}
-                                                                    value={
-                                                                        selected
-                                                                    }
                                                                     options={
                                                                         categoryOptions
                                                                     }
-                                                                    isClearable={
-                                                                        false
+                                                                    value={categoryOptions.find(
+                                                                        (opt) =>
+                                                                            opt.value ===
+                                                                            values.parentId,
+                                                                    )}
+                                                                    hasMore={
+                                                                        hasNextPage
                                                                     }
-                                                                    isLoading={
-                                                                        isLoadingTree
+                                                                    isLoadingMore={
+                                                                        isFetchingNextPage
+                                                                    }
+                                                                    onLoadMore={() =>
+                                                                        fetchNextPage()
                                                                     }
                                                                     onChange={(
-                                                                        option,
+                                                                        opt,
                                                                     ) =>
-                                                                        form.setFieldValue(
-                                                                            field.name,
-                                                                            option?.value ??
+                                                                        setFieldValue(
+                                                                            'parentId',
+                                                                            opt?.value ??
                                                                                 null,
                                                                         )
                                                                     }
+                                                                    isLoading={
+                                                                        isLoadingCategoriesList
+                                                                    }
+                                                                    loadMoreLabel={t("viewTable.filters.loadMore")}
                                                                 />
-                                                            )
-                                                        }}
-                                                    </Field>
-                                                    {touched.parentId &&
-                                                        errors.parentId && (
-                                                            <div className="text-xs text-red-500 mt-1">
-                                                                {
-                                                                    errors.parentId
-                                                                }
+                                                                {touched.parentId &&
+                                                                    errors.parentId && (
+                                                                        <div className="text-xs text-red-500 mt-1">
+                                                                            {
+                                                                                errors.parentId
+                                                                            }
+                                                                        </div>
+                                                                    )}
                                                             </div>
                                                         )}
-                                                </div>
-                                            )} */}
+                                                    </div>
+                                                </Radio.Group>
+                                            </div>
                                         </div>
                                     </BackgroundRounded>
                                 </div>

@@ -1,9 +1,9 @@
 import { getApiErrorMessage } from '@/api/error'
 import {
     useDeactivateCategory,
-    useGetAllCategories,
     useSoftDeleteCategory,
     useHardDeleteCategory,
+    useGetAllCategoriesSelect,
 } from '@/api/hooks/categories'
 import {
     Button,
@@ -15,9 +15,10 @@ import {
     Icon,
     Badge,
 } from '@/components/ui'
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
+import { Category } from '@/api/types/categories'
 
 type DeleteCategoryModalProps = {
     dialogIsOpen: boolean
@@ -54,32 +55,41 @@ const DeleteCategoryModal = ({
         useSoftDeleteCategory()
     const { mutate: hardDelete, isPending: isHardDeleting } =
         useHardDeleteCategory()
-    const { categories, isLoading: isLoadingCategories } = useGetAllCategories()
 
     useEffect(() => {
         if (dialogIsOpen) {
-            setSelectedOption(isDeletionBlocked && status === "active" ? 'disable' : status !== "active" ? "move" : 'softDelete')
+            setSelectedOption(
+                isDeletionBlocked && status === 'active'
+                    ? 'disable'
+                    : status !== 'active'
+                      ? 'move'
+                      : 'softDelete',
+            )
             setDestinationId(null)
         }
-    }, [dialogIsOpen, isDeletionBlocked , status])
+    }, [dialogIsOpen, isDeletionBlocked, status])
 
     // Filter out the current category from destination list
-    const destinationOptions = useMemo(() => {
-        return categories
-            .filter((cat) => cat.id.toString() !== id.toString())
-            .map((cat) => {
-                const name =
-                    cat.translations.find((t) => t.languageCode === 'en')
-                        ?.value ||
-                    cat.translations.find((t) => t.languageCode === 'ar')
-                        ?.value ||
-                    cat.slug
-                return {
-                    value: cat.id.toString(),
-                    label: name,
-                }
-            })
-    }, [categories, id])
+
+    const {
+        data: categories,
+        hasNextPage,
+        fetchNextPage,
+        isFetchingNextPage,
+        isLoading: isLoadingCategories,
+    } = useGetAllCategoriesSelect()
+
+    const destinationOptions = categories?.items?.map((cat: Category) => {
+        const name =
+            cat.translations.find((t) => t.languageCode === 'en')?.value ||
+            cat.translations.find((t) => t.languageCode === 'ar')?.value ||
+            cat.slug
+
+        return {
+            label: name,
+            value: cat.id,
+        }
+    })
 
     const onConfirm = () => {
         const onSuccess = (msgKey: string) => {
@@ -109,7 +119,6 @@ const DeleteCategoryModal = ({
                     onSuccess('categories.deleteModal.successHardDelete'),
                 onError,
             })
-       
         } else if (selectedOption === 'softDelete') {
             softDelete(id.toString(), {
                 onSuccess: () =>
@@ -290,20 +299,26 @@ const DeleteCategoryModal = ({
                                     )}
                                 </label>
                                 <Select
-                                    size='sm'
+                                    size="sm"
                                     maxMenuHeight={110}
                                     placeholder={t(
                                         'categories.deleteModal.destinationPlaceholder',
                                     )}
                                     menuPortalZ={9999}
                                     options={destinationOptions}
-                                    value={destinationOptions.find(
+                                    value={destinationOptions?.find(
                                         (opt) => opt.value === destinationId,
                                     )}
                                     onChange={(opt) =>
                                         setDestinationId(opt?.value ?? null)
                                     }
+                                    hasMore={hasNextPage}
+                                    isLoadingMore={isFetchingNextPage}
+                                    onLoadMore={() => fetchNextPage()}
                                     isLoading={isLoadingCategories}
+                                    loadMoreLabel={t(
+                                        'viewTable.filters.loadMore',
+                                    )}
                                 />
                             </div>
                         )}
