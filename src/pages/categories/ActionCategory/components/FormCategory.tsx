@@ -39,7 +39,7 @@ import ErrorState from '@/components/shared/ErrorState'
 import type {
     Category,
     CategoryPayload,
-    
+
 } from '@/api/types/categories'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
@@ -53,6 +53,7 @@ type FormValues = {
     parentId: string | null
     status: 'active' | 'inactive'
     image: string
+    sortOrder: number
 }
 
 const FormCategory = () => {
@@ -85,7 +86,7 @@ const FormCategory = () => {
 
     const categoryOptions =
         categoriesData?.items?.map((cat: Category) => {
-           const name =
+            const name =
                 cat.translations.find((t) => t.languageCode === 'en')?.value ||
                 cat.translations.find((t) => t.languageCode === 'ar')?.value ||
                 cat.slug
@@ -120,6 +121,7 @@ const FormCategory = () => {
         parentId: null,
         status: 'active',
         image: '',
+        sortOrder: 0
     }
 
     const handleSubmit = async (
@@ -143,7 +145,7 @@ const FormCategory = () => {
                 ],
                 parentId: values.parentId || null,
                 status: values.status,
-                sortOrder: 0,
+                sortOrder: values.sortOrder,
                 image: values.image || null,
             }
 
@@ -202,26 +204,27 @@ const FormCategory = () => {
             initialValues={
                 isUpdateMode && categoryDetails?.data
                     ? {
-                          nameEn:
-                              categoryDetails.data.translations?.find(
-                                  (t) => t.languageCode === 'en',
-                              )?.value ?? '',
-                          nameAr:
-                              categoryDetails.data.translations?.find(
-                                  (t) => t.languageCode === 'ar',
-                              )?.value ?? '',
-                          descriptionEn:
-                              categoryDetails.data.translations?.find(
-                                  (t) => t.languageCode === 'en',
-                              )?.description ?? '',
-                          descriptionAr:
-                              categoryDetails.data.translations?.find(
-                                  (t) => t.languageCode === 'ar',
-                              )?.description ?? '',
-                          parentId: categoryDetails.data.parentId ?? null,
-                          status: categoryDetails.data.status ?? 'active',
-                          image: categoryDetails.data.image ?? '',
-                      }
+                        nameEn:
+                            categoryDetails.data.translations?.find(
+                                (t) => t.languageCode === 'en',
+                            )?.value ?? '',
+                        nameAr:
+                            categoryDetails.data.translations?.find(
+                                (t) => t.languageCode === 'ar',
+                            )?.value ?? '',
+                        descriptionEn:
+                            categoryDetails.data.translations?.find(
+                                (t) => t.languageCode === 'en',
+                            )?.description ?? '',
+                        descriptionAr:
+                            categoryDetails.data.translations?.find(
+                                (t) => t.languageCode === 'ar',
+                            )?.description ?? '',
+                        parentId: categoryDetails.data.parentId ?? null,
+                        status: categoryDetails.data.status ?? 'active',
+                        image: categoryDetails.data.image ?? '',
+                        sortOrder: categoryDetails.data.sortOrder ?? 0
+                    }
                     : initialValues
             }
             validationSchema={getCategoryValidationSchema(t)}
@@ -255,7 +258,7 @@ const FormCategory = () => {
                                                 label={t('categories.nameEn')}
                                                 invalid={Boolean(
                                                     touched.nameEn &&
-                                                        errors.nameEn,
+                                                    errors.nameEn,
                                                 )}
                                                 errorMessage={errors.nameEn}
                                             >
@@ -272,7 +275,7 @@ const FormCategory = () => {
                                                 label={t('categories.nameAr')}
                                                 invalid={Boolean(
                                                     touched.nameAr &&
-                                                        errors.nameAr,
+                                                    errors.nameAr,
                                                 )}
                                                 errorMessage={errors.nameAr}
                                             >
@@ -391,6 +394,27 @@ const FormCategory = () => {
                                                 )}
                                             </Field>
                                         </div>
+
+                                        <div className="py-3 mt-2">
+                                            <FormItem
+                                                asterisk
+                                                label={t('categories.sortOrder')}
+                                                invalid={Boolean(
+                                                    touched.sortOrder &&
+                                                    errors.sortOrder
+                                                )}
+                                                errorMessage={errors.sortOrder}
+                                            >
+                                                <Field
+                                                    name="sortOrder"
+                                                    type="number"
+                                                    component={Input}
+                                                    placeholder={t(
+                                                        'categories.sortOrderPlaceholder'
+                                                    )}
+                                                />
+                                            </FormItem>
+                                        </div>
                                     </BackgroundRounded>
 
                                     {/* Classification Card */}
@@ -421,11 +445,11 @@ const FormCategory = () => {
                                                                 categoryDetails
                                                                     ?.data
                                                                     ?.parentId ===
-                                                                    null ||
+                                                                null ||
                                                                 categoryDetails
                                                                     ?.data
                                                                     ?.level ===
-                                                                    1
+                                                                1
                                                             if (
                                                                 isUpdateMode &&
                                                                 isOriginallyMain
@@ -458,11 +482,11 @@ const FormCategory = () => {
                                                                 categoryDetails
                                                                     ?.data
                                                                     ?.parentId ===
-                                                                    null ||
+                                                                null ||
                                                                 categoryDetails
                                                                     ?.data
                                                                     ?.level ===
-                                                                    1
+                                                                1
                                                             if (
                                                                 isUpdateMode &&
                                                                 isOriginallyMain
@@ -523,66 +547,66 @@ const FormCategory = () => {
 
                                                         {categoryType ===
                                                             'sub' && (
-                                                            <div
-                                                                className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
-                                                                onClick={(e) =>
-                                                                    e.stopPropagation()
-                                                                }
-                                                            >
-                                                                <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
-                                                                    {t(
-                                                                        'categories.selectParent',
-                                                                    )}
-                                                                </label>
-                                                                <Select
-                                                                    size="sm"
-                                                                    maxMenuHeight={
-                                                                        300
+                                                                <div
+                                                                    className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
+                                                                    onClick={(e) =>
+                                                                        e.stopPropagation()
                                                                     }
-                                                                    placeholder={t(
-                                                                        'categories.selectParent',
-                                                                    )}
-                                                                    options={
-                                                                        categoryOptions
-                                                                    }
-                                                                    value={categoryOptions.find(
-                                                                        (opt) =>
-                                                                            opt.value ===
-                                                                            values.parentId,
-                                                                    )}
-                                                                    hasMore={
-                                                                        hasNextPage
-                                                                    }
-                                                                    isLoadingMore={
-                                                                        isFetchingNextPage
-                                                                    }
-                                                                    onLoadMore={() =>
-                                                                        fetchNextPage()
-                                                                    }
-                                                                    onChange={(
-                                                                        opt,
-                                                                    ) =>
-                                                                        setFieldValue(
-                                                                            'parentId',
-                                                                            opt?.value ??
+                                                                >
+                                                                    <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
+                                                                        {t(
+                                                                            'categories.selectParent',
+                                                                        )}
+                                                                    </label>
+                                                                    <Select
+                                                                        size="sm"
+                                                                        maxMenuHeight={
+                                                                            300
+                                                                        }
+                                                                        placeholder={t(
+                                                                            'categories.selectParent',
+                                                                        )}
+                                                                        options={
+                                                                            categoryOptions
+                                                                        }
+                                                                        value={categoryOptions.find(
+                                                                            (opt) =>
+                                                                                opt.value ===
+                                                                                values.parentId,
+                                                                        )}
+                                                                        hasMore={
+                                                                            hasNextPage
+                                                                        }
+                                                                        isLoadingMore={
+                                                                            isFetchingNextPage
+                                                                        }
+                                                                        onLoadMore={() =>
+                                                                            fetchNextPage()
+                                                                        }
+                                                                        onChange={(
+                                                                            opt,
+                                                                        ) =>
+                                                                            setFieldValue(
+                                                                                'parentId',
+                                                                                opt?.value ??
                                                                                 null,
-                                                                        )
-                                                                    }
-                                                                    isLoading={
-                                                                        isLoadingCategoriesList
-                                                                    }
-                                                                    loadMoreLabel={t("viewTable.filters.loadMore")}
-                                                                />
-                                                                {touched.parentId &&
-                                                                    errors.parentId && (
-                                                                        <div className="text-xs text-red-500 mt-1">
-                                                                            {
-                                                                                errors.parentId
-                                                                            }
-                                                                        </div>
-                                                                    )}
-                                                            </div>
-                                                        )}
+                                                                            )
+                                                                        }
+                                                                        isLoading={
+                                                                            isLoadingCategoriesList
+                                                                        }
+                                                                        loadMoreLabel={t("viewTable.filters.loadMore")}
+                                                                    />
+                                                                    {touched.parentId &&
+                                                                        errors.parentId && (
+                                                                            <div className="text-xs text-red-500 mt-1">
+                                                                                {
+                                                                                    errors.parentId
+                                                                                }
+                                                                            </div>
+                                                                        )}
+                                                                </div>
+                                                            )}
                                                     </div>
                                                 </Radio.Group>
                                             </div>

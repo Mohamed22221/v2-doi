@@ -54,5 +54,6 @@ export type TUserPayload = {
     roleId: number
     isActive: boolean
     image: string
+    
 }
 

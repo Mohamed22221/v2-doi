@@ -363,13 +363,18 @@
         "parentCategory": "Parent Category",
         "subCategory": "Sub Category",
         "selectParent": "Select Parent Category",
+        "sortOrder": "Sort Order",
+        "sortOrderPlaceholder": "Enter Sort Order",
         "addCategory": "Add Category",
         "errors": {
             "nameEnRequired": "Category name in English is required",
             "nameArRequired": "Category name in Arabic is required",
             "statusRequired": "Publishing status is required",
             "imageRequired": "Cover image is required",
-            "invalidImageUrl": "Please enter a valid image URL or relative path"
+            "invalidImageUrl": "Please enter a valid image URL or relative path",
+            "sortOrderRequired": "Sort order is required",
+            "sortOrderNumber": "Sort order must be a number",
+            "sortOrderMin": "Sort order must be at least 0"
         },
         "upload": {
             "oneOnly": "Please upload only one image.",

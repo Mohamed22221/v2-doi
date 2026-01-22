@@ -260,7 +260,7 @@ export function useGetAllCategoriesSelect() {
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
             CategoriesServices.getInfinityCategories(pageParam as number),
-        getNextPageParam: (lastPage: any) =>
+        getNextPageParam: (lastPage) =>
             lastPage.data.page < lastPage.data.totalPages
                 ? lastPage.data.page + 1
                 : undefined,

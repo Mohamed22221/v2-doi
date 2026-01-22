@@ -77,6 +77,7 @@ const FormUpdate = () => {
         roleId: 0,
         isActive: true,
         image: '',
+        
     }
 
     const handleSubmit = async (

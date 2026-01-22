@@ -10,7 +10,7 @@
         "dropImage": "اسحب الصورة هنا، أو",
         "browse": "تصفح",
         "supportFormats": "الصيغ المدعومة: jpeg, png, webp",
-         "loading": "تحميل"
+        "loading": "تحميل"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -363,13 +363,18 @@
         "parentCategory": "فئة رئيسية",
         "subCategory": "فئة فرعية",
         "selectParent": "اختر الفئة الرئيسية",
+        "sortOrder": "ترتيب العرض",
+        "sortOrderPlaceholder": "أدخل ترتيب العرض",
         "addCategory": "اضافة فئه ",
         "errors": {
             "nameEnRequired": "اسم الفئة بالإنجليزية مطلوب",
             "nameArRequired": "اسم الفئة بالعربية مطلوب",
             "statusRequired": "حالة النشر مطلوبة",
             "imageRequired": "صورة الغلاف مطلوبة",
-            "invalidImageUrl": "يرجى إدخال رابط صورة صحيح أو مسار نسبي"
+            "invalidImageUrl": "يرجى إدخال رابط صورة صحيح أو مسار نسبي",
+            "sortOrderRequired": "ترتيب العرض مطلوب",
+            "sortOrderNumber": "يجب أن يكون ترتيب العرض رقماً",
+            "sortOrderMin": "يجب أن يكون ترتيب العرض 0 على الأقل"
         },
         "upload": {
             "oneOnly": "يرجى رفع صورة واحدة فقط.",

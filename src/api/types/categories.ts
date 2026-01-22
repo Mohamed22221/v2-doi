@@ -62,6 +62,7 @@ export interface CategoryPayload {
     status: CategoryStatus
     sortOrder: number
     image?: string | null
+    
 }
 
 // Category tree node type

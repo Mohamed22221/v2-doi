@@ -27,6 +27,11 @@ const getCategoryValidationSchema = (t: TFunction) =>
             .oneOf(['active', 'inactive'])
             .required(t('categories.errors.statusRequired')),
 
+        sortOrder: Yup.number()
+            .typeError(t('categories.errors.sortOrderNumber'))
+            .min(0, t('categories.errors.sortOrderMin'))
+            .required(t('categories.errors.sortOrderRequired')),
+
         image: Yup.string()
             .trim()
             .required(t('categories.errors.imageRequired'))
