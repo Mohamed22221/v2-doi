@@ -3,21 +3,9 @@ import type { TFunction } from 'i18next'
 
 const getCategoryValidationSchema = (t: TFunction) =>
     Yup.object().shape({
-        nameEn: Yup.string()
+        name: Yup.string()
             .trim()
-            .required(t('categories.errors.nameEnRequired')),
-
-        nameAr: Yup.string()
-            .trim()
-            .required(t('categories.errors.nameArRequired')),
-
-        descriptionEn: Yup.string()
-            .trim()
-            .optional(),
-
-        descriptionAr: Yup.string()
-            .trim()
-            .optional(),
+            .required(t('categories.errors.nameRequired')),
 
         parentId: Yup.string()
             .nullable()

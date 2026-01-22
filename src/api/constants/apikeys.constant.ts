@@ -14,7 +14,9 @@ const ReactQueryKeys = {
   // categories
   ALL_CATEGORIES: "all-categories",
   CATEGORY_BY_ID: "category-by-id",
-  CATEGORIES_TREE: "categories-tree"
+  CATEGORIES_TREE: "categories-tree",
+  // languages
+  INFINITY_lANGUAGES : "infinity-languages"
 
 }
 export default ReactQueryKeys

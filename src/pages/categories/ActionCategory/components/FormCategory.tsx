@@ -7,7 +7,6 @@ import { Field, FieldProps, Form, Formik } from 'formik'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Switcher from '@/components/ui/Switcher'
-// import Card from '@/components/ui/Card'
 import {
     Notification,
     Select,
@@ -34,26 +33,23 @@ import getCategoryValidationSchema from './schema'
 import CategoryImageUpload from './CategoryImageUpload'
 import FormCategorySkeleton from './FormCategorySkeleton'
 import ErrorState from '@/components/shared/ErrorState'
-
-// Types
-import type {
-    Category,
-    CategoryPayload,
-
-} from '@/api/types/categories'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 import Icon from '@/components/ui/Icon/Icon'
+import LanguageSelect from '@/components/helpers/LanguageSelect'
+
+// Types
+import type { Category, CategoryPayload, LanguageCode } from '@/api/types/categories'
 
 type FormValues = {
-    nameEn: string
-    nameAr: string
-    descriptionEn: string
-    descriptionAr: string
+    name: string
+    description: string
     parentId: string | null
     status: 'active' | 'inactive'
     image: string
     sortOrder: number
+    language: string
+    localTranslations: Record<string, { value: string; description: string }>
 }
 
 const FormCategory = () => {
@@ -98,30 +94,15 @@ const FormCategory = () => {
 
     const [categoryType, setCategoryType] = useState<'main' | 'sub'>('main')
 
-    const getOptionClasses = (
-        option: 'main' | 'sub',
-        baseClassName: string = '',
-    ) => {
-        const isActive = categoryType === option
-
-        return classNames(
-            'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
-            isActive
-                ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
-                : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 hover:border-neutral-200 dark:hover:border-neutral-700',
-            baseClassName,
-        )
-    }
-
     const initialValues: FormValues = {
-        nameEn: '',
-        nameAr: '',
-        descriptionEn: '',
-        descriptionAr: '',
+        name: '',
+        description: '',
         parentId: null,
         status: 'active',
         image: '',
-        sortOrder: 0
+        sortOrder: 0,
+        language: 'en',
+        localTranslations: {},
     }
 
     const handleSubmit = async (
@@ -129,23 +110,28 @@ const FormCategory = () => {
         setSubmitting: (v: boolean) => void,
     ) => {
         try {
-            // Transform form values to API payload format
+            // Final sync: save current visible fields to the store
+            const finalStore = {
+                ...values.localTranslations,
+                [values.language]: {
+                    value: values.name,
+                    description: values.description,
+                },
+            }
+
+            const translations = Object.entries(finalStore)
+                .filter(([, v]) => v.value?.trim())
+                .map(([languageCode, v]) => ({
+                    languageCode: languageCode as LanguageCode,
+                    value: v.value,
+                    description: v.description || '',
+                }))
+
             const payload: CategoryPayload = {
-                translations: [
-                    {
-                        languageCode: 'en',
-                        value: values.nameEn,
-                        description: values.descriptionEn || '',
-                    },
-                    {
-                        languageCode: 'ar',
-                        value: values.nameAr,
-                        description: values.descriptionAr || '',
-                    },
-                ],
+                translations,
                 parentId: values.parentId || null,
                 status: values.status,
-                sortOrder: values.sortOrder,
+                sortOrder: Number(values.sortOrder),
                 image: values.image || null,
             }
 
@@ -178,25 +164,32 @@ const FormCategory = () => {
             setSubmitting(false)
         }
     }
+
+    const getOptionClasses = (
+        option: 'main' | 'sub',
+        baseClassName: string = '',
+    ) => {
+        const isActive = categoryType === option
+
+        return classNames(
+            'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
+            isActive
+                ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
+                : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 hover:border-neutral-200 dark:hover:border-neutral-700',
+            baseClassName,
+        )
+    }
+
     useEffect(() => {
-        if (categoryDetails?.data.parentId) {
+        if (categoryDetails?.data?.parentId) {
             setCategoryType('sub')
         } else if (isUpdateMode && categoryDetails?.data?.parentId === null) {
             setCategoryType('main')
         }
-    }, [categoryDetails?.data.parentId, isUpdateMode, categoryDetails])
+    }, [categoryDetails?.data?.parentId, isUpdateMode])
 
-    if (isLoading) {
-        return <FormCategorySkeleton />
-    }
-
-    if (isError) {
-        return (
-            <div>
-                <ErrorState message={error?.message} fullPage={true} />
-            </div>
-        )
-    }
+    if (isLoading) return <FormCategorySkeleton />
+    if (isError) return <ErrorState message={error?.message} fullPage />
 
     return (
         <Formik
@@ -204,26 +197,31 @@ const FormCategory = () => {
             initialValues={
                 isUpdateMode && categoryDetails?.data
                     ? {
-                        nameEn:
-                            categoryDetails.data.translations?.find(
-                                (t) => t.languageCode === 'en',
-                            )?.value ?? '',
-                        nameAr:
-                            categoryDetails.data.translations?.find(
-                                (t) => t.languageCode === 'ar',
-                            )?.value ?? '',
-                        descriptionEn:
-                            categoryDetails.data.translations?.find(
-                                (t) => t.languageCode === 'en',
-                            )?.description ?? '',
-                        descriptionAr:
-                            categoryDetails.data.translations?.find(
-                                (t) => t.languageCode === 'ar',
-                            )?.description ?? '',
+                        ...initialValues,
                         parentId: categoryDetails.data.parentId ?? null,
                         status: categoryDetails.data.status ?? 'active',
                         image: categoryDetails.data.image ?? '',
-                        sortOrder: categoryDetails.data.sortOrder ?? 0
+                        sortOrder: categoryDetails.data.sortOrder ?? 0,
+                        localTranslations:
+                            categoryDetails.data.translations?.reduce(
+                                (acc, t) => ({
+                                    ...acc,
+                                    [t.languageCode]: {
+                                        value: t.value,
+                                        description: t.description || '',
+                                    },
+                                }),
+                                {},
+                            ) ?? {},
+                        language:
+                            categoryDetails.data.translations?.[0]
+                                ?.languageCode || 'en',
+                        name:
+                            categoryDetails.data.translations?.[0]?.value ||
+                            '',
+                        description:
+                            categoryDetails.data.translations?.[0]
+                                ?.description || '',
                     }
                     : initialValues
             }
@@ -235,68 +233,84 @@ const FormCategory = () => {
             {({ touched, errors, isSubmitting, setFieldValue, values }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
 
-                // Initialize categoryType based on values.parentId
-
                 return (
                     <Form>
                         <FormContainer>
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                 {/* Left Column - General Information & Media Assets */}
                                 <div className="lg:col-span-2 space-y-4">
-                                    {/* General Information Card */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t(
                                                 'categories.generalInformation',
                                             )}
                                             icon={<Icon name="info" />}
+                                            rightSlot={
+                                                <LanguageSelect
+                                                    value={values.language}
+                                                    onChange={(lang) => {
+                                                        if (!lang) return
+
+                                                        // 1. Sync current buffer to store
+                                                        const updatedStore = {
+                                                            ...values.localTranslations,
+                                                            [values.language]: {
+                                                                value: values.name,
+                                                                description:
+                                                                    values.description,
+                                                            },
+                                                        }
+
+                                                        setFieldValue(
+                                                            'localTranslations',
+                                                            updatedStore,
+                                                        )
+
+                                                        // 2. Load selected language from store to buffer
+                                                        const next =
+                                                            updatedStore[lang]
+                                                        setFieldValue(
+                                                            'language',
+                                                            lang,
+                                                        )
+                                                        setFieldValue(
+                                                            'name',
+                                                            next?.value || '',
+                                                        )
+                                                        setFieldValue(
+                                                            'description',
+                                                            next?.description ||
+                                                            '',
+                                                        )
+                                                    }}
+                                                />
+                                            }
                                         />
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3">
+                                        <div className="pt-3">
                                             <FormItem
                                                 asterisk
-                                                label={t('categories.nameEn')}
+                                                label={t('categories.name')}
                                                 invalid={Boolean(
-                                                    touched.nameEn &&
-                                                    errors.nameEn,
+                                                    touched.name && errors.name,
                                                 )}
-                                                errorMessage={errors.nameEn}
+                                                errorMessage={errors.name}
                                             >
                                                 <Field
-                                                    name="nameEn"
+                                                    name="name"
                                                     component={Input}
                                                     placeholder={t(
-                                                        'categories.nameEnAdd',
+                                                        'categories.nameAdd',
                                                     )}
                                                 />
                                             </FormItem>
-                                            <FormItem
-                                                asterisk
-                                                label={t('categories.nameAr')}
-                                                invalid={Boolean(
-                                                    touched.nameAr &&
-                                                    errors.nameAr,
-                                                )}
-                                                errorMessage={errors.nameAr}
-                                            >
-                                                <Field
-                                                    name="nameAr"
-                                                    component={Input}
-                                                    placeholder={t(
-                                                        'categories.nameArAdd',
-                                                    )}
-                                                />
-                                            </FormItem>
-                                        </div>
 
-                                        {/* Category Description - Side by side */}
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
                                             <FormItem
                                                 label={t(
-                                                    'categories.descriptionEn',
+                                                    'categories.description',
                                                 )}
                                             >
-                                                <Field name="descriptionEn">
+                                                <Field name="description">
                                                     {({
                                                         field,
                                                     }: FieldProps) => (
@@ -305,28 +319,7 @@ const FormCategory = () => {
                                                             textArea
                                                             rows={4}
                                                             placeholder={t(
-                                                                'categories.descriptionEnAdd',
-                                                            )}
-                                                        />
-                                                    )}
-                                                </Field>
-                                            </FormItem>
-
-                                            <FormItem
-                                                label={t(
-                                                    'categories.descriptionAr',
-                                                )}
-                                            >
-                                                <Field name="descriptionAr">
-                                                    {({
-                                                        field,
-                                                    }: FieldProps) => (
-                                                        <Input
-                                                            {...field}
-                                                            textArea
-                                                            rows={4}
-                                                            placeholder={t(
-                                                                'categories.descriptionArAdd',
+                                                                'categories.descriptionAdd',
                                                             )}
                                                         />
                                                     )}
@@ -335,7 +328,6 @@ const FormCategory = () => {
                                         </div>
                                     </BackgroundRounded>
 
-                                    {/* Media Assets Card */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('categories.mediaAssets')}
@@ -356,7 +348,6 @@ const FormCategory = () => {
 
                                 {/* Right Column - Publishing & Classification */}
                                 <div className="lg:col-span-1 space-y-4">
-                                    {/* Publishing Card */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('categories.publishing')}
@@ -398,10 +389,12 @@ const FormCategory = () => {
                                         <div className="py-3 mt-2">
                                             <FormItem
                                                 asterisk
-                                                label={t('categories.sortOrder')}
+                                                label={t(
+                                                    'categories.sortOrder',
+                                                )}
                                                 invalid={Boolean(
                                                     touched.sortOrder &&
-                                                    errors.sortOrder
+                                                    errors.sortOrder,
                                                 )}
                                                 errorMessage={errors.sortOrder}
                                             >
@@ -410,14 +403,13 @@ const FormCategory = () => {
                                                     type="number"
                                                     component={Input}
                                                     placeholder={t(
-                                                        'categories.sortOrderPlaceholder'
+                                                        'categories.sortOrderPlaceholder',
                                                     )}
                                                 />
                                             </FormItem>
                                         </div>
                                     </BackgroundRounded>
 
-                                    {/* Classification Card */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t(
@@ -429,202 +421,146 @@ const FormCategory = () => {
                                         />
 
                                         <div className="space-y-4 py-3">
-                                            <div>
-                                                <Radio.Group
-                                                    vertical
-                                                    value={categoryType}
-                                                    onChange={(val) => {
-                                                        const newType = val as
-                                                            | 'main'
-                                                            | 'sub'
-                                                        setCategoryType(newType)
-                                                        if (
-                                                            newType === 'main'
-                                                        ) {
-                                                            const isOriginallyMain =
-                                                                categoryDetails
-                                                                    ?.data
-                                                                    ?.parentId ===
-                                                                null ||
-                                                                categoryDetails
-                                                                    ?.data
-                                                                    ?.level ===
-                                                                1
-                                                            if (
-                                                                isUpdateMode &&
-                                                                isOriginallyMain
-                                                            ) {
-                                                                setFieldValue(
-                                                                    'parentId',
-                                                                    categoryDetails
-                                                                        ?.data
-                                                                        ?.parentId,
-                                                                )
-                                                            } else {
-                                                                setFieldValue(
-                                                                    'parentId',
-                                                                    null,
-                                                                )
-                                                            }
-                                                        }
+                                            <Radio.Group
+                                                vertical
+                                                value={categoryType}
+                                                onChange={(val) => {
+                                                    setCategoryType(val)
+                                                    if (val === 'main') {
+                                                        setFieldValue(
+                                                            'parentId',
+                                                            null,
+                                                        )
+                                                    }
+                                                }}
+                                                className="w-full space-y-4"
+                                            >
+                                                <div
+                                                    className={getOptionClasses(
+                                                        'main',
+                                                    )}
+                                                    onClick={() => {
+                                                        setCategoryType('main')
+                                                        setFieldValue(
+                                                            'parentId',
+                                                            null,
+                                                        )
                                                     }}
-                                                    className="w-full space-y-4"
                                                 >
-                                                    <div
-                                                        className={getOptionClasses(
-                                                            'main',
-                                                        )}
-                                                        onClick={() => {
-                                                            setCategoryType(
-                                                                'main',
-                                                            )
-                                                            const isOriginallyMain =
-                                                                categoryDetails
-                                                                    ?.data
-                                                                    ?.parentId ===
-                                                                null ||
-                                                                categoryDetails
-                                                                    ?.data
-                                                                    ?.level ===
-                                                                1
-                                                            if (
-                                                                isUpdateMode &&
-                                                                isOriginallyMain
-                                                            ) {
-                                                                setFieldValue(
-                                                                    'parentId',
-                                                                    categoryDetails
-                                                                        ?.data
-                                                                        ?.parentId,
-                                                                )
-                                                            } else {
-                                                                setFieldValue(
-                                                                    'parentId',
-                                                                    null,
-                                                                )
-                                                            }
-                                                        }}
-                                                    >
+                                                    <Radio
+                                                        value="main"
+                                                        className="mt-1"
+                                                    />
+                                                    <div className="flex-1 text-left">
+                                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
+                                                            {t(
+                                                                'categories.parentCategory',
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    className={getOptionClasses(
+                                                        'sub',
+                                                        'flex-col',
+                                                    )}
+                                                    onClick={() =>
+                                                        setCategoryType('sub')
+                                                    }
+                                                >
+                                                    <div className="flex items-start gap-4 w-full">
                                                         <Radio
-                                                            value="main"
+                                                            value="sub"
                                                             className="mt-1"
                                                         />
-                                                        <div className="flex-1 text-left">
-                                                            <div className="flex justify-between items-center mb-1">
-                                                                <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
-                                                                    {t(
-                                                                        'categories.parentCategory',
-                                                                    )}
-                                                                </span>
-                                                            </div>
+                                                        <div className="flex-1 text-start">
+                                                            <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
+                                                                {t(
+                                                                    'categories.subCategory',
+                                                                )}
+                                                            </span>
                                                         </div>
                                                     </div>
 
-                                                    <div
-                                                        className={getOptionClasses(
-                                                            'sub',
-                                                            'flex-col',
-                                                        )}
-                                                        onClick={() =>
-                                                            setCategoryType(
-                                                                'sub',
-                                                            )
-                                                        }
-                                                    >
-                                                        <div className="flex items-start gap-4 w-full">
-                                                            <Radio
-                                                                value="sub"
-                                                                className="mt-1"
+                                                    {categoryType === 'sub' && (
+                                                        <div
+                                                            className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
+                                                            onClick={(e) =>
+                                                                e.stopPropagation()
+                                                            }
+                                                        >
+                                                            <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
+                                                                {t(
+                                                                    'categories.selectParent',
+                                                                )}
+                                                            </label>
+                                                            <Select
+                                                                size="sm"
+                                                                maxMenuHeight={
+                                                                    300
+                                                                }
+                                                                placeholder={t(
+                                                                    'categories.selectParent',
+                                                                )}
+                                                                options={
+                                                                    categoryOptions
+                                                                }
+                                                                value={categoryOptions.find(
+                                                                    (opt) =>
+                                                                        opt.value ===
+                                                                        values.parentId,
+                                                                )}
+                                                                hasMore={
+                                                                    hasNextPage
+                                                                }
+                                                                isLoadingMore={
+                                                                    isFetchingNextPage
+                                                                }
+                                                                onLoadMore={() =>
+                                                                    fetchNextPage()
+                                                                }
+                                                                onChange={(
+                                                                    opt,
+                                                                ) =>
+                                                                    setFieldValue(
+                                                                        'parentId',
+                                                                        opt?.value ??
+                                                                        null,
+                                                                    )
+                                                                }
+                                                                isLoading={
+                                                                    isLoadingCategoriesList
+                                                                }
+                                                                loadMoreLabel={t(
+                                                                    'viewTable.filters.loadMore',
+                                                                )}
                                                             />
-                                                            <div className="flex-1 text-start">
-                                                                <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                                                    {t(
-                                                                        'categories.subCategory',
-                                                                    )}
-                                                                </span>
-                                                            </div>
+                                                            {touched.parentId &&
+                                                                errors.parentId && (
+                                                                    <div className="text-xs text-red-500 mt-1">
+                                                                        {
+                                                                            errors.parentId as string
+                                                                        }
+                                                                    </div>
+                                                                )}
                                                         </div>
-
-                                                        {categoryType ===
-                                                            'sub' && (
-                                                                <div
-                                                                    className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
-                                                                    onClick={(e) =>
-                                                                        e.stopPropagation()
-                                                                    }
-                                                                >
-                                                                    <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
-                                                                        {t(
-                                                                            'categories.selectParent',
-                                                                        )}
-                                                                    </label>
-                                                                    <Select
-                                                                        size="sm"
-                                                                        maxMenuHeight={
-                                                                            300
-                                                                        }
-                                                                        placeholder={t(
-                                                                            'categories.selectParent',
-                                                                        )}
-                                                                        options={
-                                                                            categoryOptions
-                                                                        }
-                                                                        value={categoryOptions.find(
-                                                                            (opt) =>
-                                                                                opt.value ===
-                                                                                values.parentId,
-                                                                        )}
-                                                                        hasMore={
-                                                                            hasNextPage
-                                                                        }
-                                                                        isLoadingMore={
-                                                                            isFetchingNextPage
-                                                                        }
-                                                                        onLoadMore={() =>
-                                                                            fetchNextPage()
-                                                                        }
-                                                                        onChange={(
-                                                                            opt,
-                                                                        ) =>
-                                                                            setFieldValue(
-                                                                                'parentId',
-                                                                                opt?.value ??
-                                                                                null,
-                                                                            )
-                                                                        }
-                                                                        isLoading={
-                                                                            isLoadingCategoriesList
-                                                                        }
-                                                                        loadMoreLabel={t("viewTable.filters.loadMore")}
-                                                                    />
-                                                                    {touched.parentId &&
-                                                                        errors.parentId && (
-                                                                            <div className="text-xs text-red-500 mt-1">
-                                                                                {
-                                                                                    errors.parentId
-                                                                                }
-                                                                            </div>
-                                                                        )}
-                                                                </div>
-                                                            )}
-                                                    </div>
-                                                </Radio.Group>
-                                            </div>
+                                                    )}
+                                                </div>
+                                            </Radio.Group>
                                         </div>
                                     </BackgroundRounded>
                                 </div>
                             </div>
 
-                            <div className="mt-4 flex items-center gap-3">
+                            <div className="mt-4 flex gap-3">
                                 <Button
                                     type="button"
-                                    variant="default"
                                     onClick={() => navigate(-1)}
                                     disabled={submitting}
                                 >
                                     {t('common.cancelChanges')}
                                 </Button>
-
                                 <Button
                                     variant="solid"
                                     type="submit"
@@ -636,8 +572,6 @@ const FormCategory = () => {
                                         : t('categories.create.submit')}
                                 </Button>
                             </div>
-
-                            {/* Action Buttons */}
                         </FormContainer>
                     </Form>
                 )
