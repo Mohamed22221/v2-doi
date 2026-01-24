@@ -3,18 +3,20 @@ import InputGroup from '@/components/ui/InputGroup'
 import useDirection from '@/utils/hooks/useDirection'
 import { THEME_ENUM } from '@/constants/theme.constant'
 import type { Direction } from '@/@types/theme'
-
-const dirList = [
-    { value: THEME_ENUM.DIR_LTR, label: 'LTR' },
-    { value: THEME_ENUM.DIR_RTL, label: 'RTL' },
-]
+import { useTranslation } from 'react-i18next'
 
 const DirectionSwitcher = ({
     callBackClose,
 }: {
     callBackClose?: () => void
 }) => {
+    const { t } = useTranslation()
     const [direction, updateDirection] = useDirection()
+
+    const dirList = [
+        { value: THEME_ENUM.DIR_LTR, label: t('themeConfigurator.direction.ltr') },
+        { value: THEME_ENUM.DIR_RTL, label: t('themeConfigurator.direction.rtl') },
+    ]
 
     const onDirChange = (val: Direction) => {
         updateDirection(val)

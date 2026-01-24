@@ -8,11 +8,13 @@ import {
     HiOutlineCollection,
     HiOutlineShoppingCart,
     HiOutlineTag,
-    HiOutlineCurrencyDollar  ,
+    HiOutlineCurrencyDollar,
     HiOutlineSupport,
     HiOutlineCog,
-    HiOutlineDatabase ,
+    HiOutlineDatabase,
+    HiOutlineChartPie
 } from 'react-icons/hi'
+import { GrLanguage } from "react-icons/gr";
 import type { JSX } from 'react'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -25,10 +27,12 @@ const navigationIcon: NavigationIcons = {
     groupCollapseMenu: <HiOutlineColorSwatch />,
     users: <HiOutlineUsers />,
     categories: <HiOutlineCollection />,
+    brands: <HiOutlineChartPie />,
+    languages: <GrLanguage />,
     orders: <HiOutlineShoppingCart />,
     fixedPrice: <HiOutlineTag />,
     manageAds: <HiOutlineDatabase />,
-    payments : <HiOutlineCurrencyDollar />,
+    payments: <HiOutlineCurrencyDollar />,
     support: <HiOutlineSupport />,
     settings: <HiOutlineCog />,
 }

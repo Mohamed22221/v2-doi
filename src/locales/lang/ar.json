@@ -10,7 +10,8 @@
         "dropImage": "اسحب الصورة هنا، أو",
         "browse": "تصفح",
         "supportFormats": "الصيغ المدعومة: jpeg, png, webp",
-        "loading": "تحميل"
+        "loading": "تحميل",
+        "add": "إضافة"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -22,6 +23,7 @@
         "manageAds": "إدارة الإعلانات",
         "payments": "المدفوعات",
         "support": "الدعم",
+        "languages": "اللغات",
         "singleMenuItem": "عنصر القائمة الفردي",
         "collapseMenu": {
             "auctions": "المزادات",
@@ -530,6 +532,80 @@
         "cityRegion": "{{city}} ، {{region}}",
         "country": {
             "sa": "المملكة العربية السعودية"
+        }
+    },
+    "languages": {
+        "table": {
+            "title": "إدارة اللغات",
+            "searchPlaceholder": "بحث بالاسم أو الكود",
+            "emptyText": "لا توجد لغات.",
+            "columns": {
+                "code": "الكود",
+                "name": "الاسم",
+                "status": "الحالة"
+            }
+        },
+        "deleteModal": {
+            "title": "حذف اللغة",
+            "message": "هل أنت متأكد من حذف لغة <strong>{{name}}</strong>؟",
+            "warning": "سيتم إزالة اللغة من النماذج في النظام.",
+            "cancel": "إلغاء",
+            "confirm": "حذف",
+            "success": "تم حذف اللغة بنجاح"
+        },
+        "generalInformation": "المعلومات العامة",
+        "publishing": "النشر",
+        "activeStatus": "حالة النشاط",
+        "namePlaceholder": "أدخل اسم اللغة (مثلاً: العربية)",
+        "codePlaceholder": "أدخل كود اللغة (مثلاً: ar)",
+        "create": {
+            "title": "إضافة لغة جديدة",
+            "submit": "إنشاء اللغة",
+            "success": "تم إنشاء اللغة بنجاح"
+        },
+        "update": {
+            "title": "تحديث اللغة",
+            "submit": "حفظ التغييرات",
+            "success": "تم تحديث اللغة بنجاح"
+        },
+        "errors": {
+            "nameRequired": "اسم اللغة مطلوب",
+            "codeRequired": "كود اللغة مطلوب"
+        }
+    },
+    "themeConfigurator": {
+        "title": "إعدادات المظهر",
+        "darkMode": {
+            "title": "الوضع الليلي",
+            "description": "تبديل المظهر إلى الوضع الليلي"
+        },
+        "direction": {
+            "title": "الاتجاه",
+            "description": "اختر الاتجاه",
+            "ltr": "من اليسار لليمين",
+            "rtl": "من اليمين لليسار"
+        },
+        "navMode": {
+            "title": "وضع التنقل",
+            "default": "افتراضي",
+            "themed": "عصري"
+        },
+        "layout": {
+            "title": "التخطيط",
+            "classic": "كلاسيكي",
+            "modern": "حديث",
+            "stackedSide": "جانبي مكدس",
+            "simple": "بسيط",
+            "decked": "مغطى",
+            "blank": "فارغ"
+        },
+        "copy": {
+            "button": "نسخ الإعدادات",
+            "success": "تم النسخ بنجاح",
+            "instruction": "يرجى استبدال themeConfig في 'src/configs/themeConfig.js'"
+        },
+        "color": {
+            "primary": "الأساسي"
         }
     }
 }

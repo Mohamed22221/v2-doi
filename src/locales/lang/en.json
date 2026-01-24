@@ -10,7 +10,8 @@
         "dropImage": "Drop your image here, or",
         "browse": "browse",
         "supportFormats": "Support: jpeg, png, webp",
-        "loading": "Loading"
+        "loading": "Loading",
+        "add": "Add"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -22,6 +23,7 @@
         "manageAds": "Manage Ads",
         "payments": "Payments",
         "support": "Support",
+        "languages": "Languages",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
             "auctions": "Auctions",
@@ -530,6 +532,77 @@
         "cityRegion": "{{city}}, {{region}}",
         "country": {
             "sa": "Saudi Arabia"
+        }
+    },
+    "languages": {
+        "table": {
+            "title": "Languages Management",
+            "searchPlaceholder": "Search by name or code",
+            "emptyText": "No languages found.",
+            "columns": {
+                "code": "Code",
+                "name": "Name",
+                "status": "Status"
+            }
+        },
+        "deleteModal": {
+            "title": "Delete Language",
+            "message": "Are you sure you want to delete <strong>{{name}}</strong> language?",
+            "warning": "This will remove the language from the system sidebar and forms.",
+            "cancel": "Cancel",
+            "confirm": "Delete",
+            "success": "Language deleted successfully"
+        },
+        "generalInformation": "General Information",
+        "publishing": "Publishing",
+        "activeStatus": "Active Status",
+        "namePlaceholder": "Enter language name (e.g. English)",
+        "codePlaceholder": "Enter language code (e.g. en)",
+        "create": {
+            "title": "Add New Language",
+            "submit": "Create Language",
+            "success": "Language created successfully"
+        },
+        "update": {
+            "title": "Update Language",
+            "submit": "Save Changes",
+            "success": "Language updated successfully"
+        },
+        "errors": {
+            "nameRequired": "Language name is required",
+            "codeRequired": "Language code is required"
+        }
+    },
+    "themeConfigurator": {
+        "title": "Theme Config",
+        "darkMode": {
+            "title": "Dark Mode",
+            "description": "Switch theme to dark mode"
+        },
+        "direction": {
+            "title": "Direction",
+            "description": "Select a direction",
+            "ltr": "LTR",
+            "rtl": "RTL"
+        },
+        "navMode": {
+            "title": "Nav Mode",
+            "default": "Default",
+            "themed": "Themed"
+        },
+        "layout": {
+            "title": "Layout",
+            "classic": "Classic",
+            "modern": "Modern",
+            "stackedSide": "Stacked Side",
+            "simple": "Simple",
+            "decked": "Decked",
+            "blank": "Blank"
+        },
+        "copy": {
+            "button": "Copy config",
+            "success": "Copy Success",
+            "instruction": "Please replace themeConfig in 'src/configs/themeConfig.js'"
         }
     }
 }

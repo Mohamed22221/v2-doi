@@ -11,6 +11,7 @@ import { HiCheck } from 'react-icons/hi'
 import { components } from 'react-select'
 import type { ColorLevel } from '@/@types/theme'
 import type { ControlProps, OptionProps } from 'react-select'
+import { useTranslation } from 'react-i18next'
 
 const { Control } = components
 
@@ -23,22 +24,6 @@ type ColorLevelList = {
     label: string
     value: ColorLevel
 }
-
-const colorList: ColorList[] = [
-    { label: 'primary', value: 'primary' },
-]
-
-const colorLevelList: ColorLevelList[] = [
-    { label: '300', value: 300 },
-
-    { label: '400', value: 400 },
-    { label: '500', value: 500 },
-    { label: '600', value: 600 },
-    { label: '700', value: 700 },
-    { label: '800', value: 800 },
-    { label: '900', value: 900 },
-
-]
 
 const ColorBadge = ({
     className,
@@ -67,11 +52,10 @@ const CustomSelectOption = ({
 }: OptionProps<ColorList>) => {
     return (
         <div
-            className={`flex items-center justify-between p-2 ${
-                isSelected
+            className={`flex items-center justify-between p-2 ${isSelected
                     ? 'bg-primary-100 dark:bg-primary-500'
                     : 'hover:bg-primary-50 dark:hover:bg-primary-500'
-            }`}
+                }`}
             {...innerProps}
         >
             <div className="flex items-center gap-2">
@@ -103,11 +87,26 @@ const CustomControl = ({ children, ...props }: ControlProps<ColorList>) => {
 
 const ThemeSwitcher = () => {
     const dispatch = useAppDispatch()
+    const { t } = useTranslation()
 
     const themeColor = useAppSelector((state) => state.theme.themeColor)
     const primaryColorLevel = useAppSelector(
         (state) => state.theme.primaryColorLevel,
     )
+
+    const colorList: ColorList[] = [
+        { label: t('themeConfigurator.color.primary'), value: 'primary' },
+    ]
+
+    const colorLevelList: ColorLevelList[] = [
+        { label: '300', value: 300 },
+        { label: '400', value: 400 },
+        { label: '500', value: 500 },
+        { label: '600', value: 600 },
+        { label: '700', value: 700 },
+        { label: '800', value: 800 },
+        { label: '900', value: 900 },
+    ]
 
     const onThemeColorChange = ({ value }: ColorList) => {
         dispatch(setThemeColor(value))

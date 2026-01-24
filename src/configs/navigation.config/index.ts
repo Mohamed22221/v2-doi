@@ -40,7 +40,17 @@ const navigationConfig: NavigationTree[] = [
         path: '/brands',
         title: 'Brands',
         translateKey: 'nav.brands',
-        icon: 'categories',
+        icon: 'brands',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
+    {
+        key: 'languages',
+        path: '/languages',
+        title: 'Languages',
+        translateKey: 'nav.languages',
+        icon: 'languages',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [],
         subMenu: [],
@@ -116,16 +126,17 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [],
     },
-    {
-        key: 'support',
-        path: '/support',
-        title: 'Support',
-        translateKey: 'nav.support',
-        icon: 'support',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
-        subMenu: [],
-    },
+    // {
+    //     key: 'support',
+    //     path: '/support',
+    //     title: 'Support',
+    //     translateKey: 'nav.support',
+    //     icon: 'support',
+    //     type: NAV_ITEM_TYPE_ITEM,
+    //     authority: [],
+    //     subMenu: [],
+    // },
+
 ]
 
 export default navigationConfig

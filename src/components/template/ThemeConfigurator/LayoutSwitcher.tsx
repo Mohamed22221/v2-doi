@@ -14,49 +14,51 @@ import {
     LAYOUT_TYPE_BLANK,
 } from '@/constants/theme.constant'
 import type { LayoutType } from '@/@types/theme'
-
-const layouts = [
-    {
-        value: LAYOUT_TYPE_CLASSIC,
-        label: 'Classic',
-        src: '/img/thumbs/layouts/classic.jpg',
-        srcDark: '/img/thumbs/layouts/classic-dark.jpg',
-    },
-    {
-        value: LAYOUT_TYPE_MODERN,
-        label: 'Mordern',
-        src: '/img/thumbs/layouts/modern.jpg',
-        srcDark: '/img/thumbs/layouts/modern-dark.jpg',
-    },
-    {
-        value: LAYOUT_TYPE_STACKED_SIDE,
-        label: 'Stacked Side',
-        src: '/img/thumbs/layouts/stackedSide.jpg',
-        srcDark: '/img/thumbs/layouts/stackedSide-dark.jpg',
-    },
-    {
-        value: LAYOUT_TYPE_SIMPLE,
-        label: 'Simple',
-        src: '/img/thumbs/layouts/simple.jpg',
-        srcDark: '/img/thumbs/layouts/simple-dark.jpg',
-    },
-    {
-        value: LAYOUT_TYPE_DECKED,
-        label: 'Decked',
-        src: '/img/thumbs/layouts/decked.jpg',
-        srcDark: '/img/thumbs/layouts/decked-dark.jpg',
-    },
-    {
-        value: LAYOUT_TYPE_BLANK,
-        label: 'Blank',
-        src: '/img/thumbs/layouts/blank.jpg',
-        srcDark: '/img/thumbs/layouts/blank-dark.jpg',
-    },
-]
+import { useTranslation } from 'react-i18next'
 
 const LayoutSwitcher = () => {
+    const { t } = useTranslation()
     const type = useAppSelector((state) => state.theme.layout.type)
     const dispatch = useAppDispatch()
+
+    const layouts = [
+        {
+            value: LAYOUT_TYPE_CLASSIC,
+            label: t('themeConfigurator.layout.classic'),
+            src: '/img/thumbs/layouts/classic.jpg',
+            srcDark: '/img/thumbs/layouts/classic-dark.jpg',
+        },
+        {
+            value: LAYOUT_TYPE_MODERN,
+            label: t('themeConfigurator.layout.modern'),
+            src: '/img/thumbs/layouts/modern.jpg',
+            srcDark: '/img/thumbs/layouts/modern-dark.jpg',
+        },
+        {
+            value: LAYOUT_TYPE_STACKED_SIDE,
+            label: t('themeConfigurator.layout.stackedSide'),
+            src: '/img/thumbs/layouts/stackedSide.jpg',
+            srcDark: '/img/thumbs/layouts/stackedSide-dark.jpg',
+        },
+        {
+            value: LAYOUT_TYPE_SIMPLE,
+            label: t('themeConfigurator.layout.simple'),
+            src: '/img/thumbs/layouts/simple.jpg',
+            srcDark: '/img/thumbs/layouts/simple-dark.jpg',
+        },
+        {
+            value: LAYOUT_TYPE_DECKED,
+            label: t('themeConfigurator.layout.decked'),
+            src: '/img/thumbs/layouts/decked.jpg',
+            srcDark: '/img/thumbs/layouts/decked-dark.jpg',
+        },
+        {
+            value: LAYOUT_TYPE_BLANK,
+            label: t('themeConfigurator.layout.blank'),
+            src: '/img/thumbs/layouts/blank.jpg',
+            srcDark: '/img/thumbs/layouts/blank-dark.jpg',
+        },
+    ]
 
     const onLayoutSelect = (val: LayoutType) => {
         dispatch(setLayout(val))

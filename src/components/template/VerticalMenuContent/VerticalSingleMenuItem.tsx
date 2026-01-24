@@ -23,7 +23,7 @@ interface DefaultItemProps {
     userAuthority: string[]
 }
 
-interface VerticalMenuItemProps extends CollapsedItemProps, DefaultItemProps {}
+interface VerticalMenuItemProps extends CollapsedItemProps, DefaultItemProps { }
 
 const CollapsedItem = ({
     title,
