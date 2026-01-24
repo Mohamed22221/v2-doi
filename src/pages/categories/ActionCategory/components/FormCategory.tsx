@@ -9,7 +9,6 @@ import Input from '@/components/ui/Input'
 import Switcher from '@/components/ui/Switcher'
 import {
     Notification,
-    Select,
     toast,
     Radio,
     FormContainer,
@@ -22,7 +21,6 @@ import {
     useCreateCategory,
     useGetCategoryById,
     useUpdateCategory,
-    useGetAllCategoriesSelect,
 } from '@/api/hooks/categories'
 import { getApiErrorMessage } from '@/api/error'
 
@@ -37,9 +35,9 @@ import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 import Icon from '@/components/ui/Icon/Icon'
 import LanguageSelect from '@/components/helpers/LanguageSelect'
-
+import CategorySelect from '@/components/helpers/CategoriesSelect'
 // Types
-import type { Category, CategoryPayload, LanguageCode } from '@/api/types/categories'
+import type { CategoryPayload, LanguageCode } from '@/api/types/categories'
 
 type FormValues = {
     name: string
@@ -71,26 +69,6 @@ const FormCategory = () => {
         useCreateCategory()
     const { mutateAsync: updateCategory, isPending: isUpdating } =
         useUpdateCategory()
-
-    const {
-        data: categoriesData,
-        hasNextPage,
-        fetchNextPage,
-        isFetchingNextPage,
-        isLoading: isLoadingCategoriesList,
-    } = useGetAllCategoriesSelect()
-
-    const categoryOptions =
-        categoriesData?.items?.map((cat: Category) => {
-            const name =
-                cat.translations.find((t) => t.languageCode === 'en')?.value ||
-                cat.translations.find((t) => t.languageCode === 'ar')?.value ||
-                cat.slug
-            return {
-                label: name,
-                value: cat.id,
-            }
-        }) ?? []
 
     const [categoryType, setCategoryType] = useState<'main' | 'sub'>('main')
 
@@ -197,32 +175,32 @@ const FormCategory = () => {
             initialValues={
                 isUpdateMode && categoryDetails?.data
                     ? {
-                        ...initialValues,
-                        parentId: categoryDetails.data.parentId ?? null,
-                        status: categoryDetails.data.status ?? 'active',
-                        image: categoryDetails.data.image ?? '',
-                        sortOrder: categoryDetails.data.sortOrder ?? 0,
-                        localTranslations:
-                            categoryDetails.data.translations?.reduce(
-                                (acc, t) => ({
-                                    ...acc,
-                                    [t.languageCode]: {
-                                        value: t.value,
-                                        description: t.description || '',
-                                    },
-                                }),
-                                {},
-                            ) ?? {},
-                        language:
-                            categoryDetails.data.translations?.[0]
-                                ?.languageCode || 'en',
-                        name:
-                            categoryDetails.data.translations?.[0]?.value ||
-                            '',
-                        description:
-                            categoryDetails.data.translations?.[0]
-                                ?.description || '',
-                    }
+                          ...initialValues,
+                          parentId: categoryDetails.data.parentId ?? null,
+                          status: categoryDetails.data.status ?? 'active',
+                          image: categoryDetails.data.image ?? '',
+                          sortOrder: categoryDetails.data.sortOrder ?? 0,
+                          localTranslations:
+                              categoryDetails.data.translations?.reduce(
+                                  (acc, t) => ({
+                                      ...acc,
+                                      [t.languageCode]: {
+                                          value: t.value,
+                                          description: t.description || '',
+                                      },
+                                  }),
+                                  {},
+                              ) ?? {},
+                          language:
+                              categoryDetails.data.translations?.[0]
+                                  ?.languageCode || 'en',
+                          name:
+                              categoryDetails.data.translations?.[0]?.value ||
+                              '',
+                          description:
+                              categoryDetails.data.translations?.[0]
+                                  ?.description || '',
+                      }
                     : initialValues
             }
             validationSchema={getCategoryValidationSchema(t)}
@@ -230,7 +208,14 @@ const FormCategory = () => {
                 handleSubmit(values, setSubmitting)
             }
         >
-            {({ touched, errors, isSubmitting, setFieldValue, values }) => {
+            {({
+                touched,
+                errors,
+                isSubmitting,
+                setFieldValue,
+                setValues,
+                values,
+            }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
 
                 return (
@@ -261,26 +246,23 @@ const FormCategory = () => {
                                                             },
                                                         }
 
-                                                        setFieldValue(
-                                                            'localTranslations',
-                                                            updatedStore,
-                                                        )
-
                                                         // 2. Load selected language from store to buffer
                                                         const next =
                                                             updatedStore[lang]
-                                                        setFieldValue(
-                                                            'language',
-                                                            lang,
-                                                        )
-                                                        setFieldValue(
-                                                            'name',
-                                                            next?.value || '',
-                                                        )
-                                                        setFieldValue(
-                                                            'description',
-                                                            next?.description ||
-                                                            '',
+                                                        setValues(
+                                                            {
+                                                                ...values,
+                                                                localTranslations:
+                                                                    updatedStore,
+                                                                language: lang,
+                                                                name:
+                                                                    next?.value ??
+                                                                    '',
+                                                                description:
+                                                                    next?.description ??
+                                                                    '',
+                                                            },
+                                                            true, // skip validation during switch
                                                         )
                                                     }}
                                                 />
@@ -394,7 +376,7 @@ const FormCategory = () => {
                                                 )}
                                                 invalid={Boolean(
                                                     touched.sortOrder &&
-                                                    errors.sortOrder,
+                                                        errors.sortOrder,
                                                 )}
                                                 errorMessage={errors.sortOrder}
                                             >
@@ -495,46 +477,26 @@ const FormCategory = () => {
                                                                     'categories.selectParent',
                                                                 )}
                                                             </label>
-                                                            <Select
+                                                            <CategorySelect
                                                                 size="sm"
-                                                                maxMenuHeight={
-                                                                    300
-                                                                }
                                                                 placeholder={t(
                                                                     'categories.selectParent',
                                                                 )}
-                                                                options={
-                                                                    categoryOptions
+                                                                value={
+                                                                    values.parentId
                                                                 }
-                                                                value={categoryOptions.find(
-                                                                    (opt) =>
-                                                                        opt.value ===
-                                                                        values.parentId,
-                                                                )}
-                                                                hasMore={
-                                                                    hasNextPage
-                                                                }
-                                                                isLoadingMore={
-                                                                    isFetchingNextPage
-                                                                }
-                                                                onLoadMore={() =>
-                                                                    fetchNextPage()
+                                                                menuPortalZ={
+                                                                    400
                                                                 }
                                                                 onChange={(
                                                                     opt,
                                                                 ) =>
                                                                     setFieldValue(
                                                                         'parentId',
-                                                                        opt?.value ??
-                                                                        null,
+                                                                        opt ??
+                                                                            null,
                                                                     )
                                                                 }
-                                                                isLoading={
-                                                                    isLoadingCategoriesList
-                                                                }
-                                                                loadMoreLabel={t(
-                                                                    'viewTable.filters.loadMore',
-                                                                )}
                                                             />
                                                             {touched.parentId &&
                                                                 errors.parentId && (

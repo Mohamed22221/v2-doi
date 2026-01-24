@@ -3,7 +3,6 @@ import {
     useDeactivateCategory,
     useSoftDeleteCategory,
     useHardDeleteCategory,
-    useGetAllCategoriesSelect,
 } from '@/api/hooks/categories'
 import {
     Button,
@@ -11,14 +10,13 @@ import {
     Notification,
     toast,
     Radio,
-    Select,
     Icon,
     Badge,
 } from '@/components/ui'
 import React, { useState, useEffect } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
-import { Category } from '@/api/types/categories'
+import CategorySelect from '@/components/helpers/CategoriesSelect'
 
 type DeleteCategoryModalProps = {
     dialogIsOpen: boolean
@@ -69,27 +67,7 @@ const DeleteCategoryModal = ({
         }
     }, [dialogIsOpen, isDeletionBlocked, status])
 
-    // Filter out the current category from destination list
 
-    const {
-        data: categories,
-        hasNextPage,
-        fetchNextPage,
-        isFetchingNextPage,
-        isLoading: isLoadingCategories,
-    } = useGetAllCategoriesSelect()
-
-    const destinationOptions = categories?.items?.map((cat: Category) => {
-        const name =
-            cat.translations.find((t) => t.languageCode === 'en')?.value ||
-            cat.translations.find((t) => t.languageCode === 'ar')?.value ||
-            cat.slug
-
-        return {
-            label: name,
-            value: cat.id,
-        }
-    })
 
     const onConfirm = () => {
         const onSuccess = (msgKey: string) => {
@@ -298,28 +276,19 @@ const DeleteCategoryModal = ({
                                         'categories.deleteModal.destinationLabel',
                                     )}
                                 </label>
-                                <Select
+                                <CategorySelect
                                     size="sm"
-                                    maxMenuHeight={110}
                                     placeholder={t(
                                         'categories.deleteModal.destinationPlaceholder',
                                     )}
+                                    maxMenuHeight={110}
+                                    value={destinationId}
                                     menuPortalZ={9999}
-                                    options={destinationOptions}
-                                    value={destinationOptions?.find(
-                                        (opt) => opt.value === destinationId,
-                                    )}
                                     onChange={(opt) =>
-                                        setDestinationId(opt?.value ?? null)
+                                        setDestinationId(opt ?? null)
                                     }
-                                    hasMore={hasNextPage}
-                                    isLoadingMore={isFetchingNextPage}
-                                    onLoadMore={() => fetchNextPage()}
-                                    isLoading={isLoadingCategories}
-                                    loadMoreLabel={t(
-                                        'viewTable.filters.loadMore',
-                                    )}
                                 />
+
                             </div>
                         )}
                     </div>
