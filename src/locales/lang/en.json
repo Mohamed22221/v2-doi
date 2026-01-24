@@ -16,6 +16,7 @@
         "dashboard": "Dashboard",
         "users": "Registered Users",
         "categories": "Categories",
+        "brands": "Brands",
         "orders": "Orders",
         "fixedPrice": "Fixed Price Items",
         "manageAds": "Manage Ads",
@@ -411,6 +412,98 @@
             "successSoftDelete": "Category moved to trash successfully",
             "successHardDelete": "Category deleted permanently",
             "errorMove": "Failed to move items"
+        }
+    },
+    "brands": {
+        "table": {
+            "columns": {
+                "brandName": "Brand Name",
+                "status": "Status",
+                "items": "Items"
+            },
+            "title": "Brands Management",
+            "searchPlaceholder": "Search brands (English / Arabic)",
+            "emptyText": "No brands found.",
+            "filters": {
+                "status": "Status",
+                "allStatus": "All status",
+                "category": "Category",
+                "allCategories": "All categories"
+            },
+            "status": {
+                "active": "Active",
+                "inactive": "Inactive"
+            }
+        },
+        "create": {
+            "title": "Add New Brand",
+            "subtitle": "Fill in the information below to create a new brand",
+            "submit": "Create Brand",
+            "success": "Brand created successfully"
+        },
+        "update": {
+            "title": "Update Brand",
+            "subtitle": "Edit brand information and save your changes",
+            "submit": "Save Changes",
+            "success": "Brand updated successfully"
+        },
+        "generalInformation": "General Information",
+        "mediaAssets": "Media Assets",
+        "publishing": "Publishing",
+        "classification": "Classification",
+        "name": "Brand Name",
+        "description": "Description",
+        "nameAdd": "Enter Brand Name",
+        "descriptionAdd": "Enter Description",
+        "logo": "Brand Logo",
+        "activeStatus": "Active Status",
+        "category": "Category",
+        "selectCategory": "Select Category",
+        "sortOrder": "Sort Order",
+        "sortOrderPlaceholder": "Enter Sort Order",
+        "addBrand": "Add Brand",
+        "errors": {
+            "nameRequired": "Brand name is required",
+            "categoryRequired": "Category is required",
+            "statusRequired": "Publishing status is required",
+            "logoRequired": "Brand logo is required",
+            "invalidLogoUrl": "Please enter a valid logo URL or relative path",
+            "sortOrderRequired": "Sort order is required",
+            "sortOrderNumber": "Sort order must be a number",
+            "sortOrderMin": "Sort order must be at least 0"
+        },
+        "upload": {
+            "oneOnly": "Please upload only one logo.",
+            "invalidType": "Please upload a valid image (jpeg, png, webp).",
+            "tooLarge": "Logo size must be less than 5MB.",
+            "success": "Logo uploaded successfully",
+            "failed": "Upload failed",
+            "choose": "Upload Logo",
+            "noUrl": "Upload failed: no logo URL returned."
+        },
+        "deleteModal": {
+            "cannotDeleteTitle": "Cannot Delete Brand",
+            "canDeleteTitle": "Delete Brand",
+            "descriptionBlocked": "<strong>{{name}}</strong> has <strong>{{itemsCount}}</strong> active items. Hard deletion is disabled to prevent massive data loss.",
+            "descriptionAllowed": "The <strong>{{name}}</strong> brand is empty (there are no items), so temporary deletion and permanent deletion are allowed.",
+            "disableOption": "Deactivate Brand (Recommended)",
+            "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
+            "softDeleteOption": "Soft Delete (Recommended)",
+            "softDeleteDescription": "Move brand to trash. You can restore it later if needed.",
+            "hardDeleteOption": "Hard Delete",
+            "hardDeleteDescription": "Permanently remove the brand and all its data. This action cannot be undone.",
+            "bulkMoveOption": "Bulk Move",
+            "bulkMoveDescription": "Transfer all items to a new category before deletion.",
+            "destinationLabel": "Destination Category",
+            "destinationPlaceholder": "Select Destination Category...",
+            "confirmDisable": "Deactivate Brand",
+            "confirmMove": "Move Items",
+            "confirmSoftDelete": "Soft Delete",
+            "confirmHardDelete": "Hard Delete",
+            "cancel": "Cancel",
+            "successDisable": "Brand deactivated successfully",
+            "successSoftDelete": "Brand moved to trash successfully",
+            "successHardDelete": "Brand deleted permanently"
         }
     },
     "viewTable": {

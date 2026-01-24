@@ -1,18 +1,14 @@
-export type LanguageCode = 'en' | 'ar';
-export type CategoryStatus = 'active' | 'inactive';
+import { BaseEntity, LanguageCode, Status } from './common'
+
+export type { LanguageCode }
+export type CategoryStatus = Status
 export type CategoryLevel = 1 | 2 | 3;
 
 export interface CategoryTranslation {
   languageCode: LanguageCode;
   value: string;
+  field: string
   description?: string;
-}
-
-export interface BaseEntity {
-  id: string;
-  createdAt: string;   // ISO Date
-  updatedAt: string;   // ISO Date
-  deletedAt: string | null;
 }
 
 export interface ParentCategory extends BaseEntity {
@@ -33,7 +29,7 @@ export interface ChildCategory extends BaseEntity {
   image: string | null;
 }
 
-export interface Category extends BaseEntity{
+export interface Category extends BaseEntity {
   parentId: string | null;
   parent: ParentCategory | null;
   children: ChildCategory[];
@@ -43,29 +39,33 @@ export interface Category extends BaseEntity{
   status: CategoryStatus;
   sortOrder: number;
   image: string | null;
-  itemsCount : number
+  itemsCount: number
 }
 
 export type CategoryTableRow = {
   id: string
   slug: string
-  translations: CategoryTranslation[]     
+  translations: CategoryTranslation[]
   status: CategoryStatus
-  itemsCount: number                     
-  children: ChildCategory[]              
+  itemsCount: number
+  children: ChildCategory[]
   image: string | null
 }
-
+export interface CategoryTranslationPayload {
+    languageCode: string
+    name: string
+    description?: string
+}
 export interface CategoryPayload {
-    translations: CategoryTranslation[]
-    parentId?: string | null
-    status: CategoryStatus
-    sortOrder: number
-    image?: string | null
-    
+  translations: CategoryTranslationPayload[]
+  parentId?: string | null
+  status: CategoryStatus
+  sortOrder: number
+  image?: string | null
+
 }
 
 // Category tree node type
 export interface CategoryTreeNode extends Omit<Category, 'children'> {
-    children: CategoryTreeNode[]
+  children: CategoryTreeNode[]
 }

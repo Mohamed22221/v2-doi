@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Field, FieldProps, Form, Formik } from 'formik'
@@ -10,26 +9,25 @@ import Switcher from '@/components/ui/Switcher'
 import {
     Notification,
     toast,
-    Radio,
+    
     FormContainer,
     FormItem,
 } from '@/components/ui'
-import classNames from 'classnames'
 
 // API hooks
 import {
-    useCreateCategory,
-    useGetCategoryById,
-    useUpdateCategory,
-} from '@/api/hooks/categories'
+    useCreateBrand,
+    useGetBrandById,
+    useUpdateBrand,
+} from '@/api/hooks/brands'
 import { getApiErrorMessage } from '@/api/error'
 
 // Validation
-import getCategoryValidationSchema from './schema'
+import getBrandValidationSchema from './schema'
 
 // Components
-import CategoryImageUpload from './CategoryImageUpload'
-import FormCategorySkeleton from './FormCategorySkeleton'
+import BrandLogoUpload from './BrandLogoUpload'
+import FormBrandSkeleton from './FormBrandSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
@@ -37,48 +35,45 @@ import Icon from '@/components/ui/Icon/Icon'
 import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
 // Types
-import type { CategoryPayload, LanguageCode } from '@/api/types/categories'
+import type { BrandPayload, LanguageCode } from '@/api/types/brands'
 
 type FormValues = {
     name: string
     description: string
-    parentId: string | null
+    categoryId: string | null
     status: 'active' | 'inactive'
-    image: string
+    logoUrl: string
     sortOrder: number
     language: string
     localTranslations: Record<string, { name: string; description: string }>
-
 }
 
-const FormCategory = () => {
+const FormBrand = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const isUpdateMode = Boolean(id)
     const { t } = useTranslation()
 
     const {
-        data: categoryDetails,
+        data: brandDetails,
         isLoading,
         isError,
         error,
-    } = useGetCategoryById(id as string, {
+    } = useGetBrandById(id as string, {
         enabled: isUpdateMode,
     })
 
-    const { mutateAsync: createCategory, isPending: isCreating } =
-        useCreateCategory()
-    const { mutateAsync: updateCategory, isPending: isUpdating } =
-        useUpdateCategory()
-
-    const [categoryType, setCategoryType] = useState<'main' | 'sub'>('main')
+    const { mutateAsync: createBrand, isPending: isCreating } =
+        useCreateBrand()
+    const { mutateAsync: updateBrand, isPending: isUpdating } =
+        useUpdateBrand()
 
     const initialValues: FormValues = {
         name: '',
         description: '',
-        parentId: null,
+        categoryId: null,
         status: 'active',
-        image: '',
+        logoUrl: '',
         sortOrder: 0,
         language: 'en',
         localTranslations: {},
@@ -105,32 +100,33 @@ const FormCategory = () => {
                     name: v.name || '',
                     description: v.description || '',
                 }))
-            const payload: CategoryPayload = {
+
+            const payload: BrandPayload = {
                 translations,
-                parentId: values.parentId || null,
+                categoryId: values.categoryId || null,
                 status: values.status,
                 sortOrder: Number(values.sortOrder),
-                image: values.image || null,
+                logoUrl: values.logoUrl || null,
             }
 
             if (isUpdateMode && id) {
-                await updateCategory({ id, payload })
+                await updateBrand({ id, payload })
                 toast.push(
                     <Notification
-                        title={t('categories.update.success')}
+                        title={t('brands.update.success')}
                         type="success"
                     />,
                 )
             } else {
-                await createCategory(payload)
+                await createBrand(payload)
                 toast.push(
                     <Notification
-                        title={t('categories.create.success')}
+                        title={t('brands.create.success')}
                         type="success"
                     />,
                 )
             }
-            navigate('/categories')
+            navigate('/brands')
         } catch (error) {
             toast.push(
                 <Notification
@@ -143,45 +139,22 @@ const FormCategory = () => {
         }
     }
 
-    const getOptionClasses = (
-        option: 'main' | 'sub',
-        baseClassName: string = '',
-    ) => {
-        const isActive = categoryType === option
-
-        return classNames(
-            'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
-            isActive
-                ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
-                : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 hover:border-neutral-200 dark:hover:border-neutral-700',
-            baseClassName,
-        )
-    }
-
-    useEffect(() => {
-        if (categoryDetails?.data?.parentId) {
-            setCategoryType('sub')
-        } else if (isUpdateMode && categoryDetails?.data?.parentId === null) {
-            setCategoryType('main')
-        }
-    }, [categoryDetails?.data?.parentId, isUpdateMode])
-
-    if (isLoading) return <FormCategorySkeleton />
-    if (isError) return <ErrorState message={error?.message} fullPage />
+    if (isLoading) return <FormBrandSkeleton />
+    if (isError) return <ErrorState message={error?.message} fullPage={true} />
 
     return (
         <Formik
             enableReinitialize
             initialValues={
-                isUpdateMode && categoryDetails?.data
+                isUpdateMode && brandDetails?.data
                     ? {
-                          ...initialValues,
-                          parentId: categoryDetails.data.parentId ?? null,
-                          status: categoryDetails.data.status ?? 'active',
-                          image: categoryDetails.data.image ?? '',
-                          sortOrder: categoryDetails.data.sortOrder ?? 0,
+                        ...initialValues,
+                        categoryId: brandDetails.data.categoryId ?? null,
+                        status: brandDetails.data.status ?? 'active',
+                        logoUrl: brandDetails.data.logoUrl ?? '',
+                        sortOrder: brandDetails.data.sortOrder ?? 0,
                         localTranslations:
-                            categoryDetails.data.translations?.reduce(
+                            brandDetails.data.translations?.reduce(
                                 (acc: Record<string, { name: string; description: string }>, t) => {
                                     const lang = t.languageCode.toLowerCase()
                                     const entry = acc[lang] || { name: '', description: '' }
@@ -193,25 +166,20 @@ const FormCategory = () => {
                                 },
                                 {},
                             ) ?? {},
-                          language:
-                              categoryDetails.data.translations?.[0]
-                                  ?.languageCode || 'en',
-                          name:
-                              categoryDetails.data.translations?.find(
-                                  (t) =>
-                                      t.field === 'name' &&
-                                      t.languageCode.toLowerCase() ===
-                                          (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
-                                              'en'),
-                              )?.value || '',
-                        description:
-                            categoryDetails.data.translations?.find(
-                                (t) => t.field === 'description' && t.languageCode.toLowerCase() === (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
+                        language:
+                            brandDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en',
+                        name:
+                            brandDetails.data.translations?.find(
+                                (t) => t.field === 'name' && t.languageCode.toLowerCase() === (brandDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
                             )?.value || '',
-                      }
+                        description:
+                            brandDetails.data.translations?.find(
+                                (t) => t.field === 'description' && t.languageCode.toLowerCase() === (brandDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
+                            )?.value || '',
+                    }
                     : initialValues
             }
-            validationSchema={getCategoryValidationSchema(t)}
+            validationSchema={getBrandValidationSchema(t)}
             onSubmit={(values, { setSubmitting }) =>
                 handleSubmit(values, setSubmitting)
             }
@@ -235,7 +203,7 @@ const FormCategory = () => {
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t(
-                                                'categories.generalInformation',
+                                                'brands.generalInformation',
                                             )}
                                             icon={<Icon name="info" />}
                                             rightSlot={
@@ -279,7 +247,7 @@ const FormCategory = () => {
                                         <div className="pt-3">
                                             <FormItem
                                                 asterisk
-                                                label={t('categories.name')}
+                                                label={t('brands.name')}
                                                 invalid={Boolean(
                                                     touched.name && errors.name,
                                                 )}
@@ -289,14 +257,14 @@ const FormCategory = () => {
                                                     name="name"
                                                     component={Input}
                                                     placeholder={t(
-                                                        'categories.nameAdd',
+                                                        'brands.nameAdd',
                                                     )}
                                                 />
                                             </FormItem>
 
                                             <FormItem
                                                 label={t(
-                                                    'categories.description',
+                                                    'brands.description',
                                                 )}
                                             >
                                                 <Field name="description">
@@ -308,7 +276,7 @@ const FormCategory = () => {
                                                             textArea
                                                             rows={4}
                                                             placeholder={t(
-                                                                'categories.descriptionAdd',
+                                                                'brands.descriptionAdd',
                                                             )}
                                                         />
                                                     )}
@@ -319,7 +287,7 @@ const FormCategory = () => {
 
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
-                                            title={t('categories.mediaAssets')}
+                                            title={t('brands.mediaAssets')}
                                             icon={<Icon name="assets" />}
                                         />
                                         <div className="space-y-3 py-3">
@@ -327,10 +295,9 @@ const FormCategory = () => {
                                                 <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">
                                                     *
                                                 </span>
-                                                {t('categories.coverImage')}{' '}
-                                                (16:9)
+                                                {t('brands.logo')}
                                             </label>
-                                            <CategoryImageUpload />
+                                            <BrandLogoUpload />
                                         </div>
                                     </BackgroundRounded>
                                 </div>
@@ -339,7 +306,7 @@ const FormCategory = () => {
                                 <div className="lg:col-span-1 space-y-4">
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
-                                            title={t('categories.publishing')}
+                                            title={t('brands.publishing')}
                                             icon={<Icon name="show" />}
                                         />
 
@@ -348,7 +315,7 @@ const FormCategory = () => {
                                                 <span className="w-2 h-2 rounded-full bg-green-500"></span>
                                                 <label className="text-sm font-medium">
                                                     {t(
-                                                        'categories.activeStatus',
+                                                        'brands.activeStatus',
                                                     )}
                                                 </label>
                                             </div>
@@ -379,11 +346,11 @@ const FormCategory = () => {
                                             <FormItem
                                                 asterisk
                                                 label={t(
-                                                    'categories.sortOrder',
+                                                    'brands.sortOrder',
                                                 )}
                                                 invalid={Boolean(
                                                     touched.sortOrder &&
-                                                        errors.sortOrder,
+                                                    errors.sortOrder,
                                                 )}
                                                 errorMessage={errors.sortOrder}
                                             >
@@ -392,7 +359,7 @@ const FormCategory = () => {
                                                     type="number"
                                                     component={Input}
                                                     placeholder={t(
-                                                        'categories.sortOrderPlaceholder',
+                                                        'brands.sortOrderPlaceholder',
                                                     )}
                                                 />
                                             </FormItem>
@@ -402,7 +369,7 @@ const FormCategory = () => {
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t(
-                                                'categories.classification',
+                                                'brands.classification',
                                             )}
                                             icon={
                                                 <Icon name="classification" />
@@ -410,107 +377,30 @@ const FormCategory = () => {
                                         />
 
                                         <div className="py-3">
-                                            <Radio.Group
-                                                vertical
-                                                value={categoryType}
-                                                onChange={(val) => {
-                                                    setCategoryType(val)
-                                                    if (val === 'main') {
-                                                        setFieldValue(
-                                                            'parentId',
-                                                            null,
-                                                        )
-                                                    }
-                                                }}
-                                                className="w-full space-y-4"
+                                            <FormItem
+                                                asterisk
+                                                label={t('brands.category')}
+                                                invalid={Boolean(
+                                                    touched.categoryId &&
+                                                    errors.categoryId,
+                                                )}
+                                                errorMessage={errors.categoryId as string}
                                             >
-                                                <div
-                                                    className={getOptionClasses(
-                                                        'main',
+                                                <CategorySelect
+                                                    size="sm"
+                                                    placeholder={t(
+                                                        'brands.selectCategory',
                                                     )}
-                                                    onClick={() => {
-                                                        setCategoryType('main')
+                                                    value={values.categoryId}
+                                                    menuPortalZ={400}
+                                                    onChange={(opt) =>
                                                         setFieldValue(
-                                                            'parentId',
-                                                            null,
+                                                            'categoryId',
+                                                            opt ?? null,
                                                         )
-                                                    }}
-                                                >
-                                                    <div className="flex gap-4 w-full">
-                                                        <Radio value="main" />
-
-                                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
-                                                            {t(
-                                                                'categories.parentCategory',
-                                                            )}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div
-                                                    className={getOptionClasses(
-                                                        'sub',
-                                                        'flex-col',
-                                                    )}
-                                                    onClick={() =>
-                                                        setCategoryType('sub')
                                                     }
-                                                >
-                                                    <div className="flex  gap-4 w-full">
-                                                        <Radio value="sub" />
-
-                                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                                            {t(
-                                                                'categories.subCategory',
-                                                            )}
-                                                        </span>
-                                                    </div>
-
-                                                    {categoryType === 'sub' && (
-                                                        <div
-                                                            className="w-full mt-1 pt-2 border-t border-dashed border-neutral-100 dark:border-neutral-700"
-                                                            onClick={(e) =>
-                                                                e.stopPropagation()
-                                                            }
-                                                        >
-                                                            <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
-                                                                {t(
-                                                                    'categories.selectParent',
-                                                                )}
-                                                            </label>
-                                                            <CategorySelect
-                                                                size="sm"
-                                                                placeholder={t(
-                                                                    'categories.selectParent',
-                                                                )}
-                                                                value={
-                                                                    values.parentId
-                                                                }
-                                                                menuPortalZ={
-                                                                    400
-                                                                }
-                                                                onChange={(
-                                                                    opt,
-                                                                ) =>
-                                                                    setFieldValue(
-                                                                        'parentId',
-                                                                        opt ??
-                                                                            null,
-                                                                    )
-                                                                }
-                                                            />
-                                                            {touched.parentId &&
-                                                                errors.parentId && (
-                                                                    <div className="text-xs text-red-500 mt-1">
-                                                                        {
-                                                                            errors.parentId as string
-                                                                        }
-                                                                    </div>
-                                                                )}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </Radio.Group>
+                                                />
+                                            </FormItem>
                                         </div>
                                     </BackgroundRounded>
                                 </div>
@@ -531,8 +421,8 @@ const FormCategory = () => {
                                     disabled={submitting || isLoading}
                                 >
                                     {isUpdateMode
-                                        ? t('categories.update.submit')
-                                        : t('categories.create.submit')}
+                                        ? t('brands.update.submit')
+                                        : t('brands.create.submit')}
                                 </Button>
                             </div>
                         </FormContainer>
@@ -543,4 +433,4 @@ const FormCategory = () => {
     )
 }
 
-export default FormCategory
+export default FormBrand

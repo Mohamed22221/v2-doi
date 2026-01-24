@@ -16,6 +16,7 @@
         "dashboard": "اللوحة الرئيسية",
         "users": "المستخدمون",
         "categories": "الفئات",
+        "brands": "العلامات التجارية",
         "orders": "الطلبات",
         "fixedPrice": "العناصر بسعر ثابت",
         "manageAds": "إدارة الإعلانات",
@@ -411,6 +412,98 @@
             "successSoftDelete": "تم نقل الفئة إلى المهملات بنجاح",
             "successHardDelete": "تم حذف الفئة نهائيًا",
             "errorMove": "فشل في نقل العناصر"
+        }
+    },
+    "brands": {
+        "table": {
+            "columns": {
+                "brandName": "اسم العلامة التجارية",
+                "status": "الحالة",
+                "items": "العناصر"
+            },
+            "title": "إدارة العلامات التجارية",
+            "searchPlaceholder": "ابحث عن علامة تجارية (عربي / إنجليزي)",
+            "emptyText": "لا توجد علامات تجارية.",
+            "filters": {
+                "status": "الحالة",
+                "allStatus": "كل الحالات",
+                "category": "الفئة",
+                "allCategories": "كل الفئات"
+            },
+            "status": {
+                "active": "نشط",
+                "inactive": "غير نشط"
+            }
+        },
+        "create": {
+            "title": "إضافة علامة تجارية جديدة",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء علامة تجارية جديدة",
+            "submit": "إنشاء العلامة التجارية",
+            "success": "تم إنشاء العلامة التجارية بنجاح"
+        },
+        "update": {
+            "title": "تعديل العلامة التجارية",
+            "subtitle": "قم بتعديل بيانات العلامة التجارية ثم احفظ التغييرات",
+            "submit": "حفظ التعديلات",
+            "success": "تم تحديث العلامة التجارية بنجاح"
+        },
+        "generalInformation": "المعلومات العامة",
+        "mediaAssets": "الوسائط",
+        "publishing": "النشر",
+        "classification": "التصنيف",
+        "name": "اسم العلامة التجارية",
+        "description": "الوصف",
+        "nameAdd": "أدخل اسم العلامة التجارية",
+        "descriptionAdd": "أدخل الوصف",
+        "logo": "شعار العلامة التجارية",
+        "activeStatus": "حالة النشر",
+        "category": "الفئة",
+        "selectCategory": "اختر الفئة",
+        "sortOrder": "ترتيب العرض",
+        "sortOrderPlaceholder": "أدخل ترتيب العرض",
+        "addBrand": "اضافة علامة تجارية",
+        "errors": {
+            "nameRequired": "اسم العلامة التجارية مطلوب",
+            "categoryRequired": "الفئة مطلوبة",
+            "statusRequired": "حالة النشر مطلوبة",
+            "logoRequired": "شعار العلامة التجارية مطلوب",
+            "invalidLogoUrl": "يرجى إدخال رابط شعار صحيح أو مسار نسبي",
+            "sortOrderRequired": "ترتيب العرض مطلوب",
+            "sortOrderNumber": "يجب أن يكون ترتيب العرض رقماً",
+            "sortOrderMin": "يجب أن يكون ترتيب العرض 0 على الأقل"
+        },
+        "upload": {
+            "oneOnly": "يرجى رفع شعار واحد فقط.",
+            "invalidType": "يرجى رفع شعار بصيغة صحيحة (jpeg، png، webp).",
+            "tooLarge": "يجب ألا يزيد حجم الشعار عن 5 ميجابايت.",
+            "success": "تم رفع الشعار بنجاح",
+            "failed": "فشل رفع الشعار",
+            "choose": "رفع شعار",
+            "noUrl": "فشل الرفع: لم يتم إرجاع رابط للشعار."
+        },
+        "deleteModal": {
+            "cannotDeleteTitle": "لا يمكن حذف العلامة التجارية",
+            "canDeleteTitle": "حذف العلامة التجارية",
+            "descriptionBlocked": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة. تم تعطيل الحذف النهائي لمنع فقدان البيانات بشكل كبير.",
+            "descriptionAllowed": "العلامة التجارية <strong>{{name}}</strong> فارغة (لا توجد عناصر) لذا يسمح بالحذف المؤقت، والحذف النهائي.",
+            "disableOption": "تعطيل العلامة التجارية (موصى به)",
+            "disableDescription": "التعطيل يحافظ على البيانات ولكن يخفيها عن المستخدمين ويمنع أي استخدام آخر.",
+            "softDeleteOption": "حذف مؤقت (موصى به)",
+            "softDeleteDescription": "نقل العلامة التجارية إلى المهملات. يمكنك استعادتها لاحقًا إذا لزم الأمر.",
+            "hardDeleteOption": "حذف نهائي",
+            "hardDeleteDescription": "إزالة العلامة التجارية وجميع بياناتها بشكل دائم. لا يمكن التراجع عن هذا الإجراء.",
+            "bulkMoveOption": "نقل العلامة التجارية",
+            "bulkMoveDescription": "نقل جميع العناصر إلى تصنيف جديد قبل الحذف.",
+            "destinationLabel": "العلامة التجارية المستهدفة",
+            "destinationPlaceholder": "اختر العلامة التجارية المستهدفة...",
+            "confirmDisable": "تعطيل العلامة التجارية",
+            "confirmMove": "نقل العناصر",
+            "confirmSoftDelete": "حذف مؤقت",
+            "confirmHardDelete": "حذف نهائي",
+            "cancel": "إلغاء",
+            "successDisable": "تم تعطيل العلامة التجارية بنجاح",
+            "successSoftDelete": "تم نقل العلامة التجارية إلى المهملات بنجاح",
+            "successHardDelete": "تم حذف العلامة التجارية نهائيًا"
         }
     },
     "viewTable": {

@@ -13,7 +13,7 @@ export const useCategoryCsvColumns = () => {
                 accessor: (row: CategoryTableRow) =>
                     row.translations.find(
                         (tr: { languageCode: string; value: string }) =>
-                            tr.languageCode === 'en',
+                            tr.languageCode.toLowerCase() === 'en',
                     )?.value ?? row.slug,
             },
             {

@@ -36,6 +36,23 @@ export const protectedRoutes = [
         authority: [],
     },
     {
+        key: 'brands',
+        path: '/brands',
+        component: lazy(() => import('@/pages/brands')),
+        authority: [],
+    },
+    {
+        key: 'brands',
+        path: '/brands/create',
+        component: lazy(() => import('@/pages/brands/ActionBrand/CreateBrand')),
+        authority: [],
+    },
+    {
+        key: 'brands',
+        path: '/brands/:id/edit',
+        component: lazy(() => import('@/pages/brands/ActionBrand/UpdateBrand')),
+    },
+    {
         key: 'categories',
         path: '/categories/create',
         component: lazy(() => import('@/pages/categories/ActionCategory/CreateCategory')),

@@ -120,7 +120,7 @@ const ViewTableFilters = ({
                                 </label>
                             )}
 
-                            <div className="min-w-[140px]">
+                            <div className="min-w-[170px]">
                                 <Select<FilterOption>
                                     size="sm"
                                     isSearchable={false}
