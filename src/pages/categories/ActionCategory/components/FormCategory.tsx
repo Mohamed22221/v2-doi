@@ -402,7 +402,7 @@ const FormCategory = () => {
                                             }
                                         />
 
-                                        <div className="space-y-4 py-3">
+                                        <div className="py-3">
                                             <Radio.Group
                                                 vertical
                                                 value={categoryType}
@@ -429,11 +429,9 @@ const FormCategory = () => {
                                                         )
                                                     }}
                                                 >
-                                                    <Radio
-                                                        value="main"
-                                                        className="mt-1"
-                                                    />
-                                                    <div className="flex-1 text-left">
+                                                    <div className="flex gap-4 w-full">
+                                                        <Radio value="main" />
+
                                                         <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
                                                             {t(
                                                                 'categories.parentCategory',
@@ -451,23 +449,19 @@ const FormCategory = () => {
                                                         setCategoryType('sub')
                                                     }
                                                 >
-                                                    <div className="flex items-start gap-4 w-full">
-                                                        <Radio
-                                                            value="sub"
-                                                            className="mt-1"
-                                                        />
-                                                        <div className="flex-1 text-start">
-                                                            <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                                                {t(
-                                                                    'categories.subCategory',
-                                                                )}
-                                                            </span>
-                                                        </div>
+                                                    <div className="flex  gap-4 w-full">
+                                                        <Radio value="sub" />
+
+                                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
+                                                            {t(
+                                                                'categories.subCategory',
+                                                            )}
+                                                        </span>
                                                     </div>
 
                                                     {categoryType === 'sub' && (
                                                         <div
-                                                            className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
+                                                            className="w-full mt-1 pt-2 border-t border-dashed border-neutral-100 dark:border-neutral-700"
                                                             onClick={(e) =>
                                                                 e.stopPropagation()
                                                             }

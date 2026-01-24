@@ -77,7 +77,6 @@ const FormUpdate = () => {
         roleId: 0,
         isActive: true,
         image: '',
-        
     }
 
     const handleSubmit = async (
@@ -241,7 +240,6 @@ const FormUpdate = () => {
 
                                                 return (
                                                     <Select<RoleOption>
-                                                        size="sm"
                                                         isSearchable={false}
                                                         placeholder={t(
                                                             'users.rolePlaceholder',
@@ -311,18 +309,15 @@ const FormUpdate = () => {
                                                 form,
                                             }: FieldProps<boolean>) => (
                                                 <Switcher
-                                                        checked={
-                                                            field.value ===
-                                                            true
-                                                        }
-
+                                                    checked={
+                                                        field.value === true
+                                                    }
                                                     onChange={(checked) => {
                                                         form.setFieldValue(
                                                             field.name,
                                                             checked
                                                                 ? true
                                                                 : false,
-                                                            
                                                         )
                                                     }}
                                                 />
