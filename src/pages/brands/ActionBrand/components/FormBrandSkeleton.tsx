@@ -65,6 +65,15 @@ const FormBrandSkeleton = () => {
                         <Skeleton className="h-10 w-full" />
                     </div>
                 </BackgroundRounded>
+
+                                {/* Classification Card */}
+                <BackgroundRounded className="px-6">
+                    <div className="space-y-8">
+                        <Skeleton className="h-7 w-32" />
+                        <Skeleton className="h-7 w-28" />
+                        <Skeleton className="h-18 w-full" />
+                    </div>
+                </BackgroundRounded>
             </div>
         </div>
     )

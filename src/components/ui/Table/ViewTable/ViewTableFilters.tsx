@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import { HiOutlineSearch } from 'react-icons/hi'
-import { InfinityControls } from '@/utils/hooks/useServerTable'
+import { InfinityControls, FilterConfigType } from '@/utils/hooks/useServerTable'
+import DatePicker from '../../DatePicker'
 
 export type FilterValue = string | number | boolean
 
@@ -17,10 +18,12 @@ export interface FilterConfig {
     key: string
     label?: string
     value: FilterValue | null
+    dateValue?: Date | null
     options: FilterOption[]
     placeholder?: string
     hidden?: boolean
     infinity?: InfinityControls
+    type?: FilterConfigType
 }
 
 export interface ViewTableFiltersProps {
@@ -30,6 +33,7 @@ export interface ViewTableFiltersProps {
     onSearchChange: (value: string) => void
     filters?: FilterConfig[]
     onFilterChange?: (key: string, value: FilterValue | null) => void
+    onDateFilterChange?: (key: string, date: Date | null) => void
     showClearAll?: boolean
     onClearAll?: () => void
 }
@@ -54,6 +58,7 @@ const ViewTableFilters = ({
     onSearchChange,
     filters = [],
     onFilterChange,
+    onDateFilterChange,
     showClearAll = true,
     onClearAll,
 }: ViewTableFiltersProps) => {
@@ -65,7 +70,9 @@ const ViewTableFilters = ({
 
     const hasActiveFilters = useMemo(() => {
         const hasSearch = showSearch && searchValue.trim() !== ''
-        const hasFilterValues = visibleFilters.some((f) => f.value !== null)
+        const hasFilterValues = visibleFilters.some(
+            (f) => f.value !== null || f.dateValue !== null
+        )
         return hasSearch || hasFilterValues
     }, [showSearch, searchValue, visibleFilters])
 
@@ -76,9 +83,12 @@ const ViewTableFilters = ({
         }
 
         onSearchChange('')
-        visibleFilters.forEach((f) => onFilterChange?.(f.key, null))
+        visibleFilters.forEach((f) => {
+            onFilterChange?.(f.key, null)
+            onDateFilterChange?.(f.key, null)
+        })
     }
-    
+
     return (
         <div className="px-3 md:px-5 py-3">
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-start md:items-center">
@@ -102,11 +112,11 @@ const ViewTableFilters = ({
                     const selectedOption =
                         filter.value !== null
                             ? (filter.options.find((opt) =>
-                                  isSameValue(
-                                      opt.value,
-                                      filter.value as FilterValue,
-                                  ),
-                              ) ?? null)
+                                isSameValue(
+                                    opt.value,
+                                    filter.value as FilterValue,
+                                ),
+                            ) ?? null)
                             : null
 
                     return (
@@ -119,29 +129,81 @@ const ViewTableFilters = ({
                                     {filter.label}
                                 </label>
                             )}
+                            {filter.type !== 'date' && filter.type !== 'year' && (
+                                <div className="min-w-[170px]">
+                                    <Select<FilterOption>
 
-                            <div className="min-w-[170px]">
-                                <Select<FilterOption>
-                                    size="sm"
-                                    isSearchable={false}
-                                    placeholder={filter.placeholder || t('viewTable.filters.all')}
-                                    value={selectedOption}
-                                    options={filter.options}
-                                    maxMenuHeight={230}
-                                    hasMore={filter?.infinity?.hasNextPage}
-                                    isLoadingMore={filter?.infinity?.isFetching}
-                                    loadMoreLabel={t('viewTable.filters.loadMore')}
-                                    onLoadMore={() =>
-                                        filter?.infinity?.fetchNextPage()
-                                    }
-                                    onChange={(option) =>
-                                        onFilterChange?.(
-                                            filter.key,
-                                            option?.value ?? null,
-                                        )
-                                    }
-                                />
-                            </div>
+                                        size="sm"
+                                        isSearchable={false}
+                                        placeholder={
+                                            filter.placeholder ||
+                                            t('viewTable.filters.all')
+                                        }
+                                        value={selectedOption}
+                                        options={filter.options}
+                                        maxMenuHeight={230}
+                                        hasMore={filter?.infinity?.hasNextPage}
+                                        isLoadingMore={
+                                            filter?.infinity?.isFetching
+                                        }
+                                        loadMoreLabel={t(
+                                            'viewTable.filters.loadMore',
+                                        )}
+                                        onLoadMore={() =>
+                                            filter?.infinity?.fetchNextPage()
+                                        }
+                                        onChange={(option) =>
+                                            onFilterChange?.(
+                                                filter.key,
+                                                option?.value ?? null,
+                                            )
+                                        }
+                                        isClearable
+                                    />
+                                </div>
+                            )}
+
+                            {filter.type === 'year' && (
+                                <div className="min-w-[120px]">
+                                    <DatePicker
+                                        size="sm"
+                                        placeholder={
+                                            filter.placeholder ?? t('viewTable.filters.all')
+                                        }
+                                        value={filter.dateValue ?? null}
+                                        inputFormat="YYYY"
+                                        defaultView="year"
+                                        viewOnly="year"
+                                        minDate={new Date(1900, 0, 1)}
+                                        maxDate={new Date()}
+                                        clearable
+                                        onChange={(date: Date | null) => {
+                                            onDateFilterChange?.(filter.key, date)
+                                        }}
+                                    />
+                                </div>
+
+                            )}
+
+                            {filter.type === 'date' && (
+                                <div className="min-w-[150px]">
+                                    <DatePicker
+                                        size="sm"
+                                        placeholder={
+                                            filter.placeholder ||
+                                            t('viewTable.filters.all')
+                                        }
+                                        value={filter.dateValue ?? null}
+                                        clearable
+                                        onChange={(date) =>
+                                            onDateFilterChange?.(
+                                                filter.key,
+                                                date,
+                                            )
+                                        }
+                                    />
+                                </div>
+                            )}
                         </div>
                     )
                 })}

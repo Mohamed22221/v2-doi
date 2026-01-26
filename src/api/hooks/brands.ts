@@ -3,6 +3,7 @@ import {
     useMutation,
     useQueryClient,
     UseQueryOptions,
+    useInfiniteQuery,
 } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
@@ -54,11 +55,7 @@ export const useGetBrandById = (
 export const useCreateBrand = () => {
     const queryClient = useQueryClient()
 
-    const mutation = useMutation<
-        TAPIResponseItem<Brand>,
-        Error,
-        BrandPayload
-    >({
+    const mutation = useMutation<TAPIResponseItem<Brand>, Error, BrandPayload>({
         mutationFn: (payload: BrandPayload) =>
             BrandsServices.createBrand(payload),
         onSuccess: () => {
@@ -217,4 +214,21 @@ export const useDeactivateBrand = () => {
             ? getApiErrorMessage(mutation.error)
             : null,
     }
+}
+
+export function useGetAllBrandsSelect() {
+    return useInfiniteQuery({
+        queryKey: ['optionsBrands'],
+        initialPageParam: 1,
+        queryFn: ({ pageParam }) =>
+            BrandsServices.getInfinityBrands(pageParam as number),
+        getNextPageParam: (lastPage) =>
+            lastPage.data.page < lastPage.data.totalPages
+                ? lastPage.data.page + 1
+                : undefined,
+        select: (data) => ({
+            ...data,
+            items: data.pages.flatMap((p) => p.data.items),
+        }),
+    })
 }

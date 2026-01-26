@@ -15,16 +15,16 @@ const DEFAULT_INPUT_FORMAT = 'YYYY-MM-DD'
 
 export interface DatePickerProps
     extends CommonProps,
-        Omit<
-            CalendarSharedProps,
-            | 'onMonthChange'
-            | 'onChange'
-            | 'isDateInRange'
-            | 'isDateFirstInRange'
-            | 'isDateLastInRange'
-            | 'month'
-        >,
-        BasePickerSharedProps {
+    Omit<
+        CalendarSharedProps,
+        | 'onMonthChange'
+        | 'onChange'
+        | 'isDateInRange'
+        | 'isDateFirstInRange'
+        | 'isDateLastInRange'
+        | 'month'
+    >,
+    BasePickerSharedProps {
     closePickerOnChange?: boolean
     defaultOpen?: boolean
     defaultValue?: Date | null
@@ -51,6 +51,7 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
             defaultView,
             disabled = false,
             disableDate,
+            viewOnly,
             enableHeaderLabel,
             disableOutOfMonth,
             firstDayOfWeek = 'monday',
@@ -116,8 +117,8 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         const [inputState, setInputState] = useState(
             _value instanceof Date
                 ? capitalize(
-                      dayjs(_value).locale(finalLocale).format(dateFormat),
-                  )
+                    dayjs(_value).locale(finalLocale).format(dateFormat),
+                )
                 : '',
         )
 
@@ -305,7 +306,8 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                     preventFocus={inputtable}
                     dateViewCount={dateViewCount}
                     enableHeaderLabel={enableHeaderLabel}
-                    defaultView={defaultView}
+                    defaultView={viewOnly ?? defaultView}
+                    viewOnly={viewOnly}
                     hideOutOfMonthDates={hideOutOfMonthDates}
                     hideWeekdays={hideWeekdays}
                     renderDay={renderDay}

@@ -3,14 +3,10 @@ import api from '../api'
 import { Brand, BrandPayload } from '../types/brands'
 
 const BrandsServices = {
-    getBrands: (
-        searchParams: string,
-    ): Promise<TAPIResponseItems<Brand[]>> =>
+    getBrands: (searchParams: string): Promise<TAPIResponseItems<Brand[]>> =>
         api.get(`/admin/brands?${searchParams}`),
 
-    createBrand: (
-        payload: BrandPayload,
-    ): Promise<TAPIResponseItem<Brand>> =>
+    createBrand: (payload: BrandPayload): Promise<TAPIResponseItem<Brand>> =>
         api.post('/admin/brands', payload),
 
     getBrandById: (id: string): Promise<TAPIResponseItem<Brand>> =>
@@ -36,6 +32,11 @@ const BrandsServices = {
 
     deactivateBrand: (id: string): Promise<TAPIResponseItem<Brand>> =>
         api.patch(`/admin/brands/${id}/deactivate`),
+    getInfinityBrands: (
+        page: number,
+        limit: number = 10,
+    ): Promise<TAPIResponseItems<Brand[]>> =>
+        api.get(`/admin/brands?page=${page}&limit=${limit}`),
 }
 
 export default BrandsServices

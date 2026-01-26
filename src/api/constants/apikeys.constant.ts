@@ -18,6 +18,9 @@ const ReactQueryKeys = {
   // brands
   ALL_BRANDS: "all-brands",
   BRAND_BY_ID: "brand-by-id",
+  // models
+  ALL_MODELS: "all-models",
+  MODEL_BY_ID: "model-by-id",
   // languages
   ALL_LANGUAGES: "all-languages",
   LANGUAGE_BY_ID: "language-by-id",

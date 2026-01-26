@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Select } from '@/components/ui'
-import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
-import type { Category } from '@/api/types/categories'
+import { useGetAllBrandsSelect } from '@/api/hooks/brands'
+import type { Brand } from '@/api/types/brands'
 import { getApiErrorMessage } from '@/api/error'
 
 type SelectOption<TValue extends string = string> = {
@@ -10,11 +10,11 @@ type SelectOption<TValue extends string = string> = {
     label: string
 }
 
-type CategoryId = Category['id']
+type BrandId = Brand['id']
 
-type CategorySelectProps = {
-    value: CategoryId | null
-    onChange: (value: CategoryId | null) => void
+type BrandsSelectProps = {
+    value: BrandId | null
+    onChange: (value: BrandId | null) => void
     placeholder?: string
     size?: 'sm' | 'md' | 'lg'
     maxMenuHeight?: number
@@ -25,7 +25,7 @@ type CategorySelectProps = {
     errorPlaceholder?: string
 }
 
-function CategorySelect({
+function BrandsSelect({
     value,
     onChange,
     placeholder,
@@ -36,52 +36,52 @@ function CategorySelect({
     classNames,
     errorPlaceholder,
     menuPortalZ,
-}: CategorySelectProps) {
+}: BrandsSelectProps) {
     const { t, i18n } = useTranslation()
 
     const {
-        data: categoriesData,
+        data: brandsData,
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
         isLoading,
         isError,
         error,
-    } = useGetAllCategoriesSelect()
+    } = useGetAllBrandsSelect()
 
     const pageLanguage = i18n.language
 
-    const categoryOptions = useMemo<SelectOption<CategoryId>[]>(() => {
+    const brandOptions = useMemo<SelectOption<BrandId>[]>(() => {
         return (
-            categoriesData?.items?.map((cat: Category) => {
-                const byPageLang = cat.translations.find(
-                    (t) => t.languageCode === pageLanguage,
+            brandsData?.items?.map((brand: Brand) => {
+                const byPageLang = brand.translations.find(
+                    (tr) => tr.languageCode === pageLanguage,
                 )?.value
 
-                const byFallbackLang = cat.translations.find(
-                    (t) => t.languageCode === fallbackLanguage,
+                const byFallbackLang = brand.translations.find(
+                    (tr) => tr.languageCode === fallbackLanguage,
                 )?.value
 
-                const label = byPageLang || byFallbackLang || cat.slug
+                const label = byPageLang || byFallbackLang || brand.slug
 
                 return {
                     label,
-                    value: cat.id,
+                    value: brand.id,
                 }
             }) ?? []
         )
-    }, [categoriesData, pageLanguage, fallbackLanguage])
+    }, [brandsData, pageLanguage, fallbackLanguage])
 
-    const selectedOption = useMemo<SelectOption<CategoryId> | null>(() => {
-        return categoryOptions.find((o) => o.value === value) ?? null
-    }, [categoryOptions, value])
+    const selectedOption = useMemo<SelectOption<BrandId> | null>(() => {
+        return brandOptions.find((o) => o.value === value) ?? null
+    }, [brandOptions, value])
 
     const resolvedPlaceholder = useMemo(() => {
-        if (!isError) return placeholder
+        if (!isError) return placeholder ?? t('models.selectBrand')
 
         const apiMessage = getApiErrorMessage(error)
         return apiMessage || errorPlaceholder
-    }, [isError, error, placeholder, errorPlaceholder])
+    }, [isError, error, placeholder, errorPlaceholder, t])
 
     return (
         <Select
@@ -90,7 +90,7 @@ function CategorySelect({
             size={size}
             maxMenuHeight={maxMenuHeight}
             placeholder={resolvedPlaceholder}
-            options={categoryOptions}
+            options={brandOptions}
             value={selectedOption}
             hasMore={hasNextPage}
             isLoadingMore={isFetchingNextPage}
@@ -104,4 +104,4 @@ function CategorySelect({
     )
 }
 
-export default CategorySelect
+export default BrandsSelect

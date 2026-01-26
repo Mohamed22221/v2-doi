@@ -18,6 +18,7 @@
         "users": "Registered Users",
         "categories": "Categories",
         "brands": "Brands",
+        "models": "Models",
         "orders": "Orders",
         "fixedPrice": "Fixed Price Items",
         "manageAds": "Manage Ads",
@@ -506,6 +507,77 @@
             "successDisable": "Brand deactivated successfully",
             "successSoftDelete": "Brand moved to trash successfully",
             "successHardDelete": "Brand deleted permanently"
+        }
+    },
+    "models": {
+        "table": {
+            "columns": {
+                "modelName": "Model Name",
+                "brand": "Brand",
+                "category": "Category",
+                "releaseYear": "Release Year",
+                "sortOrder": "Sort Order"
+            },
+            "title": "Models Management",
+            "searchPlaceholder": "Search models",
+            "emptyText": "No models found.",
+            "filters": {
+                "brand": "Brand",
+                "allBrands": "All brands",
+                "category": "Category",
+                "allCategories": "All categories",
+                "releaseYear": "Release Year"
+            }
+        },
+        "create": {
+            "title": "Add New Model",
+            "subtitle": "Fill in the information below to create a new model",
+            "submit": "Create Model",
+            "success": "Model created successfully"
+        },
+        "update": {
+            "title": "Update Model",
+            "subtitle": "Edit model information and save your changes",
+            "submit": "Save Changes",
+            "success": "Model updated successfully"
+        },
+        "generalInformation": "General Information",
+        "publishing": "Publishing",
+        "classification": "Classification",
+        "name": "Model Name",
+        "nameAdd": "Enter Model Name",
+        "brand": "Brand",
+        "selectBrand": "Select Brand",
+        "category": "Category",
+        "selectCategory": "Select Category",
+        "releaseYear": "Release Year",
+        "releaseYearPlaceholder": "Enter Release Year",
+        "sortOrder": "Sort Order",
+        "sortOrderPlaceholder": "Enter Sort Order",
+        "addModel": "Add Model",
+        "errors": {
+            "nameRequired": "Model name is required",
+            "brandRequired": "Brand is required",
+            "categoryRequired": "Category is required",
+            "releaseYearRequired": "Release year is required",
+            "sortOrderRequired": "Sort order is required",
+            "sortOrderNumber": "Sort order must be a number",
+            "sortOrderMin": "Sort order must be at least 0"
+        },
+        "deleteModal": {
+            "cannotDeleteTitle": "Cannot Delete Model",
+            "canDeleteTitle": "Delete Model",
+            "descriptionBlocked": "<strong>{{name}}</strong> has active items. Hard deletion is disabled.",
+            "descriptionAllowed": "Are you sure you want to delete <strong>{{name}}</strong>?",
+            "softDeleteOption": "Soft Delete (Recommended)",
+            "softDeleteDescription": "Move model to trash.",
+            "hardDeleteOption": "Hard Delete",
+            "hardDeleteDescription": "Permanently remove the model.",
+            "confirmSoftDelete": "Soft Delete",
+            "confirmHardDelete": "Hard Delete",
+            "cancel": "Cancel",
+            "successSoftDelete": "Model moved to trash successfully",
+            "successHardDelete": "Model deleted permanently"
         }
     },
     "viewTable": {

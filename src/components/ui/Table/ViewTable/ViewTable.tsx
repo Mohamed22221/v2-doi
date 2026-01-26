@@ -1,4 +1,4 @@
-import {  ReactNode, useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
@@ -44,6 +44,7 @@ export interface ViewTableProps<TData extends object = object> {
     onSearchChange: (value: string) => void
     filters?: FilterConfig[]
     onFilterChange?: (key: string, value: FilterValue | null) => void
+    onDateFilterChange?: (key: string, date: Date | null) => void
     showClearAll?: boolean
     onClearAll?: () => void
     isLoading?: boolean
@@ -51,7 +52,7 @@ export interface ViewTableProps<TData extends object = object> {
     emptyText?: string
     isError?: boolean
     errorText?: string
-    requestedPage:number
+    requestedPage: number
     headerActions?: ReactNode
 }
 
@@ -73,6 +74,7 @@ const ViewTable = <TData extends object>({
     onSearchChange,
     filters = [],
     onFilterChange,
+    onDateFilterChange,
     showClearAll = true,
     onClearAll,
     isLoading,
@@ -106,18 +108,18 @@ const ViewTable = <TData extends object>({
             <div className="px-3 md:px-5 flex justify-between items-center md:h-[90px] h-[70px]">
                 <h3 className="text-[17px] md:text-[24px]">{title || t('viewTable.defaultTitle')}</h3>
                 <div className="flex items-center gap-2">
-                {headerActions}
-                {showExportButton && (
-                    <Button
-                        size="md"
-                        icon={
-                            <HiDownload className="text-primary-500 dark:text-primary-100" />
-                        }
-                        onClick={onExport}
-                    >
-                        {exportButtonText || t('viewTable.defaultExportButtonText')}
-                    </Button>
-                )}
+                    {headerActions}
+                    {showExportButton && (
+                        <Button
+                            size="md"
+                            icon={
+                                <HiDownload className="text-primary-500 dark:text-primary-100" />
+                            }
+                            onClick={onExport}
+                        >
+                            {exportButtonText || t('viewTable.defaultExportButtonText')}
+                        </Button>
+                    )}
                 </div>
             </div>
 
@@ -132,6 +134,7 @@ const ViewTable = <TData extends object>({
                 onClearAll={onClearAll}
                 onSearchChange={onSearchChange}
                 onFilterChange={onFilterChange}
+                onDateFilterChange={onDateFilterChange}
             />
 
             <Table>

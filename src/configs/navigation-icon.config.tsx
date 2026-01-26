@@ -28,6 +28,7 @@ const navigationIcon: NavigationIcons = {
     users: <HiOutlineUsers />,
     categories: <HiOutlineCollection />,
     brands: <HiOutlineChartPie />,
+    models: <HiOutlineDatabase />,
     languages: <GrLanguage />,
     orders: <HiOutlineShoppingCart />,
     fixedPrice: <HiOutlineTag />,

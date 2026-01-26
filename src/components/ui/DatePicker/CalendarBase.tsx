@@ -25,6 +25,7 @@ export interface CalendarSharedProps extends Omit<MonthBaseProps, 'value'> {
     renderDay?: (date: Date) => ReactNode
     weekdayLabelFormat?: string
     yearLabelFormat?: string
+    viewOnly?: 'date' | 'month' | 'year'
 }
 
 interface CalendarBaseProps extends CommonProps, CalendarSharedProps {
@@ -76,7 +77,9 @@ const CalendarBase = forwardRef<HTMLDivElement, CalendarBaseProps>(
 
         const { locale: themeLocale } = useConfig()
 
-        const [selectionState, setSelectionState] = useState(defaultView)
+        const [selectionState, setSelectionState] = useState<'date' | 'month' | 'year'>(
+            props.viewOnly ?? defaultView,
+        )
 
         const finalLocale = locale || themeLocale
 
@@ -209,12 +212,16 @@ const CalendarBase = forwardRef<HTMLDivElement, CalendarBaseProps>(
                         className={className}
                         preventFocus={preventFocus}
                         yearLabelFormat={yearLabelFormat}
-                        onChange={(year) => {
-                            setMonth(
-                                new Date(year, monthSelection as number, 1),
-                            )
+                        onChange={(year: number) => {
+                            setMonth(new Date(year, monthSelection ?? 0, 1))
                             setYearSelection(year)
-                            setSelectionState('date')
+
+                            if (props.viewOnly === 'year') {
+                                onChange?.(new Date(year, 0, 1)) // ✅ finalize selection
+                                return
+                            }
+
+                            setSelectionState('date') // السلوك القديم
                         }}
                     />
                 )}

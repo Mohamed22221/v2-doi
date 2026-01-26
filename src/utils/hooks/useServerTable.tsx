@@ -21,16 +21,20 @@ export type InfinityControls = {
     isFetching?: boolean
 }
 
+export type FilterConfigType = 'select' | 'date' | 'year'
+
 export type ServerFilterConfig = {
     key: string
     label?: string
     value: FilterValue | null
+    dateValue?: Date | null
     valueType?: FilterValueType
     options: FilterOption[]
     placeholder?: string
     hidden?: boolean
     loading?: boolean
     infinity?: InfinityControls
+    type?: FilterConfigType
 }
 
 type ParamsValue = string | number | boolean | undefined
@@ -164,7 +168,25 @@ export function useServerTable(opts: {
         initialFilters.map((f) => {
             const fromUrl = searchParams.get(f.key)
             if (fromUrl === null || fromUrl.trim() === '') {
-                return { ...f, value: f.value ?? null }
+                return { ...f, value: f.value ?? null, dateValue: f.dateValue ?? null }
+            }
+
+            // Handle year type filters - parse year from URL to Date
+            if (f.type === 'year') {
+                const year = parseInt(fromUrl, 10)
+                if (!Number.isNaN(year)) {
+                    return { ...f, value: null, dateValue: new Date(year, 0, 1) }
+                }
+                return { ...f, value: null, dateValue: null }
+            }
+
+            // Handle date type filters - parse ISO date from URL to Date
+            if (f.type === 'date') {
+                const date = new Date(fromUrl)
+                if (!Number.isNaN(date.getTime())) {
+                    return { ...f, value: null, dateValue: date }
+                }
+                return { ...f, value: null, dateValue: null }
             }
 
             const type: FilterValueType = f.valueType ?? 'string'
@@ -273,6 +295,21 @@ export function useServerTable(opts: {
 
         filters.forEach((f) => {
             if (f.hidden) return
+            // Handle year type filters - extract year from dateValue
+            if (f.type === 'year') {
+                if (f.dateValue instanceof Date) {
+                    p[f.key] = f.dateValue.getFullYear()
+                }
+                return
+            }
+            // Handle date type filters - serialize as ISO string
+            if (f.type === 'date') {
+                if (f.dateValue instanceof Date) {
+                    p[f.key] = f.dateValue.toISOString().split('T')[0]
+                }
+                return
+            }
+            // Handle regular filters
             if (f.value === null) return
             p[f.key] = f.value
         })
@@ -302,6 +339,21 @@ export function useServerTable(opts: {
 
         filters.forEach((f) => {
             if (f.hidden) return
+            // Handle year type filters - serialize year to URL
+            if (f.type === 'year') {
+                if (f.dateValue instanceof Date) {
+                    next.set(f.key, String(f.dateValue.getFullYear()))
+                }
+                return
+            }
+            // Handle date type filters - serialize as ISO date string
+            if (f.type === 'date') {
+                if (f.dateValue instanceof Date) {
+                    next.set(f.key, f.dateValue.toISOString().split('T')[0])
+                }
+                return
+            }
+            // Handle regular filters
             const urlV = serializeFilterValue(f.value)
             if (urlV !== '') next.set(f.key, urlV)
         })
@@ -335,25 +387,60 @@ export function useServerTable(opts: {
         [],
     )
 
+    const onDateFilterChange = useCallback(
+        (key: string, dateValue: Date | null) => {
+            filtersManuallyModifiedRef.current = true
+            setCurrentPage(1)
+            setFilters((prev) =>
+                prev.map((f) => (f.key === key ? { ...f, dateValue } : f)),
+            )
+        },
+        [],
+    )
+
     const clearAll = useCallback(() => {
         filtersManuallyModifiedRef.current = false
         setSearchValue('')
         setCurrentPage(1)
-        setFilters((prev) => prev.map((f) => ({ ...f, value: null })))
+        setFilters((prev) => prev.map((f) => ({ ...f, value: null, dateValue: null })))
     }, [])
-    
+
     useEffect(() => {
         setFilters((prev) => {
             const prevMap = new Map(prev.map((f) => [f.key, f]))
 
             return initialFilters.map((f) => {
                 const fromUrl = searchParams.get(f.key)
+                const existing = prevMap.get(f.key)
+
                 if (fromUrl !== null && fromUrl.trim() !== '') {
+                    // Handle year type filters
+                    if (f.type === 'year') {
+                        const year = parseInt(fromUrl, 10)
+                        if (!Number.isNaN(year)) {
+                            return { ...f, value: null, dateValue: new Date(year, 0, 1) }
+                        }
+                        return { ...f, value: null, dateValue: null }
+                    }
+
+                    // Handle date type filters
+                    if (f.type === 'date') {
+                        const date = new Date(fromUrl)
+                        if (!Number.isNaN(date.getTime())) {
+                            return { ...f, value: null, dateValue: date }
+                        }
+                        return { ...f, value: null, dateValue: null }
+                    }
+
                     const type: FilterValueType = f.valueType ?? 'string'
                     return { ...f, value: parseFilterValue(fromUrl, type) }
                 }
 
-                const existing = prevMap.get(f.key)
+                // Preserve existing dateValue for year/date filters
+                if (f.type === 'year' || f.type === 'date') {
+                    return { ...f, value: null, dateValue: existing?.dateValue ?? f.dateValue ?? null }
+                }
+
                 return { ...f, value: existing?.value ?? f.value ?? null }
             })
         })
@@ -366,6 +453,7 @@ export function useServerTable(opts: {
         filters,
         onSearchChange,
         onFilterChange,
+        onDateFilterChange,
         clearAll,
         setCurrentPage,
         onPageChange,

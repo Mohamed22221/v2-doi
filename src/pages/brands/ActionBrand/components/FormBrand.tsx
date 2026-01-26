@@ -312,7 +312,7 @@ const FormBrand = () => {
 
                                         <div className="flex items-center justify-between py-3">
                                             <div className="flex items-center gap-2">
-                                                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                                                <span className={`w-2 h-2 rounded-full ${values.status === "active" ? 'bg-green-500' : 'bg-red-500'}`}></span>
                                                 <label className="text-sm font-medium">
                                                     {t(
                                                         'brands.activeStatus',

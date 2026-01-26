@@ -46,6 +46,16 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'models',
+        path: '/models',
+        title: 'Models',
+        translateKey: 'nav.models',
+        icon: 'models',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
+    {
         key: 'languages',
         path: '/languages',
         title: 'Languages',

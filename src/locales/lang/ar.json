@@ -18,6 +18,7 @@
         "users": "المستخدمون",
         "categories": "الفئات",
         "brands": "العلامات التجارية",
+        "models": "الموديلات",
         "orders": "الطلبات",
         "fixedPrice": "العناصر بسعر ثابت",
         "manageAds": "إدارة الإعلانات",
@@ -506,6 +507,77 @@
             "successDisable": "تم تعطيل العلامة التجارية بنجاح",
             "successSoftDelete": "تم نقل العلامة التجارية إلى المهملات بنجاح",
             "successHardDelete": "تم حذف العلامة التجارية نهائيًا"
+        }
+    },
+    "models": {
+        "table": {
+            "columns": {
+                "modelName": "اسم الموديل",
+                "brand": "العلامة التجارية",
+                "category": "الفئة",
+                "releaseYear": "سنة الإصدار",
+                "sortOrder": "ترتيب العرض"
+            },
+            "title": "إدارة الموديلات",
+            "searchPlaceholder": "ابحث عن موديل",
+            "emptyText": "لا توجد موديلات.",
+            "filters": {
+                "brand": "العلامة التجارية",
+                "allBrands": "كل العلامات التجارية",
+                "category": "الفئة",
+                "allCategories": "كل الفئات",
+                "releaseYear": "سنة الإصدار"
+            }
+        },
+        "create": {
+            "title": "إضافة موديل جديد",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء موديل جديد",
+            "submit": "إنشاء الموديل",
+            "success": "تم إنشاء الموديل بنجاح"
+        },
+        "update": {
+            "title": "تعديل الموديل",
+            "subtitle": "قم بتعديل بيانات الموديل ثم احفظ التغييرات",
+            "submit": "حفظ التعديلات",
+            "success": "تم تحديث الموديل بنجاح"
+        },
+        "generalInformation": "المعلومات العامة",
+        "publishing": "النشر",
+        "classification": "التصنيف",
+        "name": "اسم الموديل",
+        "nameAdd": "أدخل اسم الموديل",
+        "brand": "العلامة التجارية",
+        "selectBrand": "اختر العلامة التجارية",
+        "category": "الفئة",
+        "selectCategory": "اختر الفئة",
+        "releaseYear": "سنة الإصدار",
+        "releaseYearPlaceholder": "أدخل سنة الإصدار",
+        "sortOrder": "ترتيب العرض",
+        "sortOrderPlaceholder": "أدخل ترتيب العرض",
+        "addModel": "إضافة موديل",
+        "errors": {
+            "nameRequired": "اسم الموديل مطلوب",
+            "brandRequired": "العلامة التجارية مطلوبة",
+            "categoryRequired": "الفئة مطلوبة",
+            "releaseYearRequired": "سنة الإصدار مطلوبة",
+            "sortOrderRequired": "ترتيب العرض مطلوب",
+            "sortOrderNumber": "يجب أن يكون ترتيب العرض رقماً",
+            "sortOrderMin": "يجب أن يكون ترتيب العرض 0 على الأقل"
+        },
+        "deleteModal": {
+            "cannotDeleteTitle": "لا يمكن حذف الموديل",
+            "canDeleteTitle": "حذف الموديل",
+            "descriptionBlocked": "تحتوي <strong>{{name}}</strong> على عناصر نشطة. تم تعطيل الحذف النهائي.",
+            "descriptionAllowed": "هل أنت متأكد من حذف الموديل <strong>{{name}}</strong>؟",
+            "softDeleteOption": "حذف مؤقت (موصى به)",
+            "softDeleteDescription": "نقل الموديل إلى المهملات.",
+            "hardDeleteOption": "حذف نهائي",
+            "hardDeleteDescription": "إزالة الموديل وجميع بياناته بشكل دائم.",
+            "confirmSoftDelete": "حذف مؤقت",
+            "confirmHardDelete": "حذف نهائي",
+            "cancel": "إلغاء",
+            "successSoftDelete": "تم نقل الموديل إلى المهملات بنجاح",
+            "successHardDelete": "تم حذف الموديل نهائيًا"
         }
     },
     "viewTable": {

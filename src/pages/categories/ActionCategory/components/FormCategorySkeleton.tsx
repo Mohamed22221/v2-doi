@@ -39,10 +39,7 @@ const FormCategorySkeleton = () => {
                 <BackgroundRounded className="px-6">
                     <div>
                         <Skeleton className="h-4 w-32 mb-2" />
-                        <Skeleton
-                            className="w-full rounded-lg h-66"
-                            
-                        />
+                        <Skeleton className="w-full rounded-lg h-66" />
                     </div>
                 </BackgroundRounded>
             </div>
@@ -63,6 +60,14 @@ const FormCategorySkeleton = () => {
                         <Skeleton className="h-5 w-32" />
                         <Skeleton className="h-5 w-28" />
                         <Skeleton className="h-10 w-full" />
+                    </div>
+                </BackgroundRounded>
+                {/* Classification Card */}
+                <BackgroundRounded className="px-6">
+                    <div className="space-y-8">
+                        <Skeleton className="h-7 w-32" />
+                        <Skeleton className="h-7 w-28" />
+                        <Skeleton className="h-18 w-full" />
                     </div>
                 </BackgroundRounded>
             </div>
