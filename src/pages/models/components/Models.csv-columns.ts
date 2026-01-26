@@ -24,10 +24,6 @@ export const useModelCsvColumns = () => {
                 header: t('models.table.columns.releaseYear'),
                 accessor: (row: ModelTableRow) => row.releaseYear,
             },
-            {
-                header: t('models.table.columns.sortOrder'),
-                accessor: (row: ModelTableRow) => row.sortOrder,
-            },
         ],
         [t],
     )

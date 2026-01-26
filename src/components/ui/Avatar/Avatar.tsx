@@ -80,6 +80,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
                 srcSet={srcSet}
                 alt={alt}
                 loading="lazy"
+                crossOrigin='anonymous'
             />
         )
     } else if (icon) {

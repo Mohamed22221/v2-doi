@@ -50,10 +50,7 @@ const FormModel = () => {
     const isUpdateMode = Boolean(id)
     const { t } = useTranslation()
 
-    const {
-        data: modelDetails,
-        isLoading,
-    } = useGetModelById(id as string, {
+    const { data: modelDetails, isLoading } = useGetModelById(id as string, {
         enabled: isUpdateMode,
     })
 
@@ -76,7 +73,10 @@ const FormModel = () => {
             const payload: ModelPayload = {
                 ...values,
                 sortOrder: Number(values.sortOrder),
-                releaseYear: values.releaseYear instanceof Date ? values.releaseYear.getFullYear() : Number(values.releaseYear),
+                releaseYear:
+                    values.releaseYear instanceof Date
+                        ? values.releaseYear.getFullYear()
+                        : Number(values.releaseYear),
             } as ModelPayload // Ensure type matches after conversion
 
             if (isUpdateMode && id) {
@@ -117,12 +117,14 @@ const FormModel = () => {
             initialValues={
                 isUpdateMode && modelDetails?.data
                     ? {
-                        name: modelDetails.data.name,
-                        brandId: modelDetails.data.brandId,
-                        categoryId: modelDetails.data.categoryId,
-                        releaseYear: modelDetails.data.releaseYear ? new Date(modelDetails.data.releaseYear, 0, 1) : null,
-                        sortOrder: modelDetails.data.sortOrder,
-                    }
+                          name: modelDetails.data.name,
+                          brandId: modelDetails.data.brandId,
+                          categoryId: modelDetails.data.categoryId,
+                          releaseYear: modelDetails.data.releaseYear
+                              ? new Date(modelDetails.data.releaseYear, 0, 1)
+                              : null,
+                          sortOrder: modelDetails.data.sortOrder,
+                      }
                     : initialValues
             }
             validationSchema={getModelValidationSchema(t)}
@@ -130,13 +132,7 @@ const FormModel = () => {
                 handleSubmit(values, setSubmitting)
             }
         >
-            {({
-                touched,
-                errors,
-                isSubmitting,
-                setFieldValue,
-                values,
-            }) => {
+            {({ touched, errors, isSubmitting, setFieldValue, values }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
 
                 return (
@@ -146,7 +142,9 @@ const FormModel = () => {
                                 <div className="lg:col-span-2 space-y-4">
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
-                                            title={t('models.generalInformation')}
+                                            title={t(
+                                                'models.generalInformation',
+                                            )}
                                             icon={<Icon name="info" />}
                                         />
 
@@ -154,13 +152,17 @@ const FormModel = () => {
                                             <FormItem
                                                 asterisk
                                                 label={t('models.name')}
-                                                invalid={Boolean(touched.name && errors.name)}
+                                                invalid={Boolean(
+                                                    touched.name && errors.name,
+                                                )}
                                                 errorMessage={errors.name}
                                             >
                                                 <Field
                                                     name="name"
                                                     component={Input}
-                                                    placeholder={t('models.nameAdd')}
+                                                    placeholder={t(
+                                                        'models.nameAdd',
+                                                    )}
                                                 />
                                             </FormItem>
                                         </div>
@@ -169,32 +171,52 @@ const FormModel = () => {
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('models.classification')}
-                                            icon={<Icon name="classification" />}
+                                            icon={
+                                                <Icon name="classification" />
+                                            }
                                         />
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-3">
                                             <FormItem
                                                 asterisk
                                                 label={t('models.brand')}
-                                                invalid={Boolean(touched.brandId && errors.brandId)}
+                                                invalid={Boolean(
+                                                    touched.brandId &&
+                                                        errors.brandId,
+                                                )}
                                                 errorMessage={errors.brandId}
                                             >
                                                 <BrandSelect
                                                     value={values.brandId}
                                                     menuPortalZ={400}
-                                                    onChange={(val) => setFieldValue('brandId', val)}
+                                                    onChange={(val) =>
+                                                        setFieldValue(
+                                                            'brandId',
+                                                            val,
+                                                        )
+                                                    }
                                                 />
                                             </FormItem>
 
                                             <FormItem
                                                 asterisk
                                                 label={t('models.category')}
-                                                invalid={Boolean(touched.categoryId && errors.categoryId)}
+                                                invalid={Boolean(
+                                                    touched.categoryId &&
+                                                        errors.categoryId,
+                                                )}
                                                 errorMessage={errors.categoryId}
                                             >
                                                 <CategorySelect
                                                     value={values.categoryId}
-                                                    onChange={(val) => setFieldValue('categoryId', val)}
-                                                    placeholder={t('models.table.filters.allCategories')}
+                                                    onChange={(val) =>
+                                                        setFieldValue(
+                                                            'categoryId',
+                                                            val,
+                                                        )
+                                                    }
+                                                    placeholder={t(
+                                                        'models.table.filters.allCategories',
+                                                    )}
                                                 />
                                             </FormItem>
                                         </div>
@@ -212,15 +234,36 @@ const FormModel = () => {
                                             <FormItem
                                                 asterisk
                                                 label={t('models.releaseYear')}
-                                                invalid={Boolean(touched.releaseYear && errors.releaseYear)}
-                                                errorMessage={errors.releaseYear as string}
+                                                invalid={Boolean(
+                                                    touched.releaseYear &&
+                                                        errors.releaseYear,
+                                                )}
+                                                errorMessage={
+                                                    errors.releaseYear as string
+                                                }
                                             >
                                                 <DatePicker
                                                     viewOnly="year"
                                                     inputFormat="YYYY"
-                                                    placeholder={t('models.releaseYearPlaceholder')}
-                                                    value={values.releaseYear instanceof Date ? values.releaseYear : null}
-                                                    onChange={(date) => setFieldValue('releaseYear', date)}
+                                                    minDate={
+                                                        new Date(1900, 0, 1)
+                                                    }
+                                                    maxDate={new Date()}
+                                                    placeholder={t(
+                                                        'models.releaseYearPlaceholder',
+                                                    )}
+                                                    value={
+                                                        values.releaseYear instanceof
+                                                        Date
+                                                            ? values.releaseYear
+                                                            : null
+                                                    }
+                                                    onChange={(date) =>
+                                                        setFieldValue(
+                                                            'releaseYear',
+                                                            date,
+                                                        )
+                                                    }
                                                 />
                                             </FormItem>
                                         </div>
@@ -229,14 +272,19 @@ const FormModel = () => {
                                             <FormItem
                                                 asterisk
                                                 label={t('models.sortOrder')}
-                                                invalid={Boolean(touched.sortOrder && errors.sortOrder)}
+                                                invalid={Boolean(
+                                                    touched.sortOrder &&
+                                                        errors.sortOrder,
+                                                )}
                                                 errorMessage={errors.sortOrder}
                                             >
                                                 <Field
                                                     name="sortOrder"
                                                     type="number"
                                                     component={Input}
-                                                    placeholder={t('models.sortOrderPlaceholder')}
+                                                    placeholder={t(
+                                                        'models.sortOrderPlaceholder',
+                                                    )}
                                                 />
                                             </FormItem>
                                         </div>

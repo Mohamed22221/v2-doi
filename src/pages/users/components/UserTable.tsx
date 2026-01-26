@@ -78,8 +78,8 @@ export default function UserTable() {
                 placeholder: isLoadingRoles
                     ? t('users.table.filters.loading')
                     : isRolesError
-                        ? t('users.table.filters.failedRoles')
-                        : t('users.table.filters.allRoles'),
+                      ? t('users.table.filters.failedRoles')
+                      : t('users.table.filters.allRoles'),
                 infinity: {
                     fetchNextPage,
                     hasNextPage,

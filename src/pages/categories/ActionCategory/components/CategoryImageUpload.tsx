@@ -116,6 +116,7 @@ const CategoryImageUpload = ({
                                     src={current.url}
                                     alt={current.name}
                                     className="absolute inset-0 w-full h-full object-cover"
+                                    crossOrigin="anonymous"
                                 />
 
                                 {/* Hover actions */}
@@ -148,7 +149,6 @@ const CategoryImageUpload = ({
                         ) : (
                             // Upload Mode
                             <Upload
-                            
                                 draggable
                                 multiple={false}
                                 uploadLimit={1}
@@ -170,7 +170,6 @@ const CategoryImageUpload = ({
                                             : 'border-gray-300 dark:border-gray-600',
                                     ].join(' ')}
                                 >
-
                                     <div className="my-10 text-center w-fit ">
                                         <div className="text-6xl mb-4 flex justify-center">
                                             {/* <FcImageFile /> */}
@@ -211,6 +210,7 @@ const CategoryImageUpload = ({
                                     className="w-full"
                                     src={selectedImg.url}
                                     alt={selectedImg.name}
+                                    crossOrigin="anonymous"
                                 />
                             )}
                         </Dialog>

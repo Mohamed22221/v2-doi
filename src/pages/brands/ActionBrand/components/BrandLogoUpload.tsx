@@ -116,6 +116,8 @@ const BrandLogoUpload = ({
                                     src={current.url}
                                     alt={current.name}
                                     className="absolute inset-0 w-full h-full object-cover"
+                                    crossOrigin="anonymous"
+
                                 />
 
                                 {/* Hover actions */}
@@ -211,6 +213,8 @@ const BrandLogoUpload = ({
                                     className="w-full"
                                     src={selectedImg.url}
                                     alt={selectedImg.name}
+                                    crossOrigin="anonymous"
+
                                 />
                             )}
                         </Dialog>

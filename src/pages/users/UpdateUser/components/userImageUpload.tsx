@@ -66,7 +66,7 @@ const UserImageUpload = ({
 
     return (
         <AdaptableCard className="mb-4 bg-transparent">
-            <div className='flex gap-1 items-center'>
+            <div className="flex gap-1 items-center">
                 <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">*</span>
                 <h5>{title ?? t('users.img')}</h5>
             </div>
@@ -155,11 +155,10 @@ const UserImageUpload = ({
                                         {current?.url ? (
                                             <>
                                                 <img
-                                                    src={
-                                                        'users/profile-images/2c839d13-ec23-44eb-8205-72c8aef2603d.png'
-                                                    }
+                                                    src={current?.url}
                                                     alt={current.name}
                                                     className="h-full w-full object-cover"
+                                                    crossOrigin="anonymous"
                                                 />
 
                                                 {/* Hover actions */}
@@ -232,6 +231,7 @@ const UserImageUpload = ({
                                             className="w-full"
                                             src={selectedImg.url}
                                             alt={selectedImg.name}
+                                            crossOrigin="anonymous"
                                         />
                                     )}
                                 </Dialog>
