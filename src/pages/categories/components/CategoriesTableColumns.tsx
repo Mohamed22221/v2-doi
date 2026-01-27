@@ -30,12 +30,12 @@ export function useCategoriesTableColumns({
                     const enName =
                         row.original.translations.find(
                             (tr) => tr.languageCode.toLowerCase() === 'en',
-                        )?.value ?? row.original.slug
+                        )?.name ?? row.original.slug
 
                     const arName =
                         row.original.translations.find(
                             (tr) => tr.languageCode.toLowerCase() === 'ar',
-                        )?.value ?? row.original.slug
+                        )?.name ?? row.original.slug
 
                     return (
                         <TwoLineText
@@ -62,10 +62,10 @@ export function useCategoriesTableColumns({
             },
             {
                 header: t('categories.table.columns.items'),
-                accessorKey: 'itemsCount',
+                accessorKey: 'totalItems',
                 cell: ({ row }) => (
                     <span className={styleItems}>
-                        {row.original.itemsCount?.toLocaleString?.() ?? 0}
+                        {row.original.totalItems?.toLocaleString?.() ?? 0}
                     </span>
                 ),
             },

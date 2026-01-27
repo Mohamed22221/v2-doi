@@ -348,7 +348,8 @@
             "title": "Update Category",
             "subtitle": "Edit category information and save your changes",
             "submit": "Save Changes",
-            "success": "Category updated successfully"
+            "success": "Category updated successfully",
+            "successSwitch": "Status updated successfully"
         },
         "generalInformation": "General Information",
         "mediaAssets": "Media Assets",

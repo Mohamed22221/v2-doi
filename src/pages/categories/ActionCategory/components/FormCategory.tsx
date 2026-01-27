@@ -186,8 +186,8 @@ const FormCategory = () => {
                                     const lang = t.languageCode.toLowerCase()
                                     const entry = acc[lang] || { name: '', description: '' }
 
-                                    if (t.field === 'name') entry.name = t.value
-                                    if (t.field === 'description') entry.description = t.value
+                                    if (t.name) entry.name = t.name
+                                    if (t.description) entry.description = t.description
 
                                     return { ...acc, [lang]: entry }
                                 },
@@ -199,15 +199,15 @@ const FormCategory = () => {
                           name:
                               categoryDetails.data.translations?.find(
                                   (t) =>
-                                      t.field === 'name' &&
+                                      
                                       t.languageCode.toLowerCase() ===
                                           (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
                                               'en'),
-                              )?.value || '',
+                              )?.name || '',
                         description:
                             categoryDetails.data.translations?.find(
-                                (t) => t.field === 'description' && t.languageCode.toLowerCase() === (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
-                            )?.value || '',
+                                (t) =>  t.languageCode.toLowerCase() === (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
+                            )?.description || '',
                       }
                     : initialValues
             }

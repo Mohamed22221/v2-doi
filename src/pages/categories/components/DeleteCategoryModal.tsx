@@ -60,8 +60,8 @@ const DeleteCategoryModal = ({
                 isDeletionBlocked && status === 'active'
                     ? 'disable'
                     : status !== 'active'
-                      ? 'move'
-                      : 'softDelete',
+                        ? 'move'
+                        : 'softDelete',
             )
             setDestinationId(null)
         }
@@ -91,12 +91,18 @@ const DeleteCategoryModal = ({
                 onError,
             })
         } else if (selectedOption === 'move' && destinationId) {
-            // Bulk move logic: Placeholder for now
-            hardDelete(id.toString(), {
-                onSuccess: () =>
-                    onSuccess('categories.deleteModal.successHardDelete'),
-                onError,
-            })
+            // Bulk move logic
+            hardDelete(
+                {
+                    id: id.toString(),
+                    targetCategoryId: destinationId,
+                },
+                {
+                    onSuccess: () =>
+                        onSuccess('categories.deleteModal.successHardDelete'),
+                    onError,
+                },
+            )
         } else if (selectedOption === 'softDelete') {
             softDelete(id.toString(), {
                 onSuccess: () =>
@@ -308,7 +314,7 @@ const DeleteCategoryModal = ({
                     variant="solid"
                     color={
                         selectedOption === 'softDelete' ||
-                        selectedOption === 'disable'
+                            selectedOption === 'disable'
                             ? 'red'
                             : 'primary'
                     }

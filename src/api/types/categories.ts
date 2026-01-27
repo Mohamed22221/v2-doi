@@ -6,8 +6,7 @@ export type CategoryLevel = 1 | 2 | 3;
 
 export interface CategoryTranslation {
   languageCode: LanguageCode;
-  value: string;
-  field: string
+  name: string;
   description?: string;
 }
 
@@ -39,7 +38,7 @@ export interface Category extends BaseEntity {
   status: CategoryStatus;
   sortOrder: number;
   image: string | null;
-  itemsCount: number
+  totalItems: number
 }
 
 export type CategoryTableRow = {
@@ -47,7 +46,7 @@ export type CategoryTableRow = {
   slug: string
   translations: CategoryTranslation[]
   status: CategoryStatus
-  itemsCount: number
+  totalItems: number
   children: ChildCategory[]
   image: string | null
 }

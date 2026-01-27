@@ -65,7 +65,7 @@ export default function ModelsTable() {
             categoriesData?.items?.map((cat: Category) => {
                 const byPageLang = cat.translations.find(
                     (tr) => tr.languageCode === pageLanguage,
-                )?.value
+                )?.name
 
                 const label = byPageLang || cat.slug
 

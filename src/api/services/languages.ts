@@ -36,6 +36,14 @@ const LanguagesServices = {
 
     deactivateLanguage: (id: string): Promise<TAPIResponseItem<Language>> =>
         api.patch(`/admin/languages/${id}/deactivate`),
+    
+    getInfinityLanguages: (
+        page: number,
+        limit = 10,
+    ): Promise<TAPIResponseItems<Language[]>> =>
+        api.get(
+            `/admin/languages?page=${page ? page : 1}&limit=${limit}&isActive=${'true'}`,
+        ),
 }
 
 export default LanguagesServices

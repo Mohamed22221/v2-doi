@@ -152,10 +152,13 @@ export const useSoftDeleteCategory = () => {
 
 export const useHardDeleteCategory = () => {
     const queryClient = useQueryClient()
-
-    const mutation = useMutation<TAPIResponseItem<Category>, Error, string>({
-        mutationFn: (id: string) => CategoriesServices.hardDeleteCategory(id),
-        onSuccess: (_, id) => {
+    const mutation = useMutation<
+        TAPIResponseItem<Category>,
+        Error,
+        { id: string; targetCategoryId: string }
+    >({
+        mutationFn: (variables) => CategoriesServices.hardDeleteCategory(variables),
+        onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ALL_CATEGORIES],
             })
@@ -163,7 +166,7 @@ export const useHardDeleteCategory = () => {
                 queryKey: [ReactQueryKeys.CATEGORIES_TREE],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.CATEGORY_BY_ID, id],
+                queryKey: [ReactQueryKeys.CATEGORY_BY_ID, variables.id],
             })
         },
     })

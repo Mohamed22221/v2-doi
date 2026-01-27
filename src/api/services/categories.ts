@@ -1,7 +1,10 @@
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import api from '../api'
-import { Category, CategoryPayload, CategoryTreeNode } from '../types/categories'
-
+import {
+    Category,
+    CategoryPayload,
+    CategoryTreeNode,
+} from '../types/categories'
 
 // Payload type for creating/updating categories
 
@@ -28,8 +31,14 @@ const CategoriesServices = {
     softDeleteCategory: (id: string): Promise<TAPIResponseItem<Category>> =>
         api.delete(`/admin/categories/${id}`),
 
-    hardDeleteCategory: (id: string): Promise<TAPIResponseItem<Category>> =>
-        api.delete(`/admin/categories/${id}/hard`),
+    hardDeleteCategory: ({
+        id,
+        targetCategoryId,
+    }: {
+        id: string
+        targetCategoryId: string
+    }): Promise<TAPIResponseItem<Category>> =>
+        api.delete(`/admin/categories/${id}/hard`, { data: { targetCategoryId } }),
 
     restoreCategory: (id: string): Promise<TAPIResponseItem<Category>> =>
         api.patch(`/admin/categories/${id}/restore`),
@@ -47,7 +56,14 @@ const CategoriesServices = {
         page: number,
         limit: number = 10,
     ): Promise<TAPIResponseItems<Category[]>> =>
-        api.get(`/admin/categories?page=${page}&limit=${limit}`),
+        api.get('/admin/categories', {
+            params: {
+                page,
+                limit,
+                status: 'active',
+                isDeleted: false,
+            },
+        }),
 }
 
 export default CategoriesServices

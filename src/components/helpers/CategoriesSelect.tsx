@@ -20,7 +20,6 @@ type CategorySelectProps = {
     maxMenuHeight?: number
     isDisabled?: boolean
     menuPortalZ?: number
-    fallbackLanguage?: string
     classNames?: string
     errorPlaceholder?: string
 }
@@ -32,7 +31,6 @@ function CategorySelect({
     size = 'sm',
     maxMenuHeight = 300,
     isDisabled = false,
-    fallbackLanguage = 'en',
     classNames,
     errorPlaceholder,
     menuPortalZ,
@@ -55,14 +53,11 @@ function CategorySelect({
         return (
             categoriesData?.items?.map((cat: Category) => {
                 const byPageLang = cat.translations.find(
-                    (t) => t.languageCode === pageLanguage,
-                )?.value
+                    (t) => t.languageCode.toLowerCase() === pageLanguage,
+                )?.name
 
-                const byFallbackLang = cat.translations.find(
-                    (t) => t.languageCode === fallbackLanguage,
-                )?.value
 
-                const label = byPageLang || byFallbackLang || cat.slug
+                const label = byPageLang  || cat.slug
 
                 return {
                     label,
@@ -70,7 +65,7 @@ function CategorySelect({
                 }
             }) ?? []
         )
-    }, [categoriesData, pageLanguage, fallbackLanguage])
+    }, [categoriesData, pageLanguage])
 
     const selectedOption = useMemo<SelectOption<CategoryId> | null>(() => {
         return categoryOptions.find((o) => o.value === value) ?? null

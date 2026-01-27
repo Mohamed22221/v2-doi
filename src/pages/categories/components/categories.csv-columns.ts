@@ -12,9 +12,9 @@ export const useCategoryCsvColumns = () => {
                 header: t('categories.table.columns.categoryName'),
                 accessor: (row: CategoryTableRow) =>
                     row.translations.find(
-                        (tr: { languageCode: string; value: string }) =>
+                        (tr: { languageCode: string; name: string }) =>
                             tr.languageCode.toLowerCase() === 'en',
-                    )?.value ?? row.slug,
+                    )?.name ?? row.slug,
             },
             {
                 header: t('categories.table.columns.status'),
@@ -22,7 +22,7 @@ export const useCategoryCsvColumns = () => {
             },
             {
                 header: t('categories.table.columns.items'),
-                accessor: (row: CategoryTableRow) => row.itemsCount,
+                accessor: (row: CategoryTableRow) => row.totalItems,
             },
             {
                 header: t('categories.table.columns.subCategories'),

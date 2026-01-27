@@ -225,7 +225,7 @@ export function useInfiniteLanguages() {
         queryKey: [ReactQueryKeys.ALL_LANGUAGES, 'infinite'],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
-            LanguagesServices.getLanguages(`page=${pageParam}&limit=10`),
+            LanguagesServices.getInfinityLanguages(pageParam as number),
         getNextPageParam: (lastPage) =>
             lastPage.data.page < lastPage.data.totalPages
                 ? lastPage.data.page + 1

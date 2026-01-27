@@ -17,7 +17,8 @@ import CategoriesServices from '@/api/services/categories'
 import { useCategoryCsvColumns } from './categories.csv-columns'
 
 export default function CategoriesTable() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const pageLanguage = i18n.language
     const navigate = useNavigate()
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -57,6 +58,17 @@ export default function CategoriesTable() {
                     },
                 ],
                 placeholder: t('categories.table.filters.allStatus'),
+            },
+            {
+                key: 'isDeleted',
+                label: t('users.table.filters.isDeleted'),
+                value: null,
+                valueType: 'boolean',
+                options: [
+                    { label: t('users.table.status.isDeleted'), value: true },
+                    { label: t('users.table.status.nonDeleted'), value: false },
+                ],
+                placeholder: t('users.table.filters.allStatus'),
             },
             {
                 key: 'level',
@@ -125,10 +137,11 @@ export default function CategoriesTable() {
     const selectedCategoryName = useMemo(() => {
         if (!selectedCategory) return ''
         return (
-            selectedCategory.translations.find((tr) => tr.languageCode === 'en')
-                ?.value ?? selectedCategory.slug
+            selectedCategory.translations.find(
+                (tr) => tr.languageCode === pageLanguage,
+            )?.name ?? selectedCategory.slug
         )
-    }, [selectedCategory])
+    }, [selectedCategory, pageLanguage])
 
     return (
         <>
@@ -161,7 +174,7 @@ export default function CategoriesTable() {
                 onDialogClose={closeDeleteModal}
                 id={selectedCategory?.id ?? ''}
                 categoryName={selectedCategoryName}
-                itemsCount={selectedCategory?.itemsCount ?? 0}
+                itemsCount={selectedCategory?.totalItems ?? 0}
                 subCategoriesCount={selectedCategory?.children.length ?? 0}
                 status={selectedCategory?.status ?? 'active'}
             />

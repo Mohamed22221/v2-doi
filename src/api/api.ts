@@ -1,76 +1,75 @@
 // api.ts
-import axios, {
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
-import Cookies from "js-cookie";
-import { ACCESS_TOKEN, TOKEN_TYPE } from "./constants/api.constant";
-import { ApiErrorClass, normalizeApiError } from "./error";
-import { API_URL, API_VERSION } from "@/configs/env";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import Cookies from 'js-cookie'
+import { ACCESS_TOKEN, TOKEN_TYPE } from './constants/api.constant'
+import { ApiErrorClass, normalizeApiError } from './error'
+import { API_URL, API_VERSION } from '@/configs/env'
+import store from '@/store'
 
-let redirecting = false;
+let redirecting = false
 
 const api = axios.create({
-  baseURL: `${API_URL}/${API_VERSION}`,
-  withCredentials: false,
-  headers: {
-    "Content-Type": "application/json",
-    accept: "application/json",
-  },
-});
+    baseURL: `${API_URL}/${API_VERSION}`,
+    withCredentials: false,
+    headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+    },
+})
 
 function onRequest(config: InternalAxiosRequestConfig) {
-  const token = Cookies.get(ACCESS_TOKEN);
+    const token = Cookies.get(ACCESS_TOKEN)
 
-  if (token) {
-    config.headers.Authorization = `${TOKEN_TYPE}${token}`;
-  } else if ("Authorization" in config.headers) {
-    delete config.headers.Authorization;
-  }
+    if (token) {
+        config.headers.Authorization = `${TOKEN_TYPE}${token}`
+    } else if ('Authorization' in config.headers) {
+        delete config.headers.Authorization
+    }
+    const lang = store.getState().locale.currentLang || 'ar'
+    config.headers['lang'] = lang
+    config.headers['Accept-Language'] = lang
 
-  const lang = localStorage.getItem("i18nextLng");
-  if (lang) config.headers["lang"] = lang;
-
-  return config;
+    return config
 }
 
 function onResponse(res: AxiosResponse) {
-  return res.data;
+    return res.data
 }
 
 function isCanceled(error: unknown): boolean {
-  if (!axios.isAxiosError(error)) return false;
-  if (error.code === "ERR_CANCELED") return true;
+    if (!axios.isAxiosError(error)) return false
+    if (error.code === 'ERR_CANCELED') return true
 
-  const msg = typeof error.message === "string" ? error.message.toLowerCase() : "";
-  return msg.includes("canceled") || msg.includes("cancelled");
+    const msg =
+        typeof error.message === 'string' ? error.message.toLowerCase() : ''
+    return msg.includes('canceled') || msg.includes('cancelled')
 }
 
 function onResponseError(error: unknown) {
-  // 1) Ignore canceled requests (no UX error)
-  if (isCanceled(error)) {
-    return Promise.reject(error);
-  }
-
-  // 2) Redirect on 401 (except login)
-  if (axios.isAxiosError(error)) {
-    const status = error.response?.status;
-    const url = error.config?.url ?? "";
-
-    const isLogin = url.includes("/login");
-    if (status === 401 && !isLogin && !redirecting) {
-      redirecting = true;
-      Cookies.remove(ACCESS_TOKEN);
-      window.location.replace("/sign-in");
+    // 1) Ignore canceled requests (no UX error)
+    if (isCanceled(error)) {
+        return Promise.reject(error)
     }
-  }
 
-  // 3) Normalize + throw ApiErrorClass
-  const normalized = normalizeApiError(error);
-  return Promise.reject(new ApiErrorClass(normalized));
+    // 2) Redirect on 401 (except login)
+    if (axios.isAxiosError(error)) {
+        const status = error.response?.status
+        const url = error.config?.url ?? ''
+
+        const isLogin = url.includes('/login')
+        if (status === 401 && !isLogin && !redirecting) {
+            redirecting = true
+            Cookies.remove(ACCESS_TOKEN)
+            window.location.replace('/sign-in')
+        }
+    }
+
+    // 3) Normalize + throw ApiErrorClass
+    const normalized = normalizeApiError(error)
+    return Promise.reject(new ApiErrorClass(normalized))
 }
 
-api.interceptors.request.use(onRequest);
-api.interceptors.response.use(onResponse, onResponseError);
+api.interceptors.request.use(onRequest)
+api.interceptors.response.use(onResponse, onResponseError)
 
-export default api;
+export default api
