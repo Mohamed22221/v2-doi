@@ -84,8 +84,13 @@ const FormUpdate = () => {
         setSubmitting: (v: boolean) => void,
     ) => {
         try {
+            const payload = { ...values }
+            if (isUpdateMode && !payload.password) {
+                delete payload.password
+            }
+
             if (isUpdateMode && id) {
-                await updateUser({ id, data: values })
+                await updateUser({ id, data: payload })
                 toast.push(
                     <Notification
                         title={t('users.update.success')}
@@ -93,7 +98,7 @@ const FormUpdate = () => {
                     />,
                 )
             } else {
-                await createUser(values)
+                await createUser(payload)
                 toast.push(
                     <Notification
                         title={t('users.create.success')}
@@ -131,20 +136,20 @@ const FormUpdate = () => {
                 initialValues={
                     isUpdateMode && userDetails?.data
                         ? {
-                              firstName: userDetails.data.firstName ?? '',
-                              lastName: userDetails.data.lastName ?? '',
-                              email: userDetails.data.email ?? '',
-                              phone: userDetails.data.phone ?? '',
-                              password: '',
-                              roleId: userDetails.data.role?.id
-                                  ? Number(userDetails.data.role.id)
-                                  : 0,
-                              isActive: userDetails.data.isActive ?? true,
-                              image: userDetails.data.image ?? '',
-                          }
+                            firstName: userDetails.data.firstName ?? '',
+                            lastName: userDetails.data.lastName ?? '',
+                            email: userDetails.data.email ?? '',
+                            phone: userDetails.data.phone ?? '',
+                            password: '',
+                            roleId: userDetails.data.role?.id
+                                ? Number(userDetails.data.role.id)
+                                : 0,
+                            isActive: userDetails.data.isActive ?? true,
+                            image: userDetails.data.image ?? '',
+                        }
                         : initialValues
                 }
-                validationSchema={getUserValidationSchema(t)}
+                validationSchema={getUserValidationSchema(t, isUpdateMode)}
                 onSubmit={(values, { setSubmitting }) =>
                     handleSubmit(values, setSubmitting)
                 }
@@ -162,7 +167,7 @@ const FormUpdate = () => {
                                         label={t('users.firstName')}
                                         invalid={Boolean(
                                             touched.firstName &&
-                                                errors.firstName,
+                                            errors.firstName,
                                         )}
                                         errorMessage={errors.firstName}
                                     >
@@ -264,7 +269,7 @@ const FormUpdate = () => {
                                                             form.setFieldValue(
                                                                 field.name,
                                                                 option?.value ??
-                                                                    0,
+                                                                0,
                                                             )
                                                         }
                                                     />
@@ -280,7 +285,7 @@ const FormUpdate = () => {
                                     </FormItem>
 
                                     <FormItem
-                                        asterisk
+                                        asterisk={!isUpdateMode}
                                         label={t('users.password')}
                                         invalid={Boolean(
                                             touched.password && errors.password,

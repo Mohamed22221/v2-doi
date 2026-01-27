@@ -8,11 +8,14 @@ import Button from '@/components/ui/Button'
 import { BrandTableRow } from '@/api/types/brands'
 import Icon from '@/components/ui/Icon/Icon'
 import StatusSwitcher from './StatusSwitcher'
+import { HiOutlineRefresh } from 'react-icons/hi'
 
 export function useBrandsTableColumns({
     onDelete,
+    onRestore,
 }: {
     onDelete: (row: BrandTableRow) => void
+    onRestore: (row: BrandTableRow) => void
 }) {
     const navigate = useNavigate()
     const { t } = useTranslation()
@@ -60,50 +63,74 @@ export function useBrandsTableColumns({
             },
             {
                 header: t('brands.table.columns.items'),
-                accessorKey: 'itemsCount',
+                accessorKey: 'totalItems',
                 cell: ({ row }) => (
                     <span className={styleItems}>
-                        {row.original.itemsCount?.toLocaleString?.() ?? 0}
+                        {row.original.totalItems?.toLocaleString?.() ?? 0}
                     </span>
                 ),
             },
             {
                 header: t(''),
                 id: 'actions',
-                cell: ({ row }) => (
-                    <div className="flex items-center gap-2">
-                        <Button
-                            size="sm"
-                            variant="plain"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                navigate(`/brands/${row.original.id}/edit`)
-                            }}
-                        >
-                            <Icon
-                                name={'edit'}
-                                className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
-                            />
-                        </Button>
+                cell: ({ row }) => {
+                    const isDeleted = typeof row.original.deletedAt === 'string' && row.original.deletedAt !== ''
 
-                        <Button
-                            size="sm"
-                            variant="plain"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                onDelete(row.original)
-                            }}
-                        >
-                            <Icon
-                                name={'delete'}
-                                className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
-                            />
-                        </Button>
+                    if (isDeleted) {
+                        return (
+                            <div className="flex items-center gap-2">
+                                <div className="sm:shrink-0">
+                                    <Button
+                                        icon={<HiOutlineRefresh />}
+                                        size="sm"
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            onRestore(row.original)
+                                        }}
+                                        className="w-full sm:w-auto px-3 "
+                                    >
+                                        {t('brands.restoreModal.confirm')}
+                                    </Button>
+                                </div>
+                            </div>
+                        )
+                    }
 
-                        <StatusSwitcher row={row.original} />
-                    </div>
-                ),
+                    return (
+                        <div className="flex items-center gap-2">
+                            <Button
+                                size="sm"
+                                variant="plain"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    navigate(`/brands/${row.original.id}/edit`)
+                                }}
+                            >
+                                <Icon
+                                    name={'edit'}
+                                    className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
+                                />
+                            </Button>
+
+                            <Button
+                                size="sm"
+                                variant="plain"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    onDelete(row.original)
+                                }}
+                            >
+                                <Icon
+                                    name={'delete'}
+                                    className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
+                                />
+                            </Button>
+
+                            <StatusSwitcher row={row.original} />
+                        </div>
+                    )
+                },
             },
         ]
-    }, [navigate, t, onDelete])
+    }, [navigate, t, onDelete, onRestore])
 }

@@ -77,9 +77,7 @@ export const useModelsTableColumns = ({
                 header: '',
                 id: 'action',
                 cell: ({ row }) => {
-                    const isDeleted =
-                        row.original.deletedAt !== null &&
-                        row.original.deletedAt !== ''
+                    const isDeleted = typeof row.original.deletedAt === 'string' && row.original.deletedAt !== ''
 
                     if (isDeleted) {
                         return (

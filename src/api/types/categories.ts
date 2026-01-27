@@ -49,11 +49,12 @@ export type CategoryTableRow = {
   totalItems: number
   children: ChildCategory[]
   image: string | null
+  deletedAt: string | null
 }
 export interface CategoryTranslationPayload {
-    languageCode: string
-    name: string
-    description?: string
+  languageCode: string
+  name: string
+  description?: string
 }
 export interface CategoryPayload {
   translations: CategoryTranslationPayload[]

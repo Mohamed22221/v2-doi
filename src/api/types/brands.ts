@@ -18,7 +18,7 @@ export interface Brand extends BaseEntity {
     sortOrder: number
     translations: BrandTranslation[]
     categoryId: string | null
-    itemsCount?: number // Mirroring categories if they have it
+    totalItems: number
 }
 
 export type BrandTableRow = Brand

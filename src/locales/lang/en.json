@@ -306,6 +306,7 @@
             "phoneRequired": "Phone number is required",
             "invalidPhone": "Please enter a valid phone number",
             "passwordRequired": "Password is required",
+            "passwordMin": "Password must be at least 6 characters long",
             "roleRequired": "Role is required",
             "imageRequired": "Image URL is required",
             "invalidImageUrl": "Please enter a valid image URL"
@@ -416,6 +417,14 @@
             "successSoftDelete": "Category moved to trash successfully",
             "successHardDelete": "Category deleted permanently",
             "errorMove": "Failed to move items"
+        },
+        "restoreModal": {
+            "title": "Restore Category",
+            "message": "Are you sure you want to restore the category <strong>{{name}}</strong>? This will reactivate the category to appear in the system again.",
+            "confirm": "Restore Category",
+            "cancel": "Cancel",
+            "success": "Category restored successfully",
+            "error": "Failed to restore category"
         }
     },
     "brands": {
@@ -508,6 +517,14 @@
             "successDisable": "Brand deactivated successfully",
             "successSoftDelete": "Brand moved to trash successfully",
             "successHardDelete": "Brand deleted permanently"
+        },
+        "restoreModal": {
+            "title": "Restore Brand",
+            "message": "Are you sure you want to restore the brand <strong>{{name}}</strong>? This will reactivate the brand to appear in the system again.",
+            "confirm": "Restore Brand",
+            "cancel": "Cancel",
+            "success": "Brand restored successfully",
+            "error": "Failed to restore brand"
         }
     },
     "models": {

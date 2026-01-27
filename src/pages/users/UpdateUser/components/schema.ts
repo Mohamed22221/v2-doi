@@ -2,8 +2,9 @@ import * as Yup from 'yup'
 import type { TFunction } from 'i18next'
 import { isEmail } from '@/components/validation/email'
 import { isPhone } from '@/components/validation/phone'
+import { getPasswordValidation } from '@/components/validation/password'
 
-const getUserValidationSchema = (t: TFunction) =>
+const getUserValidationSchema = (t: TFunction, isUpdateMode: boolean) =>
     Yup.object().shape({
         firstName: Yup.string()
             .trim()
@@ -31,7 +32,7 @@ const getUserValidationSchema = (t: TFunction) =>
                 (value) => !!value && isPhone(value),
             ),
 
-        password: Yup.string().required(t('users.errors.passwordRequired')),
+        password: getPasswordValidation(t, isUpdateMode),
 
         roleId: Yup.number()
             .typeError(t('users.errors.roleRequired'))

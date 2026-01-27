@@ -20,7 +20,6 @@ type BrandsSelectProps = {
     maxMenuHeight?: number
     isDisabled?: boolean
     menuPortalZ?: number
-    fallbackLanguage?: string
     classNames?: string
     errorPlaceholder?: string
 }
@@ -32,7 +31,6 @@ function BrandsSelect({
     size = 'sm',
     maxMenuHeight = 300,
     isDisabled = false,
-    fallbackLanguage = 'en',
     classNames,
     errorPlaceholder,
     menuPortalZ,
@@ -55,14 +53,10 @@ function BrandsSelect({
         return (
             brandsData?.items?.map((brand: Brand) => {
                 const byPageLang = brand.translations.find(
-                    (tr) => tr.languageCode === pageLanguage,
-                )?.value
+                    (tr) => tr.languageCode.toLowerCase() === pageLanguage,
+                )?.name
 
-                const byFallbackLang = brand.translations.find(
-                    (tr) => tr.languageCode === fallbackLanguage,
-                )?.value
-
-                const label = byPageLang || byFallbackLang || brand.slug
+                const label = byPageLang || brand.slug
 
                 return {
                     label,
@@ -70,7 +64,7 @@ function BrandsSelect({
                 }
             }) ?? []
         )
-    }, [brandsData, pageLanguage, fallbackLanguage])
+    }, [brandsData, pageLanguage])
 
     const selectedOption = useMemo<SelectOption<BrandId> | null>(() => {
         return brandOptions.find((o) => o.value === value) ?? null

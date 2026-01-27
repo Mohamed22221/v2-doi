@@ -17,6 +17,7 @@ import BrandsServices from '@/api/services/brands'
 import { useBrandsTableColumns } from './BrandsTableColumns'
 import { Category } from '@/api/types/categories'
 import { useBrandCsvColumns } from './Brands.csv-columns'
+import RestoreBrandModal from './RestoreBrandModal'
 
 
 export default function BrandsTable() {
@@ -24,6 +25,7 @@ export default function BrandsTable() {
     const navigate = useNavigate()
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isRestoreOpen, setIsRestoreOpen] = useState(false)
     const [selectedBrand, setSelectedBrand] = useState<BrandTableRow | null>(
         null,
     )
@@ -49,7 +51,20 @@ export default function BrandsTable() {
         setSelectedBrand(null)
     }
 
-    const columns = useBrandsTableColumns({ onDelete: openDeleteModal })
+    const openRestoreModal = (row: BrandTableRow) => {
+        setSelectedBrand(row)
+        setIsRestoreOpen(true)
+    }
+
+    const closeRestoreModal = () => {
+        setIsRestoreOpen(false)
+        setSelectedBrand(null)
+    }
+
+    const columns = useBrandsTableColumns({
+        onDelete: openDeleteModal,
+        onRestore: openRestoreModal,
+    })
     const pageLanguage = i18n.language
 
     const categoryOptions = useMemo(() => {
@@ -87,6 +102,17 @@ export default function BrandsTable() {
                     },
                 ],
                 placeholder: t('brands.table.filters.allStatus'),
+            },
+            {
+                key: 'isDeleted',
+                label: t('users.table.filters.isDeleted'),
+                value: null,
+                valueType: 'boolean',
+                options: [
+                    { label: t('users.table.status.isDeleted'), value: true },
+                    { label: t('users.table.status.nonDeleted'), value: false },
+                ],
+                placeholder: t('users.table.filters.allStatus'),
             },
             {
                 key: 'categoryId',
@@ -192,8 +218,13 @@ export default function BrandsTable() {
                 onDialogClose={closeDeleteModal}
                 id={selectedBrand?.id ?? ''}
                 brandName={selectedBrandName}
-                itemsCount={selectedBrand?.itemsCount ?? 0}
-                status={selectedBrand?.status ?? 'active'}
+            />
+
+            <RestoreBrandModal
+                dialogIsOpen={isRestoreOpen}
+                onDialogClose={closeRestoreModal}
+                id={selectedBrand?.id ?? ''}
+                brandName={selectedBrandName}
             />
         </>
     )

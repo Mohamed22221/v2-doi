@@ -15,6 +15,7 @@ import DeleteCategoryModal from './DeleteCategoryModal'
 import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
 import CategoriesServices from '@/api/services/categories'
 import { useCategoryCsvColumns } from './categories.csv-columns'
+import RestoreCategoryModal from './RestoreCategoryModal'
 
 export default function CategoriesTable() {
     const { t, i18n } = useTranslation()
@@ -22,6 +23,7 @@ export default function CategoriesTable() {
     const navigate = useNavigate()
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isRestoreOpen, setIsRestoreOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] =
         useState<CategoryTableRow | null>(null)
 
@@ -38,7 +40,20 @@ export default function CategoriesTable() {
         setSelectedCategory(null)
     }
 
-    const columns = useCategoriesTableColumns({ onDelete: openDeleteModal })
+    const openRestoreModal = (row: CategoryTableRow) => {
+        setSelectedCategory(row)
+        setIsRestoreOpen(true)
+    }
+
+    const closeRestoreModal = () => {
+        setIsRestoreOpen(false)
+        setSelectedCategory(null)
+    }
+
+    const columns = useCategoriesTableColumns({
+        onDelete: openDeleteModal,
+        onRestore: openRestoreModal,
+    })
 
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
@@ -177,6 +192,13 @@ export default function CategoriesTable() {
                 itemsCount={selectedCategory?.totalItems ?? 0}
                 subCategoriesCount={selectedCategory?.children.length ?? 0}
                 status={selectedCategory?.status ?? 'active'}
+            />
+
+            <RestoreCategoryModal
+                dialogIsOpen={isRestoreOpen}
+                onDialogClose={closeRestoreModal}
+                id={selectedCategory?.id ?? ''}
+                categoryName={selectedCategoryName}
             />
         </>
     )

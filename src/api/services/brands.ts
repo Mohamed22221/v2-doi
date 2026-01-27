@@ -36,7 +36,14 @@ const BrandsServices = {
         page: number,
         limit: number = 10,
     ): Promise<TAPIResponseItems<Brand[]>> =>
-        api.get(`/admin/brands?page=${page}&limit=${limit}`),
+        api.get('/admin/brands', {
+            params: {
+                page,
+                limit,
+                status: 'active',
+                isDeleted: false,
+            },
+        }),
 }
 
 export default BrandsServices
