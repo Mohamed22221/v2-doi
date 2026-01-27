@@ -19,6 +19,7 @@ import { useModelCsvColumns } from './Models.csv-columns'
 import { Category } from '@/api/types/categories'
 import { useModelsTableColumns } from './ModelsTableColumns'
 import { Brand } from '@/api/types/brands'
+import RestoreModelModal from './RestoreModelModal'
 
 export default function ModelsTable() {
     const { t, i18n } = useTranslation()
@@ -28,6 +29,7 @@ export default function ModelsTable() {
     const [selectedModel, setSelectedModel] = useState<ModelTableRow | null>(
         null,
     )
+    const [isRestoreOpen, setIsRestoreOpen] = useState(false)
 
     const { models, isLoading, total, errorMessage, isError, limit } =
         useGetAllModels()
@@ -57,14 +59,27 @@ export default function ModelsTable() {
         setSelectedModel(null)
     }
 
-    const columns = useModelsTableColumns({ onDelete: openDeleteModal })
+    const openRestoreModal = (row: ModelTableRow) => {
+        setSelectedModel(row)
+        setIsRestoreOpen(true)
+    }
+
+    const closeRestoreModal = () => {
+        setIsRestoreOpen(false)
+        setSelectedModel(null)
+    }
+
+    const columns = useModelsTableColumns({
+        onDelete: openDeleteModal,
+        onRestore: openRestoreModal,
+    })
     const pageLanguage = i18n.language
 
     const categoryOptions = useMemo(() => {
         return (
             categoriesData?.items?.map((cat: Category) => {
                 const byPageLang = cat.translations.find(
-                    (tr) => tr.languageCode === pageLanguage,
+                    (tr) => tr.languageCode.toLowerCase() === pageLanguage.toLowerCase(),
                 )?.name
 
                 const label = byPageLang || cat.slug
@@ -81,8 +96,8 @@ export default function ModelsTable() {
         return (
             brandsData?.items?.map((cat: Brand) => {
                 const byPageLang = cat.translations.find(
-                    (tr) => tr.languageCode === pageLanguage,
-                )?.value
+                    (tr) => tr.languageCode.toLowerCase() === pageLanguage.toLowerCase(),
+                )?.name
 
                 const label = byPageLang || cat.slug
 
@@ -96,6 +111,17 @@ export default function ModelsTable() {
 
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
+            {
+                key: 'isDeleted',
+                label: t('users.table.filters.isDeleted'),
+                value: null,
+                valueType: 'boolean',
+                options: [
+                    { label: t('users.table.status.isDeleted'), value: true },
+                    { label: t('users.table.status.nonDeleted'), value: false },
+                ],
+                placeholder: t('users.table.filters.allStatus'),
+            },
             {
                 key: 'brandId',
                 label: t('models.brand'),
@@ -211,6 +237,13 @@ export default function ModelsTable() {
             <DeleteModelModal
                 dialogIsOpen={isDeleteOpen}
                 onDialogClose={closeDeleteModal}
+                id={selectedModel?.id ?? ''}
+                modelName={selectedModel?.name ?? ''}
+            />
+
+            <RestoreModelModal
+                dialogIsOpen={isRestoreOpen}
+                onDialogClose={closeRestoreModal}
                 id={selectedModel?.id ?? ''}
                 modelName={selectedModel?.name ?? ''}
             />

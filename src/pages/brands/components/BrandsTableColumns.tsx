@@ -27,13 +27,13 @@ export function useBrandsTableColumns({
                 cell: ({ row }) => {
                     const enName =
                         row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'en' && tr.field === 'name',
-                        )?.value ?? row.original.slug
+                            (tr) => tr.languageCode.toLowerCase() === 'en',
+                        )?.name ?? row.original.slug
 
                     const arName =
                         row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'ar' && tr.field === 'name',
-                        )?.value ?? row.original.slug
+                            (tr) => tr.languageCode.toLowerCase() === 'ar',
+                        )?.name ?? row.original.slug
 
                     return (
                         <TwoLineText

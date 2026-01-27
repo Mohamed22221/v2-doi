@@ -56,8 +56,8 @@ export default function BrandsTable() {
         return (
             categoriesData?.items?.map((cat: Category) => {
                 const byPageLang = cat.translations.find(
-                    (t) => t.languageCode === pageLanguage,
-                )?.value
+                    (t) => t.languageCode.toLowerCase() === pageLanguage.toLowerCase(),
+                )?.name
 
                 const label = byPageLang || cat.slug
 
@@ -156,8 +156,8 @@ export default function BrandsTable() {
         if (!selectedBrand) return ''
         return (
             selectedBrand.translations.find(
-                (tr) => tr.languageCode === 'en' && tr.field === 'name',
-            )?.value ?? selectedBrand.slug
+                (tr) => tr.languageCode.toLowerCase() === 'en',
+            )?.name ?? selectedBrand.slug
         )
     }, [selectedBrand])
 

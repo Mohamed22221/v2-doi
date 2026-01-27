@@ -6,8 +6,7 @@ export interface BrandTranslation {
     brandId: string
     languageCode: LanguageCode
 
-    value: string
-    field: string
+    name: string
     description?: string
 }
 

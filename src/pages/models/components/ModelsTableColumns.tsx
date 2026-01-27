@@ -6,15 +6,18 @@ import { Button } from '@/components/ui'
 import Icon from '@/components/ui/Icon/Icon'
 import { useNavigate } from 'react-router-dom'
 import TwoLineText from '@/components/shared/table/TwoLineText'
+import { HiOutlineRefresh } from 'react-icons/hi'
 
 interface UseModelsTableColumnsProps {
     onDelete: (row: ModelTableRow) => void
+    onRestore: (row: ModelTableRow) => void
 }
 
 export const useModelsTableColumns = ({
     onDelete,
+    onRestore,
 }: UseModelsTableColumnsProps) => {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate()
     const styleItems =
         'inline-flex items-center justify-center rounded-full bg-primary-50 dark:bg-primary-500 px-3 py-1 text-sm text-primary-500 dark:text-primary-50'
@@ -35,11 +38,31 @@ export const useModelsTableColumns = ({
             },
             {
                 header: t('models.table.columns.brand'),
-                accessorKey: 'brandId',
+                accessorKey: 'brand',
+                cell: ({ row }) => {
+                    const brand = row.original.brand
+                    const lang = i18n.language.toLowerCase()
+                    const translation = brand?.translations?.find(
+                        (tr) => tr.languageCode.toLowerCase() === lang,
+                    )
+                    return translation?.name || brand?.slug || row.original.brandId
+                },
             },
             {
                 header: t('models.table.columns.category'),
-                accessorKey: 'categoryId',
+                accessorKey: 'category',
+                cell: ({ row }) => {
+                    const category = row.original.category
+                    const lang = i18n.language.toLowerCase()
+                    const translation = category?.translations?.find(
+                        (tr) => tr.languageCode.toLowerCase() === lang,
+                    )
+                    return (
+                        translation?.name ||
+                        category?.slug ||
+                        row.original.categoryId
+                    )
+                },
             },
             {
                 header: t('models.table.columns.releaseYear'),
@@ -53,39 +76,68 @@ export const useModelsTableColumns = ({
             {
                 header: '',
                 id: 'action',
-                cell: ({ row }) => (
-                    <div className="flex items-center gap-2">
-                        <Button
-                            size="sm"
-                            variant="plain"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                navigate(`/models/${row.original.id}/edit`)
-                            }}
-                        >
-                            <Icon
-                                name={'edit'}
-                                className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
-                            />
-                        </Button>
+                cell: ({ row }) => {
+                    const isDeleted =
+                        row.original.deletedAt !== null &&
+                        row.original.deletedAt !== ''
 
-                        <Button
-                            size="sm"
-                            variant="plain"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                onDelete(row.original)
-                            }}
-                        >
-                            <Icon
-                                name={'delete'}
-                                className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
-                            />
-                        </Button>
-                    </div>
-                ),
+                    if (isDeleted) {
+                        return (
+                            <div className="flex items-center gap-2">
+                                <div className="sm:shrink-0">
+                                    <Button
+                                        // color="green"
+                                        // variant="solid"
+                                        icon={<HiOutlineRefresh />}
+                                        size="sm"
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            onRestore(row.original)
+                                        }}
+                                        className="w-full sm:w-auto px-3 "
+                                    >
+                                        {t('models.restoreModal.confirm')}
+                                    </Button>
+                                </div>
+
+                            </div>
+                        )
+                    }
+
+                    return (
+                        <div className="flex items-center gap-2">
+                            <Button
+                                size="sm"
+                                variant="plain"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    navigate(`/models/${row.original.id}/edit`)
+                                }}
+                            >
+                                <Icon
+                                    name={'edit'}
+                                    className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
+                                />
+                            </Button>
+
+                            <Button
+                                size="sm"
+                                variant="plain"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    onDelete(row.original)
+                                }}
+                            >
+                                <Icon
+                                    name={'delete'}
+                                    className="w-[22px] h-[22px] text-primary-400 dark:text-primary-200"
+                                />
+                            </Button>
+                        </div>
+                    )
+                },
             },
         ],
-        [t, onDelete, navigate],
+        [t, i18n, onDelete, onRestore, navigate],
     )
 }

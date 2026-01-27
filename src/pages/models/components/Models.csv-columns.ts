@@ -4,7 +4,7 @@ import { ModelTableRow } from '@/api/types/models'
 import { CsvColumnDef } from '@/utils/csv/csv.utils'
 
 export const useModelCsvColumns = () => {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     return useMemo<CsvColumnDef<ModelTableRow>[]>(
         () => [
@@ -14,17 +14,33 @@ export const useModelCsvColumns = () => {
             },
             {
                 header: t('models.table.columns.brand'),
-                accessor: (row: ModelTableRow) => row.brandId,
+                accessor: (row: ModelTableRow) => {
+                    const lang = i18n.language.toLowerCase()
+                    const translation = row.brand?.translations?.find(
+                        (tr) => tr.languageCode.toLowerCase() === lang,
+                    )
+                    return translation?.name || row.brand?.slug || row.brandId
+                },
             },
             {
                 header: t('models.table.columns.category'),
-                accessor: (row: ModelTableRow) => row.categoryId,
+                accessor: (row: ModelTableRow) => {
+                    const lang = i18n.language.toLowerCase()
+                    const translation = row.category?.translations?.find(
+                        (tr) => tr.languageCode.toLowerCase() === lang,
+                    )
+                    return (
+                        translation?.name ||
+                        row.category?.slug ||
+                        row.categoryId
+                    )
+                },
             },
             {
                 header: t('models.table.columns.releaseYear'),
                 accessor: (row: ModelTableRow) => row.releaseYear,
             },
         ],
-        [t],
+        [t, i18n],
     )
 }

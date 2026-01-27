@@ -90,11 +90,11 @@ const ViewTableFilters = ({
     }
 
     return (
-        <div className="px-3 md:px-5 py-3">
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-start md:items-center">
+        <div className="px-3 md:px-5 py-3 overflow-x-hidden">
+            <div className="flex flex-wrap items-center gap-3 md:gap-4">
                 {/* Search */}
                 {showSearch && (
-                    <div className="max-w-[320px] flex-1 w-full md:w-auto min-w-0">
+                    <div className="w-full md:w-[260px] min-w-[200px]">
                         <Input
                             prefix={
                                 <HiOutlineSearch className="text-gray-400" />
@@ -125,12 +125,12 @@ const ViewTableFilters = ({
                             className="flex items-center gap-2 flex-shrink-0"
                         >
                             {filter.label && (
-                                <label className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                <label className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap font-medium">
                                     {filter.label}
                                 </label>
                             )}
                             {filter.type !== 'date' && filter.type !== 'year' && (
-                                <div className="min-w-[170px]">
+                                <div className="min-w-[160px] max-w-[220px]">
                                     <Select<FilterOption>
 
                                         size="sm"
@@ -210,10 +210,10 @@ const ViewTableFilters = ({
 
                 {/* Clear All */}
                 {showClearAll && hasActiveFilters && (
-                    <div className="ml-auto md:ml-0">
+                    <div className="flex-shrink-0">
                         <button
                             type="button"
-                            className="text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer whitespace-nowrap"
+                            className="text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer whitespace-nowrap font-semibold"
                             onClick={handleClearAll}
                         >
                             {t('viewTable.filters.clearAll')}

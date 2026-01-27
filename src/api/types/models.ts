@@ -1,8 +1,12 @@
+import { Brand } from './brands'
+import { Category } from './categories'
 import { BaseEntity } from './common'
 
 export interface Model extends BaseEntity {
     brandId: string
     categoryId: string
+    brand: Brand
+    category: Category
     name: string
     slug: string
     releaseYear: number

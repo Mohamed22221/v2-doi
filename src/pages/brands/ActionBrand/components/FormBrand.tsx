@@ -9,7 +9,7 @@ import Switcher from '@/components/ui/Switcher'
 import {
     Notification,
     toast,
-    
+
     FormContainer,
     FormItem,
 } from '@/components/ui'
@@ -155,27 +155,41 @@ const FormBrand = () => {
                         sortOrder: brandDetails.data.sortOrder ?? 0,
                         localTranslations:
                             brandDetails.data.translations?.reduce(
-                                (acc: Record<string, { name: string; description: string }>, t) => {
+                                (
+                                    acc: Record<
+                                        string,
+                                        { name: string; description: string }
+                                    >,
+                                    t,
+                                ) => {
                                     const lang = t.languageCode.toLowerCase()
-                                    const entry = acc[lang] || { name: '', description: '' }
-
-                                    if (t.field === 'name') entry.name = t.value
-                                    if (t.field === 'description') entry.description = t.value
-
-                                    return { ...acc, [lang]: entry }
+                                    return {
+                                        ...acc,
+                                        [lang]: {
+                                            name: t.name || '',
+                                            description: t.description || '',
+                                        },
+                                    }
                                 },
                                 {},
                             ) ?? {},
                         language:
-                            brandDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en',
+                            brandDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
+                            'en',
                         name:
                             brandDetails.data.translations?.find(
-                                (t) => t.field === 'name' && t.languageCode.toLowerCase() === (brandDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
-                            )?.value || '',
+                                (t) =>
+                                    t.languageCode.toLowerCase() ===
+                                    (brandDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
+                                        'en'),
+                            )?.name || '',
                         description:
                             brandDetails.data.translations?.find(
-                                (t) => t.field === 'description' && t.languageCode.toLowerCase() === (brandDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
-                            )?.value || '',
+                                (t) =>
+                                    t.languageCode.toLowerCase() ===
+                                    (brandDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
+                                        'en'),
+                            )?.description || '',
                     }
                     : initialValues
             }

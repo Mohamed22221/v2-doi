@@ -1,4 +1,5 @@
 import { ReactNode, useMemo } from 'react'
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import Table from '@/components/ui/Table'
 import Pagination from '@/components/ui/Pagination'
@@ -54,6 +55,8 @@ export interface ViewTableProps<TData extends object = object> {
     errorText?: string
     requestedPage: number
     headerActions?: ReactNode
+    getRowClassName?: (row: TData) => string
+    isRowDeleted?: (row: TData) => boolean
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -83,7 +86,9 @@ const ViewTable = <TData extends object>({
     isError,
     errorText,
     requestedPage,
-    headerActions
+    headerActions,
+    getRowClassName,
+    isRowDeleted
 }: ViewTableProps<TData>) => {
     const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
@@ -160,18 +165,36 @@ const ViewTable = <TData extends object>({
                     />
                 ) : (
                     <TBody>
-                        {table.getRowModel().rows.map((row) => (
-                            <Tr key={row.id}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <Td key={cell.id}>
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext(),
-                                        )}
-                                    </Td>
-                                ))}
-                            </Tr>
-                        ))}
+                        {table.getRowModel().rows.map((row) => {
+                            const rowData = row.original as any
+                            const deleted = isRowDeleted
+                                ? isRowDeleted(row.original)
+                                : !!rowData.deletedAt || rowData.isDeleted === true
+
+                            const rowThemeClass = getRowClassName
+                                ? getRowClassName(row.original)
+                                : ''
+
+                            return (
+                                <Tr
+                                    key={row.id}
+                                    className={classNames(
+                                        rowThemeClass,
+                                        deleted &&
+                                        'bg-red-50 dark:bg-red-900/10',
+                                    )}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <Td key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext(),
+                                            )}
+                                        </Td>
+                                    ))}
+                                </Tr>
+                            )
+                        })}
                     </TBody>
                 )}
             </Table>

@@ -12,9 +12,8 @@ export const useBrandCsvColumns = () => {
                 header: t('brands.table.columns.brandName'),
                 accessor: (row: BrandTableRow) =>
                     row.translations.find(
-                        (tr) =>
-                            tr.languageCode === 'en' && tr.field === 'name',
-                    )?.value ?? row.slug,
+                        (tr) => tr.languageCode.toLowerCase() === 'en',
+                    )?.name ?? row.slug,
             },
             {
                 header: t('brands.table.columns.status'),
