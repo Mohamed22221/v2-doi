@@ -155,6 +155,7 @@ const CategoryImageUpload = ({
                                 beforeUpload={beforeUpload}
                                 showList={false}
                                 disabled={isUploading}
+                                accept="image/jpeg,image/png,image/webp"
                                 onChange={handleUpload}
                             >
                                 {isUploading && (

@@ -156,6 +156,8 @@ const BrandLogoUpload = ({
                                 uploadLimit={1}
                                 beforeUpload={beforeUpload}
                                 showList={false}
+                                    accept="image/jpeg,image/png,image/webp"
+
                                 disabled={isUploading}
                                 onChange={handleUpload}
                             >

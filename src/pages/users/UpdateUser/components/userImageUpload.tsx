@@ -23,7 +23,7 @@ type Props = {
     size?: number // avatar size px (default 96)
 }
 
-const UserImageUpload = ({
+const  UserImageUpload = ({
     name = 'image',
     title,
     subtitle,
@@ -134,7 +134,9 @@ const UserImageUpload = ({
                                     beforeUpload={beforeUpload}
                                     showList={false}
                                     disabled={isUploading}
+                                    accept="image/jpeg,image/png,image/webp"
                                     onChange={handleUpload}
+                                    
                                 >
                                     {isUploading && (
                                         <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/60 flex items-center justify-center">
