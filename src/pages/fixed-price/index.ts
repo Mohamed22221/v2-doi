@@ -1,3 +1,3 @@
-import FixedPricePage from './FixedPrice'
+import FixedPrice from './FixedPrice'
 
-export default FixedPricePage
+export default FixedPrice

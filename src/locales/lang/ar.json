@@ -312,6 +312,37 @@
             "invalidImageUrl": "يرجى إدخال رابط صورة صحيح"
         }
     },
+    "fixedPrice": {
+        "table": {
+            "title": "العناصر بسعر ثابت",
+            "searchPlaceholder": "البحث باسم المنتج، المعرف، أو البائع",
+            "emptyText": "لم يتم العثور على عناصر",
+            "columns": {
+                "item": "المنتج",
+                "seller": "البائع",
+                "category": "الفئة",
+                "status": "الحالة",
+                "createdAt": "أنشئ في",
+                "actions": "الإجراءات"
+            },
+            "status": {
+                "active": "نشط",
+                "rejected": "مرفوض",
+                "hidden": "مخفي",
+                "outOfStock": "نفد من المخزون",
+                "pendingReview": "قيد المراجعة"
+            },
+            "filters": {
+                "status": "الحالة",
+                "category": "الفئة",
+                "allStatus": "جميع الحالات",
+                "allCategory": "جميع الفئات"
+            },
+            "actions": {
+                "viewDetails": "عرض التفاصيل"
+            }
+        }
+    },
     "categories": {
         "table": {
             "columns": {

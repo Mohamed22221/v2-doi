@@ -312,6 +312,37 @@
             "invalidImageUrl": "Please enter a valid image URL"
         }
     },
+    "fixedPrice": {
+        "table": {
+            "title": "Fixed Price Items",
+            "searchPlaceholder": "Search by item name, item ID, or seller",
+            "emptyText": "No items found",
+            "columns": {
+                "item": "Item",
+                "seller": "Seller",
+                "category": "Category",
+                "status": "Status",
+                "createdAt": "Created at",
+                "actions": "Actions"
+            },
+            "status": {
+                "active": "Active",
+                "rejected": "Rejected",
+                "hidden": "Hidden",
+                "outOfStock": "Out of stock",
+                "pendingReview": "Pending Review"
+            },
+            "filters": {
+                "status": "Status",
+                "category": "Category",
+                "allStatus": "All Status",
+                "allCategory": "All Category"
+            },
+            "actions": {
+                "viewDetails": "View Details"
+            }
+        }
+    },
     "categories": {
         "table": {
             "columns": {
