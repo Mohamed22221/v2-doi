@@ -28,6 +28,6 @@ export function useGetFixedPriceDetails(id: string) {
         data: data ? { data } : null,
         isLoading,
         isError,
-        error: isError ? { message: 'Item not found' } : null
+        error: isError ? { message: 'fixedPrice.errors.itemNotFound' } : null
     }
 }

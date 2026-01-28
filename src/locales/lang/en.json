@@ -13,7 +13,8 @@
         "loading": "Loading",
         "add": "Add",
         "description": "Description",
-        "noData": "No data found"
+        "noData": "No data found",
+        "success": "Operation completed successfully"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -361,398 +362,440 @@
                 "approve": "Approve",
                 "hide": "Hide Item",
                 "unhide": "Unhide Item"
-            }
-        }
-    },
-    "categories": {
-        "table": {
-            "columns": {
-                "categoryName": "Category Name",
-                "status": "Status",
-                "items": "Items",
-                "subCategories": "Sub Categories"
             },
-            "title": "Categories Management",
-            "searchPlaceholder": "Search categories (English / Arabic)",
-            "emptyText": "No categories found.",
+            "modals": {
+                "reject": {
+                    "title": "Rejection Item",
+                    "description": "Are you sure you want to reject this item? This item will not be published and will not appear in the app or website.",
+                    "reasonLabel": "Rejection Reason",
+                    "reasonPlaceholder": "Select the reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Enter the reason for rejection",
+                    "confirm": "Reject item",
+                    "cancel": "Cancel"
+                },
+                "hide": {
+                    "title": "Hide item",
+                    "description": "Are you sure you want to hide this item? This item will no longer appear in the app or website, but will remain available in the admin panel.",
+                    "reasonLabel": "Reason for hiding",
+                    "reasonPlaceholder": "Select the Reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Enter the reason",
+                    "footerText": "This reason is for internal use only.",
+                    "confirm": "Hide item",
+                    "cancel": "Cancel"
+                },
+                "unhide": {
+                    "title": "Unhide item",
+                    "description": "Are you sure you want to unhide this item? The item will become visible to users based on its current status.",
+                    "confirm": "Unhide item",
+                    "cancel": "Cancel"
+                },
+                "reasons": {
+                    "incorrectCategory": "Incorrect Category",
+                    "blurryImages": "Blurry Images",
+                    "missingDescription": "Missing Description",
+                    "duplicateItem": "Duplicate Item",
+                    "outOfSeason": "Out of Season",
+                    "temporarilyUnavailable": "Temporarily Unavailable",
+                    "testing": "Testing",
+                    "other": "Other"
+                }
+            },
+            "errors": {
+                "itemNotFound": "Item not found"
+            }
+        },
+        "categories": {
+            "table": {
+                "columns": {
+                    "categoryName": "Category Name",
+                    "status": "Status",
+                    "items": "Items",
+                    "subCategories": "Sub Categories"
+                },
+                "title": "Categories Management",
+                "searchPlaceholder": "Search categories (English / Arabic)",
+                "emptyText": "No categories found.",
+                "filters": {
+                    "status": "Status",
+                    "allStatus": "All status",
+                    "level": "Level"
+                },
+                "status": {
+                    "active": "Active",
+                    "inactive": "Inactive"
+                },
+                "level": {
+                    "placeholder": "Select level",
+                    "main": "Main Category",
+                    "sub": "Subcategory",
+                    "nested": "Nested Subcategory"
+                }
+            },
+            "create": {
+                "title": "Add New Category",
+                "subtitle": "Fill in the information below to create a new category",
+                "submit": "Create Category",
+                "success": "Category created successfully"
+            },
+            "update": {
+                "title": "Update Category",
+                "subtitle": "Edit category information and save your changes",
+                "submit": "Save Changes",
+                "success": "Category updated successfully",
+                "successSwitch": "Status updated successfully"
+            },
+            "generalInformation": "General Information",
+            "mediaAssets": "Media Assets",
+            "publishing": "Publishing",
+            "classification": "Classification",
+            "name": "Category Name",
+            "description": "Description",
+            "nameAdd": "Enter Category Name",
+            "descriptionAdd": "Enter Description",
+            "nameEnAdd": "Enter Category Name (English)",
+            "nameArAdd": "Enter Category Name (Arabic)",
+            "descriptionEnAdd": "Enter Description (English)",
+            "descriptionArAdd": "Enter Description (Arabic)",
+            "coverImage": "Cover Image",
+            "activeStatus": "Active Status",
+            "parentCategory": "Parent Category",
+            "subCategory": "Sub Category",
+            "selectParent": "Select Parent Category",
+            "sortOrder": "Sort Order",
+            "sortOrderPlaceholder": "Enter Sort Order",
+            "addCategory": "Add Category",
+            "errors": {
+                "nameRequired": "Category name is required",
+                "nameEnRequired": "Category name in English is required",
+                "nameArRequired": "Category name in Arabic is required",
+                "statusRequired": "Publishing status is required",
+                "imageRequired": "Cover image is required",
+                "invalidImageUrl": "Please enter a valid image URL or relative path",
+                "sortOrderRequired": "Sort order is required",
+                "sortOrderNumber": "Sort order must be a number",
+                "sortOrderMin": "Sort order must be at least 0"
+            },
+            "upload": {
+                "oneOnly": "Please upload only one image.",
+                "invalidType": "Please upload a valid image (jpeg, png, webp).",
+                "tooLarge": "Image size must be less than 5MB.",
+                "success": "Image uploaded successfully",
+                "failed": "Upload failed",
+                "choose": "Upload Image",
+                "noUrl": "Upload failed: no image URL returned."
+            },
+            "deleteModal": {
+                "cannotDeleteTitle": "Cannot Delete Category",
+                "canDeleteTitle": "Delete Category",
+                "descriptionBlocked": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. Hard deletion is disabled to prevent massive data loss.",
+                "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, permanent deletion, and moving it to another category are allowed.",
+                "disableOption": "Deactivate Category (Recommended)",
+                "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
+                "bulkMoveOption": "Bulk Move",
+                "bulkMoveDescription": "Transfer all items and sub-categories to a new parent category before deletion.",
+                "softDeleteOption": "Soft Delete (Recommended)",
+                "softDeleteDescription": "Move category to trash. You can restore it later if needed.",
+                "hardDeleteOption": "Hard Delete",
+                "hardDeleteDescription": "Permanently remove the category and all its data. This action cannot be undone.",
+                "destinationLabel": "Destination Category",
+                "destinationPlaceholder": "Select Destination Category...",
+                "confirmDisable": "Deactivate Category",
+                "confirmMove": "Move Items",
+                "confirmSoftDelete": "Soft Delete",
+                "confirmHardDelete": "Hard Delete",
+                "cancel": "Cancel",
+                "successDisable": "Category deactivated successfully",
+                "successMove": "Items moved successfully",
+                "successSoftDelete": "Category moved to trash successfully",
+                "successHardDelete": "Category deleted permanently",
+                "errorMove": "Failed to move items"
+            },
+            "restoreModal": {
+                "title": "Restore Category",
+                "message": "Are you sure you want to restore the category <strong>{{name}}</strong>? This will reactivate the category to appear in the system again.",
+                "confirm": "Restore Category",
+                "cancel": "Cancel",
+                "success": "Category restored successfully",
+                "error": "Failed to restore category"
+            }
+        },
+        "brands": {
+            "table": {
+                "columns": {
+                    "brandName": "Brand Name",
+                    "status": "Status",
+                    "items": "Items"
+                },
+                "title": "Brands Management",
+                "searchPlaceholder": "Search brands (English / Arabic)",
+                "emptyText": "No brands found.",
+                "filters": {
+                    "status": "Status",
+                    "allStatus": "All status",
+                    "category": "Category",
+                    "allCategories": "All categories"
+                },
+                "status": {
+                    "active": "Active",
+                    "inactive": "Inactive"
+                }
+            },
+            "create": {
+                "title": "Add New Brand",
+                "subtitle": "Fill in the information below to create a new brand",
+                "submit": "Create Brand",
+                "success": "Brand created successfully"
+            },
+            "update": {
+                "title": "Update Brand",
+                "subtitle": "Edit brand information and save your changes",
+                "submit": "Save Changes",
+                "success": "Brand updated successfully"
+            },
+            "generalInformation": "General Information",
+            "mediaAssets": "Media Assets",
+            "publishing": "Publishing",
+            "classification": "Classification",
+            "name": "Brand Name",
+            "description": "Description",
+            "nameAdd": "Enter Brand Name",
+            "descriptionAdd": "Enter Description",
+            "logo": "Brand Logo",
+            "activeStatus": "Active Status",
+            "category": "Category",
+            "selectCategory": "Select Category",
+            "sortOrder": "Sort Order",
+            "sortOrderPlaceholder": "Enter Sort Order",
+            "addBrand": "Add Brand",
+            "errors": {
+                "nameRequired": "Brand name is required",
+                "categoryRequired": "Category is required",
+                "statusRequired": "Publishing status is required",
+                "logoRequired": "Brand logo is required",
+                "invalidLogoUrl": "Please enter a valid logo URL or relative path",
+                "sortOrderRequired": "Sort order is required",
+                "sortOrderNumber": "Sort order must be a number",
+                "sortOrderMin": "Sort order must be at least 0"
+            },
+            "upload": {
+                "oneOnly": "Please upload only one logo.",
+                "invalidType": "Please upload a valid image (jpeg, png, webp).",
+                "tooLarge": "Logo size must be less than 5MB.",
+                "success": "Logo uploaded successfully",
+                "failed": "Upload failed",
+                "choose": "Upload Logo",
+                "noUrl": "Upload failed: no logo URL returned."
+            },
+            "deleteModal": {
+                "cannotDeleteTitle": "Cannot Delete Brand",
+                "canDeleteTitle": "Delete Brand",
+                "descriptionBlocked": "<strong>{{name}}</strong> has <strong>{{itemsCount}}</strong> active items. Hard deletion is disabled to prevent massive data loss.",
+                "descriptionAllowed": "The <strong>{{name}}</strong> brand is empty (there are no items), so temporary deletion and permanent deletion are allowed.",
+                "disableOption": "Deactivate Brand (Recommended)",
+                "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
+                "softDeleteOption": "Soft Delete (Recommended)",
+                "softDeleteDescription": "Move brand to trash. You can restore it later if needed.",
+                "hardDeleteOption": "Hard Delete",
+                "hardDeleteDescription": "Permanently remove the brand and all its data. This action cannot be undone.",
+                "bulkMoveOption": "Bulk Move",
+                "bulkMoveDescription": "Transfer all items to a new category before deletion.",
+                "destinationLabel": "Destination Category",
+                "destinationPlaceholder": "Select Destination Category...",
+                "confirmDisable": "Deactivate Brand",
+                "confirmMove": "Move Items",
+                "confirmSoftDelete": "Soft Delete",
+                "confirmHardDelete": "Hard Delete",
+                "cancel": "Cancel",
+                "successDisable": "Brand deactivated successfully",
+                "successSoftDelete": "Brand moved to trash successfully",
+                "successHardDelete": "Brand deleted permanently"
+            },
+            "restoreModal": {
+                "title": "Restore Brand",
+                "message": "Are you sure you want to restore the brand <strong>{{name}}</strong>? This will reactivate the brand to appear in the system again.",
+                "confirm": "Restore Brand",
+                "cancel": "Cancel",
+                "success": "Brand restored successfully",
+                "error": "Failed to restore brand"
+            }
+        },
+        "models": {
+            "table": {
+                "columns": {
+                    "modelName": "Model Name",
+                    "brand": "Brand",
+                    "category": "Category",
+                    "releaseYear": "Release Year",
+                    "sortOrder": "Sort Order"
+                },
+                "title": "Models Management",
+                "searchPlaceholder": "Search models",
+                "emptyText": "No models found.",
+                "filters": {
+                    "brand": "Brand",
+                    "allBrands": "All brands",
+                    "category": "Category",
+                    "allCategories": "All categories",
+                    "releaseYear": "Release Year"
+                }
+            },
+            "create": {
+                "title": "Add New Model",
+                "subtitle": "Fill in the information below to create a new model",
+                "submit": "Create Model",
+                "success": "Model created successfully"
+            },
+            "update": {
+                "title": "Update Model",
+                "subtitle": "Edit model information and save your changes",
+                "submit": "Save Changes",
+                "success": "Model updated successfully"
+            },
+            "generalInformation": "General Information",
+            "publishing": "Publishing",
+            "classification": "Classification",
+            "name": "Model Name",
+            "nameAdd": "Enter Model Name",
+            "brand": "Brand",
+            "selectBrand": "Select Brand",
+            "category": "Category",
+            "selectCategory": "Select Category",
+            "releaseYear": "Release Year",
+            "releaseYearPlaceholder": "Enter Release Year",
+            "sortOrder": "Sort Order",
+            "sortOrderPlaceholder": "Enter Sort Order",
+            "addModel": "Add Model",
+            "errors": {
+                "nameRequired": "Model name is required",
+                "brandRequired": "Brand is required",
+                "categoryRequired": "Category is required",
+                "releaseYearRequired": "Release year is required",
+                "sortOrderRequired": "Sort order is required",
+                "sortOrderNumber": "Sort order must be a number",
+                "sortOrderMin": "Sort order must be at least 0"
+            },
+            "deleteModal": {
+                "cannotDeleteTitle": "Cannot Delete Model",
+                "canDeleteTitle": "Delete Model",
+                "descriptionBlocked": "<strong>{{name}}</strong> has active items. Hard deletion is disabled.",
+                "descriptionAllowed": "Are you sure you want to delete <strong>{{name}}</strong>?",
+                "softDeleteOption": "Soft Delete (Recommended)",
+                "softDeleteDescription": "Move model to trash.",
+                "hardDeleteOption": "Hard Delete",
+                "hardDeleteDescription": "Permanently remove the model.",
+                "confirmSoftDelete": "Soft Delete",
+                "confirmHardDelete": "Hard Delete",
+                "cancel": "Cancel",
+                "successSoftDelete": "Model moved to trash successfully",
+                "successHardDelete": "Model deleted permanently"
+            },
+            "restoreModal": {
+                "title": "Restore Model",
+                "message": "Are you sure you want to restore the model <strong>{{name}}</strong>? This will reactivate the model to appear in the system again.",
+                "confirm": "Restore Model",
+                "cancel": "Cancel",
+                "success": "Model restored successfully",
+                "error": "Failed to restore model"
+            }
+        },
+        "viewTable": {
+            "defaultTitle": "Table",
+            "defaultExportButtonText": "Export CSV",
+            "defaultSearchPlaceholder": "Search...",
+            "exporting": "Exporting...",
+            "exportCurrentPage": "Export Current Page",
+            "exportAll": "Export All Results",
             "filters": {
-                "status": "Status",
-                "allStatus": "All status",
-                "level": "Level"
-            },
-            "status": {
-                "active": "Active",
-                "inactive": "Inactive"
-            },
-            "level": {
-                "placeholder": "Select level",
-                "main": "Main Category",
-                "sub": "Subcategory",
-                "nested": "Nested Subcategory"
+                "all": "All",
+                "loadMore": "Load More",
+                "clearAll": "Clear All"
             }
         },
-        "create": {
-            "title": "Add New Category",
-            "subtitle": "Fill in the information below to create a new category",
-            "submit": "Create Category",
-            "success": "Category created successfully"
-        },
-        "update": {
-            "title": "Update Category",
-            "subtitle": "Edit category information and save your changes",
-            "submit": "Save Changes",
-            "success": "Category updated successfully",
-            "successSwitch": "Status updated successfully"
-        },
-        "generalInformation": "General Information",
-        "mediaAssets": "Media Assets",
-        "publishing": "Publishing",
-        "classification": "Classification",
-        "name": "Category Name",
-        "description": "Description",
-        "nameAdd": "Enter Category Name",
-        "descriptionAdd": "Enter Description",
-        "nameEnAdd": "Enter Category Name (English)",
-        "nameArAdd": "Enter Category Name (Arabic)",
-        "descriptionEnAdd": "Enter Description (English)",
-        "descriptionArAdd": "Enter Description (Arabic)",
-        "coverImage": "Cover Image",
-        "activeStatus": "Active Status",
-        "parentCategory": "Parent Category",
-        "subCategory": "Sub Category",
-        "selectParent": "Select Parent Category",
-        "sortOrder": "Sort Order",
-        "sortOrderPlaceholder": "Enter Sort Order",
-        "addCategory": "Add Category",
-        "errors": {
-            "nameRequired": "Category name is required",
-            "nameEnRequired": "Category name in English is required",
-            "nameArRequired": "Category name in Arabic is required",
-            "statusRequired": "Publishing status is required",
-            "imageRequired": "Cover image is required",
-            "invalidImageUrl": "Please enter a valid image URL or relative path",
-            "sortOrderRequired": "Sort order is required",
-            "sortOrderNumber": "Sort order must be a number",
-            "sortOrderMin": "Sort order must be at least 0"
-        },
-        "upload": {
-            "oneOnly": "Please upload only one image.",
-            "invalidType": "Please upload a valid image (jpeg, png, webp).",
-            "tooLarge": "Image size must be less than 5MB.",
-            "success": "Image uploaded successfully",
-            "failed": "Upload failed",
-            "choose": "Upload Image",
-            "noUrl": "Upload failed: no image URL returned."
-        },
-        "deleteModal": {
-            "cannotDeleteTitle": "Cannot Delete Category",
-            "canDeleteTitle": "Delete Category",
-            "descriptionBlocked": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. Hard deletion is disabled to prevent massive data loss.",
-            "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, permanent deletion, and moving it to another category are allowed.",
-            "disableOption": "Deactivate Category (Recommended)",
-            "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
-            "bulkMoveOption": "Bulk Move",
-            "bulkMoveDescription": "Transfer all items and sub-categories to a new parent category before deletion.",
-            "softDeleteOption": "Soft Delete (Recommended)",
-            "softDeleteDescription": "Move category to trash. You can restore it later if needed.",
-            "hardDeleteOption": "Hard Delete",
-            "hardDeleteDescription": "Permanently remove the category and all its data. This action cannot be undone.",
-            "destinationLabel": "Destination Category",
-            "destinationPlaceholder": "Select Destination Category...",
-            "confirmDisable": "Deactivate Category",
-            "confirmMove": "Move Items",
-            "confirmSoftDelete": "Soft Delete",
-            "confirmHardDelete": "Hard Delete",
-            "cancel": "Cancel",
-            "successDisable": "Category deactivated successfully",
-            "successMove": "Items moved successfully",
-            "successSoftDelete": "Category moved to trash successfully",
-            "successHardDelete": "Category deleted permanently",
-            "errorMove": "Failed to move items"
-        },
-        "restoreModal": {
-            "title": "Restore Category",
-            "message": "Are you sure you want to restore the category <strong>{{name}}</strong>? This will reactivate the category to appear in the system again.",
-            "confirm": "Restore Category",
-            "cancel": "Cancel",
-            "success": "Category restored successfully",
-            "error": "Failed to restore category"
-        }
-    },
-    "brands": {
-        "table": {
-            "columns": {
-                "brandName": "Brand Name",
-                "status": "Status",
-                "items": "Items"
-            },
-            "title": "Brands Management",
-            "searchPlaceholder": "Search brands (English / Arabic)",
-            "emptyText": "No brands found.",
-            "filters": {
-                "status": "Status",
-                "allStatus": "All status",
-                "category": "Category",
-                "allCategories": "All categories"
-            },
-            "status": {
-                "active": "Active",
-                "inactive": "Inactive"
+        "address": {
+            "noArea": "No area",
+            "noCity": "No city",
+            "noRegion": "No region",
+            "noBuilding": "Building not found",
+            "noFloor": "Floor not found",
+            "building": "Building {{number}}",
+            "floor": "Floor {{number}}",
+            "cityRegion": "{{city}}, {{region}}",
+            "country": {
+                "sa": "Saudi Arabia"
             }
         },
-        "create": {
-            "title": "Add New Brand",
-            "subtitle": "Fill in the information below to create a new brand",
-            "submit": "Create Brand",
-            "success": "Brand created successfully"
-        },
-        "update": {
-            "title": "Update Brand",
-            "subtitle": "Edit brand information and save your changes",
-            "submit": "Save Changes",
-            "success": "Brand updated successfully"
-        },
-        "generalInformation": "General Information",
-        "mediaAssets": "Media Assets",
-        "publishing": "Publishing",
-        "classification": "Classification",
-        "name": "Brand Name",
-        "description": "Description",
-        "nameAdd": "Enter Brand Name",
-        "descriptionAdd": "Enter Description",
-        "logo": "Brand Logo",
-        "activeStatus": "Active Status",
-        "category": "Category",
-        "selectCategory": "Select Category",
-        "sortOrder": "Sort Order",
-        "sortOrderPlaceholder": "Enter Sort Order",
-        "addBrand": "Add Brand",
-        "errors": {
-            "nameRequired": "Brand name is required",
-            "categoryRequired": "Category is required",
-            "statusRequired": "Publishing status is required",
-            "logoRequired": "Brand logo is required",
-            "invalidLogoUrl": "Please enter a valid logo URL or relative path",
-            "sortOrderRequired": "Sort order is required",
-            "sortOrderNumber": "Sort order must be a number",
-            "sortOrderMin": "Sort order must be at least 0"
-        },
-        "upload": {
-            "oneOnly": "Please upload only one logo.",
-            "invalidType": "Please upload a valid image (jpeg, png, webp).",
-            "tooLarge": "Logo size must be less than 5MB.",
-            "success": "Logo uploaded successfully",
-            "failed": "Upload failed",
-            "choose": "Upload Logo",
-            "noUrl": "Upload failed: no logo URL returned."
-        },
-        "deleteModal": {
-            "cannotDeleteTitle": "Cannot Delete Brand",
-            "canDeleteTitle": "Delete Brand",
-            "descriptionBlocked": "<strong>{{name}}</strong> has <strong>{{itemsCount}}</strong> active items. Hard deletion is disabled to prevent massive data loss.",
-            "descriptionAllowed": "The <strong>{{name}}</strong> brand is empty (there are no items), so temporary deletion and permanent deletion are allowed.",
-            "disableOption": "Deactivate Brand (Recommended)",
-            "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
-            "softDeleteOption": "Soft Delete (Recommended)",
-            "softDeleteDescription": "Move brand to trash. You can restore it later if needed.",
-            "hardDeleteOption": "Hard Delete",
-            "hardDeleteDescription": "Permanently remove the brand and all its data. This action cannot be undone.",
-            "bulkMoveOption": "Bulk Move",
-            "bulkMoveDescription": "Transfer all items to a new category before deletion.",
-            "destinationLabel": "Destination Category",
-            "destinationPlaceholder": "Select Destination Category...",
-            "confirmDisable": "Deactivate Brand",
-            "confirmMove": "Move Items",
-            "confirmSoftDelete": "Soft Delete",
-            "confirmHardDelete": "Hard Delete",
-            "cancel": "Cancel",
-            "successDisable": "Brand deactivated successfully",
-            "successSoftDelete": "Brand moved to trash successfully",
-            "successHardDelete": "Brand deleted permanently"
-        },
-        "restoreModal": {
-            "title": "Restore Brand",
-            "message": "Are you sure you want to restore the brand <strong>{{name}}</strong>? This will reactivate the brand to appear in the system again.",
-            "confirm": "Restore Brand",
-            "cancel": "Cancel",
-            "success": "Brand restored successfully",
-            "error": "Failed to restore brand"
-        }
-    },
-    "models": {
-        "table": {
-            "columns": {
-                "modelName": "Model Name",
-                "brand": "Brand",
-                "category": "Category",
-                "releaseYear": "Release Year",
-                "sortOrder": "Sort Order"
+        "languages": {
+            "table": {
+                "title": "Languages Management",
+                "searchPlaceholder": "Search by name or code",
+                "emptyText": "No languages found.",
+                "columns": {
+                    "code": "Code",
+                    "name": "Name",
+                    "status": "Status"
+                }
             },
-            "title": "Models Management",
-            "searchPlaceholder": "Search models",
-            "emptyText": "No models found.",
-            "filters": {
-                "brand": "Brand",
-                "allBrands": "All brands",
-                "category": "Category",
-                "allCategories": "All categories",
-                "releaseYear": "Release Year"
+            "deleteModal": {
+                "title": "Delete Language",
+                "message": "Are you sure you want to delete <strong>{{name}}</strong> language?",
+                "warning": "This will remove the language from the system sidebar and forms.",
+                "cancel": "Cancel",
+                "confirm": "Delete",
+                "success": "Language deleted successfully"
+            },
+            "generalInformation": "General Information",
+            "publishing": "Publishing",
+            "activeStatus": "Active Status",
+            "namePlaceholder": "Enter language name (e.g. English)",
+            "codePlaceholder": "Enter language code (e.g. en)",
+            "create": {
+                "title": "Add New Language",
+                "submit": "Create Language",
+                "success": "Language created successfully"
+            },
+            "update": {
+                "title": "Update Language",
+                "submit": "Save Changes",
+                "success": "Language updated successfully"
+            },
+            "errors": {
+                "nameRequired": "Language name is required",
+                "codeRequired": "Language code is required"
             }
         },
-        "create": {
-            "title": "Add New Model",
-            "subtitle": "Fill in the information below to create a new model",
-            "submit": "Create Model",
-            "success": "Model created successfully"
-        },
-        "update": {
-            "title": "Update Model",
-            "subtitle": "Edit model information and save your changes",
-            "submit": "Save Changes",
-            "success": "Model updated successfully"
-        },
-        "generalInformation": "General Information",
-        "publishing": "Publishing",
-        "classification": "Classification",
-        "name": "Model Name",
-        "nameAdd": "Enter Model Name",
-        "brand": "Brand",
-        "selectBrand": "Select Brand",
-        "category": "Category",
-        "selectCategory": "Select Category",
-        "releaseYear": "Release Year",
-        "releaseYearPlaceholder": "Enter Release Year",
-        "sortOrder": "Sort Order",
-        "sortOrderPlaceholder": "Enter Sort Order",
-        "addModel": "Add Model",
-        "errors": {
-            "nameRequired": "Model name is required",
-            "brandRequired": "Brand is required",
-            "categoryRequired": "Category is required",
-            "releaseYearRequired": "Release year is required",
-            "sortOrderRequired": "Sort order is required",
-            "sortOrderNumber": "Sort order must be a number",
-            "sortOrderMin": "Sort order must be at least 0"
-        },
-        "deleteModal": {
-            "cannotDeleteTitle": "Cannot Delete Model",
-            "canDeleteTitle": "Delete Model",
-            "descriptionBlocked": "<strong>{{name}}</strong> has active items. Hard deletion is disabled.",
-            "descriptionAllowed": "Are you sure you want to delete <strong>{{name}}</strong>?",
-            "softDeleteOption": "Soft Delete (Recommended)",
-            "softDeleteDescription": "Move model to trash.",
-            "hardDeleteOption": "Hard Delete",
-            "hardDeleteDescription": "Permanently remove the model.",
-            "confirmSoftDelete": "Soft Delete",
-            "confirmHardDelete": "Hard Delete",
-            "cancel": "Cancel",
-            "successSoftDelete": "Model moved to trash successfully",
-            "successHardDelete": "Model deleted permanently"
-        },
-        "restoreModal": {
-            "title": "Restore Model",
-            "message": "Are you sure you want to restore the model <strong>{{name}}</strong>? This will reactivate the model to appear in the system again.",
-            "confirm": "Restore Model",
-            "cancel": "Cancel",
-            "success": "Model restored successfully",
-            "error": "Failed to restore model"
-        }
-    },
-    "viewTable": {
-        "defaultTitle": "Table",
-        "defaultExportButtonText": "Export CSV",
-        "defaultSearchPlaceholder": "Search...",
-        "exporting": "Exporting...",
-        "exportCurrentPage": "Export Current Page",
-        "exportAll": "Export All Results",
-        "filters": {
-            "all": "All",
-            "loadMore": "Load More",
-            "clearAll": "Clear All"
-        }
-    },
-    "address": {
-        "noArea": "No area",
-        "noCity": "No city",
-        "noRegion": "No region",
-        "noBuilding": "Building not found",
-        "noFloor": "Floor not found",
-        "building": "Building {{number}}",
-        "floor": "Floor {{number}}",
-        "cityRegion": "{{city}}, {{region}}",
-        "country": {
-            "sa": "Saudi Arabia"
-        }
-    },
-    "languages": {
-        "table": {
-            "title": "Languages Management",
-            "searchPlaceholder": "Search by name or code",
-            "emptyText": "No languages found.",
-            "columns": {
-                "code": "Code",
-                "name": "Name",
-                "status": "Status"
+        "themeConfigurator": {
+            "title": "Theme Config",
+            "darkMode": {
+                "title": "Dark Mode",
+                "description": "Switch theme to dark mode"
+            },
+            "direction": {
+                "title": "Direction",
+                "description": "Select a direction",
+                "ltr": "LTR",
+                "rtl": "RTL"
+            },
+            "navMode": {
+                "title": "Nav Mode",
+                "default": "Default",
+                "themed": "Themed"
+            },
+            "layout": {
+                "title": "Layout",
+                "classic": "Classic",
+                "modern": "Modern",
+                "stackedSide": "Stacked Side",
+                "simple": "Simple",
+                "decked": "Decked",
+                "blank": "Blank"
+            },
+            "copy": {
+                "button": "Copy config",
+                "success": "Copy Success",
+                "instruction": "Please replace themeConfig in 'src/configs/themeConfig.js'"
             }
-        },
-        "deleteModal": {
-            "title": "Delete Language",
-            "message": "Are you sure you want to delete <strong>{{name}}</strong> language?",
-            "warning": "This will remove the language from the system sidebar and forms.",
-            "cancel": "Cancel",
-            "confirm": "Delete",
-            "success": "Language deleted successfully"
-        },
-        "generalInformation": "General Information",
-        "publishing": "Publishing",
-        "activeStatus": "Active Status",
-        "namePlaceholder": "Enter language name (e.g. English)",
-        "codePlaceholder": "Enter language code (e.g. en)",
-        "create": {
-            "title": "Add New Language",
-            "submit": "Create Language",
-            "success": "Language created successfully"
-        },
-        "update": {
-            "title": "Update Language",
-            "submit": "Save Changes",
-            "success": "Language updated successfully"
-        },
-        "errors": {
-            "nameRequired": "Language name is required",
-            "codeRequired": "Language code is required"
-        }
-    },
-    "themeConfigurator": {
-        "title": "Theme Config",
-        "darkMode": {
-            "title": "Dark Mode",
-            "description": "Switch theme to dark mode"
-        },
-        "direction": {
-            "title": "Direction",
-            "description": "Select a direction",
-            "ltr": "LTR",
-            "rtl": "RTL"
-        },
-        "navMode": {
-            "title": "Nav Mode",
-            "default": "Default",
-            "themed": "Themed"
-        },
-        "layout": {
-            "title": "Layout",
-            "classic": "Classic",
-            "modern": "Modern",
-            "stackedSide": "Stacked Side",
-            "simple": "Simple",
-            "decked": "Decked",
-            "blank": "Blank"
-        },
-        "copy": {
-            "button": "Copy config",
-            "success": "Copy Success",
-            "instruction": "Please replace themeConfig in 'src/configs/themeConfig.js'"
         }
     }
 }

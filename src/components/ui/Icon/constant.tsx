@@ -298,7 +298,7 @@ export const icons = {
     ),
     riyal: (
         <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_12_517)">
+            <g clipPath="url(#clip0_12_517)">
                 <path d="M8.7131 14.1742C8.46327 14.7407 8.29813 15.3554 8.23486 16L13.5217 14.8508C13.7715 14.2845 13.9365 13.6697 13.9999 13.025L8.7131 14.1742Z" fill="#0D0D0D" />
                 <path d="M13.5218 11.4079C13.7716 10.8416 13.9367 10.2268 14 9.58212L9.88172 10.4778V8.75601L13.5216 7.96504C13.7715 7.39872 13.9366 6.78388 13.9999 6.13924L9.8816 7.03412V0.842159C9.25056 1.20447 8.69013 1.68674 8.23456 2.25561V7.39223L6.58752 7.75021V0C5.95648 0.362181 5.39605 0.844579 4.94049 1.41345V8.10806L1.25524 8.90883C1.00541 9.47515 0.840144 10.09 0.776754 10.7346L4.94049 9.82982V11.9981L0.478232 12.9677C0.228406 13.534 0.0632661 14.1489 0 14.7935L4.67073 13.7785C5.05095 13.6977 5.37775 13.4678 5.59021 13.1515L6.4468 11.8529V11.8526C6.53572 11.7183 6.58752 11.5563 6.58752 11.3818V9.47184L8.23456 9.11386V12.5574L13.5216 11.4077L13.5218 11.4079Z" fill="#0D0D0D" />
             </g>
@@ -306,6 +306,40 @@ export const icons = {
                 <clipPath id="clip0_12_517">
                     <rect width="14" height="16" fill="white" />
                 </clipPath>
+            </defs>
+        </svg>
+
+    ),
+    hideModal: (
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="32" fill="#EDF1F7" />
+            <rect x="8" y="8" width="48" height="48" rx="24" fill="#DCE3EF" />
+            <path d="M40 33C40 38 36.5 40.5 32.34 41.95C32.1222 42.0238 31.8855 42.0202 31.67 41.94C27.5 40.5 24 38 24 33V26C24 25.448 24.4481 25 25 25C27 25 29.5 23.8 31.24 22.28C31.6777 21.906 32.3223 21.906 32.76 22.28C34.51 23.81 37 25 39 25C39.5523 25 40 25.4477 40 26V33" stroke="#2A3D5D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M32 28V32" stroke="#2A3D5D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M32 36H32.01" stroke="#2A3D5D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+    ),
+    errorModal: (
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="32" fill="#FBE9E9" />
+            <g filter="url(#filter0_d_12_2691)">
+                <rect x="8" y="8" width="48" height="48" rx="24" fill="#FBE9E9" />
+                <path d="M40 33C40 38 36.5 40.5 32.34 41.95C32.1222 42.0238 31.8855 42.0203 31.67 41.94C27.5 40.5 24 38 24 33V26C24 25.4481 24.4481 25 25 25C27 25 29.5 23.8 31.24 22.28C31.6777 21.9061 32.3223 21.9061 32.76 22.28C34.51 23.81 37 25 39 25C39.5523 25 40 25.4477 40 26V33" stroke="#B01C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M32 28V32" stroke="#B01C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M32 36H32.01" stroke="#B01C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <defs>
+                <filter id="filter0_d_12_2691" x="4" y="4" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                    <feMorphology radius="4" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_12_2691" />
+                    <feOffset />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 0.999023 0 0 0 0 0.944728 0 0 0 0 0.948604 0 0 0 1 0" />
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_12_2691" />
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_12_2691" result="shape" />
+                </filter>
             </defs>
         </svg>
 

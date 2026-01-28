@@ -3,6 +3,8 @@ import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { Button } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import FixedPriceStatusModal from './FixedPriceStatusModal'
 
 interface Props {
     data?: FixedPriceItemDetails
@@ -10,27 +12,50 @@ interface Props {
 
 const FixedPriceInfo = ({ data }: Props) => {
     const { t } = useTranslation()
+    const [modalConfig, setModalConfig] = useState<{
+        isOpen: boolean
+        type: 'reject' | 'hide' | 'unhide'
+    }>({
+        isOpen: false,
+        type: 'reject',
+    })
 
     const getStatusVariant = (status?: string) => {
         switch (status) {
-            case 'active': return 'success'
-            case 'pending_review': return 'warning'
-            case 'rejected': return 'danger'
-            case 'hidden': return 'neutral'
-            case 'out_of_stock': return 'neutral'
-            default: return 'neutral'
+            case 'active':
+                return 'success'
+            case 'pending_review':
+                return 'warning'
+            case 'rejected':
+                return 'danger'
+            case 'hidden':
+                return 'neutral'
+            case 'out_of_stock':
+                return 'neutral'
+            default:
+                return 'neutral'
         }
     }
 
     const getStatusLabel = (status?: string) => {
         switch (status) {
-            case 'active': return t('fixedPrice.table.status.active')
-            case 'pending_review': return t('fixedPrice.table.status.pendingReview')
-            case 'rejected': return t('fixedPrice.table.status.rejected')
-            case 'hidden': return t('fixedPrice.table.status.hidden')
-            case 'out_of_stock': return t('fixedPrice.table.status.outOfStock')
-            default: return status || ''
+            case 'active':
+                return t('fixedPrice.table.status.active')
+            case 'pending_review':
+                return t('fixedPrice.table.status.pendingReview')
+            case 'rejected':
+                return t('fixedPrice.table.status.rejected')
+            case 'hidden':
+                return t('fixedPrice.table.status.hidden')
+            case 'out_of_stock':
+                return t('fixedPrice.table.status.outOfStock')
+            default:
+                return status || ''
         }
+    }
+
+    const openModal = (type: 'reject' | 'hide' | 'unhide') => {
+        setModalConfig({ isOpen: true, type })
     }
 
     return (
@@ -63,13 +88,15 @@ const FixedPriceInfo = ({ data }: Props) => {
                             <Button
                                 variant="default"
                                 size="md"
-                                color='red'
+                                color="red"
+                                onClick={() => openModal('reject')}
                             >
                                 {t('fixedPrice.details.actions.reject')}
                             </Button>
                             <Button
                                 variant="solid"
                                 size="md"
+                                className="bg-[#2B3467] hover:bg-[#1E254A]"
                             >
                                 {t('fixedPrice.details.actions.approve')}
                             </Button>
@@ -80,6 +107,8 @@ const FixedPriceInfo = ({ data }: Props) => {
                         <Button
                             variant="solid"
                             size="md"
+                            color="red"
+                            onClick={() => openModal('hide')}
                         >
                             {t('fixedPrice.details.actions.hide')}
                         </Button>
@@ -89,12 +118,20 @@ const FixedPriceInfo = ({ data }: Props) => {
                         <Button
                             variant="solid"
                             size="md"
+                            onClick={() => openModal('unhide')}
                         >
                             {t('fixedPrice.details.actions.unhide')}
                         </Button>
                     )}
                 </div>
             </div>
+
+            <FixedPriceStatusModal
+                isOpen={modalConfig.isOpen}
+                type={modalConfig.type}
+                id={data?.id || ''}
+                onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
+            />
         </BackgroundRounded>
     )
 }
