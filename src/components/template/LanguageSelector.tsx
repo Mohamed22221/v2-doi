@@ -4,7 +4,12 @@ import Dropdown from '@/components/ui/Dropdown'
 import Spinner from '@/components/ui/Spinner'
 import classNames from 'classnames'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
-import { setLang, useAppSelector, useAppDispatch } from '@/store'
+import {
+    setLang,
+    useAppSelector,
+    useAppDispatch,
+    persistor,
+} from '@/store'
 import { dateLocales } from '@/locales'
 import dayjs from 'dayjs'
 // eslint-disable-next-line import/no-named-as-default
@@ -26,7 +31,6 @@ const _LanguageSelector = ({ className }: CommonProps) => {
     const selectLangFlag = useMemo(() => {
         return languageList.find((lang) => lang.value === locale)?.flag
     }, [locale])
-
     const selectedLanguage = (
         <div className={classNames(className, 'flex items-center')}>
             {loading ? (
@@ -42,11 +46,6 @@ const _LanguageSelector = ({ className }: CommonProps) => {
     )
 
     const onLanguageSelect = (lang: string) => {
-        if(lang === "ar") {
-            updateDirection("rtl")
-        } else {
-            updateDirection("ltr")
-        }
         const formattedLang = lang.replace(/-([a-z])/g, function (g) {
             return g[1].toUpperCase()
         })
@@ -54,10 +53,26 @@ const _LanguageSelector = ({ className }: CommonProps) => {
         setLoading(true)
 
         const dispatchLang = () => {
-            i18n.changeLanguage(formattedLang)
-  
-            dispatch(setLang(lang))
-            setLoading(false)
+            // Apply direction change first
+            if (lang === 'ar') {
+                updateDirection('rtl')
+            } else {
+                updateDirection('ltr')
+            }
+
+            // Change language in i18n
+            i18n.changeLanguage(formattedLang).then(() => {
+                // Update language in store
+                dispatch(setLang(lang))
+
+                // Force redux-persist to write to storage before reload
+                // Using a small timeout as a fallback for persistence flush
+                persistor.flush().then(() => {
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 150)
+                })
+            })
         }
 
         dateLocales[formattedLang]()

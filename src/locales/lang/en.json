@@ -11,7 +11,9 @@
         "browse": "browse",
         "supportFormats": "Support: jpeg, png, webp",
         "loading": "Loading",
-        "add": "Add"
+        "add": "Add",
+        "description": "Description",
+        "noData": "No data found"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -326,7 +328,7 @@
                 "actions": "Actions"
             },
             "status": {
-                "active": "Active",
+                "active": "Approved",
                 "rejected": "Rejected",
                 "hidden": "Hidden",
                 "outOfStock": "Out of stock",
@@ -340,6 +342,25 @@
             },
             "actions": {
                 "viewDetails": "View Details"
+            }
+        },
+        "details": {
+            "basicInfo": "Basic Information",
+            "pricingStock": "Pricing & Stock",
+            "availableQuantity": "Available Quantity",
+            "price": "Price",
+            "mediaAssets": "Media Assets",
+            "sellerInfo": "Seller Info",
+            "sellerId": "Seller ID",
+            "sellerName": "Seller Name",
+            "activityLog": "Activity Log",
+            "logItem": "Item",
+            "reason": "Reason",
+            "actions": {
+                "reject": "Reject",
+                "approve": "Approve",
+                "hide": "Hide Item",
+                "unhide": "Unhide Item"
             }
         }
     },

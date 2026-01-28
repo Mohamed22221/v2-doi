@@ -15,10 +15,10 @@ export function useFixedPriceTableColumns() {
     const getStatusVariant = (status: FixedPriceStatus) => {
         switch (status) {
             case 'active': return 'success'
+            case 'pending_review': return 'warning'
             case 'rejected': return 'danger'
             case 'hidden': return 'neutral'
-            case 'out_of_stock': return 'warning'
-            case 'pending_review': return 'info'
+            case 'out_of_stock': return 'neutral'
             default: return 'neutral'
         }
     }

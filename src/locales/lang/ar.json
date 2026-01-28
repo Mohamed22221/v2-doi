@@ -11,7 +11,9 @@
         "browse": "تصفح",
         "supportFormats": "الصيغ المدعومة: jpeg, png, webp",
         "loading": "تحميل",
-        "add": "إضافة"
+        "add": "إضافة",
+        "description": "الوصف",
+        "noData": "لم يتم العثور على بيانات"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -326,7 +328,7 @@
                 "actions": "الإجراءات"
             },
             "status": {
-                "active": "نشط",
+                "active": "معتمد",
                 "rejected": "مرفوض",
                 "hidden": "مخفي",
                 "outOfStock": "نفد من المخزون",
@@ -340,6 +342,25 @@
             },
             "actions": {
                 "viewDetails": "عرض التفاصيل"
+            }
+        },
+        "details": {
+            "basicInfo": "المعلومات الأساسية",
+            "pricingStock": "التسعير والمخزون",
+            "availableQuantity": "الكمية المتوفرة",
+            "price": "السعر",
+            "mediaAssets": "ملفات الميديا",
+            "sellerInfo": "بيانات البائع",
+            "sellerId": "معرف البائع",
+            "sellerName": "اسم البائع",
+            "activityLog": "سجل النشاطات",
+            "logItem": "الحدث",
+            "reason": "السبب",
+            "actions": {
+                "reject": "رفض",
+                "approve": "موافقة",
+                "hide": "إخفاء العنصر",
+                "unhide": "إلغاء الإخفاء"
             }
         }
     },

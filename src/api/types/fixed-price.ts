@@ -19,6 +19,24 @@ export interface FixedPriceItem {
     translations: FixedPriceTranslation[]
 }
 
+export interface FixedPriceItemDetails extends FixedPriceItem {
+    description: string
+    price: number
+    availableQuantity: number
+    mediaAssets: string[]
+    sellerDetails: {
+        id: string
+        name: string
+        phone: string
+        status: 'active' | 'inactive'
+    }
+    activityLog: {
+        item: string
+        createdAt: string
+        reason?: string
+    }[]
+}
+
 export interface FixedPriceResponse {
     items: FixedPriceItem[]
     total: number

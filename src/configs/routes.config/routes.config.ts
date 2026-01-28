@@ -93,6 +93,11 @@ export const protectedRoutes = [
         authority: [],
     },
     {
+        key: 'fixedPrice',
+        path: `/fixed-price/:id`,
+        component: lazy(() => import('@/pages/fixed-price/DetailsFixedPrice')),
+    },
+    {
         key: 'live-auctions',
         path: '/live-auctions',
         component: lazy(() => import('@/pages/live-auctions')),

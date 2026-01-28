@@ -85,7 +85,7 @@ export function useCategoriesTableColumns({
                 header: t(''),
                 id: 'actions',
                 cell: ({ row }) => {
-                    const isDeleted = typeof !row.original.deletedAt === 'string' && row.original.deletedAt !== ''
+                    const isDeleted = typeof row.original.deletedAt === 'string' && row.original.deletedAt !== ''
 
                     if (isDeleted) {
                         return (
