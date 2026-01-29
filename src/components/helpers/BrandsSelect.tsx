@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Select } from '@/components/ui'
 import { useGetAllBrandsSelect } from '@/api/hooks/brands'
 import type { Brand } from '@/api/types/brands'
 import { getApiErrorMessage } from '@/api/error'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
 type SelectOption<TValue extends string = string> = {
     value: TValue
@@ -22,6 +23,8 @@ type BrandsSelectProps = {
     menuPortalZ?: number
     classNames?: string
     errorPlaceholder?: string
+    /** Pre-selected option for update mode (e.g., brand from details) */
+    initialOption?: { value: BrandId; label: string } | null
 }
 
 function BrandsSelect({
@@ -34,8 +37,11 @@ function BrandsSelect({
     classNames,
     errorPlaceholder,
     menuPortalZ,
+    initialOption,
 }: BrandsSelectProps) {
     const { t, i18n } = useTranslation()
+    const [searchQuery, setSearchQuery] = useState('')
+    const debouncedSearchQuery = useDebouncedValue(searchQuery, 400)
 
     const {
         data: brandsData,
@@ -45,12 +51,12 @@ function BrandsSelect({
         isLoading,
         isError,
         error,
-    } = useGetAllBrandsSelect()
+    } = useGetAllBrandsSelect(debouncedSearchQuery)
 
     const pageLanguage = i18n.language
 
     const brandOptions = useMemo<SelectOption<BrandId>[]>(() => {
-        return (
+        const fetchedOptions =
             brandsData?.items?.map((brand: Brand) => {
                 const byPageLang = brand.translations.find(
                     (tr) => tr.languageCode.toLowerCase() === pageLanguage,
@@ -63,8 +69,14 @@ function BrandsSelect({
                     value: brand.id,
                 }
             }) ?? []
-        )
-    }, [brandsData, pageLanguage])
+
+        // If we have an initialOption, ensure it's in the list
+        if (initialOption && !fetchedOptions.some((o) => o.value === initialOption.value)) {
+            return [initialOption, ...fetchedOptions]
+        }
+
+        return fetchedOptions
+    }, [brandsData, pageLanguage, initialOption])
 
     const selectedOption = useMemo<SelectOption<BrandId> | null>(() => {
         return brandOptions.find((o) => o.value === value) ?? null
@@ -94,6 +106,8 @@ function BrandsSelect({
             isDisabled={isDisabled}
             loadMoreLabel={t('viewTable.filters.loadMore')}
             isClearable
+            isSearchable
+            onInputChange={(val) => setSearchQuery(val)}
         />
     )
 }

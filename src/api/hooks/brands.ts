@@ -216,12 +216,12 @@ export const useDeactivateBrand = () => {
     }
 }
 
-export function useGetAllBrandsSelect() {
+export function useGetAllBrandsSelect(search?: string) {
     return useInfiniteQuery({
-        queryKey: ['optionsBrands'],
+        queryKey: ['optionsBrands', search],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
-            BrandsServices.getInfinityBrands(pageParam as number),
+            BrandsServices.getInfinityBrands(pageParam as number, 10, search),
         getNextPageParam: (lastPage) =>
             lastPage.data.page < lastPage.data.totalPages
                 ? lastPage.data.page + 1

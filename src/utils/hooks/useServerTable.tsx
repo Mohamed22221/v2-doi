@@ -35,6 +35,8 @@ export type ServerFilterConfig = {
     loading?: boolean
     infinity?: InfinityControls
     type?: FilterConfigType
+    isSearchable?: boolean
+    onSearch?: (v: string) => void
 }
 
 type ParamsValue = string | number | boolean | undefined

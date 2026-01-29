@@ -55,6 +55,7 @@ const CategoriesServices = {
     getInfinityCategories: (
         page: number,
         limit: number = 10,
+        search?: string,
     ): Promise<TAPIResponseItems<Category[]>> =>
         api.get('/admin/categories', {
             params: {
@@ -62,6 +63,7 @@ const CategoriesServices = {
                 limit,
                 status: 'active',
                 isDeleted: false,
+                ...(search && { search }),
             },
         }),
 }

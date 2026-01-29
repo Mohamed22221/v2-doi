@@ -35,6 +35,7 @@ const BrandsServices = {
     getInfinityBrands: (
         page: number,
         limit: number = 10,
+        search?: string,
     ): Promise<TAPIResponseItems<Brand[]>> =>
         api.get('/admin/brands', {
             params: {
@@ -42,6 +43,7 @@ const BrandsServices = {
                 limit,
                 status: 'active',
                 isDeleted: false,
+                ...(search && { search }),
             },
         }),
 }

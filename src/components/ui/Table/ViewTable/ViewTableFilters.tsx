@@ -24,6 +24,8 @@ export interface FilterConfig {
     hidden?: boolean
     infinity?: InfinityControls
     type?: FilterConfigType
+    isSearchable?: boolean
+    onSearch?: (v: string) => void
 }
 
 export interface ViewTableFiltersProps {
@@ -134,7 +136,6 @@ const ViewTableFilters = ({
                                     <Select<FilterOption>
 
                                         size="sm"
-                                        isSearchable={false}
                                         placeholder={
                                             filter.placeholder ||
                                             t('viewTable.filters.all')
@@ -158,6 +159,8 @@ const ViewTableFilters = ({
                                                 option?.value ?? null,
                                             )
                                         }
+                                        isSearchable={filter.isSearchable}
+                                        onInputChange={(v) => filter.onSearch?.(v)}
                                         isClearable
                                     />
                                 </div>

@@ -20,6 +20,7 @@ import { Category } from '@/api/types/categories'
 import { useModelsTableColumns } from './ModelsTableColumns'
 import { Brand } from '@/api/types/brands'
 import RestoreModelModal from './RestoreModelModal'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
 export default function ModelsTable() {
     const { t, i18n } = useTranslation()
@@ -33,13 +34,19 @@ export default function ModelsTable() {
 
     const { models, isLoading, total, errorMessage, isError, limit } =
         useGetAllModels()
+    const [brandSearch, setBrandSearch] = useState('')
+    const debouncedBrandSearch = useDebouncedValue(brandSearch, 400)
+
+    const [categorySearch, setCategorySearch] = useState('')
+    const debouncedCategorySearch = useDebouncedValue(categorySearch, 400)
+
     const {
         data: brandsData,
         fetchNextPage: fetchNextPageBrand,
         hasNextPage: hasNextPageBrand,
         isFetchingNextPage: isFetchingNextPageBrand,
         isFetching: isFetchingBrand,
-    } = useGetAllBrandsSelect()
+    } = useGetAllBrandsSelect(debouncedBrandSearch)
 
     const {
         data: categoriesData,
@@ -47,7 +54,7 @@ export default function ModelsTable() {
         hasNextPage,
         isFetchingNextPage,
         isFetching,
-    } = useGetAllCategoriesSelect()
+    } = useGetAllCategoriesSelect(debouncedCategorySearch)
 
     const openDeleteModal = (row: ModelTableRow) => {
         setSelectedModel(row)
@@ -135,6 +142,8 @@ export default function ModelsTable() {
                     isFetchingNextPage: isFetchingNextPageBrand,
                     isFetching: isFetchingBrand,
                 },
+                isSearchable: true,
+                onSearch: (v) => setBrandSearch(v),
             },
             {
                 key: 'categoryId',
@@ -149,6 +158,8 @@ export default function ModelsTable() {
                     isFetchingNextPage,
                     isFetching,
                 },
+                isSearchable: true,
+                onSearch: (v) => setCategorySearch(v),
             },
             {
                 key: 'releaseYear',

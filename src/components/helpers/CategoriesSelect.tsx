@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Select } from '@/components/ui'
 import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
 import type { Category } from '@/api/types/categories'
 import { getApiErrorMessage } from '@/api/error'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
 type SelectOption<TValue extends string = string> = {
     value: TValue
@@ -22,6 +23,8 @@ type CategorySelectProps = {
     menuPortalZ?: number
     classNames?: string
     errorPlaceholder?: string
+    /** Pre-selected option for update mode (e.g., parent category from details) */
+    initialOption?: { value: CategoryId; label: string } | null
 }
 
 function CategorySelect({
@@ -34,8 +37,11 @@ function CategorySelect({
     classNames,
     errorPlaceholder,
     menuPortalZ,
+    initialOption,
 }: CategorySelectProps) {
     const { t, i18n } = useTranslation()
+    const [searchQuery, setSearchQuery] = useState('')
+    const debouncedSearchQuery = useDebouncedValue(searchQuery, 400)
 
     const {
         data: categoriesData,
@@ -45,27 +51,30 @@ function CategorySelect({
         isLoading,
         isError,
         error,
-    } = useGetAllCategoriesSelect()
+    } = useGetAllCategoriesSelect(debouncedSearchQuery)
 
     const pageLanguage = i18n.language
 
     const categoryOptions = useMemo<SelectOption<CategoryId>[]>(() => {
-        return (
+        const fetchedOptions =
             categoriesData?.items?.map((cat: Category) => {
-                const byPageLang = cat.translations.find(
-                    (t) => t.languageCode.toLowerCase() === pageLanguage,
-                )?.name
+                const byPageLang = cat.translations?.[0]?.name
 
-
-                const label = byPageLang  || cat.slug
+                const label = byPageLang || cat.slug
 
                 return {
                     label,
                     value: cat.id,
                 }
             }) ?? []
-        )
-    }, [categoriesData, pageLanguage])
+
+        // If we have an initialOption, ensure it's in the list
+        if (initialOption && !fetchedOptions.some((o) => o.value === initialOption.value)) {
+            return [initialOption, ...fetchedOptions]
+        }
+
+        return fetchedOptions
+    }, [categoriesData, pageLanguage, initialOption])
 
     const selectedOption = useMemo<SelectOption<CategoryId> | null>(() => {
         return categoryOptions.find((o) => o.value === value) ?? null
@@ -95,8 +104,11 @@ function CategorySelect({
             isDisabled={isDisabled}
             loadMoreLabel={t('viewTable.filters.loadMore')}
             isClearable
+            isSearchable
+            onInputChange={(val) => setSearchQuery(val)}
         />
     )
 }
 
 export default CategorySelect
+

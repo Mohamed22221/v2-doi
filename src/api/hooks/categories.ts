@@ -257,12 +257,12 @@ export const useDeactivateCategory = () => {
     }
 }
 
-export function useGetAllCategoriesSelect() {
+export function useGetAllCategoriesSelect(search?: string) {
     return useInfiniteQuery({
-        queryKey: ['optionsCategories'],
+        queryKey: ['optionsCategories', search],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
-            CategoriesServices.getInfinityCategories(pageParam as number),
+            CategoriesServices.getInfinityCategories(pageParam as number, 10, search),
         getNextPageParam: (lastPage) =>
             lastPage.data.page < lastPage.data.totalPages
                 ? lastPage.data.page + 1

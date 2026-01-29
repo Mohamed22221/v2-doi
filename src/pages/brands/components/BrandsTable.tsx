@@ -18,6 +18,7 @@ import { useBrandsTableColumns } from './BrandsTableColumns'
 import { Category } from '@/api/types/categories'
 import { useBrandCsvColumns } from './Brands.csv-columns'
 import RestoreBrandModal from './RestoreBrandModal'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
 
 export default function BrandsTable() {
@@ -33,13 +34,16 @@ export default function BrandsTable() {
     const { brands, isLoading, total, errorMessage, isError, limit } =
         useGetAllBrands()
 
+    const [categorySearch, setCategorySearch] = useState('')
+    const debouncedCategorySearch = useDebouncedValue(categorySearch, 400)
+
     const {
         data: categoriesData,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isFetching,
-    } = useGetAllCategoriesSelect()
+    } = useGetAllCategoriesSelect(debouncedCategorySearch)
 
     const openDeleteModal = (row: BrandTableRow) => {
         setSelectedBrand(row)
@@ -102,6 +106,7 @@ export default function BrandsTable() {
                     },
                 ],
                 placeholder: t('brands.table.filters.allStatus'),
+                isSearchable: false,
             },
             {
                 key: 'isDeleted',
@@ -113,6 +118,7 @@ export default function BrandsTable() {
                     { label: t('users.table.status.nonDeleted'), value: false },
                 ],
                 placeholder: t('users.table.filters.allStatus'),
+                isSearchable: false,
             },
             {
                 key: 'categoryId',
@@ -127,6 +133,8 @@ export default function BrandsTable() {
                     isFetchingNextPage,
                     isFetching,
                 },
+                isSearchable: true,
+                onSearch: (v) => setCategorySearch(v),
             },
         ],
         [

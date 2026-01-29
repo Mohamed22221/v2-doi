@@ -17,6 +17,7 @@ export interface ParentCategory extends BaseEntity {
   status: CategoryStatus;
   sortOrder: number;
   image: string | null;
+  translations: CategoryTranslation[];
 }
 
 export interface ChildCategory extends BaseEntity {
