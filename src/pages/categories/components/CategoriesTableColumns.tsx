@@ -24,33 +24,25 @@ export function useCategoriesTableColumns({
 
     return useMemo<ColumnDef<CategoryTableRow>[]>(() => {
         const styleItems =
-            'inline-flex items-center justify-center rounded-full bg-primary-50 dark:bg-primary-500 px-3 py-1 text-sm text-primary-500 dark:text-primary-50'
+            'inline-flex items-center justify-center rounded-full bg-primary-50 dark:bg-primary-500 px-3 py-1 text-xs text-primary-500 dark:text-primary-50'
         return [
             {
                 header: t('categories.table.columns.categoryName'),
                 accessorKey: 'translations',
                 cell: ({ row }) => {
-                    const enName =
-                        row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'en',
-                        )?.name ?? row.original.slug
-
-                    const arName =
-                        row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'ar',
-                        )?.name ?? row.original.slug
-
+                    const name =
+                        row.original.translations?.[0]?.name ?? row.original.slug
                     return (
                         <TwoLineText
                             imageSize="sm"
                             image={row.original.image}
-                            title={enName}
-                            subtitle={arName}
+                            title={name}
                             size="sm"
                         />
                     )
                 },
             },
+
             {
                 header: t('categories.table.columns.status'),
                 accessorKey: 'status',
@@ -62,6 +54,35 @@ export function useCategoriesTableColumns({
                         size="sm"
                     />
                 ),
+            },
+            {
+                header: t('categories.table.filters.level'),
+                accessorKey: 'level',
+                cell: ({ row }) => {
+                    const level = row.original.level
+                    let label = ''
+
+                    switch (level) {
+                        case 1:
+                            label = t('categories.table.level.main')
+                            break
+                        case 2:
+                            label = t('categories.table.level.sub')
+                            break
+                        case 3:
+                            label = t('categories.table.level.nested')
+                            break
+                        default:
+                            return null
+                    }
+
+                    return (
+                        <span className={styleItems}>
+                            {label}
+                        </span>
+
+                    )
+                },
             },
             {
                 header: t('categories.table.columns.items'),

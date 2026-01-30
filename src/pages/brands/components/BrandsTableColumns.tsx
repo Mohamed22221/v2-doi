@@ -28,26 +28,18 @@ export function useBrandsTableColumns({
                 header: t('brands.table.columns.brandName'),
                 accessorKey: 'translations',
                 cell: ({ row }) => {
-                    const enName =
-                        row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'en',
-                        )?.name ?? row.original.slug
-
-                    const arName =
-                        row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'ar',
-                        )?.name ?? row.original.slug
-
+                    const name =
+                        row.original.translations?.[0]?.name ?? row.original.slug
                     return (
                         <TwoLineText
                             imageSize="sm"
                             image={row.original.logoUrl}
-                            title={enName}
-                            subtitle={arName}
+                            title={name}
                             size="sm"
                         />
                     )
                 },
+
             },
             {
                 header: t('brands.table.columns.status'),

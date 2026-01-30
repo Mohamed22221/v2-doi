@@ -47,6 +47,7 @@ export type CategoryTableRow = {
   slug: string
   translations: CategoryTranslation[]
   status: CategoryStatus
+  level: CategoryLevel
   totalItems: number
   children: ChildCategory[]
   image: string | null

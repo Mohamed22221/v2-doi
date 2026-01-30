@@ -85,7 +85,7 @@ export default function TwoLineText({
             )}
 
             {/* Text */}
-            <div className={['flex flex-col', sizes[size].gap].join(' ')}>
+            <div className={[`flex ${subtitle ? "flex-col" : "items-center"}`, sizes[size].gap].join(' ')}>
                 <div
                     className={[
                         'font-semibold text-gray-900 dark:text-gray-100 leading-snug',

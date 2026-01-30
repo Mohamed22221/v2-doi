@@ -11,22 +11,20 @@ export const useBrandCsvColumns = () => {
             {
                 header: t('brands.table.columns.brandName'),
                 accessor: (row: BrandTableRow) =>
-                    row.translations.find(
-                        (tr) => tr.languageCode.toLowerCase() === 'en',
-                    )?.name ?? row.slug,
+                    row.translations?.[0]?.name ?? row.slug,
             },
             {
                 header: t('brands.table.columns.status'),
-                accessor: (row: BrandTableRow) => row.status,
+                accessor: (row: BrandTableRow) =>
+                    row.status === 'active'
+                        ? t('common.active')
+                        : t('common.inactive'),
             },
             {
                 header: t('brands.table.columns.items'),
-                accessor: (row: BrandTableRow) => row.itemsCount ?? 0,
+                accessor: (row: BrandTableRow) => row.totalItems ?? 0,
             },
-            {
-                header: t('brands.logo'),
-                accessor: (row: BrandTableRow) => row.logoUrl ?? '',
-            },
+
         ],
         [t],
     )
