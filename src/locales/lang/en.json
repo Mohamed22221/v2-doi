@@ -44,6 +44,10 @@
             }
         }
     },
+    "home": {
+        "welcomeTitle": "Welcome on Board, let's get started with Doi",
+        "welcomeSubtitle": "Effortlessly manage your auctions, listings, and user interactions from your centralized admin dashboard."
+    },
     "auth": {
         "login": {
             "welcome": "Welcome back!",
