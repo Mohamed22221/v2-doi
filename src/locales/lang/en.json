@@ -14,7 +14,15 @@
         "add": "Add",
         "description": "Description",
         "noData": "No data found",
-        "success": "Operation completed successfully"
+        "success": "Operation completed successfully",
+        "image": "Image",
+        "zoom": "Zoom",
+        "reset": "Reset",
+        "cropImage": "Crop Image",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "dragToMove": "Drag to move image",
+        "zoomInstruction": "Zoom in first to be able to move and reach image edges"
     },
     "nav": {
         "dashboard": "Dashboard",
