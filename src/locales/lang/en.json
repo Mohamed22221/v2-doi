@@ -400,6 +400,9 @@
                     "temporarilyUnavailable": "Temporarily Unavailable",
                     "testing": "Testing",
                     "other": "Other"
+                },
+                "errors": {
+                    "reasonRequired": "Reason is required"
                 }
             },
             "errors": {

@@ -400,6 +400,9 @@
                     "temporarilyUnavailable": "غير متوفر مؤقتاً",
                     "testing": "تجربة",
                     "other": "أخرى"
+                },
+                "errors": {
+                    "reasonRequired": "السبب مطلوب"
                 }
             },
             "errors": {

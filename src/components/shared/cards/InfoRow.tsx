@@ -8,7 +8,7 @@ type Props = {
 const InfoRow = ({ label, value }: Props) => {
   return (
     <div className="space-y-1">
-      <p className="text-sm text-neutral-400">{label}</p>
+      <p className="text-sm text-primary-500 dark:text-primary-200">{label}</p>
       <div className="text-sm font-medium text-neutral-500 dark:text-neutral-100">
         {value ?? <span className="text-neutral-300">—</span>}
       </div>

@@ -25,12 +25,10 @@ const PricingAndDescription = ({ data }: Props) => {
                             value={`${data?.categoryParent} → ${data?.categoryChild}`}
                         />
                         <div className="flex flex-col gap-1">
-                            <span className="text-sm text-neutral-400 font-medium">
-                                {t('common.description') || 'Description'}
-                            </span>
-                            <p className="text-sm text-gray-900 dark:text-gray-100 leading-relaxed">
-                                {data?.description}
-                            </p>
+                            <InfoRow
+                                label={t('common.description') || 'Description'}
+                                value={data?.description}
+                            />
                         </div>
                     </div>
                 </div>

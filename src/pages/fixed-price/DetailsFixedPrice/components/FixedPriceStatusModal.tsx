@@ -1,22 +1,18 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Form, Formik } from 'formik'
 import {
-    Button,
     Dialog,
     Notification,
     toast,
-    Input,
-    Select,
     Icon,
 } from '@/components/ui'
 
-interface FixedPriceStatusModalProps {
-    isOpen: boolean
-    onClose: () => void
-    type: 'reject' | 'hide' | 'unhide'
-    id: string
-    onConfirmSuccess?: () => void
-}
+import ModalHeader from './modalStatus/ModalHeader'
+import ModalBody from './modalStatus/ModalBody'
+import ModalFooter from './modalStatus/ModalFooter'
+import getFixedPriceStatusValidationSchema from './modalStatus/schema'
+import { FixedPriceStatusModalProps, FormValues, ModalConfig, ReasonOption } from './modalStatus/types'
 
 const FixedPriceStatusModal = ({
     isOpen,
@@ -25,25 +21,29 @@ const FixedPriceStatusModal = ({
     onConfirmSuccess,
 }: FixedPriceStatusModalProps) => {
     const { t } = useTranslation()
-    const [reason, setReason] = useState<string | null>(null)
-    const [note, setNote] = useState('')
     const [isPending, setIsPending] = useState(false)
 
-    const rejectionReasons = [
+    const rejectionReasons: ReasonOption[] = [
         { label: t('fixedPrice.details.modals.reasons.incorrectCategory'), value: 'incorrect_category' },
         { label: t('fixedPrice.details.modals.reasons.blurryImages'), value: 'blurry_images' },
         { label: t('fixedPrice.details.modals.reasons.missingDescription'), value: 'missing_description' },
         { label: t('fixedPrice.details.modals.reasons.duplicateItem'), value: 'duplicate_item' },
+        { label: t('fixedPrice.details.modals.reasons.other'), value: 'other' },
     ]
 
-    const hidingReasons = [
+    const hidingReasons: ReasonOption[] = [
         { label: t('fixedPrice.details.modals.reasons.outOfSeason'), value: 'out_of_season' },
         { label: t('fixedPrice.details.modals.reasons.temporarilyUnavailable'), value: 'temporarily_unavailable' },
         { label: t('fixedPrice.details.modals.reasons.testing'), value: 'testing' },
         { label: t('fixedPrice.details.modals.reasons.other'), value: 'other' },
     ]
 
-    const onConfirm = () => {
+    const initialValues: FormValues = {
+        reason: '',
+        note: '',
+    }
+
+    const onConfirm = async (values: FormValues) => {
         setIsPending(true)
         // Simulate API call
         setTimeout(() => {
@@ -59,7 +59,7 @@ const FixedPriceStatusModal = ({
         }, 1000)
     }
 
-    const getModalConfig = () => {
+    const getModalConfig = (): ModalConfig => {
         switch (type) {
             case 'reject':
                 return {
@@ -72,7 +72,7 @@ const FixedPriceStatusModal = ({
                     noteLabel: t('fixedPrice.details.modals.reject.noteLabel'),
                     notePlaceholder: t('fixedPrice.details.modals.reject.notePlaceholder'),
                     confirmText: t('fixedPrice.details.modals.reject.confirm'),
-                    confirmVariant: 'solid' as const,
+                    confirmVariant: 'solid',
                     confirmColor: 'red',
                 }
             case 'hide':
@@ -87,7 +87,7 @@ const FixedPriceStatusModal = ({
                     notePlaceholder: t('fixedPrice.details.modals.hide.notePlaceholder'),
                     footerText: t('fixedPrice.details.modals.hide.footerText'),
                     confirmText: t('fixedPrice.details.modals.hide.confirm'),
-                    confirmVariant: 'solid' as const,
+                    confirmVariant: 'solid',
                     confirmColor: 'red',
                 }
             case 'unhide':
@@ -96,7 +96,7 @@ const FixedPriceStatusModal = ({
                     description: t('fixedPrice.details.modals.unhide.description'),
                     icon: <Icon name="hideModal" />,
                     confirmText: t('fixedPrice.details.modals.unhide.confirm'),
-                    confirmVariant: 'solid' as const,
+                    confirmVariant: 'solid',
                     confirmColor: 'primary',
                 }
         }
@@ -111,68 +111,28 @@ const FixedPriceStatusModal = ({
             onRequestClose={onClose}
             width={500}
         >
-            <div className="flex flex-col items-center p-2">
-                {config.icon}
-                <h3 className="mt-3 text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">
-                    {config.title}
-                </h3>
-                <p className="text-center text-gray-500 dark:text-gray-400 mb-3 px-4">
-                    {config.description}
-                </p>
-
-                {(type === 'reject' || type === 'hide') && (
-                    <div className="w-full space-y-2">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                {config.reasonLabel}
-                            </label>
-                            <Select
-                                placeholder={config.reasonPlaceholder}
-                                options={config.reasons}
-                                value={config.reasons?.find(r => r.value === reason)}
-                                onChange={(option) => setReason(option?.value || null)}
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                {config.noteLabel}
-                            </label>
-                            <Input
-                                textArea
-                                placeholder={config.notePlaceholder}
-                                value={note}
-                                onChange={(e) => setNote(e.target.value)}
-                                rows={4}
-                            />
-                        </div>
-                        {config.footerText && (
-                            <p className="text-xs text-gray-400">
-                                {config.footerText}
-                            </p>
-                        )}
-                    </div>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={getFixedPriceStatusValidationSchema(t, type)}
+                onSubmit={onConfirm}
+            >
+                {({ touched, errors }) => (
+                    <Form>
+                        <ModalHeader config={config} />
+                        <ModalBody
+                            type={type}
+                            config={config}
+                            touched={touched}
+                            errors={errors}
+                        />
+                        <ModalFooter
+                            config={config}
+                            onClose={onClose}
+                            isPending={isPending}
+                        />
+                    </Form>
                 )}
-            </div>
-
-            <div className="mt-4 flex gap-3">
-                <Button
-                    variant="default"
-                    className="flex-1"
-                    onClick={onClose}
-                >
-                    {t('fixedPrice.details.modals.reject.cancel')}
-                </Button>
-                <Button
-                    variant={config.confirmVariant}
-                    color={config.confirmColor}
-                    className="flex-1"
-                    onClick={onConfirm}
-                    loading={isPending}
-                    disabled={(type !== 'unhide' && !reason)}
-                >
-                    {config.confirmText}
-                </Button>
-            </div>
+            </Formik>
         </Dialog>
     )
 }

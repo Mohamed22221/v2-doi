@@ -25,12 +25,12 @@ const SellerInfo = ({ seller }: Props) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                     <div className="flex flex-col gap-1">
-                        <span className="text-sm text-neutral-400 font-medium">
+                        <span className="text-primary-500 dark:text-primary-200 font-medium">
                             {t('fixedPrice.details.sellerId') || 'Seller ID'}
                         </span>
                         <Link
                             to={`/users/${seller?.id}`}
-                            className="text-primary-600 hover:underline font-medium"
+                            className=" hover:underline font-medium"
                         >
                             {seller?.id}
                         </Link>
@@ -47,7 +47,7 @@ const SellerInfo = ({ seller }: Props) => {
                     />
 
                     <div className="flex flex-col gap-1">
-                        <span className="text-sm text-neutral-400 font-medium">
+                        <span className="text-primary-500 dark:text-primary-200 font-medium">
                             {t('users.table.columns.status') || 'Seller Status'}
                         </span>
                         <div>

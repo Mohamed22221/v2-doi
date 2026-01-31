@@ -7,32 +7,12 @@ import { FixedPriceItem, FixedPriceStatus } from '@/api/types/fixed-price'
 import TwoLineText from '@/components/shared/table/TwoLineText'
 import StatusPill from '@/components/shared/table/StatusPill'
 import Button from '@/components/ui/Button'
+import { getStatusLabel, getStatusVariant } from './GetStatusLabel'
 
 export function useFixedPriceTableColumns() {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
-    const getStatusVariant = (status: FixedPriceStatus) => {
-        switch (status) {
-            case 'active': return 'success'
-            case 'pending_review': return 'warning'
-            case 'rejected': return 'danger'
-            case 'hidden': return 'neutral'
-            case 'out_of_stock': return 'neutral'
-            default: return 'neutral'
-        }
-    }
-
-    const getStatusLabel = (status: FixedPriceStatus) => {
-        switch (status) {
-            case 'active': return t('fixedPrice.table.status.active')
-            case 'rejected': return t('fixedPrice.table.status.rejected')
-            case 'hidden': return t('fixedPrice.table.status.hidden')
-            case 'out_of_stock': return t('fixedPrice.table.status.outOfStock')
-            case 'pending_review': return t('fixedPrice.table.status.pendingReview')
-            default: return status
-        }
-    }
 
     return useMemo<ColumnDef<FixedPriceItem>[]>(() => {
         return [
