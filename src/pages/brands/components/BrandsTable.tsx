@@ -69,14 +69,11 @@ export default function BrandsTable() {
         onDelete: openDeleteModal,
         onRestore: openRestoreModal,
     })
-    const pageLanguage = i18n.language
 
     const categoryOptions = useMemo(() => {
         return (
             categoriesData?.items?.map((cat: Category) => {
-                const byPageLang = cat.translations.find(
-                    (t) => t.languageCode.toLowerCase() === pageLanguage.toLowerCase(),
-                )?.name
+                const byPageLang = cat.translations?.[0]?.name
 
                 const label = byPageLang || cat.slug
 
@@ -86,7 +83,7 @@ export default function BrandsTable() {
                 }
             }) ?? []
         )
-    }, [categoriesData, pageLanguage])
+    }, [categoriesData])
 
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
@@ -189,9 +186,7 @@ export default function BrandsTable() {
     const selectedBrandName = useMemo(() => {
         if (!selectedBrand) return ''
         return (
-            selectedBrand.translations.find(
-                (tr) => tr.languageCode.toLowerCase() === 'en',
-            )?.name ?? selectedBrand.slug
+            selectedBrand.translations[0]?.name ?? selectedBrand.slug
         )
     }, [selectedBrand])
 

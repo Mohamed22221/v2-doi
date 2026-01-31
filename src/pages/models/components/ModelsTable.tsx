@@ -80,14 +80,11 @@ export default function ModelsTable() {
         onDelete: openDeleteModal,
         onRestore: openRestoreModal,
     })
-    const pageLanguage = i18n.language
 
     const categoryOptions = useMemo(() => {
         return (
             categoriesData?.items?.map((cat: Category) => {
-                const byPageLang = cat.translations.find(
-                    (tr) => tr.languageCode.toLowerCase() === pageLanguage.toLowerCase(),
-                )?.name
+                const byPageLang = cat.translations?.[0].name
 
                 const label = byPageLang || cat.slug
 
@@ -97,14 +94,12 @@ export default function ModelsTable() {
                 }
             }) ?? []
         )
-    }, [categoriesData, pageLanguage])
+    }, [categoriesData])
 
     const brandsOptions = useMemo(() => {
         return (
             brandsData?.items?.map((cat: Brand) => {
-                const byPageLang = cat.translations.find(
-                    (tr) => tr.languageCode.toLowerCase() === pageLanguage.toLowerCase(),
-                )?.name
+                const byPageLang = cat.translations?.[0].name
 
                 const label = byPageLang || cat.slug
 
@@ -114,7 +109,7 @@ export default function ModelsTable() {
                 }
             }) ?? []
         )
-    }, [brandsData, pageLanguage])
+    }, [brandsData])
 
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [

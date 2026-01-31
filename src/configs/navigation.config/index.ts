@@ -55,16 +55,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [],
     },
-    {
-        key: 'languages',
-        path: '/languages',
-        title: 'Languages',
-        translateKey: 'nav.languages',
-        icon: 'languages',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
-        subMenu: [],
-    },
+
     {
         key: 'orders',
         path: '/orders',
@@ -115,6 +106,16 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
         ],
+    },
+    {
+        key: 'languages',
+        path: '/languages',
+        title: 'Languages',
+        translateKey: 'nav.languages',
+        icon: 'languages',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
     },
     {
         key: 'manageAds',
