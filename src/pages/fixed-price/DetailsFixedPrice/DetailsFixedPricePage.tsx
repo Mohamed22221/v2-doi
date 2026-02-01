@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import ErrorState from '@/components/shared/ErrorState'
 import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton' // Adapting user skeleton
+import PricingAndDescriptionSkeleton from './components/skeletons/PricingAndDescriptionSkeleton'
+import MediaAssetsSkeleton from './components/skeletons/MediaAssetsSkeleton'
+import SellerInfoSkeleton from './components/skeletons/SellerInfoSkeleton'
+import ActivityLogSkeleton from './components/skeletons/ActivityLogSkeleton'
 
 const FixedPriceInfo = lazy(() => import('./components/FixedPriceInfo'))
 const PricingAndDescription = lazy(
@@ -13,19 +17,6 @@ const MediaAssets = lazy(() => import('./components/MediaAssets'))
 const SellerInfo = lazy(() => import('./components/SellerInfo'))
 const ActivityLog = lazy(() => import('./components/ActivityLog'))
 
-// Skeleton imports
-const PricingAndDescriptionSkeleton = lazy(
-    () => import('./components/skeletons/PricingAndDescriptionSkeleton'),
-)
-const MediaAssetsSkeleton = lazy(
-    () => import('./components/skeletons/MediaAssetsSkeleton'),
-)
-const SellerInfoSkeleton = lazy(
-    () => import('./components/skeletons/SellerInfoSkeleton'),
-)
-const ActivityLogSkeleton = lazy(
-    () => import('./components/skeletons/ActivityLogSkeleton'),
-)
 
 const DetailsFixedPriceSkeleton = () => (
     <div className="flex flex-col gap-6">

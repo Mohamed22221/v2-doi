@@ -422,6 +422,69 @@
             }
         }
     },
+    "orders": {
+        "table": {
+            "title": "Orders",
+            "searchPlaceholder": "Search by Order ID, Buyer, Seller",
+            "emptyText": "No orders found",
+            "columns": {
+                "orderId": "Order ID",
+                "type": "Type",
+                "buyer": "Buyer",
+                "seller": "Seller",
+                "orderStatus": "Order Status",
+                "paymentStatus": "Payment Status",
+                "createdAt": "Created At"
+            },
+            "type": {
+                "liveAuction": "Live Auction",
+                "fixedPrice": "Fixed Price",
+                "durationAuction": "Duration Auction"
+            },
+            "orderStatus": {
+                "completed": "Completed",
+                "pending": "Pending",
+                "confirmed": "Confirmed",
+                "cancelled": "Cancelled"
+            },
+            "paymentStatus": {
+                "paid": "Paid",
+                "unpaid": "Unpaid",
+                "paymentHeld": "Held",
+                "failed": "Failed"
+            },
+            "filters": {
+                "type": "Type:",
+                "allTypes": "All Types",
+                "status": "Status:",
+                "allStatus": "All Status",
+                "paymentStatus": "Payment Status:",
+                "allPaymentStatus": "All Payment Status"
+            },
+            "actions": {
+                "viewDetails": "View"
+            }
+        },
+        "details": {
+            "type": "Type",
+            "basicInfo": "Basic Information",
+            "paymentInfo": "Payment Information",
+            "itemTotalAmount": "Item total amount",
+            "shippingFees": "Shipping fees",
+            "totalAmount": "Total Amount",
+            "buyerInfo": "Buyer Info",
+            "buyerId": "Buyer ID",
+            "buyerName": "Buyer Name",
+            "sellerInfo": "Seller Info",
+            "sellerId": "Seller ID",
+            "sellerName": "Seller Name",
+            "activityLog": "Activity Log",
+            "logItem": "Item"
+        },
+        "errors": {
+            "orderNotFound": "Order not found"
+        }
+    },
     "categories": {
         "table": {
             "columns": {

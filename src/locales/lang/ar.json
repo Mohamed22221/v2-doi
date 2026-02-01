@@ -422,6 +422,69 @@
             }
         }
     },
+    "orders": {
+        "table": {
+            "title": "الطلبات",
+            "searchPlaceholder": "البحث برقم الطلب، المشتري، أو البائع",
+            "emptyText": "لم يتم العثور على طلبات",
+            "columns": {
+                "orderId": "رقم الطلب",
+                "type": "النوع",
+                "buyer": "المشتري",
+                "seller": "البائع",
+                "orderStatus": "حالة الطلب",
+                "paymentStatus": "حالة الدفع",
+                "createdAt": "تاريخ الإنشاء"
+            },
+            "type": {
+                "liveAuction": "مزاد مباشر",
+                "fixedPrice": "سعر ثابت",
+                "durationAuction": "مزاد مدة"
+            },
+            "orderStatus": {
+                "completed": "مكتمل",
+                "pending": "قيد الانتظار",
+                "confirmed": "مؤكد",
+                "cancelled": "ملغي"
+            },
+            "paymentStatus": {
+                "paid": "مدفوع",
+                "unpaid": "غير مدفوع",
+                "paymentHeld": "الدفع محتجز",
+                "failed": "فشل"
+            },
+            "filters": {
+                "type": "النوع:",
+                "allTypes": "جميع الأنواع",
+                "status": "الحالة:",
+                "allStatus": "جميع الحالات",
+                "paymentStatus": "حالة الدفع:",
+                "allPaymentStatus": "جميع حالات الدفع"
+            },
+            "actions": {
+                "viewDetails": "عرض"
+            }
+        },
+        "details": {
+            "type": "النوع",
+            "basicInfo": "المعلومات الأساسية",
+            "paymentInfo": "معلومات الدفع",
+            "itemTotalAmount": "إجمالي قيمة المنتجات",
+            "shippingFees": "رسوم الشحن",
+            "totalAmount": "المبلغ الإجمالي",
+            "buyerInfo": "بيانات المشتري",
+            "buyerId": "معرف المشتري",
+            "buyerName": "اسم المشتري",
+            "sellerInfo": "بيانات البائع",
+            "sellerId": "معرف البائع",
+            "sellerName": "اسم البائع",
+            "activityLog": "سجل النشاطات",
+            "logItem": "الحدث"
+        },
+        "errors": {
+            "orderNotFound": "لم يتم العثور على الطلب"
+        }
+    },
     "categories": {
         "table": {
             "columns": {

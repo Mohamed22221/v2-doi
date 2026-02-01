@@ -1,7 +1,7 @@
 import InfoCardSkeleton from '@/components/skeleton/InfoCardSkeleton'
 
 /**
- * Skeleton for Seller Info section in Fixed Price details
+ * Skeleton for Seller Info section
  * Shows 4 rows with a status pill in the last row
  */
 const SellerInfoSkeleton = () => {
