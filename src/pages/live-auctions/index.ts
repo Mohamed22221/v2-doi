@@ -1,3 +1,3 @@
-import LiveAuctions from './LiveAuctions';
+import LiveAuctions from './LiveAuctions'
 
-export default LiveAuctions;
+export default LiveAuctions

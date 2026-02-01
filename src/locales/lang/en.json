@@ -22,7 +22,9 @@
         "confirm": "Confirm",
         "cancel": "Cancel",
         "dragToMove": "Drag to move image",
-        "zoomInstruction": "Zoom in first to be able to move and reach image edges"
+        "zoomInstruction": "Zoom in first to be able to move and reach image edges",
+        "exportCsv": "Export CSV",
+        "sellerInfo": "Seller Info"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -419,6 +421,63 @@
             },
             "errors": {
                 "itemNotFound": "Item not found"
+            }
+        }
+    },
+    "liveAuctions": {
+        "table": {
+            "title": "Live Auctions",
+            "searchPlaceholder": "Search by auction name, ID, or seller",
+            "idPrefix": "ID:",
+            "columns": {
+                "item": "Item",
+                "seller": "Seller",
+                "hall": "Hall",
+                "category": "Category",
+                "status": "Status",
+                "dateRange": "Auction Date Range"
+            },
+            "status": {
+                "live": "Live",
+                "scheduled": "Scheduled",
+                "hidden": "Hidden",
+                "ended": "Ended",
+                "rejected": "Rejected"
+            },
+            "filters": {
+                "status": "Status",
+                "category": "Category",
+                "allStatus": "All Status",
+                "allCategory": "All Category"
+            }
+        },
+        "details": {
+            "itemId": "Item ID",
+            "basicInfo": "Basic Information",
+            "category": "Category",
+            "hall": "Hall",
+            "start": "Start",
+            "end": "End",
+            "description": "Description",
+            "pricingAndStock": "Pricing & Stock",
+            "availableQuantity": "Available Quantity",
+            "startingPrice": "Starting Price",
+            "mediaAssets": "Media Assets",
+            "sellerInfo": "Seller Info",
+            "sellerId": "Seller ID",
+            "sellerName": "Seller Name",
+            "phoneNumber": "Phone Number",
+            "sellerStatus": "Seller Status",
+            "activityLog": "Activity Log",
+            "logItem": "Item",
+            "createdAt": "Created At",
+            "reason": "Reason",
+            "actions": {
+                "reject": "Reject",
+                "hide": "Hide auction"
+            },
+            "errors": {
+                "itemNotFound": "Auction not found"
             }
         }
     },

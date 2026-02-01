@@ -1,8 +1,11 @@
-import React from 'react'
+import BackgroundRounded from '@/components/shared/BackgroundRounded'
+import LiveAuctionsTable from './components/LiveAuctionsTable'
 
 const LiveAuctionsPage = () => {
   return (
-    <div>LiveAuctions</div>
+    <BackgroundRounded>
+      <LiveAuctionsTable />
+    </BackgroundRounded>
   )
 }
 

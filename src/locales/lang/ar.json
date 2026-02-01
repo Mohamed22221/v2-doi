@@ -22,7 +22,9 @@
         "confirm": "تأكيد",
         "cancel": "إلغاء",
         "dragToMove": "اسحب لتحريك الصورة",
-        "zoomInstruction": "قم بالتكبير أولاً لتتمكن من تحريك الصورة والوصول للحواف"
+        "zoomInstruction": "قم بالتكبير أولاً لتتمكن من تحريك الصورة والوصول للحواف",
+        "exportCsv": "تصدير CSV",
+        "sellerInfo": "معلومات البائع"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -419,6 +421,63 @@
             },
             "errors": {
                 "itemNotFound": "لم يتم العثور على العنصر"
+            }
+        }
+    },
+    "liveAuctions": {
+        "table": {
+            "title": "المزادات المباشرة",
+            "searchPlaceholder": "البحث عن طريق اسم المزاد أو معرفه أو البائع",
+            "idPrefix": "المعرف:",
+            "columns": {
+                "item": "العنصر",
+                "seller": "البائع",
+                "hall": "القاعة",
+                "category": "الفئة",
+                "status": "الحالة",
+                "dateRange": "نطاق تاريخ المزاد"
+            },
+            "status": {
+                "live": "مباشر",
+                "scheduled": "مجدول",
+                "hidden": "مخفي",
+                "ended": "منتهي",
+                "rejected": "مرفوض"
+            },
+            "filters": {
+                "status": "الحالة",
+                "category": "الفئة",
+                "allStatus": "كل الحالات",
+                "allCategory": "كل الفئات"
+            }
+        },
+        "details": {
+            "itemId": "معرف العنصر",
+            "basicInfo": "معلومات أساسية",
+            "category": "الفئة",
+            "hall": "القاعة",
+            "start": "البداية",
+            "end": "النهاية",
+            "description": "الوصف",
+            "pricingAndStock": "التسعير والمخزون",
+            "availableQuantity": "الكمية المتوفرة",
+            "startingPrice": "سعر البداية",
+            "mediaAssets": "أصول الوسائط",
+            "sellerInfo": "معلومات البائع",
+            "sellerId": "معرف البائع",
+            "sellerName": "اسم البائع",
+            "phoneNumber": "رقم الهاتف",
+            "sellerStatus": "حالة البائع",
+            "activityLog": "سجل النشاطات",
+            "logItem": "العنصر",
+            "createdAt": "تم إنشاؤه في",
+            "reason": "السبب",
+            "actions": {
+                "reject": "رفض",
+                "hide": "إخفاء المزاد"
+            },
+            "errors": {
+                "itemNotFound": "المزاد غير موجود"
             }
         }
     },

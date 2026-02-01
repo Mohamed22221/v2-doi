@@ -11,7 +11,7 @@ const MediaAssets = ({ media }: Props) => {
     return (
         <SharedMediaAssets
             media={media}
-            title={t('fixedPrice.details.mediaAssets')}
+            title={t('liveAuctions.details.mediaAssets')}
         />
     )
 }
