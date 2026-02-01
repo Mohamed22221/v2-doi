@@ -192,6 +192,7 @@ export default function CategoriesTable() {
                 itemsCount={selectedCategory?.totalItems ?? 0}
                 subCategoriesCount={selectedCategory?.children.length ?? 0}
                 status={selectedCategory?.status ?? 'active'}
+                level={selectedCategory?.level}
             />
 
             <RestoreCategoryModal

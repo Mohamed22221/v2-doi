@@ -56,6 +56,7 @@ const CategoriesServices = {
         page: number,
         limit: number = 10,
         search?: string,
+        level?: number,
     ): Promise<TAPIResponseItems<Category[]>> =>
         api.get('/admin/categories', {
             params: {
@@ -64,6 +65,7 @@ const CategoriesServices = {
                 status: 'active',
                 isDeleted: false,
                 ...(search && { search }),
+                ...(level && { level }),
             },
         }),
 }

@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Select } from '@/components/ui'
-import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
-import type { Category } from '@/api/types/categories'
+import {
+    useGetAllCategoriesSelect,
+    useGetCategoryById,
+} from '@/api/hooks/categories'
+import type { Category, CategoryTranslation } from '@/api/types/categories'
 import { getApiErrorMessage } from '@/api/error'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
@@ -23,8 +26,9 @@ type CategorySelectProps = {
     menuPortalZ?: number
     classNames?: string
     errorPlaceholder?: string
-    /** Pre-selected option for update mode (e.g., parent category from details) */
-    initialOption?: { value: CategoryId; label: string } | null
+    /** ID of the pre-selected category in update mode to fetch its details (e.g., parent category) */
+    initialId?: CategoryId | null
+    level?: number
 }
 
 function CategorySelect({
@@ -37,7 +41,8 @@ function CategorySelect({
     classNames,
     errorPlaceholder,
     menuPortalZ,
-    initialOption,
+    initialId,
+    level,
 }: CategorySelectProps) {
     const { t, i18n } = useTranslation()
     const [searchQuery, setSearchQuery] = useState('')
@@ -48,17 +53,26 @@ function CategorySelect({
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
-        isLoading,
+        isLoading: isListLoading,
         isError,
         error,
-    } = useGetAllCategoriesSelect(debouncedSearchQuery)
+    } = useGetAllCategoriesSelect(debouncedSearchQuery, level)
+
+    const { category: initialCategory, isLoading: isInitialLoading } =
+        useGetCategoryById(initialId as string, {
+            enabled: Boolean(initialId),
+        })
+
+    const isLoading = isListLoading || isInitialLoading
 
     const pageLanguage = i18n.language
 
     const categoryOptions = useMemo<SelectOption<CategoryId>[]>(() => {
         const fetchedOptions =
             categoriesData?.items?.map((cat: Category) => {
-                const byPageLang = cat.translations?.[0]?.name
+                const byPageLang = cat.translations?.find(
+                    (tr: CategoryTranslation) => tr.languageCode === pageLanguage
+                )?.name
 
                 const label = byPageLang || cat.slug
 
@@ -68,13 +82,22 @@ function CategorySelect({
                 }
             }) ?? []
 
-        // If we have an initialOption, ensure it's in the list
-        if (initialOption && !fetchedOptions.some((o) => o.value === initialOption.value)) {
-            return [initialOption, ...fetchedOptions]
+        // If we have an initialId and fetched its details, ensure it's in the list
+        if (
+            initialCategory &&
+            !fetchedOptions.some((o) => o.value === initialCategory.id)
+        ) {
+            const byPageLang = initialCategory.translations?.find(
+                (tr: CategoryTranslation) => tr.languageCode === pageLanguage,
+            )?.name
+
+            const label = byPageLang || initialCategory.slug
+
+            return [{ label, value: initialCategory.id }, ...fetchedOptions]
         }
 
         return fetchedOptions
-    }, [categoriesData, pageLanguage, initialOption])
+    }, [categoriesData, i18n.language, initialCategory])
 
     const selectedOption = useMemo<SelectOption<CategoryId> | null>(() => {
         return categoryOptions.find((o) => o.value === value) ?? null

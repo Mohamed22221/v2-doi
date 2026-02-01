@@ -175,11 +175,11 @@ const FormCategory = () => {
             initialValues={
                 isUpdateMode && categoryDetails?.data
                     ? {
-                          ...initialValues,
-                          parentId: categoryDetails.data.parentId ?? null,
-                          status: categoryDetails.data.status ?? 'active',
-                          image: categoryDetails.data.image ?? '',
-                          sortOrder: categoryDetails.data.sortOrder ?? 0,
+                        ...initialValues,
+                        parentId: categoryDetails.data.parentId ?? null,
+                        status: categoryDetails.data.status ?? 'active',
+                        image: categoryDetails.data.image ?? '',
+                        sortOrder: categoryDetails.data.sortOrder ?? 0,
                         localTranslations:
                             categoryDetails.data.translations?.reduce(
                                 (acc: Record<string, { name: string; description: string }>, t) => {
@@ -193,22 +193,22 @@ const FormCategory = () => {
                                 },
                                 {},
                             ) ?? {},
-                          language:
-                              categoryDetails.data.translations?.[0]
-                                  ?.languageCode || 'en',
-                          name:
-                              categoryDetails.data.translations?.find(
-                                  (t) =>
-                                      
-                                      t.languageCode.toLowerCase() ===
-                                          (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
-                                              'en'),
-                              )?.name || '',
+                        language:
+                            categoryDetails.data.translations?.[0]
+                                ?.languageCode || 'en',
+                        name:
+                            categoryDetails.data.translations?.find(
+                                (t) =>
+
+                                    t.languageCode.toLowerCase() ===
+                                    (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() ||
+                                        'en'),
+                            )?.name || '',
                         description:
                             categoryDetails.data.translations?.find(
-                                (t) =>  t.languageCode.toLowerCase() === (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
+                                (t) => t.languageCode.toLowerCase() === (categoryDetails.data.translations?.[0]?.languageCode.toLowerCase() || 'en'),
                             )?.description || '',
-                      }
+                    }
                     : initialValues
             }
             validationSchema={getCategoryValidationSchema(t)}
@@ -383,7 +383,7 @@ const FormCategory = () => {
                                                 )}
                                                 invalid={Boolean(
                                                     touched.sortOrder &&
-                                                        errors.sortOrder,
+                                                    errors.sortOrder,
                                                 )}
                                                 errorMessage={errors.sortOrder}
                                             >
@@ -486,6 +486,15 @@ const FormCategory = () => {
                                                                 value={
                                                                     values.parentId
                                                                 }
+                                                                initialId={
+                                                                    categoryDetails?.data
+                                                                        ?.parentId
+                                                                }
+                                                                level={
+                                                                    categoryDetails?.data?.level
+                                                                        ? categoryDetails.data.level
+                                                                        : undefined
+                                                                }
                                                                 menuPortalZ={
                                                                     400
                                                                 }
@@ -495,7 +504,7 @@ const FormCategory = () => {
                                                                     setFieldValue(
                                                                         'parentId',
                                                                         opt ??
-                                                                            null,
+                                                                        null,
                                                                     )
                                                                 }
                                                             />

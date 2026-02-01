@@ -117,14 +117,14 @@ const FormModel = () => {
             initialValues={
                 isUpdateMode && modelDetails?.data
                     ? {
-                          name: modelDetails.data.name,
-                          brandId: modelDetails.data.brandId,
-                          categoryId: modelDetails.data.categoryId,
-                          releaseYear: modelDetails.data.releaseYear
-                              ? new Date(modelDetails.data.releaseYear, 0, 1)
-                              : null,
-                          sortOrder: modelDetails.data.sortOrder,
-                      }
+                        name: modelDetails.data.name,
+                        brandId: modelDetails.data.brandId,
+                        categoryId: modelDetails.data.categoryId,
+                        releaseYear: modelDetails.data.releaseYear
+                            ? new Date(modelDetails.data.releaseYear, 0, 1)
+                            : null,
+                        sortOrder: modelDetails.data.sortOrder,
+                    }
                     : initialValues
             }
             validationSchema={getModelValidationSchema(t)}
@@ -181,12 +181,16 @@ const FormModel = () => {
                                                 label={t('models.brand')}
                                                 invalid={Boolean(
                                                     touched.brandId &&
-                                                        errors.brandId,
+                                                    errors.brandId,
                                                 )}
                                                 errorMessage={errors.brandId}
                                             >
                                                 <BrandSelect
                                                     value={values.brandId}
+                                                    initialId={
+                                                        modelDetails?.data
+                                                            ?.brand?.id
+                                                    }
                                                     menuPortalZ={400}
                                                     onChange={(val) =>
                                                         setFieldValue(
@@ -202,12 +206,16 @@ const FormModel = () => {
                                                 label={t('models.category')}
                                                 invalid={Boolean(
                                                     touched.categoryId &&
-                                                        errors.categoryId,
+                                                    errors.categoryId,
                                                 )}
                                                 errorMessage={errors.categoryId}
                                             >
                                                 <CategorySelect
                                                     value={values.categoryId}
+                                                    initialId={
+                                                        modelDetails?.data
+                                                            ?.category?.id
+                                                    }
                                                     onChange={(val) =>
                                                         setFieldValue(
                                                             'categoryId',
@@ -236,7 +244,7 @@ const FormModel = () => {
                                                 label={t('models.releaseYear')}
                                                 invalid={Boolean(
                                                     touched.releaseYear &&
-                                                        errors.releaseYear,
+                                                    errors.releaseYear,
                                                 )}
                                                 errorMessage={
                                                     errors.releaseYear as string
@@ -254,7 +262,7 @@ const FormModel = () => {
                                                     )}
                                                     value={
                                                         values.releaseYear instanceof
-                                                        Date
+                                                            Date
                                                             ? values.releaseYear
                                                             : null
                                                     }
@@ -274,7 +282,7 @@ const FormModel = () => {
                                                 label={t('models.sortOrder')}
                                                 invalid={Boolean(
                                                     touched.sortOrder &&
-                                                        errors.sortOrder,
+                                                    errors.sortOrder,
                                                 )}
                                                 errorMessage={errors.sortOrder}
                                             >

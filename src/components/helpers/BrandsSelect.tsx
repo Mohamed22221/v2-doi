@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Select } from '@/components/ui'
-import { useGetAllBrandsSelect } from '@/api/hooks/brands'
+import {
+    useGetAllBrandsSelect,
+    useGetBrandById,
+} from '@/api/hooks/brands'
 import type { Brand } from '@/api/types/brands'
 import { getApiErrorMessage } from '@/api/error'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
@@ -23,8 +26,8 @@ type BrandsSelectProps = {
     menuPortalZ?: number
     classNames?: string
     errorPlaceholder?: string
-    /** Pre-selected option for update mode (e.g., brand from details) */
-    initialOption?: { value: BrandId; label: string } | null
+    /** ID of the pre-selected brand in update mode to fetch its details */
+    initialId?: BrandId | null
 }
 
 function BrandsSelect({
@@ -37,7 +40,7 @@ function BrandsSelect({
     classNames,
     errorPlaceholder,
     menuPortalZ,
-    initialOption,
+    initialId,
 }: BrandsSelectProps) {
     const { t, i18n } = useTranslation()
     const [searchQuery, setSearchQuery] = useState('')
@@ -48,10 +51,17 @@ function BrandsSelect({
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
-        isLoading,
+        isLoading: isListLoading,
         isError,
         error,
     } = useGetAllBrandsSelect(debouncedSearchQuery)
+
+    const { brand: initialBrand, isLoading: isInitialLoading } =
+        useGetBrandById(initialId as string, {
+            enabled: Boolean(initialId),
+        })
+
+    const isLoading = isListLoading || isInitialLoading
 
     const pageLanguage = i18n.language
 
@@ -59,7 +69,7 @@ function BrandsSelect({
         const fetchedOptions =
             brandsData?.items?.map((brand: Brand) => {
                 const byPageLang = brand.translations.find(
-                    (tr) => tr.languageCode.toLowerCase() === pageLanguage,
+                    (tr) => tr.languageCode.toLowerCase() === i18n.language.toLowerCase(),
                 )?.name
 
                 const label = byPageLang || brand.slug
@@ -70,13 +80,22 @@ function BrandsSelect({
                 }
             }) ?? []
 
-        // If we have an initialOption, ensure it's in the list
-        if (initialOption && !fetchedOptions.some((o) => o.value === initialOption.value)) {
-            return [initialOption, ...fetchedOptions]
+        // If we have an initialId and fetched its details, ensure it's in the list
+        if (
+            initialBrand &&
+            !fetchedOptions.some((o) => o.value === initialBrand.id)
+        ) {
+            const byPageLang = initialBrand.translations?.find(
+                (tr) => tr.languageCode.toLowerCase() === i18n.language.toLowerCase(),
+            )?.name
+
+            const label = byPageLang || initialBrand.slug
+
+            return [{ label, value: initialBrand.id }, ...fetchedOptions]
         }
 
         return fetchedOptions
-    }, [brandsData, pageLanguage, initialOption])
+    }, [brandsData, i18n.language, initialBrand])
 
     const selectedOption = useMemo<SelectOption<BrandId> | null>(() => {
         return brandOptions.find((o) => o.value === value) ?? null

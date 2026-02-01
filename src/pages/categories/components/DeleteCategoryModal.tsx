@@ -26,6 +26,7 @@ type DeleteCategoryModalProps = {
     itemsCount?: number
     subCategoriesCount?: number
     status?: 'active' | 'inactive'
+    level?: number
 }
 
 type DeleteOption = 'disable' | 'move' | 'softDelete' | 'hardDelete'
@@ -38,6 +39,7 @@ const DeleteCategoryModal = ({
     itemsCount = 0,
     subCategoriesCount = 0,
     status,
+    level,
 }: DeleteCategoryModalProps) => {
     const { t } = useTranslation()
     const isDeletionBlocked = itemsCount > 0 || subCategoriesCount > 0
@@ -290,6 +292,7 @@ const DeleteCategoryModal = ({
                                     maxMenuHeight={110}
                                     value={destinationId}
                                     menuPortalZ={9999}
+                                    level={level}
                                     onChange={(opt) =>
                                         setDestinationId(opt ?? null)
                                     }

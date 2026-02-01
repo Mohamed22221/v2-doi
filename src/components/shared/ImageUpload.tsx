@@ -344,7 +344,8 @@ const ImageUpload = (props: Props) => {
         <Field name={name}>
             {({ field, form, meta }: FieldProps) => {
                 const isAvatar = variant === 'avatar'
-                const dialogWidth = isAvatar ? 400 : 700
+                const dialogWidth = isAvatar ? 400 : 800
+
 
                 return (
                     <>
@@ -353,17 +354,20 @@ const ImageUpload = (props: Props) => {
                             isOpen={viewOpen}
                             onClose={onDialogClose}
                             onRequestClose={onDialogClose}
+                            width={dialogWidth}
+
                         >
                             <h5 className="mb-4">{selectedImg?.name}</h5>
                             {selectedImg?.url && (
                                 <img
                                     className="w-full"
+                                    style={{ aspectRatio: aspectRatio }}
                                     src={selectedImg.url}
                                     alt={selectedImg.name}
                                     crossOrigin="anonymous"
                                 />
                             )}
-                        </Dialog>
+                        </Dialog >
 
                         <Dialog
                             isOpen={cropOpen}
@@ -420,7 +424,7 @@ const ImageUpload = (props: Props) => {
                     </>
                 )
             }}
-        </Field>
+        </Field >
     )
 }
 
