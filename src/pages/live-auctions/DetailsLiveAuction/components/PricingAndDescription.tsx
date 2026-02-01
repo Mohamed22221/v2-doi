@@ -4,6 +4,8 @@ import InfoRow from '@/components/shared/cards/InfoRow'
 import { Icon } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
 import { formatDateTime } from '@/utils/formatDateTime'
+import { Link } from 'react-router-dom'
+import AuctionCounter from './AuctionCounter'
 
 interface Props {
     data?: LiveAuctionItemDetails
@@ -67,6 +69,52 @@ const PricingAndDescription = ({ data }: Props) => {
                                 </span>
                             }
                         />
+
+                        {/* Status specific data */}
+                        {data?.status === 'live' && (
+                            <>
+                                <InfoRow
+                                    label={t('liveAuctions.details.currentHighestBid')}
+                                    value={
+                                        <span className="flex items-center gap-1 font-semibold text-lg">
+                                            {data?.currentHighestBid?.toLocaleString()}
+                                            <Icon name="riyal" />
+                                        </span>
+                                    }
+                                />
+                                <InfoRow
+                                    label={t('liveAuctions.details.timeRemaining')}
+                                    value={<AuctionCounter endTime={data?.endDate || ''} />}
+                                />
+                            </>
+                        )}
+
+                        {(data?.status === 'hidden' || data?.status === 'ended') && (
+                            <>
+                                <InfoRow
+                                    label={t('liveAuctions.details.finalPrice')}
+                                    value={
+                                        <span className="flex items-center gap-1 font-semibold text-lg">
+                                            {data?.finalPrice?.toLocaleString()}
+                                            <Icon name="riyal" />
+                                        </span>
+                                    }
+                                />
+                                <InfoRow
+                                    label={t('liveAuctions.details.winner')}
+                                    value={
+                                        data?.winner ? (
+                                            <Link
+                                                to={`/users/details/${data.winner.id}`}
+                                                className="text-primary hover:underline font-medium"
+                                            >
+                                                {data.winner.name}
+                                            </Link>
+                                        ) : '-'
+                                    }
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

@@ -43,6 +43,9 @@ export const getLiveAuctionDetailsById = (id: string): LiveAuctionItemDetails | 
         description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         startingPrice: 2000,
         availableQuantity: 30,
+        finalPrice: (item.status === 'hidden' || item.status === 'ended') ? 4000 : undefined,
+        winner: (item.status === 'hidden' || item.status === 'ended') ? { id: 'USR-123', name: 'Khaled A.' } : undefined,
+        currentHighestBid: item.status === 'live' ? 4000 : undefined,
         mediaAssets: [
             `https://picsum.photos/seed/${id}-1/400`,
             `https://picsum.photos/seed/${id}-2/400`,

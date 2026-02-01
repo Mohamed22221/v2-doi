@@ -18,6 +18,12 @@ export interface LiveAuctionItemDetails extends LiveAuctionItem {
     description: string
     startingPrice: number
     availableQuantity: number
+    finalPrice?: number
+    winner?: {
+        id: string
+        name: string
+    }
+    currentHighestBid?: number
     mediaAssets: string[]
     sellerDetails: {
         id: string
