@@ -1,4 +1,4 @@
-import InfoCardSkeleton from '@/components/skeleton/InfoCardSkeleton'
+﻿import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
 
 /**
  * Skeleton for Payment Information section in Orders
@@ -9,3 +9,4 @@ const PaymentInformationSkeleton = () => {
 }
 
 export default PaymentInformationSkeleton
+

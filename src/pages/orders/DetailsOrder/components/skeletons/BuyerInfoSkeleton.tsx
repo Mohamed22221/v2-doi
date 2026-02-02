@@ -1,4 +1,4 @@
-import InfoCardSkeleton from '@/components/skeleton/InfoCardSkeleton'
+﻿import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
 
 /**
  * Skeleton for Buyer Info section
@@ -9,3 +9,4 @@ const BuyerInfoSkeleton = () => {
 }
 
 export default BuyerInfoSkeleton
+

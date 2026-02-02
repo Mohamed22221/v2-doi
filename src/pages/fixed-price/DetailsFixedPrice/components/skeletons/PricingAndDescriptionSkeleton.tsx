@@ -1,6 +1,6 @@
-import React from 'react'
+﻿import React from 'react'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
-import InfoCardSkeleton from '@/components/skeleton/InfoCardSkeleton'
+import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
 
 const PricingAndDescriptionSkeleton = () => {
     return (
@@ -17,3 +17,4 @@ const PricingAndDescriptionSkeleton = () => {
 }
 
 export default PricingAndDescriptionSkeleton
+

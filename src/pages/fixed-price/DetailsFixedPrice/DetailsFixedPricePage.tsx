@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import ErrorState from '@/components/shared/ErrorState'
-import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton' // Adapting user skeleton
+import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton' // Adapting user skeleton
 import PricingAndDescriptionSkeleton from './components/skeletons/PricingAndDescriptionSkeleton'
 import MediaAssetsSkeleton from './components/skeletons/MediaAssetsSkeleton'
 import SellerInfoSkeleton from './components/skeletons/SellerInfoSkeleton'

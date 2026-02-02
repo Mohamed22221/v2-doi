@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ErrorState from '@/components/shared/ErrorState'
-import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton'
-import InfoCardSkeleton from '@/components/skeleton/InfoCardSkeleton'
+import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
+import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
 import { useGetSellerDetails } from '../hooks/useGetSellerDetails'
 
 const SellerInfo = lazy(() => import('./components/SellerInfo'))

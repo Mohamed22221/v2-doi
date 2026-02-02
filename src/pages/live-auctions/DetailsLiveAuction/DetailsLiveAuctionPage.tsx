@@ -3,9 +3,9 @@ import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import ErrorState from '@/components/shared/ErrorState'
-import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton'
-import InfoCardSkeleton from '@/components/skeleton/InfoCardSkeleton'
-import ActivityLogSkeleton from '@/components/skeleton/ActivityLogSkeleton'
+import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
+import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
+import ActivityLogSkeleton from '@/components/shared/loaders/ActivityLogSkeleton'
 
 const LiveAuctionInfo = lazy(() => import('./components/LiveAuctionInfo'))
 const PricingAndDescription = lazy(

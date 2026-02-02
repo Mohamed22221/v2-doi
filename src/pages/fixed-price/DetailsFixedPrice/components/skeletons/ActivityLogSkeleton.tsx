@@ -1,4 +1,4 @@
-import ActivityLogSkeleton from '@/components/skeleton/ActivityLogSkeleton'
+﻿import ActivityLogSkeleton from '@/components/shared/loaders/ActivityLogSkeleton'
 
 /**
  * Activity Log skeleton for Fixed Price details
@@ -9,3 +9,4 @@ const FixedPriceActivityLogSkeleton = () => {
 }
 
 export default FixedPriceActivityLogSkeleton
+

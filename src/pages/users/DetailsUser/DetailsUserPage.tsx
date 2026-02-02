@@ -2,12 +2,12 @@ import { useGetUserDetails } from '@/api/hooks/users'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import UserInfoSkeleton from '@/components/skeleton/UserInfoSkeleton'
+import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
 import { useParams } from 'react-router-dom'
 // import AccountStatisticsCard from './components/AccountStatisticsCard'
 import { formatDateTime } from '@/utils/formatDateTime'
 import StatusPill from '@/components/shared/table/StatusPill'
-import PersonalAndShippingCardSkeleton from '@/components/skeleton/PersonalAndShippingCardSkeleton'
+import PersonalAndShippingCardSkeleton from '@/components/shared/loaders/PersonalAndShippingCardSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
 
 const UserInfo = lazy(() => import('./components/UserInfo'))
