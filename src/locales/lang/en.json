@@ -368,7 +368,27 @@
             "status": {
                 "approved": "Approved",
                 "rejected": "Rejected",
-                "pending": "Pending"
+                "pending": "Pending",
+                "suspend": "Suspend User",
+                "approveRequest": "Approve Request",
+                "rejectRequest": "Reject Request",
+                "updateUser": "Update User",
+                "temporaryDelete": "Temporary Delete",
+                "permanentDelete": "Permanent Delete"
+            },
+            "info": {
+                "personalInfo": "Personal Information",
+                "sellerInfo": "Seller Information",
+                "companyName": "Company name",
+                "contactNumber": "Contact number",
+                "commercialRegistrationNumber": "Commercial registration number",
+                "requestSubmitted": "Request Submitted",
+                "accountStatus": "Account Status"
+            },
+            "documents": {
+                "title": "Documentation documents",
+                "commercialRegister": "Commercial Register",
+                "taxCard": "Tax Card"
             }
         },
         "details": {

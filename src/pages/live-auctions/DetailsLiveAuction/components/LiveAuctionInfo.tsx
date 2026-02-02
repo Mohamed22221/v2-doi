@@ -8,6 +8,8 @@ import LiveAuctionStatusModal from './LiveAuctionStatusModal'
 import { getLiveAuctionStatusLabel, getLiveAuctionStatusVariant } from '../../components/GetStatusLabel'
 import { ModalType } from './modalStatus/types'
 
+import AccountId from '@/components/shared/cards/AccountId'
+
 interface Props {
     data?: LiveAuctionItemDetails
 }
@@ -40,14 +42,7 @@ const LiveAuctionInfo = ({ data }: Props) => {
                             size="sm"
                         />
                     </div>
-                    <div className="mt-1 flex items-center gap-1">
-                        <p className="text-primary-500 dark:text-primary-200 text-sm">
-                            {t('users.userDetails.accountId')}:
-                        </p>
-                        <span className="font-medium text-black dark:text-white text-sm">
-                            {data?.id}
-                        </span>
-                    </div>
+                    <AccountId id={data?.id || ''} />
                 </div>
 
                 <div className="flex gap-3">
@@ -96,7 +91,7 @@ const LiveAuctionInfo = ({ data }: Props) => {
                     {data?.status === 'hidden' && (
                         <Button
                             variant="solid"
-                            
+
                             size="md"
                             onClick={() => openModal('unhide')}
                         >

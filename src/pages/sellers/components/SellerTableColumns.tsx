@@ -78,7 +78,7 @@ export function useSellerTableColumns() {
                             size="md"
                             shape="circle"
                             onClick={() =>
-                                navigate(`/users/${row.original.id}`)
+                                navigate(`/sellers/${row.original.id}`)
                             }
                         >
                             {t('users.table.actions.view')}

@@ -368,7 +368,27 @@
             "status": {
                 "approved": "مقبول",
                 "rejected": "مرفوض",
-                "pending": "قيد الانتظار"
+                "pending": "قيد الانتظار",
+                "suspend": "تعليق المستخدم",
+                "approveRequest": "الموافقة على الطلب",
+                "rejectRequest": "رفض الطلب",
+                "updateUser": "تحديث المستخدم",
+                "temporaryDelete": "حذف مؤقت",
+                "permanentDelete": "حذف نهائي"
+            },
+            "info": {
+                "personalInfo": "المعلومات الشخصية",
+                "sellerInfo": "معلومات البائع",
+                "companyName": "اسم الشركة",
+                "contactNumber": "رقم التواصل",
+                "commercialRegistrationNumber": "رقم السجل التجاري",
+                "requestSubmitted": "تاريخ تقديم الطلب",
+                "accountStatus": "حالة الحساب"
+            },
+            "documents": {
+                "title": "مستندات التوثيق",
+                "commercialRegister": "السجل التجاري",
+                "taxCard": "البطاقة الضريبية"
             }
         },
         "details": {

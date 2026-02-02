@@ -13,6 +13,9 @@ import DropdownOptions from './DropdownOptions'
 import { formatCityRegion } from '../utils/cityRegionFormatter'
 import RestoreUser from './RestoreUser'
 
+import AccountId from '@/components/shared/cards/AccountId'
+import UserInfoMeta from '@/components/shared/cards/UserInfoMeta'
+
 type Props = {
     data?: UserItem
     primaryAddress?: ApiAddress
@@ -42,11 +45,11 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                             title={
                                 data?.isActive
                                     ? t(
-                                          'users.userDetails.notifications.suspendedSuccess',
-                                      )
+                                        'users.userDetails.notifications.suspendedSuccess',
+                                    )
                                     : t(
-                                          'users.userDetails.notifications.activatedSuccess',
-                                      )
+                                        'users.userDetails.notifications.activatedSuccess',
+                                    )
                             }
                             type="success"
                         />,
@@ -109,31 +112,19 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                             )}
                         </div>
 
-                        <div className="mt-1  sm:flex  items-center justify-center gap-1 sm:justify-start">
-                            <p className="text-primary-700 dark:text-primary-200">
-                                {t('users.userDetails.accountId')}:
-                            </p>
-                            <span className="font-medium text-black dark:text-white">
-                                {data?.id}
-                            </span>
-                        </div>
+                        <AccountId id={data?.id || ''} />
 
-                        <div className="mt-2 flex flex-col items-center gap-2 text-sm text-neutral-400 sm:flex-row sm:items-center sm:gap-4">
-                            {primaryAddress && (
-                                <span className="flex items-center gap-1">
-                                    <Icon name="location" />{' '}
-                                    {formatCityRegion({
+                        <UserInfoMeta
+                            location={
+                                primaryAddress
+                                    ? formatCityRegion({
                                         address: primaryAddress,
                                         t,
-                                    })}
-                                </span>
-                            )}
-
-                            <span className="flex items-center gap-1">
-                                <Icon name="date" />{' '}
-                                {t('users.userDetails.joined')} {date}
-                            </span>
-                        </div>
+                                    })
+                                    : undefined
+                            }
+                            joinedDate={date}
+                        />
                     </div>
                 </div>
 

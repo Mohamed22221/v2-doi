@@ -15,6 +15,14 @@ const PersonalAndShippingCard = lazy(
     () => import('./components/PersonalAndShippingCard'),
 )
 
+const DetailsUserSkeleton = () => (
+    <div className="grid gap-6 lg:grid-cols-12">
+        <div className="lg:col-span-12 mt-5">
+            <PersonalAndShippingCardSkeleton />
+        </div>
+    </div>
+)
+
 const DetailsUserPage = () => {
     const { t } = useTranslation()
     const { id } = useParams()
@@ -39,17 +47,20 @@ const DetailsUserPage = () => {
                 {isLoading ? (
                     <UserInfoSkeleton />
                 ) : (
-                    <UserInfo data={data?.data} primaryAddress={primaryAddress} />
+                    <UserInfo
+                        data={data?.data}
+                        primaryAddress={primaryAddress}
+                    />
                 )}
             </Suspense>
 
-            <div className="grid gap-6 lg:grid-cols-12">
-                {/* Left big card */}
-                <div className="lg:col-span-12 mt-5">
-                    <Suspense fallback={<PersonalAndShippingCardSkeleton />}>
-                        {isLoading ? (
-                            <PersonalAndShippingCardSkeleton />
-                        ) : (
+            <Suspense fallback={<DetailsUserSkeleton />}>
+                {isLoading ? (
+                    <DetailsUserSkeleton />
+                ) : (
+                    <div className="grid gap-6 lg:grid-cols-12">
+                        {/* Left big card */}
+                        <div className="lg:col-span-12 mt-5">
                             <PersonalAndShippingCard
                                 email={data?.data?.email}
                                 phone={data?.data?.phone}
@@ -69,18 +80,18 @@ const DetailsUserPage = () => {
                                 primaryAddress={primaryAddress}
                                 country={t('address.country.sa')}
                             />
-                        )}
-                    </Suspense>
-                </div>
+                        </div>
 
-                {/* Right column */}
-                {/* <div className="lg:col-span-4 space-y-6 mt-5">
-                    <AccountStatisticsCard
-                        totalSpent="$2,450.00"
-                        totalOrders="24"
-                    />
-                </div> */}
-            </div>
+                        {/* Right column */}
+                        {/* <div className="lg:col-span-4 space-y-6 mt-5">
+                            <AccountStatisticsCard
+                                totalSpent="$2,450.00"
+                                totalOrders="24"
+                            />
+                        </div> */}
+                    </div>
+                )}
+            </Suspense>
         </div>
     )
 }

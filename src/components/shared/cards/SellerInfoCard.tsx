@@ -29,7 +29,7 @@ const SellerInfoCard = ({ seller }: SellerInfoCardProps) => {
                             {t('users.userDetails.accountId') || 'Seller ID'}
                         </span>
                         <Link
-                            to={`/users/${seller?.id}`}
+                            to={`/sellers/${seller?.id}`}
                             className=" hover:underline font-medium text-blue-400"
                         >
                             {seller?.id}
