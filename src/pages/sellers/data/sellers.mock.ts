@@ -37,8 +37,8 @@ export const SELLERS_MOCK: SellerItem[] = Array.from({ length: 1250 }).map((_, i
         region: regions[index % regions.length],
         isActive: status === 'approved',
         status,
-        isDeleted: false,
-        deletedAt: null,
+        isDeleted: index < 5,
+        deletedAt: index < 5 ? new Date(2026, 0, 15, 14, 30).toISOString() : null,
         createdAt: new Date(2025, 8, 23, 10, 45).toISOString(),
         role: {
             id: '1',

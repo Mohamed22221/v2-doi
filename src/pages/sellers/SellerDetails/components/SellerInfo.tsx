@@ -10,34 +10,49 @@ import SellerDropdownOptions, { SellerAction } from './SellerDropdownOptions'
 import SuspendUserModal from '@/pages/users/DetailsUser/components/SuspendUserModal'
 import { useToggleUserStatus } from '@/api/hooks/users'
 import { getApiErrorMessage } from '@/api/error'
+import RestoreUser from '@/pages/users/DetailsUser/components/RestoreUser'
 
 import AccountId from '@/components/shared/cards/AccountId'
 import UserInfoMeta from '@/components/shared/cards/UserInfoMeta'
 
+import { getSellerById, SellerItem } from '../../data/sellers.mock'
+
 type Props = {
-    data?: any // SellerItem
+    data?: SellerItem
 }
 
 const SellerInfo = ({ data }: Props) => {
     const { t } = useTranslation()
     const { date } = formatDateTime(data?.createdAt || '')
-    const [suspendModalOpen, setSuspendModalOpen] = useState(false)
+    const [dialogIsOpen, setIsOpen] = useState(false)
     const { mutate, isPending } = useToggleUserStatus()
+
+    const openDialog = () => {
+        setIsOpen(true)
+    }
+
+    const onDialogClose = () => {
+        setIsOpen(false)
+    }
 
     const handleSellerAction = (action: SellerAction) => {
         console.log('Seller action:', action)
         // Implementation for approve/reject would go here
     }
 
-    const onSuspendConfirm = () => {
+    const onDialogOk = () => {
         mutate(
             { id: data!.id, isActive: data!.isActive },
             {
                 onSuccess: () => {
-                    setSuspendModalOpen(false)
+                    onDialogClose()
                     toast.push(
                         <Notification
-                            title={data?.isActive ? t('users.userDetails.notifications.suspendedSuccess') : t('users.userDetails.notifications.activatedSuccess')}
+                            title={
+                                data?.isActive
+                                    ? t('users.userDetails.notifications.suspendedSuccess')
+                                    : t('users.userDetails.notifications.activatedSuccess')
+                            }
                             type="success"
                         />
                     )
@@ -62,7 +77,7 @@ const SellerInfo = ({ data }: Props) => {
                     <div className="text-center sm:text-left">
                         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
                             <h2 className="text-xl sm:text-2xl font-semibold ">
-                                {data?.companyName || (data?.firstName + ' ' + data?.lastName)}
+                                {(data?.firstName + ' ' + data?.lastName)}
                             </h2>
                             <StatusPill
                                 variant={getSellerStatusVariant(data?.status)}
@@ -71,7 +86,7 @@ const SellerInfo = ({ data }: Props) => {
                             />
                         </div>
 
-                        <AccountId id={data?.id} />
+                        <AccountId id={data?.id || ''} />
 
                         <UserInfoMeta
                             location={data?.region}
@@ -80,32 +95,45 @@ const SellerInfo = ({ data }: Props) => {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-3">
-                    <Button
-                        variant="solid"
-                        color='red'
-                        onClick={() => setSuspendModalOpen(true)}
-                    >
-                        {t('users.userDetails.actions.suspendUser')}
-                    </Button>
-                    <SellerDropdownOptions
-                        id={data?.id}
-                        firstName={data?.firstName}
-                        lastName={data?.lastName}
-                        onAction={handleSellerAction}
-                    />
-                </div>
-            </div>
+                {/* Right Side Actions */}
+                {data?.deletedAt === null && (
+                    <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
+                        <Button
+                            color={data?.isActive ? 'red' : 'green'}
+                            onClick={() => openDialog()}
+                            variant="solid"
+                        >
+                            {data?.isActive
+                                ? t('users.userDetails.actions.suspendUser')
+                                : t('users.userDetails.actions.activateUser')}
+                        </Button>
+                        <SellerDropdownOptions
+                            id={data?.id}
+                            firstName={data?.firstName}
+                            lastName={data?.lastName}
+                            status={data?.status}
+                            onAction={handleSellerAction}
+                        />
+                    </div>
+                )}
 
-            <SuspendUserModal
-                dialogIsOpen={suspendModalOpen}
-                firstName={data?.firstName}
-                lastName={data?.lastName}
-                isActive={data?.isActive}
-                onDialogClose={() => setSuspendModalOpen(false)}
-                onDialogConfirm={onSuspendConfirm}
-                isLoading={isPending}
-            />
+                <SuspendUserModal
+                    dialogIsOpen={dialogIsOpen}
+                    firstName={data?.firstName}
+                    lastName={data?.lastName}
+                    isActive={data?.isActive}
+                    onDialogClose={onDialogClose}
+                    onDialogConfirm={onDialogOk}
+                    isLoading={isPending}
+                />
+            </div>
+            {data?.deletedAt != null && (
+                <RestoreUser
+                    firstName={data?.firstName}
+                    lastName={data?.lastName}
+                    id={data?.id}
+                />
+            )}
         </BackgroundRounded>
     )
 }

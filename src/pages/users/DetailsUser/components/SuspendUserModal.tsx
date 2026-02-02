@@ -31,7 +31,7 @@ const SuspendUserModal = ({
             ? t('users.userDetails.suspendModal.titleSuspend')
             : t('users.userDetails.suspendModal.titleActivate'),
         description: '', // Using children for rich content
-        icon: <Icon name={isActive ? 'errorModal' : 'hideModal'} className={isActive ? 'text-red-500' : 'text-emerald-500'} />,
+        icon: <Icon name={isActive ? 'errorModal' : 'hideModal'} />,
         confirmText: isActive
             ? t('users.userDetails.suspendModal.confirmSuspension')
             : t('users.userDetails.suspendModal.confirmActivation'),

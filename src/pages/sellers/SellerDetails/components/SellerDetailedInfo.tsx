@@ -7,8 +7,10 @@ import DocumentsSection from '@/components/shared/cards/DocumentsSection'
 import { getSellerStatusLabel, getSellerStatusVariant } from '../../components/GetSellerStatusLabel'
 import { formatDateTime } from '@/utils/formatDateTime'
 
+import { SellerItem } from '../../data/sellers.mock'
+
 type Props = {
-    data: any // SellerItem
+    data: SellerItem
 }
 
 const SellerDetailedInfo = ({ data }: Props) => {

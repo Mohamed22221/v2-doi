@@ -39,7 +39,7 @@ const SellerDetailsPage = () => {
                 {isLoading ? (
                     <UserInfoSkeleton />
                 ) : (
-                    <SellerInfo data={data} />
+                    <SellerInfo data={data!} />
                 )}
             </Suspense>
 
@@ -47,7 +47,7 @@ const SellerDetailsPage = () => {
                 {isLoading ? (
                     <DetailsSellerSkeleton />
                 ) : (
-                    <SellerDetailedInfo data={data} />
+                    <SellerDetailedInfo data={data!} />
                 )}
             </Suspense>
         </div>

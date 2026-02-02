@@ -1,7 +1,8 @@
 import { getApiErrorMessage } from '@/api/error'
 import { useRestoreDeletedUser } from '@/api/hooks/users'
-import { Button, Dialog, Notification, toast } from '@/components/ui'
+import { Dialog, Notification, toast, Icon } from '@/components/ui'
 import { useTranslation, Trans } from 'react-i18next'
+import { ModalHeader, ModalBody, ModalFooter, StatusModalConfig } from '@/components/shared/StatusModal'
 
 type RestoreDeleteModalProps = {
     dialogIsOpen: boolean
@@ -49,47 +50,40 @@ const RestoreDeleteModal = ({
         )
     }
 
+    const config: StatusModalConfig = {
+        title: t('users.userDetails.restoreDeleteModal.title'),
+        description: '', // Using children
+        icon: <Icon name="shieldCheck" className="text-emerald-500" />,
+        confirmText: t('users.userDetails.restoreDeleteModal.confirm'),
+        confirmVariant: 'solid',
+        confirmColor: 'emerald',
+    }
+
     return (
         <Dialog
             isOpen={dialogIsOpen}
             onClose={onDialogClose}
             onRequestClose={onDialogClose}
-            style={{
-                content: {
-                    marginTop: 250,
-                },
-            }}
+            width={500}
         >
-            <h5 className="mb-4 text-center">
-                {t('users.userDetails.restoreDeleteModal.title')}
-            </h5>
-
-            <p className="text-center">
-                <Trans
-                    i18nKey="users.userDetails.restoreDeleteModal.message"
-                    values={{ name }}
-                    components={{ strong: <strong /> }}
-                />
-            </p>
-
-            <div className="mt-6 flex justify-end">
-                <Button
-                    className="ltr:mr-2 rtl:ml-2"
-                    variant="plain"
-                    onClick={onDialogClose}
-                >
-                    {t('users.userDetails.restoreDeleteModal.cancel')}
-                </Button>
-
-                <Button
-                    variant="solid"
-                    color="green"
-                    onClick={onDialogOk}
-                    loading={isPending}
-                >
-                    {t('users.userDetails.restoreDeleteModal.confirm')}
-                </Button>
-            </div>
+            <ModalHeader config={config} />
+            <ModalBody>
+                <div className="text-center">
+                    <p>
+                        <Trans
+                            i18nKey="users.userDetails.restoreDeleteModal.message"
+                            values={{ name }}
+                            components={{ strong: <strong /> }}
+                        />
+                    </p>
+                </div>
+            </ModalBody>
+            <ModalFooter
+                config={config}
+                onClose={onDialogClose}
+                onConfirm={onDialogOk}
+                isPending={isPending}
+            />
         </Dialog>
     )
 }

@@ -27,6 +27,7 @@ type PropsDropdown = {
     id: string
     firstName: string
     lastName: string
+    status?: 'approved' | 'rejected' | 'pending'
     onAction?: (action: SellerAction) => void
 }
 
@@ -42,6 +43,7 @@ const SellerDropdownOptions = ({
     id,
     firstName,
     lastName,
+    status,
     onAction
 }: PropsDropdown) => {
     const navigate = useNavigate()
@@ -79,26 +81,32 @@ const SellerDropdownOptions = ({
                 menuClass="mt-2 min-w-[200px] p-2"
             >
                 {/* Approve */}
-                <Dropdown.Item
-                    eventKey="approve_request"
-                    className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
-                    onClick={() => handleAction('approve_request')}
-                >
-                    <HiOutlineCheckCircle />
-                    {t('fixedPrice.sellers.status.approveRequest')}
-                </Dropdown.Item>
+                {status === 'pending' && (
+                    <Dropdown.Item
+                        eventKey="approve_request"
+                        className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
+                        onClick={() => handleAction('approve_request')}
+                    >
+                        <HiOutlineCheckCircle />
+                        {t('fixedPrice.sellers.status.approveRequest')}
+                    </Dropdown.Item>
+                )}
 
                 {/* Reject */}
-                <Dropdown.Item
-                    eventKey="reject_request"
-                    className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
-                    onClick={() => handleAction('reject_request')}
-                >
-                    <HiOutlineXCircle />
-                    {t('fixedPrice.sellers.status.rejectRequest')}
-                </Dropdown.Item>
+                {status === 'pending' && (
+                    <Dropdown.Item
+                        eventKey="reject_request"
+                        className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
+                        onClick={() => handleAction('reject_request')}
+                    >
+                        <HiOutlineXCircle />
+                        {t('fixedPrice.sellers.status.rejectRequest')}
+                    </Dropdown.Item>
+                )}
 
-                <Dropdown.Item variant="divider" className="my-1" />
+                {status === 'pending' && (
+                    <Dropdown.Item variant="divider" className="my-1" />
+                )}
 
                 {/* Update */}
                 <Dropdown.Item
