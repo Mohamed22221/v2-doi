@@ -248,7 +248,7 @@
                 "titleSuspend": "Suspend User Account",
                 "titleActivate": "Activation User Account",
                 "confirmSuspendMessage": "Are you sure you want to suspend <strong>{{name}}</strong>? This will immediately revoke their access to all platform features and active sessions.",
-                "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will restore their access to all platform features and active sessions.",
+                "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will immediately restore their access to all platform features and sessions.",
                 "cancel": "Cancel",
                 "confirmSuspension": "Confirm Suspension",
                 "confirmActivation": "Confirm Activation"
@@ -266,12 +266,12 @@
                 "activatedSuccess": "User account activated successfully"
             },
             "softDeleteModal": {
-                "title": "Delete user (temporary)",
-                "message": "Are you sure you want to temporarily delete <strong>{{name}}</strong>?",
-                "description": "You can restore this user at any time.",
+                "title": "Temporary Delete user",
+                "message": "Are you sure you want to temporary delete <strong>{{name}}</strong>?",
+                "description": "Deactivating will block login and activity, but the user data will remain",
                 "cancel": "Cancel",
-                "confirm": "Delete temporarily",
-                "success": "The user has been deleted temporarily."
+                "confirm": "Temporary Delete",
+                "success": "User temporary deleted successfully."
             },
             "hardDeleteModal": {
                 "title": "Permanently delete user",
@@ -389,6 +389,21 @@
                 "title": "Documentation documents",
                 "commercialRegister": "Commercial Register",
                 "taxCard": "Tax Card"
+            },
+            "details": {
+                "modals": {
+                    "reject": {
+                        "title": "Rejection Application",
+                        "description": "This action will decline the seller's registration. Please provide a clear reason for the rejection.",
+                        "reasonLabel": "Rejection Reason",
+                        "reasonPlaceholder": "Select the reason",
+                        "noteLabel": "Note",
+                        "notePlaceholder": "Enter the note about rejection",
+                        "footerText": "* This reason will be logged in the account history.",
+                        "confirm": "Confirm Suspension",
+                        "cancel": "Cancel"
+                    }
+                }
             }
         },
         "details": {

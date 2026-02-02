@@ -1,9 +1,10 @@
 import { getApiErrorMessage } from '@/api/error'
 import { useHardDeleteUser } from '@/api/hooks/users'
-import { Button, Dialog, Notification, toast } from '@/components/ui'
+import { Dialog, Notification, toast, Icon } from '@/components/ui'
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { ModalHeader, ModalBody, ModalFooter, StatusModalConfig } from '@/components/shared/StatusModal'
 
 type DeleteModalProps = {
     dialogIsOpen: boolean
@@ -25,6 +26,7 @@ const HardDeleteUserModal = ({
     const navigate = useNavigate()
     const name =
         `${firstName ?? ''} ${lastName ?? ''}`.trim() || t('common.unknownUser')
+
     const onDialogOk = () => {
         mutate(
             { id },
@@ -50,52 +52,44 @@ const HardDeleteUserModal = ({
             },
         )
     }
+
+    const config: StatusModalConfig = {
+        title: t('users.userDetails.hardDeleteModal.title'),
+        description: '', // We'll use children for rich content
+        icon: <Icon name="errorModal" className="text-red-500" />,
+        confirmText: t('users.userDetails.hardDeleteModal.confirm'),
+        confirmVariant: 'solid',
+        confirmColor: 'red',
+    }
+
     return (
         <Dialog
             isOpen={dialogIsOpen}
             onClose={onDialogClose}
             onRequestClose={onDialogClose}
-            style={{
-                content: {
-                    marginTop: 250,
-                },
-            }}
+            width={500}
         >
-            <h5 className="mb-4 text-center">
-                {t('users.userDetails.hardDeleteModal.title')}
-            </h5>
-
-            <p className="text-center">
-                <Trans
-                    i18nKey="users.userDetails.hardDeleteModal.message"
-                    values={{ name }}
-                    components={{ strong: <strong /> }}
-                />
-            </p>
-
-            <p className="mt-3 text-red-500 text-center">
-                {t('users.userDetails.hardDeleteModal.warning')}
-            </p>
-
-            <div className="mt-6 flex justify-end">
-                <Button
-                    className="ltr:mr-2 rtl:ml-2"
-                    variant="plain"
-                    onClick={onDialogClose}
-                >
-                    {t('users.userDetails.hardDeleteModal.cancel')}
-                </Button>
-
-                <Button
-                    variant="solid"
-                    // لو عندك variant="danger" استخدمه بدل solid
-                    color='red'
-                    onClick={onDialogOk}
-                    loading={isPending}
-                >
-                    {t('users.userDetails.hardDeleteModal.confirm')}
-                </Button>
-            </div>
+            <ModalHeader config={config} />
+            <ModalBody>
+                <div className="text-center px-4">
+                    <p>
+                        <Trans
+                            i18nKey="users.userDetails.hardDeleteModal.message"
+                            values={{ name }}
+                            components={{ strong: <strong /> }}
+                        />
+                    </p>
+                    <p className="mt-3 text-red-500">
+                        {t('users.userDetails.hardDeleteModal.warning')}
+                    </p>
+                </div>
+            </ModalBody>
+            <ModalFooter
+                config={config}
+                onClose={onDialogClose}
+                onConfirm={onDialogOk}
+                isPending={isPending}
+            />
         </Dialog>
     )
 }

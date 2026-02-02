@@ -1,6 +1,7 @@
-import { Button, Dialog } from '@/components/ui'
+import { Dialog, Icon } from '@/components/ui'
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
+import { ModalHeader, ModalBody, ModalFooter, StatusModalConfig } from '@/components/shared/StatusModal'
 
 type SuspendModalProps = {
     dialogIsOpen: boolean
@@ -11,6 +12,7 @@ type SuspendModalProps = {
     isActive?: boolean
     isLoading: boolean
 }
+
 const SuspendUserModal = ({
     dialogIsOpen,
     onDialogClose,
@@ -21,56 +23,51 @@ const SuspendUserModal = ({
     isLoading,
 }: SuspendModalProps) => {
     const { t } = useTranslation()
-    
+
+    const name = `${firstName ?? ''} ${lastName ?? ''}`.trim() || t('common.unknownUser')
+
+    const config: StatusModalConfig = {
+        title: isActive
+            ? t('users.userDetails.suspendModal.titleSuspend')
+            : t('users.userDetails.suspendModal.titleActivate'),
+        description: '', // Using children for rich content
+        icon: <Icon name={isActive ? 'errorModal' : 'hideModal'} className={isActive ? 'text-red-500' : 'text-emerald-500'} />,
+        confirmText: isActive
+            ? t('users.userDetails.suspendModal.confirmSuspension')
+            : t('users.userDetails.suspendModal.confirmActivation'),
+        confirmVariant: 'solid',
+        confirmColor: isActive ? 'red' : 'green',
+    }
+
     return (
         <Dialog
             isOpen={dialogIsOpen}
             onClose={onDialogClose}
             onRequestClose={onDialogClose}
-            style={{
-                content: {
-                    marginTop: 250,
-                },
-            }}
+            width={500}
         >
-            <h5 className="mb-4 text-center">
-                {isActive 
-                    ? t('users.userDetails.suspendModal.titleSuspend') 
-                    : t('users.userDetails.suspendModal.titleActivate')}
-            </h5>
-            <p>
-                {isActive ? (
-                    <Trans
-                        i18nKey="users.userDetails.suspendModal.confirmSuspendMessage"
-                        values={{ name: `${firstName} ${lastName}` }}
-                        components={{ strong: <strong /> }}
-                    />
-                ) : (
-                    <Trans
-                        i18nKey="users.userDetails.suspendModal.confirmActivateMessage"
-                        values={{ name: `${firstName} ${lastName}` }}
-                        components={{ strong: <strong /> }}
-                    />
-                )}
-            </p>
-            <div className="mt-6 flex justify-end">
-                <Button
-                    className="ltr:mr-2 rtl:ml-2"
-                    variant="plain"
-                    onClick={onDialogClose}
-                >
-                    {t('users.userDetails.suspendModal.cancel')}
-                </Button>
-                <Button
-                    variant="solid"
-                    onClick={onDialogConfirm}
-                    loading={isLoading}
-                >
-                    {isActive 
-                        ? t('users.userDetails.suspendModal.confirmSuspension') 
-                        : t('users.userDetails.suspendModal.confirmActivation')}
-                </Button>
-            </div>
+            <ModalHeader config={config} />
+            <ModalBody>
+                <div className="text-center">
+                    <p>
+                        <Trans
+                            i18nKey={
+                                isActive
+                                    ? 'users.userDetails.suspendModal.confirmSuspendMessage'
+                                    : 'users.userDetails.suspendModal.confirmActivateMessage'
+                            }
+                            values={{ name }}
+                            components={{ strong: <strong /> }}
+                        />
+                    </p>
+                </div>
+            </ModalBody>
+            <ModalFooter
+                config={config}
+                onClose={onDialogClose}
+                onConfirm={onDialogConfirm}
+                isPending={isLoading}
+            />
         </Dialog>
     )
 }

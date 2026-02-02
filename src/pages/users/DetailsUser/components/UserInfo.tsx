@@ -134,7 +134,7 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                         <Button
                             color={data?.isActive ? 'red' : 'green'} // className="w-full sm:w-auto text-red-500 hover:bg-red-50 transition"
                             onClick={() => openDialog()}
-                            variant="default"
+                            variant="solid"
                         >
                             {data?.isActive
                                 ? t('users.userDetails.actions.suspendUser')

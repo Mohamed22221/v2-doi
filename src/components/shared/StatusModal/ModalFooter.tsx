@@ -1,32 +1,35 @@
-import { Button } from '@/components/ui'
-import { ModalConfig } from './types'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button } from '@/components/ui'
+import { StatusModalConfig } from './types'
 
 interface ModalFooterProps {
-    config: ModalConfig
+    config: StatusModalConfig
     onClose: () => void
+    onConfirm?: () => void
     isPending: boolean
 }
 
-const ModalFooter = ({ config, onClose, isPending }: ModalFooterProps) => {
+const ModalFooter = ({ config, onClose, onConfirm, isPending }: ModalFooterProps) => {
     const { t } = useTranslation()
 
     return (
-        <div className="mt-4 flex gap-3">
+        <div className="flex justify-end gap-2 p-2 mt-2">
             <Button
-                variant="default"
-                className="flex-1"
                 type="button"
+                variant="plain"
+                size="sm"
                 onClick={onClose}
                 disabled={isPending}
             >
                 {t('common.cancel')}
             </Button>
             <Button
+                type={onConfirm ? 'button' : 'submit'}
                 variant={config.confirmVariant}
+                // size="sm"
                 color={config.confirmColor}
-                className="flex-1"
-                type="submit"
+                onClick={onConfirm}
                 loading={isPending}
             >
                 {config.confirmText}

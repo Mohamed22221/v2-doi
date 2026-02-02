@@ -8,9 +8,7 @@ import {
     Icon,
 } from '@/components/ui'
 
-import ModalHeader from './modalStatus/ModalHeader'
-import ModalBody from './modalStatus/ModalBody'
-import ModalFooter from './modalStatus/ModalFooter'
+import { ModalHeader, ModalBody, ModalFooter } from '@/components/shared/StatusModal'
 import getFixedPriceStatusValidationSchema from './modalStatus/schema'
 import { FixedPriceStatusModalProps, FormValues, ModalConfig, ReasonOption } from './modalStatus/types'
 
@@ -120,7 +118,7 @@ const FixedPriceStatusModal = ({
                     <Form>
                         <ModalHeader config={config} />
                         <ModalBody
-                            type={type}
+                            showFields={type === 'reject' || type === 'hide'}
                             config={config}
                             touched={touched}
                             errors={errors}

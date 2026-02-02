@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import DeleteUserModal from '@/pages/users/DetailsUser/components/DeleteUserModal'
 import SoftDeleteUserModal from '@/pages/users/DetailsUser/components/SoftDeleteUserModal'
+import SellerRejectModal from './SellerRejectModal'
 
 export type SellerAction =
     | 'suspend'
@@ -48,6 +49,7 @@ const SellerDropdownOptions = ({
 
     const [hardDeleteOpen, setHardDeleteOpen] = useState(false)
     const [softDeleteOpen, setSoftDeleteOpen] = useState(false)
+    const [rejectModalOpen, setRejectModalOpen] = useState(false)
 
     const handleAction = (action: SellerAction) => {
         if (onAction) onAction(action)
@@ -55,6 +57,9 @@ const SellerDropdownOptions = ({
         switch (action) {
             case 'update_user':
                 navigate(`/users/${id}/edit`)
+                break
+            case 'reject_request':
+                setRejectModalOpen(true)
                 break
             case 'temporary_delete':
                 setSoftDeleteOpen(true)
@@ -140,6 +145,11 @@ const SellerDropdownOptions = ({
                 firstName={firstName}
                 lastName={lastName}
                 onDialogClose={() => setSoftDeleteOpen(false)}
+                id={id}
+            />
+            <SellerRejectModal
+                isOpen={rejectModalOpen}
+                onClose={() => setRejectModalOpen(false)}
                 id={id}
             />
         </>
