@@ -29,6 +29,7 @@
     "nav": {
         "dashboard": "Dashboard",
         "users": "Registered Users",
+        "sellers": "Registered Sellers",
         "categories": "Categories",
         "brands": "Brands",
         "models": "Models",
@@ -357,6 +358,17 @@
             },
             "actions": {
                 "viewDetails": "View Details"
+            }
+        },
+        "sellers": {
+            "title": "Registered Sellers",
+            "columns": {
+                "submitted": "Submitted"
+            },
+            "status": {
+                "approved": "Approved",
+                "rejected": "Rejected",
+                "pending": "Pending"
             }
         },
         "details": {

@@ -30,6 +30,12 @@ export const protectedRoutes = [
         component: lazy(() => import('@/pages/users/UpdateUser')),
     },
     {
+        key: 'sellers',
+        path: '/sellers',
+        component: lazy(() => import('@/pages/sellers')),
+        authority: [],
+    },
+    {
         key: 'categories',
         path: '/categories',
         component: lazy(() => import('@/pages/categories')),

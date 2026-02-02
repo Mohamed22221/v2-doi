@@ -29,6 +29,7 @@
     "nav": {
         "dashboard": "اللوحة الرئيسية",
         "users": "المستخدمون",
+        "sellers": "البائعون المسجلون",
         "categories": "الفئات",
         "brands": "العلامات التجارية",
         "models": "الموديلات",
@@ -357,6 +358,17 @@
             },
             "actions": {
                 "viewDetails": "عرض التفاصيل"
+            }
+        },
+        "sellers": {
+            "title": "البائعون المسجلون",
+            "columns": {
+                "submitted": "تاريخ التقديم"
+            },
+            "status": {
+                "approved": "مقبول",
+                "rejected": "مرفوض",
+                "pending": "قيد الانتظار"
             }
         },
         "details": {

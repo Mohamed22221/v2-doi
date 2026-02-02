@@ -26,6 +26,16 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'sellers',
+        path: '/sellers',
+        title: 'Sellers',
+        translateKey: 'nav.sellers',
+        icon: 'users',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
+    {
         key: 'categories',
         path: '/categories',
         title: 'Categories',
