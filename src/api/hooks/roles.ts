@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 // import type { TAPIResponseItems } from '../types/api'
 // import { Role } from '../types/roles'
 import RolesServices from '../services/roles'
+import { useAppSelector } from '@/store'
 
 // export const useGetAllRolesSelect = () => {
 //     const query = useQuery<TAPIResponseItems<Role[]>>({
@@ -19,8 +20,9 @@ import RolesServices from '../services/roles'
 // }
 
 export function useInfiniteRoles() {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useInfiniteQuery({
-        queryKey: ['optionsRoles'],
+        queryKey: ['optionsRoles', lang],
         initialPageParam: 1,
         queryFn: ({ pageParam }) => RolesServices.getInfinityRoles(pageParam),
         getNextPageParam: (lastPage) =>

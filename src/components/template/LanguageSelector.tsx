@@ -64,14 +64,7 @@ const _LanguageSelector = ({ className }: CommonProps) => {
             i18n.changeLanguage(formattedLang).then(() => {
                 // Update language in store
                 dispatch(setLang(lang))
-
-                // Force redux-persist to write to storage before reload
-                // Using a small timeout as a fallback for persistence flush
-                persistor.flush().then(() => {
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 150)
-                })
+                setLoading(false)
             })
         }
 

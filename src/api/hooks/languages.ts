@@ -11,13 +11,15 @@ import type { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import { Language, LanguagePayload } from '../types/languages'
 import LanguagesServices from '../services/languages'
 import ReactQueryKeys from '../constants/apikeys.constant'
+import { useAppSelector } from '@/store'
 
 export const useGetAllLanguages = () => {
     const [searchParams] = useSearchParams()
     const queryString = searchParams.toString()
 
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItems<Language[]>>({
-        queryKey: [ReactQueryKeys.ALL_LANGUAGES, queryString],
+        queryKey: [ReactQueryKeys.ALL_LANGUAGES, queryString, lang],
         queryFn: () => LanguagesServices.getLanguages(queryString),
     })
 
@@ -39,8 +41,9 @@ export const useGetLanguageById = (
         'queryKey' | 'queryFn'
     >,
 ) => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItem<Language>>({
-        queryKey: [ReactQueryKeys.LANGUAGE_BY_ID, id],
+        queryKey: [ReactQueryKeys.LANGUAGE_BY_ID, id, lang],
         queryFn: () => LanguagesServices.getLanguageById(id),
         ...options,
     })
@@ -221,8 +224,9 @@ export const useDeactivateLanguage = () => {
 }
 
 export function useInfiniteLanguages() {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useInfiniteQuery({
-        queryKey: [ReactQueryKeys.ALL_LANGUAGES, 'infinite'],
+        queryKey: [ReactQueryKeys.ALL_LANGUAGES, 'infinite', lang],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
             LanguagesServices.getInfinityLanguages(pageParam as number),

@@ -11,13 +11,15 @@ import type { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import { Category, CategoryPayload, CategoryTreeNode } from '../types/categories'
 import CategoriesServices from '../services/categories'
 import ReactQueryKeys from '../constants/apikeys.constant'
+import { useAppSelector } from '@/store'
 
 export const useGetAllCategories = () => {
     const [searchParams] = useSearchParams()
     const queryString = searchParams.toString()
 
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItems<Category[]>>({
-        queryKey: [ReactQueryKeys.ALL_CATEGORIES, queryString],
+        queryKey: [ReactQueryKeys.ALL_CATEGORIES, queryString, lang],
         queryFn: () => CategoriesServices.getAllCategories(queryString),
     })
 
@@ -39,8 +41,9 @@ export const useGetCategoryById = (
         'queryKey' | 'queryFn'
     >,
 ) => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItem<Category>>({
-        queryKey: [ReactQueryKeys.CATEGORY_BY_ID, id],
+        queryKey: [ReactQueryKeys.CATEGORY_BY_ID, id, lang],
         queryFn: () => CategoriesServices.getCategoryById(id),
         ...options,
     })
@@ -53,8 +56,9 @@ export const useGetCategoryById = (
 }
 
 export const useGetCategoriesTree = () => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItem<CategoryTreeNode[]>>({
-        queryKey: [ReactQueryKeys.CATEGORIES_TREE],
+        queryKey: [ReactQueryKeys.CATEGORIES_TREE, lang],
         queryFn: () => CategoriesServices.getCategoriesTree(),
     })
 
@@ -258,8 +262,9 @@ export const useDeactivateCategory = () => {
 }
 
 export function useGetAllCategoriesSelect(search?: string, level?: number) {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useInfiniteQuery({
-        queryKey: ['optionsCategories', search, level],
+        queryKey: ['optionsCategories', search, level, lang],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
             CategoriesServices.getInfinityCategories(

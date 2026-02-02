@@ -11,13 +11,15 @@ import type { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import { Brand, BrandPayload } from '../types/brands'
 import BrandsServices from '../services/brands'
 import ReactQueryKeys from '../constants/apikeys.constant'
+import { useAppSelector } from '@/store'
 
 export const useGetAllBrands = () => {
     const [searchParams] = useSearchParams()
     const queryString = searchParams.toString()
 
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItems<Brand[]>>({
-        queryKey: [ReactQueryKeys.ALL_BRANDS, queryString],
+        queryKey: [ReactQueryKeys.ALL_BRANDS, queryString, lang],
         queryFn: () => BrandsServices.getBrands(queryString),
     })
 
@@ -39,8 +41,9 @@ export const useGetBrandById = (
         'queryKey' | 'queryFn'
     >,
 ) => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItem<Brand>>({
-        queryKey: [ReactQueryKeys.BRAND_BY_ID, id],
+        queryKey: [ReactQueryKeys.BRAND_BY_ID, id, lang],
         queryFn: () => BrandsServices.getBrandById(id),
         ...options,
     })
@@ -217,8 +220,9 @@ export const useDeactivateBrand = () => {
 }
 
 export function useGetAllBrandsSelect(search?: string) {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useInfiniteQuery({
-        queryKey: ['optionsBrands', search],
+        queryKey: ['optionsBrands', search, lang],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
             BrandsServices.getInfinityBrands(pageParam as number, 10, search),

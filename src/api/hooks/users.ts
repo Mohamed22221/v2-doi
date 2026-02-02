@@ -10,13 +10,15 @@ import UsersServices from '../services/users'
 import { getApiErrorMessage } from '../error'
 import type { TAPIResponseItem, TAPIResponseItems } from '../types/api'
 import { TUserPayload, UserItem } from '../types/users'
+import { useAppSelector } from '@/store'
 
 export const useGetAllUsers = () => {
     const [searchParams] = useSearchParams()
     const queryString = searchParams.toString()
 
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItems<UserItem[]>>({
-        queryKey: [ReactQueryKeys.ALL_USERS, queryString],
+        queryKey: [ReactQueryKeys.ALL_USERS, queryString, lang],
         queryFn: () => UsersServices.getAllUsers(queryString),
     })
 
@@ -38,8 +40,9 @@ export const useGetUserDetails = (
         'queryKey' | 'queryFn'
     >,
 ) => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useQuery<TAPIResponseItem<UserItem>>({
-        queryKey: [ReactQueryKeys.GET_USER_DETAILS, id],
+        queryKey: [ReactQueryKeys.GET_USER_DETAILS, id, lang],
         queryFn: () => UsersServices.getUserDetails(id),
         ...options,
     })

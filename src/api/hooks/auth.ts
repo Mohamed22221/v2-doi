@@ -18,15 +18,16 @@ import {
 import { REDIRECT_URL_KEY } from '@/constants/app.constant'
 import appConfig from '@/configs/app.config'
 import useQueryLocation from '@/utils/useQueryLocation'
+import { useAppSelector } from '@/store'
 
 // Helpers to set cookies
 const setAccessTokenCookie = (token: string) => {
-Cookies.set(ACCESS_TOKEN, token, {
-  expires: 1 / 96,
-  sameSite: 'lax',
-  secure: false, // مهم
-  path: '/',
-})
+    Cookies.set(ACCESS_TOKEN, token, {
+        expires: 1 / 96,
+        sameSite: 'lax',
+        secure: false, // مهم
+        path: '/',
+    })
 }
 
 // Hook login and handle errors
@@ -58,7 +59,7 @@ export const useLogin = () => {
 
             // 2) Token flow
             if (accessToken) {
-                queryClient.clear() 
+                queryClient.clear()
                 setAccessTokenCookie(accessToken)
                 navigate(
                     redirectUrl
@@ -95,7 +96,7 @@ export const useVerifyOtp = () => {
             if (!accessToken) return
             // 2) Token flow
             if (accessToken) {
-                queryClient.clear() 
+                queryClient.clear()
                 setAccessTokenCookie(accessToken)
                 const redirectUrl = query.get(REDIRECT_URL_KEY)
                 navigate(
@@ -242,8 +243,9 @@ export const useChangePassword = () => {
 }
 
 export const useGetProfile = () => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useQuery({
-        queryKey: [ReactQueryKeys.GET_PROFILE],
+        queryKey: [ReactQueryKeys.GET_PROFILE, lang],
         queryFn: AuthServices.getProfile,
     })
 }

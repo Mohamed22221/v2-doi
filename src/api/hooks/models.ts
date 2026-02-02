@@ -11,13 +11,15 @@ import type { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import { Model, ModelPayload } from '../types/models'
 import ModelsServices from '../services/models'
 import ReactQueryKeys from '../constants/apikeys.constant'
+import { useAppSelector } from '@/store'
 
 export const useGetAllModels = () => {
     const [searchParams] = useSearchParams()
     const queryString = searchParams.toString()
 
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItems<Model[]>>({
-        queryKey: [ReactQueryKeys.ALL_MODELS, queryString],
+        queryKey: [ReactQueryKeys.ALL_MODELS, queryString, lang],
         queryFn: () => ModelsServices.getModels(queryString),
     })
 
@@ -39,8 +41,9 @@ export const useGetModelById = (
         'queryKey' | 'queryFn'
     >,
 ) => {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     const query = useQuery<TAPIResponseItem<Model>>({
-        queryKey: [ReactQueryKeys.MODEL_BY_ID, id],
+        queryKey: [ReactQueryKeys.MODEL_BY_ID, id, lang],
         queryFn: () => ModelsServices.getModelById(id),
         ...options,
     })
@@ -171,8 +174,9 @@ export const useRestoreModel = () => {
 }
 
 export function useGetAllModelsSelect() {
+    const lang = useAppSelector((state) => state.locale.currentLang)
     return useInfiniteQuery({
-        queryKey: ['optionsModals'],
+        queryKey: ['optionsModals', lang],
         initialPageParam: 1,
         queryFn: ({ pageParam }) =>
             ModelsServices.getInfinityModels(pageParam as number),
