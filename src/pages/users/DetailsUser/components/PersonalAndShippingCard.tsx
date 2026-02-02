@@ -1,6 +1,7 @@
 import { ApiAddress } from '@/api/types/users'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import InfoRow from '@/components/shared/cards/InfoRow'
+import { Badge } from '@/components/ui'
 
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +11,8 @@ import { formatFullAddress } from '../utils/addressFormatter'
 type Props = {
     email?: string
     phone?: string
+    isPhoneVerified?: boolean
+    isEmailVerified?: boolean
     registrationDate?: string
     accountStatus?: React.ReactNode
 
@@ -22,6 +25,8 @@ type Props = {
 const PersonalAndShippingCard = ({
     email,
     phone,
+    isPhoneVerified,
+    isEmailVerified,
     registrationDate,
     accountStatus,
     country,
@@ -39,11 +44,57 @@ const PersonalAndShippingCard = ({
                     <div className="mt-5 space-y-5">
                         <InfoRow
                             label={t('users.userDetails.personalInfo.email')}
-                            value={email}
+                            value={
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {email ? (
+                                        <span>{email}</span>
+                                    ) : (
+                                        <span className="text-neutral-300">
+                                            —
+                                        </span>
+                                    )}
+                                    <Badge
+                                        content={
+                                            isEmailVerified
+                                                ? t(
+                                                    'users.userDetails.status.verified',
+                                                )
+                                                : t(
+                                                    'users.userDetails.status.notVerified',
+                                                )
+                                        }
+                                        innerClass="bg-white text-gray-500"
+                                        className="ms-1 border border-gray-400"
+                                    />
+                                </div>
+                            }
                         />
                         <InfoRow
                             label={t('users.userDetails.personalInfo.phone')}
-                            value={phone}
+                            value={
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {phone ? (
+                                        <span>{phone}</span>
+                                    ) : (
+                                        <span className="text-neutral-300">
+                                            —
+                                        </span>
+                                    )}
+                                    <Badge
+                                        content={
+                                            isPhoneVerified
+                                                ? t(
+                                                    'users.userDetails.status.verified',
+                                                )
+                                                : t(
+                                                    'users.userDetails.status.notVerified',
+                                                )
+                                        }
+                                        innerClass="bg-white text-gray-500"
+                                        className="ms-1 border border-gray-400"
+                                    />
+                                </div>
+                            }
                         />
                         <InfoRow
                             label={t(

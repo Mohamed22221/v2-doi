@@ -330,6 +330,42 @@
             "invalidImageUrl": "Please enter a valid image URL"
         }
     },
+    "sellers": {
+        "img": "Image",
+        "imgSubtitle": "Add or change the seller image",
+        "update": {
+            "title": "Update Seller",
+            "subtitle": "Edit seller information and save your changes",
+            "submit": "Update Seller",
+            "success": "Seller updated successfully"
+        },
+        "create": {
+            "title": "Add New Seller",
+            "subtitle": "Fill in the information below to create a new seller"
+        },
+        "companyName": "Company Name",
+        "contactNumber": "Contact Number",
+        "commercialRegistrationNumber": "Commercial Registration Number",
+        "errors": {
+            "companyNameRequired": "Company name is required",
+            "contactNumberRequired": "Contact number is required",
+            "commercialRegistrationNumberRequired": "Commercial registration number is required"
+        },
+        "upload": {
+            "oneOnly": "Please upload only one image.",
+            "invalidType": "Please upload a valid image (jpeg, png, webp).",
+            "tooLarge": "Image size must be less than 5MB.",
+            "success": "Image uploaded successfully",
+            "failed": "Upload failed",
+            "noImg": "No image",
+            "change": "Change",
+            "choose": "Upload",
+            "support": "Supported: jpeg, png, webp",
+            "removeTitle": "Remove image",
+            "removeConfirm": "Are you sure you want to remove this image?",
+            "noUrl": "Upload failed: no image URL returned."
+        }
+    },
     "fixedPrice": {
         "table": {
             "title": "Fixed Price Items",
@@ -387,8 +423,9 @@
             },
             "documents": {
                 "title": "Documentation documents",
-                "commercialRegister": "Commercial Register",
-                "taxCard": "Tax Card"
+                "commercialCertificate": "Commercial Certificate",
+                "taxCertificate": "Tax Certificate",
+                "nationalId": "National ID"
             },
             "details": {
                 "modals": {

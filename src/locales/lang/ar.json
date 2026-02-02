@@ -330,6 +330,42 @@
             "invalidImageUrl": "يرجى إدخال رابط صورة صحيح"
         }
     },
+    "sellers": {
+        "img": "الصورة",
+        "imgSubtitle": "أضف أو غيّر صورة البائع",
+        "update": {
+            "title": "تعديل بيانات البائع",
+            "subtitle": "قم بتعديل بيانات البائع ثم احفظ التغييرات",
+            "submit": "تحديث البائع",
+            "success": "تم تحديث بيانات البائع بنجاح"
+        },
+        "create": {
+            "title": "إضافة بائع جديد",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء بائع جديد"
+        },
+        "companyName": "اسم الشركة",
+        "contactNumber": "رقم التواصل",
+        "commercialRegistrationNumber": "رقم السجل التجاري",
+        "errors": {
+            "companyNameRequired": "اسم الشركة مطلوب",
+            "contactNumberRequired": "رقم التواصل مطلوب",
+            "commercialRegistrationNumberRequired": "رقم السجل التجاري مطلوب"
+        },
+        "upload": {
+            "oneOnly": "يرجى رفع صورة واحدة فقط.",
+            "invalidType": "يرجى رفع صورة بصيغة صحيحة (jpeg أو png أو webp).",
+            "tooLarge": "يجب ألا يزيد حجم الصورة عن 5 ميجابايت.",
+            "success": "تم رفع الصورة بنجاح",
+            "failed": "فشل رفع الصورة",
+            "noImg": "لا توجد صورة",
+            "change": "تغيير",
+            "choose": "رفع",
+            "support": "المدعوم: jpeg، png، webp",
+            "removeTitle": "حذف الصورة",
+            "removeConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
+            "noUrl": "فشل الرفع: لم يتم إرجاع رابط للصورة."
+        }
+    },
     "fixedPrice": {
         "table": {
             "title": "العناصر بسعر ثابت",
@@ -387,8 +423,9 @@
             },
             "documents": {
                 "title": "مستندات التوثيق",
-                "commercialRegister": "السجل التجاري",
-                "taxCard": "البطاقة الضريبية"
+                "commercialCertificate": "الشهادة التجارية",
+                "taxCertificate": "الشهادة الضريبية",
+                "nationalId": "بطاقة الهوية الوطنية"
             },
             "details": {
                 "modals": {

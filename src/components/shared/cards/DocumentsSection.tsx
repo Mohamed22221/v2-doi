@@ -22,12 +22,14 @@ type DocumentsSectionProps = {
 const DocumentsSection = ({ title, documents, t, documentTitleKey }: DocumentsSectionProps) => {
     const getIcon = (type: string) => {
         switch (type) {
-            case 'commercial_register':
+            case 'commercial_certificate':
                 return <Icon name="commercialRegister" />
-            case 'tax_card':
+            case 'tax_certificate':
                 return <Icon name="taxCard" />
+            case 'national_id':
+                return <Icon name="commercialRegister" />
             default:
-                return <HiOutlineDocumentText size={52} className="text-gray-400" />
+                return <Icon name="taxCard" />
         }
     }
 
@@ -70,6 +72,7 @@ const DocumentsSection = ({ title, documents, t, documentTitleKey }: DocumentsSe
                                     src={doc.image}
                                     alt={doc.title}
                                     className="w-full h-full object-cover"
+                                    crossOrigin="anonymous"
                                 />
                             </div>
                         </div>

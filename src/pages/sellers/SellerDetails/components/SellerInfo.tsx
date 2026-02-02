@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Avatar, Button, toast, Notification } from '@/components/ui'
-import Icon from '@/components/ui/Icon/Icon'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +14,7 @@ import RestoreUser from '@/pages/users/DetailsUser/components/RestoreUser'
 import AccountId from '@/components/shared/cards/AccountId'
 import UserInfoMeta from '@/components/shared/cards/UserInfoMeta'
 
-import { getSellerById, SellerItem } from '../../data/sellers.mock'
+import { SellerItem } from '../../data/sellers.mock'
 
 type Props = {
     data?: SellerItem
@@ -23,7 +22,7 @@ type Props = {
 
 const SellerInfo = ({ data }: Props) => {
     const { t } = useTranslation()
-    const { date } = formatDateTime(data?.createdAt || '')
+    const { date } = formatDateTime(data?.user?.createdAt || '')
     const [dialogIsOpen, setIsOpen] = useState(false)
     const { mutate, isPending } = useToggleUserStatus()
 
@@ -42,14 +41,14 @@ const SellerInfo = ({ data }: Props) => {
 
     const onDialogOk = () => {
         mutate(
-            { id: data!.id, isActive: data!.isActive },
+            { id: data!.user.id, isActive: data!.user.isActive },
             {
                 onSuccess: () => {
                     onDialogClose()
                     toast.push(
                         <Notification
                             title={
-                                data?.isActive
+                                data?.user?.isActive
                                     ? t('users.userDetails.notifications.suspendedSuccess')
                                     : t('users.userDetails.notifications.activatedSuccess')
                             }
@@ -64,12 +63,14 @@ const SellerInfo = ({ data }: Props) => {
         )
     }
 
+    const userName = `${data?.user?.firstName || ''} ${data?.user?.lastName || ''}`
+
     return (
         <BackgroundRounded>
             <div className="flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center">
                     <Avatar
-                        src={data?.image}
+                        src={data?.user?.image || undefined}
                         shape="circle"
                         size={100}
                         className="!w-[100px] !h-[100px]"
@@ -77,7 +78,7 @@ const SellerInfo = ({ data }: Props) => {
                     <div className="text-center sm:text-left">
                         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
                             <h2 className="text-xl sm:text-2xl font-semibold ">
-                                {(data?.firstName + ' ' + data?.lastName)}
+                                {userName}
                             </h2>
                             <StatusPill
                                 variant={getSellerStatusVariant(data?.status)}
@@ -89,28 +90,28 @@ const SellerInfo = ({ data }: Props) => {
                         <AccountId id={data?.id || ''} />
 
                         <UserInfoMeta
-                            location={data?.region}
+                            location={data?.user?.region}
                             joinedDate={date}
                         />
                     </div>
                 </div>
 
                 {/* Right Side Actions */}
-                {data?.deletedAt === null && (
+                {data?.user?.deletedAt === null && (
                     <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
                         <Button
-                            color={data?.isActive ? 'red' : 'green'}
+                            color={data?.user?.isActive ? 'red' : 'green'}
                             onClick={() => openDialog()}
                             variant="solid"
                         >
-                            {data?.isActive
+                            {data?.user?.isActive
                                 ? t('users.userDetails.actions.suspendUser')
                                 : t('users.userDetails.actions.activateUser')}
                         </Button>
                         <SellerDropdownOptions
-                            id={data?.id}
-                            firstName={data?.firstName}
-                            lastName={data?.lastName}
+                            id={data?.id || ''}
+                            firstName={data?.user?.firstName || ''}
+                            lastName={data?.user?.lastName || ''}
                             status={data?.status}
                             onAction={handleSellerAction}
                         />
@@ -119,19 +120,19 @@ const SellerInfo = ({ data }: Props) => {
 
                 <SuspendUserModal
                     dialogIsOpen={dialogIsOpen}
-                    firstName={data?.firstName}
-                    lastName={data?.lastName}
-                    isActive={data?.isActive}
+                    firstName={data?.user?.firstName}
+                    lastName={data?.user?.lastName}
+                    isActive={data?.user?.isActive}
                     onDialogClose={onDialogClose}
                     onDialogConfirm={onDialogOk}
                     isLoading={isPending}
                 />
             </div>
-            {data?.deletedAt != null && (
+            {data?.user?.deletedAt != null && (
                 <RestoreUser
-                    firstName={data?.firstName}
-                    lastName={data?.lastName}
-                    id={data?.id}
+                    firstName={data?.user?.firstName}
+                    lastName={data?.user?.lastName}
+                    id={data?.user?.id}
                 />
             )}
         </BackgroundRounded>

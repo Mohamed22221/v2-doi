@@ -81,7 +81,7 @@ const UserInfo = ({ data, primaryAddress }: Props) => {
                             className="sm:!w-[100px] sm:!h-[100px]"
                         />
                         {data?.isPhoneVerified && (
-                            <span className="absolute bottom-2 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 border-2 border-white">
+                            <span className="absolute bottom-2 ltr:right-0 rtl:left-0 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 border-2 border-white">
                                 <Icon name="check" className="text-white" />
                             </span>
                         )}

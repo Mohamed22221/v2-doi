@@ -58,7 +58,7 @@ const SellerDropdownOptions = ({
 
         switch (action) {
             case 'update_user':
-                navigate(`/users/${id}/edit`)
+                navigate(`/sellers/${id}/edit`)
                 break
             case 'reject_request':
                 setRejectModalOpen(true)

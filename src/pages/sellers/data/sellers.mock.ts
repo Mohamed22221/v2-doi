@@ -1,68 +1,117 @@
 import { UserItem } from '@/api/types/users'
 
+export type SellerDocumentType = 'national_id' | 'commercial_certificate' | 'tax_certificate'
+
 export type SellerDocument = {
-    id: string
-    type: 'commercial_register' | 'tax_card'
-    title: string
-    image: string
+    type: SellerDocumentType
+    notes: string | null
     fileUrl: string
+    verified: boolean
+    uploadedAt: string
 }
 
-export interface SellerItem extends UserItem {
-    status: 'approved' | 'rejected' | 'pending'
-    companyName: string
-    contactNumber: string
-    commercialRegistrationNumber: string
-    documents: SellerDocument[]
+export interface SellerUser extends UserItem {
+    roleId: number
+    failedLoginAttempts: number
+    lastLogin: string | null
+    lastPasswordChange: string
+    language: 'EN' | 'AR'
+    updatedAt: string
 }
+
+export interface SellerItem {
+    id: string
+    user: SellerUser
+    businessDescription: string | null
+    businessName: string | null
+    businessPhone: string | null
+    commercialRegistrationNumber: string | null
+    nationalIdNumber: string | null
+    isVerified: boolean
+    verifiedAt: string | null
+    documents: SellerDocument[]
+    // Computed status based on isVerified
+    status: 'approved' | 'rejected' | 'pending'
+}
+
+// Helper to get user name
+export const getSellerName = (seller: SellerItem) => {
+    return `${seller.user.firstName} ${seller.user.lastName}`
+}
+
+// Use stable IDs instead of random UUIDs
+const generateStableId = (prefix: string, index: number) =>
+    `${prefix}-${String(index).padStart(8, '0')}`
 
 export const SELLERS_MOCK: SellerItem[] = Array.from({ length: 1250 }).map((_, index) => {
-    const id = `USR-${99283 + index}`
-    const firstNames = ['Terrance', 'Ron', 'Luke', 'Joyce', 'John', 'Sarah']
-    const lastNames = ['Moreno', 'Vargas', 'Cook', 'Freeman', 'Doe', 'Smith']
-    const regions = ['Riyadah, Al-Malaz', 'Jeddah, Al-Hamra', 'Dammam, Al-Shati']
+    const id = generateStableId('seller', index)
+    const userId = generateStableId('user', index)
+
+    const firstNames = ['Ahmed', 'Ron', 'Luke', 'Joyce', 'John', 'Sarah', 'Mohamed', 'Ali']
+    const lastNames = ['Kotp', 'Vargas', 'Cook', 'Freeman', 'Doe', 'Smith', 'Hassan', 'Ibrahim']
 
     const firstName = firstNames[index % firstNames.length]
     const lastName = lastNames[index % lastNames.length]
 
     const statuses: ('approved' | 'rejected' | 'pending')[] = ['approved', 'rejected', 'pending', 'pending']
     const status = statuses[index % statuses.length]
+    const isVerified = status === 'approved'
+
+    const businessNames = ['Urban Trend Store', 'Elite Electronics', 'Tech Solutions', 'Fashion Hub', null]
+    const businessDescriptions = ['Leading electronics retailer', 'Fashion and accessories', 'Technology solutions provider', null]
 
     return {
         id,
-        firstName,
-        lastName,
-        email: `${firstName.toLowerCase()}_${lastName.toLowerCase()}${index}@lmc.sa`,
-        phone: `+966 56 838 ${3200 + index}`,
-        region: regions[index % regions.length],
-        isActive: status === 'approved',
-        status,
-        isDeleted: index < 5,
-        deletedAt: index < 5 ? new Date(2026, 0, 15, 14, 30).toISOString() : null,
-        createdAt: new Date(2025, 8, 23, 10, 45).toISOString(),
-        role: {
-            id: '1',
-            name: 'Seller'
+        user: {
+            id: userId,
+            firstName,
+            lastName,
+            email: `${firstName.toLowerCase()}_${lastName.toLowerCase()}${index}@test.com`,
+            phone: `+9665123432${String(10 + (index % 90)).padStart(2, '0')}`,
+            region: '',
+            isActive: isVerified,
+            isDeleted: index < 5,
+            deletedAt: index < 5 ? new Date(2026, 0, 15, 14, 30).toISOString() : null,
+            createdAt: new Date(2025, 11, 21, 13, 32, 45).toISOString(),
+            updatedAt: new Date(2026, 0, 18, 12, 19, 4).toISOString(),
+            role: {
+                id: '3',
+                name: 'Seller'
+            },
+            roleId: 3,
+            image: index % 3 === 0
+                ? 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80'
+                : undefined,
+            isPhoneVerified: index % 2 === 0,
+            isEmailVerified: index % 3 === 0,
+            failedLoginAttempts: 0,
+            lastLogin: index % 4 === 0 ? new Date(2026, 0, 15, 10, 30).toISOString() : null,
+            lastPasswordChange: new Date(2025, 11, 21, 13, 32, 45).toISOString(),
+            language: index % 2 === 0 ? 'EN' : 'AR',
         },
-        companyName: index % 2 === 0 ? 'Urban Trend Store' : 'Elite Electronics',
-        contactNumber: `234567${650 + index}`,
-        commercialRegistrationNumber: `2345676${540 + index}`,
-        image: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80',
+        businessDescription: businessDescriptions[index % businessDescriptions.length],
+        businessName: businessNames[index % businessNames.length],
+        businessPhone: index % 2 === 0 ? `+9665${5000000 + index}` : null,
+        commercialRegistrationNumber: index % 3 === 0 ? `CR${1000000 + index}` : null,
+        nationalIdNumber: `9682341546${5983 + index}`,
+        isVerified,
+        verifiedAt: isVerified ? new Date(2026, 0, 10, 14, 0).toISOString() : null,
+        status,
         documents: [
             {
-                id: 'doc-1',
-                type: 'commercial_register',
-                title: 'Commercial Register',
-                image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                fileUrl: '#'
+                type: 'national_id',
+                notes: 'front side',
+                fileUrl: `http://localhost:3000/uploads/sellers/documents/doc-${index}-national.jpg`,
+                verified: isVerified,
+                uploadedAt: new Date(2025, 11, 21, 13, 33, 9).toISOString()
             },
-            {
-                id: 'doc-2',
-                type: 'tax_card',
-                title: 'Tax Card',
-                image: 'https://images.unsplash.com/photo-1554224155-1696413565d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                fileUrl: '#'
-            }
+            ...(index % 2 === 0 ? [{
+                type: 'commercial_certificate' as SellerDocumentType,
+                notes: 'company registration',
+                fileUrl: `http://localhost:3000/uploads/sellers/documents/doc-${index}-commercial.jpg`,
+                verified: isVerified,
+                uploadedAt: new Date(2025, 11, 22, 10, 15, 0).toISOString()
+            }] : [])
         ]
     }
 })

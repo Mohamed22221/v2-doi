@@ -64,6 +64,8 @@ const DetailsUserPage = () => {
                             <PersonalAndShippingCard
                                 email={data?.data?.email}
                                 phone={data?.data?.phone}
+                                isPhoneVerified={data?.data?.isPhoneVerified}
+                                isEmailVerified={data?.data?.isEmailVerified}
                                 registrationDate={`${date}-${time}`}
                                 accountStatus={
                                     <StatusPill
