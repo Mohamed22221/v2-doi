@@ -20,7 +20,7 @@ const HeaderActionsStart = () => {
 const HeaderActionsEnd = () => {
     return (
         <>
-           <LanguageSelector />
+            <LanguageSelector />
             <Notification />
             <SidePanel />
             <UserDropdown hoverable={false} />
@@ -39,9 +39,9 @@ const ModernLayout = () => {
                         headerEnd={<HeaderActionsEnd />}
                         headerStart={<HeaderActionsStart />}
                     />
-                        
-                        <Pages />
-                
+
+                    <Pages />
+
                 </div>
             </div>
         </div>
