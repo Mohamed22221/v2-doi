@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import React, { lazy, Suspense } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -34,23 +35,33 @@ const SellerDetailsPage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-6">
-            <Suspense fallback={<UserInfoSkeleton />}>
-                {isLoading ? (
-                    <UserInfoSkeleton />
-                ) : (
-                    <SellerInfo data={data!} />
-                )}
-            </Suspense>
+        <>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.sellers'), path: '/sellers' },
+                    { label: t('sellers.details.title') },
+                ]}
+            />
 
-            <Suspense fallback={<DetailsSellerSkeleton />}>
-                {isLoading ? (
-                    <DetailsSellerSkeleton />
-                ) : (
-                    <SellerDetailedInfo data={data!} />
-                )}
-            </Suspense>
-        </div>
+            <div className="flex flex-col gap-6">
+
+                <Suspense fallback={<UserInfoSkeleton />}>
+                    {isLoading ? (
+                        <UserInfoSkeleton />
+                    ) : (
+                        <SellerInfo data={data!} />
+                    )}
+                </Suspense>
+
+                <Suspense fallback={<DetailsSellerSkeleton />}>
+                    {isLoading ? (
+                        <DetailsSellerSkeleton />
+                    ) : (
+                        <SellerDetailedInfo data={data!} />
+                    )}
+                </Suspense>
+            </div>
+        </>
     )
 }
 

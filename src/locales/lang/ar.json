@@ -221,6 +221,7 @@
             }
         },
         "userDetails": {
+            "title": "تفاصيل المستخدم",
             "accountStatistics": {
                 "title": "إحصائيات الحساب",
                 "totalSpent": "إجمالي الإنفاق",
@@ -331,6 +332,9 @@
         }
     },
     "sellers": {
+        "details": {
+            "title": "تفاصيل البائع"
+        },
         "img": "الصورة",
         "imgSubtitle": "أضف أو غيّر صورة البائع",
         "update": {
@@ -444,6 +448,7 @@
             }
         },
         "details": {
+            "title": "تفاصيل المنتج بسعر ثابت",
             "basicInfo": "المعلومات الأساسية",
             "pricingStock": "التسعير والمخزون",
             "availableQuantity": "الكمية المتوفرة",
@@ -536,6 +541,7 @@
             }
         },
         "details": {
+            "title": "تفاصيل المزاد المباشر",
             "itemId": "رقم المنتج",
             "basicInfo": "معلومات أساسية",
             "category": "الفئة",
@@ -659,6 +665,7 @@
             }
         },
         "details": {
+            "title": "تفاصيل الطلب",
             "type": "النوع",
             "basicInfo": "المعلومات الأساسية",
             "paymentInfo": "معلومات الدفع",

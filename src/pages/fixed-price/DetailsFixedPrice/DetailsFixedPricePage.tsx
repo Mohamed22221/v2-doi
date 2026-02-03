@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import { useGetFixedPriceDetails } from '../hooks/useGetFixedPriceDetails'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -41,28 +42,37 @@ const DetailsFixedPricePage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-6">
-            <Suspense fallback={<UserInfoSkeleton />}>
-                {isLoading ? (
-                    <UserInfoSkeleton />
-                ) : (
-                    <FixedPriceInfo data={data?.data} />
-                )}
-            </Suspense>
+        <>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.fixedPrice'), path: '/fixed-price' },
+                    { label: t('fixedPrice.details.title') },
+                ]}
+            />
+            <div className="flex flex-col gap-6">
 
-            <Suspense fallback={<DetailsFixedPriceSkeleton />}>
-                {isLoading ? (
-                    <DetailsFixedPriceSkeleton />
-                ) : (
-                    <>
-                        <PricingAndDescription data={data?.data} />
-                        <MediaAssets media={data?.data?.mediaAssets} />
-                        <SellerInfo seller={data?.data?.sellerDetails} />
-                        <ActivityLog logs={data?.data?.activityLog} />
-                    </>
-                )}
-            </Suspense>
-        </div>
+                <Suspense fallback={<UserInfoSkeleton />}>
+                    {isLoading ? (
+                        <UserInfoSkeleton />
+                    ) : (
+                        <FixedPriceInfo data={data?.data} />
+                    )}
+                </Suspense>
+
+                <Suspense fallback={<DetailsFixedPriceSkeleton />}>
+                    {isLoading ? (
+                        <DetailsFixedPriceSkeleton />
+                    ) : (
+                        <>
+                            <PricingAndDescription data={data?.data} />
+                            <MediaAssets media={data?.data?.mediaAssets} />
+                            <SellerInfo seller={data?.data?.sellerDetails} />
+                            <ActivityLog logs={data?.data?.activityLog} />
+                        </>
+                    )}
+                </Suspense>
+            </div>
+        </>
     )
 }
 

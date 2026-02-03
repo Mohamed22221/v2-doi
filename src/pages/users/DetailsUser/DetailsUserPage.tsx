@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import { useGetUserDetails } from '@/api/hooks/users'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +10,7 @@ import { formatDateTime } from '@/utils/formatDateTime'
 import StatusPill from '@/components/shared/table/StatusPill'
 import PersonalAndShippingCardSkeleton from '@/components/shared/loaders/PersonalAndShippingCardSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
+import { ApiAddress } from '@/api/types/users'
 
 const UserInfo = lazy(() => import('./components/UserInfo'))
 const PersonalAndShippingCard = lazy(
@@ -39,10 +41,16 @@ const DetailsUserPage = () => {
     const { date, time } = formatDateTime(data?.data?.createdAt || '')
 
     const primaryAddress = data?.data?.addresses?.find(
-        (address) => address.isPrimary === true,
+        (address: ApiAddress) => address.isPrimary === true,
     )
     return (
         <div>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.users'), path: '/users' },
+                    { label: t('users.userDetails.title') },
+                ]}
+            />
             <Suspense fallback={<UserInfoSkeleton />}>
                 {isLoading ? (
                     <UserInfoSkeleton />

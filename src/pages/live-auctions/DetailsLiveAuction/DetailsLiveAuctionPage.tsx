@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import { useGetLiveAuctionDetails } from '../hooks/useGetLiveAuctionDetails'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -34,28 +35,38 @@ const DetailsLiveAuctionPage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-6">
-            <Suspense fallback={<UserInfoSkeleton />}>
-                {isLoading ? (
-                    <UserInfoSkeleton />
-                ) : (
-                    <LiveAuctionInfo data={data?.data} />
-                )}
-            </Suspense>
+        <>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.collapseMenu.liveAuctions'), path: '/live-auctions' },
+                    { label: t('liveAuctions.details.title') },
+                ]}
+            />
 
-            <Suspense fallback={<DetailsLiveAuctionSkeleton />}>
-                {isLoading ? (
-                    <DetailsLiveAuctionSkeleton />
-                ) : (
-                    <>
-                        <PricingAndDescription data={data?.data} />
-                        <MediaAssets media={data?.data?.mediaAssets} />
-                        <SellerInfo seller={data?.data?.sellerDetails} />
-                        <ActivityLog logs={data?.data?.activityLog} />
-                    </>
-                )}
-            </Suspense>
-        </div>
+            <div className="flex flex-col gap-6">
+
+                <Suspense fallback={<UserInfoSkeleton />}>
+                    {isLoading ? (
+                        <UserInfoSkeleton />
+                    ) : (
+                        <LiveAuctionInfo data={data?.data} />
+                    )}
+                </Suspense>
+
+                <Suspense fallback={<DetailsLiveAuctionSkeleton />}>
+                    {isLoading ? (
+                        <DetailsLiveAuctionSkeleton />
+                    ) : (
+                        <>
+                            <PricingAndDescription data={data?.data} />
+                            <MediaAssets media={data?.data?.mediaAssets} />
+                            <SellerInfo seller={data?.data?.sellerDetails} />
+                            <ActivityLog logs={data?.data?.activityLog} />
+                        </>
+                    )}
+                </Suspense>
+            </div>
+        </>
     )
 }
 

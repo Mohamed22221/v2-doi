@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -16,7 +17,17 @@ const UpdateSeller = () => {
     const isUpdateMode = Boolean(id)
 
     return (
-        <div>
+        <>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.sellers'), path: '/sellers' },
+                    {
+                        label: isUpdateMode
+                            ? t('sellers.update.title')
+                            : t('sellers.create.title'),
+                    },
+                ]}
+            />
             <BackgroundRounded className="p-6">
                 {/* Title */}
                 <div className="mb-6">
@@ -40,7 +51,7 @@ const UpdateSeller = () => {
                     <FormUpdate />
                 </Suspense>
             </BackgroundRounded>
-        </div>
+        </>
     )
 }
 

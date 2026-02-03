@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -17,6 +18,16 @@ const UpdateUser = () => {
 
     return (
         <div>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.users'), path: '/users' },
+                    {
+                        label: isUpdateMode
+                            ? t('users.update.title')
+                            : t('users.create.title'),
+                    },
+                ]}
+            />
             <BackgroundRounded className="p-6">
                 {/* Title */}
                 <div className="mb-6">

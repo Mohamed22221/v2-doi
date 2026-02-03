@@ -1,3 +1,4 @@
+import { Breadcrumb } from '@/components/ui'
 import { useGetOrderDetails } from '../hooks/useGetOrderDetails'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -43,23 +44,29 @@ const DetailsOrderPage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-6">
-
-
-            <Suspense fallback={<DetailsOrderSkeleton />}>
-                {isLoading ? (
-                    <DetailsOrderSkeleton />
-                ) : (
-                    <>
-                        <BasicInformation data={data?.data} />
-                        <PaymentInformation data={data?.data} />
-                        <BuyerInfo buyer={data?.data?.buyerDetails} />
-                        <SellerInfo seller={data?.data?.sellerDetails} />
-                        <ActivityLog logs={data?.data?.activityLog} />
-                    </>
-                )}
-            </Suspense>
-        </div>
+        <>
+            <Breadcrumb
+                items={[
+                    { label: t('nav.orders'), path: '/orders' },
+                    { label: t('orders.details.title') },
+                ]}
+            />
+            <div className="flex flex-col gap-6">
+                <Suspense fallback={<DetailsOrderSkeleton />}>
+                    {isLoading ? (
+                        <DetailsOrderSkeleton />
+                    ) : (
+                        <>
+                            <BasicInformation data={data?.data} />
+                            <PaymentInformation data={data?.data} />
+                            <BuyerInfo buyer={data?.data?.buyerDetails} />
+                            <SellerInfo seller={data?.data?.sellerDetails} />
+                            <ActivityLog logs={data?.data?.activityLog} />
+                        </>
+                    )}
+                </Suspense>
+            </div>
+        </>
     )
 }
 

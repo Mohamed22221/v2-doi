@@ -221,6 +221,7 @@
             }
         },
         "userDetails": {
+            "title": "User Details",
             "accountStatistics": {
                 "title": "Account Statistics",
                 "totalSpent": "Total Spent",
@@ -331,6 +332,9 @@
         }
     },
     "sellers": {
+        "details": {
+            "title": "Seller Details"
+        },
         "img": "Image",
         "imgSubtitle": "Add or change the seller image",
         "update": {
@@ -444,6 +448,7 @@
             }
         },
         "details": {
+            "title": "Fixed Price Details",
             "basicInfo": "Basic Information",
             "pricingStock": "Pricing & Stock",
             "availableQuantity": "Available Quantity",
@@ -536,6 +541,7 @@
             }
         },
         "details": {
+            "title": "Live Auction Details",
             "itemId": "Item ID",
             "basicInfo": "Basic Information",
             "category": "Category",
@@ -659,6 +665,7 @@
             }
         },
         "details": {
+            "title": "Order Details",
             "type": "Type",
             "basicInfo": "Basic Information",
             "paymentInfo": "Payment Information",
