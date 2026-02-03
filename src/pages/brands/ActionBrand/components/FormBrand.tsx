@@ -96,7 +96,7 @@ const FormBrand = () => {
             const translations = Object.entries(finalStore)
                 .filter(([, v]) => v.name?.trim() || v.description?.trim())
                 .map(([languageCode, v]) => ({
-                    languageCode: languageCode as LanguageCode,
+                    languageCode: languageCode.toUpperCase() as LanguageCode,
                     name: v.name || '',
                     description: v.description || '',
                 }))
