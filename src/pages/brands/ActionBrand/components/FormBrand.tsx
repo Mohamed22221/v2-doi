@@ -36,11 +36,12 @@ import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
 // Types
 import type { BrandPayload, LanguageCode } from '@/api/types/brands'
+import { useMemo } from 'react'
 
 type FormValues = {
     name: string
     description: string
-    categoryId: string | null
+    categoryIds: string[]
     status: 'active' | 'inactive'
     logoUrl: string
     sortOrder: number
@@ -71,7 +72,7 @@ const FormBrand = () => {
     const initialValues: FormValues = {
         name: '',
         description: '',
-        categoryId: null,
+        categoryIds: [],
         status: 'active',
         logoUrl: '',
         sortOrder: 0,
@@ -103,7 +104,7 @@ const FormBrand = () => {
 
             const payload: BrandPayload = {
                 translations,
-                categoryId: values.categoryId || null,
+                categoryIds: values.categoryIds.length > 0 ? values.categoryIds : null,
                 status: values.status,
                 sortOrder: Number(values.sortOrder),
                 logoUrl: values.logoUrl || null,
@@ -149,7 +150,7 @@ const FormBrand = () => {
                 isUpdateMode && brandDetails?.data
                     ? {
                         ...initialValues,
-                        categoryId: brandDetails.data.categoryId ?? null,
+                        categoryIds: brandDetails.data.brandCategories?.map(bc => bc.categoryId) ?? [],
                         status: brandDetails.data.status ?? 'active',
                         logoUrl: brandDetails.data.logoUrl ?? '',
                         sortOrder: brandDetails.data.sortOrder ?? 0,
@@ -207,6 +208,11 @@ const FormBrand = () => {
                 values,
             }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
+
+                const initialCategoryOptions = useMemo(() =>
+                    brandDetails?.data?.brandCategories?.map(bc => bc.category) ?? [],
+                    [brandDetails?.data?.brandCategories]
+                )
 
                 return (
                     <Form>
@@ -395,22 +401,25 @@ const FormBrand = () => {
                                                 asterisk
                                                 label={t('brands.category')}
                                                 invalid={Boolean(
-                                                    touched.categoryId &&
-                                                    errors.categoryId,
+                                                    touched.categoryIds &&
+                                                    errors.categoryIds,
                                                 )}
-                                                errorMessage={errors.categoryId as string}
+                                                errorMessage={errors.categoryIds as string}
                                             >
                                                 <CategorySelect
+                                                    isMulti
+                                                    level={3}
                                                     size="sm"
                                                     placeholder={t(
                                                         'brands.selectCategory',
                                                     )}
-                                                    value={values.categoryId}
+                                                    value={values.categoryIds}
+                                                    initialOption={initialCategoryOptions}
                                                     menuPortalZ={400}
                                                     onChange={(opt) =>
                                                         setFieldValue(
-                                                            'categoryId',
-                                                            opt ?? null,
+                                                            'categoryIds',
+                                                            opt ?? [],
                                                         )
                                                     }
                                                 />

@@ -1,3 +1,4 @@
+import { Category } from './categories'
 import { BaseEntity, LanguageCode, Status } from './common'
 
 export type { LanguageCode }
@@ -18,6 +19,12 @@ export interface Brand extends BaseEntity {
     sortOrder: number
     translations: BrandTranslation[]
     categoryId: string | null
+    brandCategories: {
+        id: string
+        brandId: string
+        categoryId: string
+        category: Category // Can be typed more specifically if needed
+    }[]
     totalItems: number
 }
 
@@ -34,5 +41,5 @@ export interface BrandPayload {
     logoUrl: string | null
     status: Status
     sortOrder: number
-    categoryId: string | null
+    categoryIds: string[] | null
 }

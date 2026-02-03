@@ -314,9 +314,9 @@ export const icons = {
         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="64" height="64" rx="32" fill="#EDF1F7" />
             <rect x="8" y="8" width="48" height="48" rx="24" fill="#DCE3EF" />
-            <path d="M40 33C40 38 36.5 40.5 32.34 41.95C32.1222 42.0238 31.8855 42.0202 31.67 41.94C27.5 40.5 24 38 24 33V26C24 25.448 24.4481 25 25 25C27 25 29.5 23.8 31.24 22.28C31.6777 21.906 32.3223 21.906 32.76 22.28C34.51 23.81 37 25 39 25C39.5523 25 40 25.4477 40 26V33" stroke="#2A3D5D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M32 28V32" stroke="#2A3D5D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M32 36H32.01" stroke="#2A3D5D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M40 33C40 38 36.5 40.5 32.34 41.95C32.1222 42.0238 31.8855 42.0202 31.67 41.94C27.5 40.5 24 38 24 33V26C24 25.448 24.4481 25 25 25C27 25 29.5 23.8 31.24 22.28C31.6777 21.906 32.3223 21.906 32.76 22.28C34.51 23.81 37 25 39 25C39.5523 25 40 25.4477 40 26V33" stroke="#2A3D5D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M32 28V32" stroke="#2A3D5D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M32 36H32.01" stroke="#2A3D5D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
 
     ),
@@ -325,13 +325,13 @@ export const icons = {
             <rect width="64" height="64" rx="32" fill="#FBE9E9" />
             <g filter="url(#filter0_d_12_2691)">
                 <rect x="8" y="8" width="48" height="48" rx="24" fill="#FBE9E9" />
-                <path d="M40 33C40 38 36.5 40.5 32.34 41.95C32.1222 42.0238 31.8855 42.0203 31.67 41.94C27.5 40.5 24 38 24 33V26C24 25.4481 24.4481 25 25 25C27 25 29.5 23.8 31.24 22.28C31.6777 21.9061 32.3223 21.9061 32.76 22.28C34.51 23.81 37 25 39 25C39.5523 25 40 25.4477 40 26V33" stroke="#B01C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M32 28V32" stroke="#B01C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M32 36H32.01" stroke="#B01C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M40 33C40 38 36.5 40.5 32.34 41.95C32.1222 42.0238 31.8855 42.0203 31.67 41.94C27.5 40.5 24 38 24 33V26C24 25.4481 24.4481 25 25 25C27 25 29.5 23.8 31.24 22.28C31.6777 21.9061 32.3223 21.9061 32.76 22.28C34.51 23.81 37 25 39 25C39.5523 25 40 25.4477 40 26V33" stroke="#B01C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M32 28V32" stroke="#B01C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M32 36H32.01" stroke="#B01C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </g>
             <defs>
-                <filter id="filter0_d_12_2691" x="4" y="4" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <filter id="filter0_d_12_2691" x="4" y="4" width="56" height="56" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                     <feMorphology radius="4" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_12_2691" />
                     <feOffset />

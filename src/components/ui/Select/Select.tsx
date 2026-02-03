@@ -38,7 +38,7 @@ const DefaultOption = ({
     isSelected,
     isDisabled,
     isFocused,
-    
+
 }: DefaultOptionProps) => {
     const { themeColor } = selectProps
     return (
@@ -104,32 +104,32 @@ export interface SelectProps<
     IsMulti extends boolean = false,
     Group extends GroupBase<Option> = GroupBase<Option>,
 > extends CommonProps,
-        ReactSelectProps<Option, IsMulti, Group>,
-        AsyncProps<Option, IsMulti, Group>,
-        CreatableProps<Option, IsMulti, Group> {
+    ReactSelectProps<Option, IsMulti, Group>,
+    AsyncProps<Option, IsMulti, Group>,
+    CreatableProps<Option, IsMulti, Group> {
     size?: TypeAttributes.ControlSize
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     field?: any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form?: any
     componentAs?: ReactSelect | CreatableSelect | AsyncSelect
-      // ✅ Load more props
-  hasMore?: boolean
-  isLoadingMore?: boolean
-  onLoadMore?: () => void 
-  loadMoreLabel?: string
-    menuPortalZ? : number
+    // ✅ Load more props
+    hasMore?: boolean
+    isLoadingMore?: boolean
+    onLoadMore?: () => void
+    loadMoreLabel?: string
+    menuPortalZ?: number
 }
 
 function _Select<
     Option,
     IsMulti extends boolean = false,
     Group extends GroupBase<Option> = GroupBase<Option>,
-    
+
 >(
     props: SelectProps<Option, IsMulti, Group>,
     ref: ForwardedRef<ReactSelect | CreatableSelect | AsyncSelect>,
-  
+
 ) {
     const {
         size,
@@ -150,7 +150,7 @@ function _Select<
     const selectSize = size || inputGroupSize || formControlSize || controlSize
 
     let isInvalid = false
-    
+
     const [tw, setTw] = useState({
         primary: '',
         primary50: '',
@@ -166,36 +166,36 @@ function _Select<
         radiusMd: '',
     });
 
-  useEffect(() => {
-    const styles = getComputedStyle(document.documentElement);
-    const primary = styles.getPropertyValue(`--color-${themeColor}-${primaryColorLevel}`).trim();
-    const primary50 = styles.getPropertyValue(`--color-${themeColor}-50`).trim();
-    const primary100 = styles.getPropertyValue(`--color-${themeColor}-100`).trim();
-    const red = styles.getPropertyValue('--color-red-500').trim();
-    const gray50 = styles.getPropertyValue('--color-gray-50').trim();
-    const gray300 = styles.getPropertyValue('--color-gray-300').trim();
-    const gray400 = styles.getPropertyValue('--color-gray-400').trim();
-    const gray600 = styles.getPropertyValue('--color-gray-600').trim();
-    const gray700 = styles.getPropertyValue('--color-gray-700').trim();
-    const gray800 = styles.getPropertyValue('--color-gray-800').trim();
-    const white = styles.getPropertyValue('--color-white').trim();
-    const radiusMd = styles.getPropertyValue('--radius-md').trim();
+    useEffect(() => {
+        const styles = getComputedStyle(document.documentElement);
+        const primary = styles.getPropertyValue(`--color-${themeColor}-${primaryColorLevel}`).trim();
+        const primary50 = styles.getPropertyValue(`--color-${themeColor}-50`).trim();
+        const primary100 = styles.getPropertyValue(`--color-${themeColor}-100`).trim();
+        const red = styles.getPropertyValue('--color-red-500').trim();
+        const gray50 = styles.getPropertyValue('--color-gray-50').trim();
+        const gray300 = styles.getPropertyValue('--color-gray-300').trim();
+        const gray400 = styles.getPropertyValue('--color-gray-400').trim();
+        const gray600 = styles.getPropertyValue('--color-gray-600').trim();
+        const gray700 = styles.getPropertyValue('--color-gray-700').trim();
+        const gray800 = styles.getPropertyValue('--color-gray-800').trim();
+        const white = styles.getPropertyValue('--color-white').trim();
+        const radiusMd = styles.getPropertyValue('--radius-md').trim();
 
-    setTw({
-        primary,
-        primary50,
-        primary100,
-        red,
-        gray50,
-        gray300,
-        gray400,
-        gray600,
-        gray700,
-        gray800,
-        white,
-        radiusMd
-    });
-  }, [primaryColorLevel, themeColor]);
+        setTw({
+            primary,
+            primary50,
+            primary100,
+            red,
+            gray50,
+            gray300,
+            gray400,
+            gray600,
+            gray700,
+            gray800,
+            white,
+            radiusMd
+        });
+    }, [primaryColorLevel, themeColor]);
 
     if (!isEmpty(form)) {
         const { touched, errors } = form
@@ -224,15 +224,18 @@ function _Select<
 
     return (
         <Component<Option, IsMulti, Group>
-                          menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
+            menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
 
             ref={ref}
             className={selectClass}
             classNamePrefix={'select'}
-            
+
             classNames={{
                 control: () =>
-                    `h-${CONTROL_SIZES[selectSize]} min-h-${CONTROL_SIZES[selectSize]}`,
+                    classNames(
+                        `min-h-${CONTROL_SIZES[selectSize]}`,
+                        !rest.isMulti && `h-${CONTROL_SIZES[selectSize]}`
+                    ),
             }}
             styles={{
                 control: (provided, state) => {
@@ -259,8 +262,8 @@ function _Select<
                         },
                     }
                 },
-       
-                 menuPortal: (base) => ({ ...base, zIndex: menuPortalZ ? menuPortalZ : 50 }),
+
+                menuPortal: (base) => ({ ...base, zIndex: menuPortalZ ? menuPortalZ : 50 }),
                 menu: (provided) => ({ ...provided, zIndex: 50 }),
                 ...style,
             }}

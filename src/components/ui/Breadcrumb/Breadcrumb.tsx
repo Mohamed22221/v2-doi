@@ -24,12 +24,12 @@ const Breadcrumb = ({ items, className }: BreadcrumbProps) => {
                         {item.path && !isLast ? (
                             <Link
                                 to={item.path}
-                                className="text-primary-400 hover:text-primary-500 transition-colors"
+                                className="text-primary-400 dark:text-primary-100 hover:text-primary-500 dark:hover:text-primary-300 transition-colors"
                             >
                                 {item.label}
                             </Link>
                         ) : (
-                            <span className={isLast ? 'text-primary-500 font-semibold' : 'text-primary-400'}>
+                            <span className={isLast ? 'text-primary-500 dark:text-primary-200 font-semibold' : 'text-primary-400 dark:text-primary-200'}>
                                 {item.label}
                             </span>
                         )}

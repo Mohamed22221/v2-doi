@@ -7,8 +7,9 @@ const getBrandValidationSchema = (t: TFunction) =>
             .trim()
             .required(t('brands.errors.nameRequired')),
 
-        categoryId: Yup.string()
-            .nullable()
+        categoryIds: Yup.array()
+            .of(Yup.string())
+            .min(1, t('brands.errors.categoryRequired'))
             .required(t('brands.errors.categoryRequired')),
 
         status: Yup.string()
