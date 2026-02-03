@@ -3,6 +3,7 @@ import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import InfoRow from '@/components/shared/cards/InfoRow'
 import { Icon } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 
 interface Props {
     data?: FixedPriceItemDetails
@@ -16,9 +17,7 @@ const PricingAndDescription = ({ data }: Props) => {
             <div className="p-6 space-y-8">
                 {/* Basic Information */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 mb-5">
-                        {t('fixedPrice.details.basicInfo')}
-                    </h3>
+                    <SectionHeader title={t('fixedPrice.details.basicInfo')} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
                         <InfoRow
                             label={t('fixedPrice.table.columns.category')}
@@ -35,9 +34,7 @@ const PricingAndDescription = ({ data }: Props) => {
 
                 {/* Pricing & Stock */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 mb-5">
-                        {t('fixedPrice.details.pricingStock') || 'Pricing & Stock'}
-                    </h3>
+                    <SectionHeader title={t('fixedPrice.details.pricingStock') || 'Pricing & Stock'} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
                         <InfoRow
                             label={t('fixedPrice.details.availableQuantity') || 'Available Quantity'}

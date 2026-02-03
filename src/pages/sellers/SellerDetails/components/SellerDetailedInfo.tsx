@@ -4,6 +4,7 @@ import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import InfoRow from '@/components/shared/cards/InfoRow'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { Badge } from '@/components/ui'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 import DocumentsSection from '@/components/shared/cards/DocumentsSection'
 import { getSellerStatusLabel, getSellerStatusVariant } from '../../components/GetSellerStatusLabel'
 import { formatDateTime } from '@/utils/formatDateTime'
@@ -23,9 +24,7 @@ const SellerDetailedInfo = ({ data }: Props) => {
             <div className="grid gap-8 md:grid-cols-2 p-6">
                 {/* Personal Information */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 uppercase tracking-wider mb-6">
-                        {t('fixedPrice.sellers.info.personalInfo')}
-                    </h3>
+                    <SectionHeader title={t('fixedPrice.sellers.info.personalInfo')} />
                     <div className="space-y-6">
                         <InfoRow
                             label={t('users.userDetails.personalInfo.email')}
@@ -100,9 +99,9 @@ const SellerDetailedInfo = ({ data }: Props) => {
 
                 {/* Seller Information */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 uppercase tracking-wider mb-6">
-                        {t('fixedPrice.sellers.info.sellerInfo')}
-                    </h3>
+                    <SectionHeader
+                        title={t('fixedPrice.sellers.info.sellerInfo')}
+                    />
                     <div className="space-y-6">
                         <InfoRow
                             label={t('fixedPrice.sellers.info.companyName')}

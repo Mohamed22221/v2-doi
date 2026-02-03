@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { formatDateTime } from '@/utils/formatDateTime'
 import { Link } from 'react-router-dom'
 import AuctionCounter from './AuctionCounter'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 
 interface Props {
     data?: LiveAuctionItemDetails
@@ -21,9 +22,7 @@ const PricingAndDescription = ({ data }: Props) => {
             <div className="p-6 space-y-8">
                 {/* Basic Information */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 mb-5">
-                        {t('liveAuctions.details.basicInfo')}
-                    </h3>
+                    <SectionHeader title={t('liveAuctions.details.basicInfo')} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
                         <InfoRow
                             label={t('liveAuctions.details.category')}
@@ -52,9 +51,7 @@ const PricingAndDescription = ({ data }: Props) => {
 
                 {/* Pricing & Stock */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 mb-5">
-                        {t('liveAuctions.details.pricingAndStock')}
-                    </h3>
+                    <SectionHeader title={t('liveAuctions.details.pricingAndStock')} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
                         <InfoRow
                             label={t('liveAuctions.details.availableQuantity')}

@@ -4,6 +4,7 @@ import InfoRow from '@/components/shared/cards/InfoRow'
 import { useTranslation } from 'react-i18next'
 import { formatDateTime } from '@/utils/formatDateTime'
 import StatusPill from '@/components/shared/table/StatusPill'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 import { getOrderStatusVariant, getOrderStatusLabel, getPaymentStatusVariant, getPaymentStatusLabel, getOrderTypeLabel } from '../../components/GetStatusLabel'
 
 interface Props {
@@ -19,9 +20,7 @@ const BasicInformation = ({ data }: Props) => {
             <div className="p-6 space-y-8">
                 {/* Basic Information */}
                 <div>
-                    <h3 className="text-base font-semibold text-neutral-300 mb-5">
-                        {t('orders.details.basicInfo')}
-                    </h3>
+                    <SectionHeader title={t('orders.details.basicInfo')} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
                         <InfoRow
                             label={t('orders.table.columns.orderId')}

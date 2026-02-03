@@ -1,6 +1,7 @@
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import { formatDateTime } from '@/utils/formatDateTime'
 import { useTranslation } from 'react-i18next'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 
 interface Props {
     logs?: {
@@ -16,9 +17,7 @@ const ActivityLog = ({ logs }: Props) => {
     return (
         <BackgroundRounded>
             <div className="p-6">
-                <h3 className="text-base font-semibold text-neutral-300 mb-6">
-                    {t('liveAuctions.details.activityLog')}
-                </h3>
+                <SectionHeader title={t('liveAuctions.details.activityLog')} />
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">

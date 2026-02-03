@@ -3,6 +3,7 @@ import InfoRow from '@/components/shared/cards/InfoRow'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 
 interface Props {
     seller?: {
@@ -19,9 +20,7 @@ const SellerInfo = ({ seller }: Props) => {
     return (
         <BackgroundRounded>
             <div className="p-6">
-                <h3 className="text-base font-semibold text-neutral-300 mb-6">
-                    {t('orders.details.sellerInfo')}
-                </h3>
+                <SectionHeader title={t('orders.details.sellerInfo')} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                     <div className="flex flex-col gap-1">

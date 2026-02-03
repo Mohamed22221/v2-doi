@@ -1,8 +1,8 @@
 import { Card, Button } from '@/components/ui'
 import Icon from '@/components/ui/Icon/Icon'
 import { TFunction } from 'i18next'
-import { HiOutlineDocumentText, HiOutlineDownload } from 'react-icons/hi'
-import BackgroundRounded from '../BackgroundRounded'
+import { HiOutlineDownload } from 'react-icons/hi'
+import SectionHeader from './SectionHeader'
 
 export type Document = {
     id: string
@@ -43,10 +43,7 @@ const DocumentsSection = ({ title, documents, t, documentTitleKey }: DocumentsSe
     return (
         <div className="p-6">
             {title && (
-                <h3 className="text-base font-semibold text-neutral-300 uppercase tracking-wider mb-6">
-                    {title}
-                </h3>
-
+                <SectionHeader title={title} />
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {documents.map((doc) => (
@@ -54,7 +51,7 @@ const DocumentsSection = ({ title, documents, t, documentTitleKey }: DocumentsSe
                         <div className="p-6 flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 {getIcon(doc.type)}
-                                <h4 className="text-base font-bold  uppercase tracking-wider">
+                                <h4 className="text-base font-bold tracking-wider">
                                     {resolveTitle(doc)}
                                 </h4>
                             </div>

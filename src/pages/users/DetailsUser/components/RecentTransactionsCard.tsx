@@ -1,7 +1,7 @@
 import TransactionRow from '@/components/shared/cards/TransactionRow'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 
 type Tx = {
   title: string
@@ -16,12 +16,12 @@ type Props = {
 
 const RecentTransactionsCard = ({ transactions = [], onViewAll }: Props) => {
   const { t } = useTranslation()
-  
+
   return (
     <div className="rounded-2xl bg-neutral-10 p-6 shadow-primary dark:bg-neutral-950 dark:shadow-dark">
-      <h3 className="text-base font-semibold text-neutral-300">{t('users.userDetails.recentTransactions.title')}</h3>
+      <SectionHeader title={t('users.userDetails.recentTransactions.title')} />
 
-      <div className="mt-4 divide-y divide-neutral-100 dark:divide-neutral-800">
+      <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
         {transactions.length ? (
           transactions.map((tx, idx) => (
             <TransactionRow

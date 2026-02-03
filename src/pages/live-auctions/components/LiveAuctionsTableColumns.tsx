@@ -73,7 +73,7 @@ export function useLiveAuctionsTableColumns() {
                     }
 
                     return (
-                        <div className="flex flex-col text-sm">
+                        <div className="flex flex-col text-[12px] ">
                             <span>{startDate} – {startTime}</span>
                             <span>{endDate} – {endTime}</span>
                         </div>

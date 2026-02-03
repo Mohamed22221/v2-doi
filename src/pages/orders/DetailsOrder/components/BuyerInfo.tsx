@@ -2,6 +2,7 @@ import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import InfoRow from '@/components/shared/cards/InfoRow'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import SectionHeader from '@/components/shared/cards/SectionHeader'
 
 interface Props {
     buyer?: {
@@ -17,9 +18,7 @@ const BuyerInfo = ({ buyer }: Props) => {
     return (
         <BackgroundRounded>
             <div className="p-6">
-                <h3 className="text-base font-semibold text-neutral-300 mb-6">
-                    {t('orders.details.buyerInfo')}
-                </h3>
+                <SectionHeader title={t('orders.details.buyerInfo')} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                     <div className="flex flex-col gap-1">
