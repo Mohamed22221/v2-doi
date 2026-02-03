@@ -28,6 +28,8 @@ type CategorySelectProps = {
     errorPlaceholder?: string
     /** ID of the pre-selected category in update mode to fetch its details (e.g., parent category) */
     initialId?: CategoryId | null
+    /** Full category object to skip fetching details if already available */
+    initialOption?: Category["parent"] | null
     level?: number
 }
 
@@ -42,6 +44,7 @@ function CategorySelect({
     errorPlaceholder,
     menuPortalZ,
     initialId,
+    initialOption,
     level,
 }: CategorySelectProps) {
     const { t, i18n } = useTranslation()
@@ -60,7 +63,7 @@ function CategorySelect({
 
     const { category: initialCategory, isLoading: isInitialLoading } =
         useGetCategoryById(initialId as string, {
-            enabled: Boolean(initialId),
+            enabled: Boolean(initialId && !initialOption),
         })
 
     const isLoading = isListLoading || isInitialLoading
@@ -82,22 +85,24 @@ function CategorySelect({
                 }
             }) ?? []
 
-        // If we have an initialId and fetched its details, ensure it's in the list
+        // Prioritize initialOption if provided, otherwise fallback to fetched initialCategory
+        const selectedCategory = initialOption || initialCategory
+
         if (
-            initialCategory &&
-            !fetchedOptions.some((o) => o.value === initialCategory.id)
+            selectedCategory &&
+            !fetchedOptions.some((o: any) => o.value === selectedCategory.id)
         ) {
-            const byPageLang = initialCategory.translations?.find(
-                (tr: CategoryTranslation) => tr.languageCode === pageLanguage,
+            const byPageLang = selectedCategory.translations?.find(
+                (tr: CategoryTranslation) => tr.languageCode === pageLanguage
             )?.name
 
-            const label = byPageLang || initialCategory.slug
+            const label = byPageLang || selectedCategory.slug
 
-            return [{ label, value: initialCategory.id }, ...fetchedOptions]
+            return [{ label, value: selectedCategory.id }, ...fetchedOptions]
         }
 
         return fetchedOptions
-    }, [categoriesData, i18n.language, initialCategory])
+    }, [categoriesData, i18n.language, initialCategory, initialOption])
 
     const selectedOption = useMemo<SelectOption<CategoryId> | null>(() => {
         return categoryOptions.find((o) => o.value === value) ?? null

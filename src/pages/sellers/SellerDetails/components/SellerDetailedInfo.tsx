@@ -106,15 +106,15 @@ const SellerDetailedInfo = ({ data }: Props) => {
                     <div className="space-y-6">
                         <InfoRow
                             label={t('fixedPrice.sellers.info.companyName')}
-                            value={data.businessName || '—'}
+                            value={data.businessName}
                         />
                         <InfoRow
                             label={t('fixedPrice.sellers.info.contactNumber')}
-                            value={data.businessPhone || '—'}
+                            value={data.businessPhone}
                         />
                         <InfoRow
                             label={t('fixedPrice.sellers.info.commercialRegistrationNumber')}
-                            value={data.commercialRegistrationNumber || '—'}
+                            value={data.commercialRegistrationNumber}
                         />
                     </div>
                 </div>

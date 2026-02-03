@@ -279,10 +279,10 @@ const DeleteCategoryModal = ({
                                 className="w-full mt-4 pt-4 border-t border-dashed border-neutral-100 dark:border-neutral-700"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100  uppercase tracking-wider mb-2">
-                                    {t(
+                                <label className="flex items-center gap-2 text-[11px] font-bold text-primary-500 dark:text-primary-100  uppercase tracking-wider mb-2">
+                                    <span>{t(
                                         'categories.deleteModal.destinationLabel',
-                                    )}
+                                    )}</span>
                                 </label>
                                 <CategorySelect
                                     size="sm"
@@ -292,10 +292,11 @@ const DeleteCategoryModal = ({
                                     maxMenuHeight={110}
                                     value={destinationId}
                                     menuPortalZ={9999}
-                                    level={level}
+                                    // level={level}
                                     onChange={(opt) =>
                                         setDestinationId(opt ?? null)
                                     }
+                                    classNames='text-start'
                                 />
 
                             </div>

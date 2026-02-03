@@ -36,6 +36,7 @@ import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 import Icon from '@/components/ui/Icon/Icon'
 import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
+import StatusSwitcher from '../../components/StatusSwitcher'
 // Types
 import type { CategoryPayload, LanguageCode } from '@/api/types/categories'
 
@@ -345,34 +346,38 @@ const FormCategory = () => {
 
                                         <div className="flex items-center justify-between py-3">
                                             <div className="flex items-center gap-2">
-                                                <span className={`w-2 h-2 rounded-full ${values.status === "active" ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                                                <span className={`w-2 h-2 rounded-full ${isUpdateMode ? (categoryDetails?.data?.status === "active" ? 'bg-green-500' : 'bg-red-500') : (values.status === "active" ? 'bg-green-500' : 'bg-red-500')}`}></span>
                                                 <label className="text-sm font-medium">
                                                     {t(
                                                         'categories.activeStatus',
                                                     )}
                                                 </label>
                                             </div>
-                                            <Field name="status">
-                                                {({
-                                                    field,
-                                                    form,
-                                                }: FieldProps<string>) => (
-                                                    <Switcher
-                                                        checked={
-                                                            field.value ===
-                                                            'active'
-                                                        }
-                                                        onChange={(checked) => {
-                                                            form.setFieldValue(
-                                                                field.name,
-                                                                checked
-                                                                    ? 'active'
-                                                                    : 'inactive',
-                                                            )
-                                                        }}
-                                                    />
-                                                )}
-                                            </Field>
+                                            {isUpdateMode && categoryDetails?.data ? (
+                                                <StatusSwitcher row={categoryDetails.data as any} />
+                                            ) : (
+                                                <Field name="status">
+                                                    {({
+                                                        field,
+                                                        form,
+                                                    }: FieldProps<string>) => (
+                                                        <Switcher
+                                                            checked={
+                                                                field.value ===
+                                                                'active'
+                                                            }
+                                                            onChange={(checked) => {
+                                                                form.setFieldValue(
+                                                                    field.name,
+                                                                    checked
+                                                                        ? 'active'
+                                                                        : 'inactive',
+                                                                )
+                                                            }}
+                                                        />
+                                                    )}
+                                                </Field>
+                                            )}
                                         </div>
 
                                         <div className="py-3 mt-2">
@@ -486,9 +491,9 @@ const FormCategory = () => {
                                                                 value={
                                                                     values.parentId
                                                                 }
-                                                                initialId={
-                                                                    categoryDetails?.data
-                                                                        ?.parentId
+                                                                initialOption={
+                                                                    categoryDetails
+                                                                        ?.data?.parent
                                                                 }
                                                                 level={
                                                                     categoryDetails?.data?.level
