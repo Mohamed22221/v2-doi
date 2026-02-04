@@ -62,6 +62,13 @@ export const getResolutionOutcomesConfig = (t: TFunction): OutcomeConfig[] => [
         label: t('disputes.details.modals.resolveDispute.outcomes.sellerWins'),
         fields: [
             {
+                name: 'releaseAmount',
+                type: 'currency',
+                label: t('disputes.details.modals.resolveDispute.fields.releaseAmount'),
+                placeholder: t('disputes.details.modals.resolveDispute.fields.releaseAmountPlaceholder') || 'Write Amount',
+                required: true
+            },
+            {
                 name: 'reason',
                 type: 'textarea',
                 label: t('disputes.details.modals.resolveDispute.fields.reason'),
@@ -71,7 +78,37 @@ export const getResolutionOutcomesConfig = (t: TFunction): OutcomeConfig[] => [
         ],
         helperText: t('disputes.details.modals.resolveDispute.helpers.sellerWins'),
         validationSchema: Yup.object().shape({
+            releaseAmount: Yup.number().positive().required(t('common.required')),
             reason: Yup.string().min(10).required(t('common.required'))
+        })
+    },
+    {
+        value: 'return-item',
+        label: t('disputes.details.modals.resolveDispute.outcomes.returnItem'),
+        fields: [
+            {
+                name: 'returnShippingPaidBy',
+                type: 'select',
+                label: t('disputes.details.modals.resolveDispute.fields.returnShippingPaidBy'),
+                placeholder: t('disputes.details.modals.resolveDispute.fields.compensationTypePlaceholder') || 'Select Option',
+                options: [
+                    { label: t('common.buyer'), value: 'buyer' },
+                    { label: t('common.seller'), value: 'seller' }
+                ],
+                required: true
+            },
+            {
+                name: 'returnDeadline',
+                type: 'input',
+                label: t('disputes.details.modals.resolveDispute.fields.returnDeadline'),
+                placeholder: t('disputes.details.modals.resolveDispute.fields.returnDeadlinePlaceholder') || 'Write in days',
+                required: true
+            }
+        ],
+        helperText: t('disputes.details.modals.resolveDispute.helpers.compensationType'),
+        validationSchema: Yup.object().shape({
+            returnShippingPaidBy: Yup.string().required(t('common.required')),
+            returnDeadline: Yup.number().positive().integer().required(t('common.required'))
         })
     }
 ]

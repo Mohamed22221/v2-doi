@@ -90,6 +90,27 @@ const OverviewCard = ({ data }: OverviewCardProps) => {
                         />
                     </div>
                 </div>
+
+                {data.status !== 'waiting-seller-response' && (
+                    <>
+
+                        <div className="my-3 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+
+                            {data.resolution?.resolvedAt && (
+                                <InfoRow
+                                    label={t('disputes.details.resolution.resolvedAt')}
+                                    value={data.resolution.resolvedAt}
+                                />
+                            )}
+                            {data.resolution?.resolvedBy && (
+                                <InfoRow
+                                    label={t('disputes.details.resolution.resolvedBy')}
+                                    value={data.resolution.resolvedBy}
+                                />
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
         </BackgroundRounded>
     )

@@ -37,7 +37,7 @@ const ResolveDisputeModal = ({
         icon: <Icon name="errorModal" />,
         confirmText: t('disputes.details.modals.resolveDispute.submit'),
         confirmVariant: 'solid' as const,
-        confirmColor: 'primary',
+        confirmColor: 'red',
     }
 
     const initialValues: ResolveDisputeFormValues = {
@@ -95,10 +95,12 @@ const ResolveDisputeModal = ({
                                     asterisk
                                     invalid={Boolean(touched.outcome && errors.outcome)}
                                     errorMessage={errors.outcome}
+                                    className='mb-2'
                                 >
                                     <Field name="outcome">
                                         {({ field, form }: FieldProps) => (
                                             <Select
+
                                                 placeholder={t('disputes.details.modals.resolveDispute.outcomePlaceholder') || 'Select Outcome'}
                                                 options={outcomes}
                                                 value={outcomes.find(o => o.value === field.value)}
@@ -127,7 +129,7 @@ const ResolveDisputeModal = ({
                                                     touched={touched}
                                                     errors={errors}
                                                 />
-                                                <p className="text-xs text-neutral-400">
+                                                <p className="text-xs text-neutral-400 mt-4 text-center">
                                                     {outcomes.find(o => o.value === values.outcome)!.helperText}
                                                 </p>
                                             </>

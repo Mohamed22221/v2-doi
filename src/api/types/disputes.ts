@@ -57,6 +57,12 @@ export interface DisputeItemDetails extends DisputeItem {
         createdAt: string
         reason?: string
     }[]
+    resolution?: {
+        outcome: string
+        reason: string
+        resolvedAt?: string
+        resolvedBy?: string
+    }
 }
 
 export interface DisputeResponse {

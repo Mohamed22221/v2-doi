@@ -1275,7 +1275,8 @@
                     "outcomes": {
                         "buyerWins": "Buyer wins",
                         "sellerWins": "Seller wins",
-                        "compensationType": "Compensation type"
+                        "compensationType": "Compensation type",
+                        "returnItem": "Return item"
                     },
                     "fields": {
                         "refundAmount": "Refund amount",
@@ -1285,7 +1286,12 @@
                         "compensationType": "Compensation type",
                         "compensationTypePlaceholder": "Select Option",
                         "compensationValue": "Compensation value",
-                        "compensationValuePlaceholder": "Write Amount"
+                        "compensationValuePlaceholder": "Write Amount",
+                        "releaseAmount": "Release amount",
+                        "releaseAmountPlaceholder": "Write Amount",
+                        "returnShippingPaidBy": "Return shipping paid by",
+                        "returnDeadline": "Return deadline",
+                        "returnDeadlinePlaceholder": "Write in days"
                     },
                     "options": {
                         "partialRefund": "Partial refund",
@@ -1294,9 +1300,22 @@
                     "helpers": {
                         "buyerWins": "Funds will be refunded to the buyer and deducted from the seller wallet if needed.",
                         "compensationType": "You can issue partial compensation or request a return, and decide who covers shipping.",
-                        "sellerWins": "Held amount will be released to the seller."
+                        "sellerWins": "Held funds will be released to the seller and the dispute will be closed."
                     }
                 }
+            },
+            "resolution": {
+                "title": "Resolution",
+                "outcome": "Outcome",
+                "reason": "Reason",
+                "outcomes": {
+                    "buyerWins": "Buyer Wins",
+                    "sellerWins": "Seller Wins",
+                    "compromise": "Compromise"
+                },
+                "mockReason": "Materials mismatch confirmed in photos and description",
+                "resolvedAt": "Resolved at",
+                "resolvedBy": "Resolved by"
             },
             "errors": {
                 "disputeNotFound": "Dispute not found"

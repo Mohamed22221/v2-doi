@@ -4,8 +4,11 @@ import AccountId from '@/components/shared/cards/AccountId'
 import { Button } from '@/components/ui'
 import Skeleton from '@/components/ui/Skeleton'
 
+import { DisputeStatus } from '@/api/types/disputes'
+
 interface DisputeHeaderProps {
     id: string
+    status?: DisputeStatus
     onExport: () => void
     onResolve: () => void
     onRequestEvidence: () => void
@@ -15,11 +18,14 @@ interface DisputeHeaderProps {
 
 const DisputeHeader = ({
     id,
+    status,
     onExport,
     onResolve,
     onRequestEvidence,
 }: DisputeHeaderProps) => {
     const { t } = useTranslation()
+
+    const isResolved = status?.startsWith('resolved-')
 
 
     return (
@@ -44,23 +50,27 @@ const DisputeHeader = ({
                     >
                         {t('disputes.actions.exportCase')}
                     </Button>
-                    <Button
-                        variant="default"
-                        size="md"
-                        className="flex-1 sm:flex-none"
-                        onClick={onResolve}
-                    >
-                        {t('disputes.actions.resolveDispute')}
-                    </Button>
-                    <Button
-                        variant="solid"
-                        size="md"
-                        color="primary"
-                        className="w-full sm:w-auto"
-                        onClick={onRequestEvidence}
-                    >
-                        {t('disputes.actions.requestEvidence')}
-                    </Button>
+                    {!isResolved && (
+                        <>
+                            <Button
+                                variant="default"
+                                size="md"
+                                className="flex-1 sm:flex-none"
+                                onClick={onResolve}
+                            >
+                                {t('disputes.actions.resolveDispute')}
+                            </Button>
+                            <Button
+                                variant="solid"
+                                size="md"
+                                color="primary"
+                                className="w-full sm:w-auto"
+                                onClick={onRequestEvidence}
+                            >
+                                {t('disputes.actions.requestEvidence')}
+                            </Button>
+                        </>
+                    )}
                 </div>
             </div>
         </BackgroundRounded>

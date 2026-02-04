@@ -13,6 +13,7 @@ import DetailsDisputeSkeleton from './components/DetailsDisputeSkeleton'
 
 // Lazy loaded components
 const DisputeHeader = lazy(() => import('./components/DisputeHeader'))
+const ResolutionCard = lazy(() => import('./components/ResolutionCard'))
 const OverviewCard = lazy(() => import('./components/OverviewCard'))
 const DisputeSummaryCard = lazy(() => import('./components/DisputeSummaryCard'))
 const OrderSnapshotCard = lazy(() => import('./components/OrderSnapshotCard'))
@@ -61,10 +62,14 @@ const DetailsDisputePage = () => {
                         <>
                             <DisputeHeader
                                 id={id || ''}
+                                status={dispute.status}
                                 onExport={handleExport}
                                 onResolve={() => setIsResolveModalOpen(true)}
                                 onRequestEvidence={() => setIsEvidenceModalOpen(true)} />
                             <OverviewCard data={dispute} />
+                            {dispute.resolution && (dispute.status === 'resolved-buyer' || dispute.status === 'resolved-seller' || dispute.status === 'resolved-compromise') && (
+                                <ResolutionCard data={dispute.resolution} />
+                            )}
                             <DisputeSummaryCard data={dispute} />
                             <OrderSnapshotCard data={dispute} />
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

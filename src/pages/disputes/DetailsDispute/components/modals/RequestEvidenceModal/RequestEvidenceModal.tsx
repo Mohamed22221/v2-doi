@@ -35,7 +35,7 @@ const RequestEvidenceModal = ({
         icon: <Icon name="errorModal" />,
         confirmText: t('disputes.details.modals.requestEvidence.submit'),
         confirmVariant: 'solid' as const,
-        confirmColor: 'primary',
+        confirmColor: 'red',
     }
 
     const initialValues: RequestEvidenceFormValues = {
@@ -85,6 +85,7 @@ const RequestEvidenceModal = ({
                                         invalid={Boolean(touched[field.name] && errors[field.name])}
                                         errorMessage={errors[field.name]}
                                         asterisk={field.required}
+                                        className='mb-2'
                                     >
                                         <Field name={field.name}>
                                             {({ field: formikField, form }: FieldProps) => (
@@ -99,7 +100,7 @@ const RequestEvidenceModal = ({
                                         </Field>
                                     </FormItem>
                                 ))}
-                                <p className="text-xs text-neutral-400">
+                                <p className="text-xs text-neutral-400 text-center">
                                     {config.helperText}
                                 </p>
                             </FormContainer>

@@ -1275,7 +1275,8 @@
                     "outcomes": {
                         "buyerWins": "فوز المشتري",
                         "sellerWins": "فوز البائع",
-                        "compensationType": "نوع التعويض"
+                        "compensationType": "نوع التعويض",
+                        "returnItem": "إرجاع المنتج"
                     },
                     "fields": {
                         "refundAmount": "مبلغ الاسترداد",
@@ -1285,7 +1286,12 @@
                         "compensationType": "نوع التعويض",
                         "compensationTypePlaceholder": "اختر الخيار",
                         "compensationValue": "قيمة التعويض",
-                        "compensationValuePlaceholder": "اكتب المبلغ"
+                        "compensationValuePlaceholder": "اكتب المبلغ",
+                        "releaseAmount": "مبلغ الصرف",
+                        "releaseAmountPlaceholder": "اكتب المبلغ",
+                        "returnShippingPaidBy": "شحن المرتجع مدفوع من قبل",
+                        "returnDeadline": "الموعد النهائي للإرجاع",
+                        "returnDeadlinePlaceholder": "اكتب بالأيام"
                     },
                     "options": {
                         "partialRefund": "استرداد جزئي",
@@ -1294,9 +1300,22 @@
                     "helpers": {
                         "buyerWins": "سيتم رد الأموال إلى المشتري وخصمها من محفظة البائع إذا لزم الأمر.",
                         "compensationType": "يمكنك إصدار تعويض جزئي أو طلب إرجاع، وتحديد من يتحمل تكاليف الشحن.",
-                        "sellerWins": "سيتم صرف المبلغ المحجوز للبائع."
+                        "sellerWins": "سيتم صرف المبالغ المحجوزة للبائع وسيتم إغلاق النزاع."
                     }
                 }
+            },
+            "resolution": {
+                "title": "القرار",
+                "outcome": "النتيجة",
+                "reason": "السبب",
+                "outcomes": {
+                    "buyerWins": "فوز المشتري",
+                    "sellerWins": "فوز البائع",
+                    "compromise": "تسوية"
+                },
+                "mockReason": "تم تأكيد عدم تطابق المواد في الصور والوصف",
+                "resolvedAt": "تم الحل في",
+                "resolvedBy": "بواسطة"
             },
             "errors": {
                 "disputeNotFound": "النزاع غير موجود"

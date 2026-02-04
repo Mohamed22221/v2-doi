@@ -162,6 +162,14 @@ export const getDisputeDetailsById = (id: string): DisputeItemDetails | undefine
                 createdAt: '09/23/2025 10:45 AM',
                 reason: ''
             }
-        ]
+        ],
+        resolution: item.status.startsWith('resolved-') ? {
+            outcome: item.status === 'resolved-buyer' ? 'disputes.details.resolution.outcomes.buyerWins' :
+                item.status === 'resolved-seller' ? 'disputes.details.resolution.outcomes.sellerWins' :
+                    'disputes.details.resolution.outcomes.compromise',
+            reason: 'disputes.details.resolution.mockReason',
+            resolvedAt: '22 Jan 2026, 12:40',
+            resolvedBy: 'Admin (Ops-Admin-01)'
+        } : undefined
     }
 }

@@ -34,6 +34,7 @@ const DynamicFormRenderer = ({ fields, touched, errors }: DynamicFormRendererPro
                                             options={field.options}
                                             value={field.options?.find(o => o.value === formikField.value)}
                                             onChange={(option) => form.setFieldValue(formikField.name, option?.value || '')}
+                                            isClearable
                                         />
                                     )
                                 }
