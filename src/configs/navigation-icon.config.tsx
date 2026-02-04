@@ -12,7 +12,8 @@ import {
     HiOutlineSupport,
     HiOutlineCog,
     HiOutlineDatabase,
-    HiOutlineChartPie
+    HiOutlineChartPie,
+    HiOutlineExclamationCircle
 } from 'react-icons/hi'
 import { GrLanguage } from "react-icons/gr";
 import type { JSX } from 'react'
@@ -34,6 +35,7 @@ const navigationIcon: NavigationIcons = {
     fixedPrice: <HiOutlineTag />,
     manageAds: <HiOutlineDatabase />,
     payments: <HiOutlineCurrencyDollar />,
+    disputes: <HiOutlineExclamationCircle />,
     support: <HiOutlineSupport />,
     settings: <HiOutlineCog />,
 }

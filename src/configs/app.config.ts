@@ -15,7 +15,7 @@ const appConfig: AppConfig = {
     tourPath: '/',
     locale: 'en',
     enableMock: true,
-    enableFakeLogin: false,
+    enableFakeLogin: true,
 }
 
 export default appConfig

@@ -45,6 +45,7 @@
             "liveAuctions": "Live Auctions",
             "durationAuctions": "Duration Auctions"
         },
+        "disputes": "Disputes",
         "groupMenu": {
             "groupMenu": "Group menu",
             "single": "Group single menu item",
@@ -1151,6 +1152,62 @@
         "errors": {
             "nameRequired": "Language name is required",
             "codeRequired": "Language code is required"
+        }
+    },
+    "disputes": {
+        "table": {
+            "title": "Disputes",
+            "searchPlaceholder": "Search by Dispute ID, Order ID, Buyer, Seller",
+            "emptyText": "No disputes found",
+            "columns": {
+                "disputeId": "Dispute ID",
+                "orderId": "Order ID",
+                "buyer": "Buyer",
+                "seller": "Seller",
+                "reason": "Reason",
+                "disputeStatus": "Dispute Status",
+                "openedAt": "Opened at"
+            },
+            "status": {
+                "resolvedBuyer": "Resolved - Buyer",
+                "resolvedSeller": "Resolved - Seller",
+                "resolvedCompromise": "Resolved - Compromise",
+                "waitingSeller": "Waiting Seller Response",
+                "disputeOpened": "Dispute Opened",
+                "platformMediation": "Platform Mediation"
+            },
+            "filters": {
+                "status": "Status:",
+                "allStatus": "All Status",
+                "openedDate": "Opened date:",
+                "today": "Today",
+                "selectDate": "Select date"
+            },
+            "actions": {
+                "view": "View"
+            }
+        },
+        "details": {
+            "title": "Dispute Details",
+            "disputeId": "Dispute ID",
+            "basicInfo": "Basic Information",
+            "orderId": "Order ID",
+            "reason": "Reason",
+            "openedAt": "Opened At",
+            "orderAmount": "Order Amount",
+            "buyerInfo": "Buyer Info",
+            "buyerId": "Buyer ID",
+            "buyerName": "Buyer Name",
+            "phoneNumber": "Phone Number",
+            "email": "Email",
+            "sellerInfo": "Seller Info",
+            "sellerId": "Seller ID",
+            "sellerName": "Seller Name",
+            "sellerStatus": "Seller Status",
+            "activityLog": "Activity Log",
+            "errors": {
+                "disputeNotFound": "Dispute not found"
+            }
         }
     },
     "themeConfigurator": {

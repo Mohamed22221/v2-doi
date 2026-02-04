@@ -45,6 +45,7 @@
             "liveAuctions": "المزادات المباشرة",
             "durationAuctions": "المزادات المدفوعة بالمدة"
         },
+        "disputes": "النزاعات",
         "groupMenu": {
             "groupMenu": "Group menu",
             "single": "Group single menu item",
@@ -1151,6 +1152,62 @@
         "errors": {
             "nameRequired": "اسم اللغة مطلوب",
             "codeRequired": "كود اللغة مطلوب"
+        }
+    },
+    "disputes": {
+        "table": {
+            "title": "النزاعات",
+            "searchPlaceholder": "البحث برقم النزاع، رقم الطلب، المشتري، أو البائع",
+            "emptyText": "لم يتم العثور على نزاعات",
+            "columns": {
+                "disputeId": "رقم النزاع",
+                "orderId": "رقم الطلب",
+                "buyer": "المشتري",
+                "seller": "البائع",
+                "reason": "السبب",
+                "disputeStatus": "حالة النزاع",
+                "openedAt": "تاريخ الفتح"
+            },
+            "status": {
+                "resolvedBuyer": "تم الحل - لصالح المشتري",
+                "resolvedSeller": "تم الحل - لصالح البائع",
+                "resolvedCompromise": "تم الحل - تسوية",
+                "waitingSeller": "في انتظار رد البائع",
+                "disputeOpened": "النزاع مفتوح",
+                "platformMediation": "وساطة المنصة"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "allStatus": "جميع الحالات",
+                "openedDate": "تاريخ الفتح:",
+                "today": "اليوم",
+                "selectDate": "اختر التاريخ"
+            },
+            "actions": {
+                "view": "عرض"
+            }
+        },
+        "details": {
+            "title": "تفاصيل النزاع",
+            "disputeId": "رقم النزاع",
+            "basicInfo": "المعلومات الأساسية",
+            "orderId": "رقم الطلب",
+            "reason": "السبب",
+            "openedAt": "تاريخ الفتح",
+            "orderAmount": "قيمة الطلب",
+            "buyerInfo": "بيانات المشتري",
+            "buyerId": "معرف المشتري",
+            "buyerName": "اسم المشتري",
+            "phoneNumber": "رقم الهاتف",
+            "email": "البريد الإلكتروني",
+            "sellerInfo": "بيانات البائع",
+            "sellerId": "معرف البائع",
+            "sellerName": "اسم البائع",
+            "sellerStatus": "حالة البائع",
+            "activityLog": "سجل النشاطات",
+            "errors": {
+                "disputeNotFound": "لم يتم العثور على النزاع"
+            }
         }
     },
     "themeConfigurator": {

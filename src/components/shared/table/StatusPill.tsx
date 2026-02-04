@@ -42,7 +42,7 @@ type Props = {
   /**
    * Size of the pill
    */
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg' | 'smxs'
 
   /**
    * Additional custom classes
@@ -88,6 +88,10 @@ const VARIANT_STYLES: Record<
  * Size styles for the pill and dot
  */
 const SIZE_STYLES = {
+  smxs: {
+    wrap: 'px-2 py-2 text-xs gap-2',
+    dot: 'w-1.5 h-1.5',
+  },
   sm: {
     wrap: 'px-4 py-2 text-sm gap-3',
     dot: 'w-2 h-2',

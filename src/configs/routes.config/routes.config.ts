@@ -175,6 +175,17 @@ export const protectedRoutes = [
         path: '/languages/:id/edit',
         component: lazy(() => import('@/pages/languages/ActionLanguage/UpdateLanguage')),
     },
+    {
+        key: 'disputes',
+        path: '/disputes',
+        component: lazy(() => import('@/pages/disputes')),
+        authority: [],
+    },
+    {
+        key: 'disputes',
+        path: `/disputes/:id`,
+        component: lazy(() => import('@/pages/disputes/DetailsDispute')),
+    },
 
     {
         key: 'settings',
