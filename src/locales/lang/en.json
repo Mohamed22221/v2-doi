@@ -70,7 +70,8 @@
             "passwordPlaceholder": "Password",
             "forgotPassword": "Forgot Password?",
             "signingIn": "Signing in...",
-            "signIn": "Sign In"
+            "signIn": "Sign In",
+            "fakeSignIn": "Fake Login (Emergency)"
         },
         "forgot": {
             "title": "Forgot Password",
@@ -542,6 +543,114 @@
         },
         "details": {
             "title": "Live Auction Details",
+            "itemId": "Item ID",
+            "basicInfo": "Basic Information",
+            "category": "Category",
+            "hall": "Hall",
+            "start": "Auction Start",
+            "end": "Auction End",
+            "description": "Description",
+            "pricingAndStock": "Pricing & Stock",
+            "availableQuantity": "Available Quantity",
+            "startingPrice": "Starting Price",
+            "finalPrice": "Final price",
+            "winner": "Winner",
+            "currentHighestBid": "Current highest bid",
+            "timeRemaining": "Time remaining",
+            "mediaAssets": "Media Assets",
+            "sellerInfo": "Seller Info",
+            "sellerId": "Seller ID",
+            "sellerName": "Seller Name",
+            "phoneNumber": "Phone Number",
+            "sellerStatus": "Seller Status",
+            "activityLog": "Activity Log",
+            "logItem": "Item",
+            "createdAt": "Created At",
+            "reason": "Reason",
+            "actions": {
+                "reject": "Reject",
+                "hide": "Hide auction",
+                "forceEnd": "Force end",
+                "unhide": "Unhide item"
+            },
+            "modals": {
+                "reasons": {
+                    "incorrectCategory": "Incorrect Category",
+                    "blurryImages": "Blurry Images",
+                    "missingDescription": "Missing Description",
+                    "duplicateItem": "Duplicate Item",
+                    "outOfSeason": "Out of Season",
+                    "temporarilyUnavailable": "Temporarily Unavailable",
+                    "testing": "Testing",
+                    "other": "Other"
+                },
+                "reject": {
+                    "title": "Rejection Item",
+                    "description": "Are you sure you want to reject this item? This item will not be published and will not appear in the app or website.",
+                    "reasonLabel": "Rejection Reason",
+                    "reasonPlaceholder": "Select a reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Add a note...",
+                    "confirm": "Reject item"
+                },
+                "hide": {
+                    "title": "Hide item",
+                    "description": "Are you sure you want to hide this item? The auction will be hidden from users immediately.",
+                    "reasonLabel": "Reason for hiding",
+                    "reasonPlaceholder": "Select a reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Add a note...",
+                    "footerText": "This reason is for internal use only.",
+                    "confirm": "Hide item"
+                },
+                "forceEnd": {
+                    "title": "Force End Auction",
+                    "description": "Force end auction? This will immediately stop bidding and end the auction.",
+                    "confirm": "Force End"
+                },
+                "unhide": {
+                    "title": "Unhide item",
+                    "description": "Are you sure you want to unhide this item? The item will become visible to users based on its current status.",
+                    "confirm": "Unhide item"
+                },
+                "errors": {
+                    "reasonRequired": "Reason is required"
+                }
+            },
+            "errors": {
+                "itemNotFound": "Auction not found"
+            }
+        }
+    },
+    "durationAuctions": {
+        "table": {
+            "title": "Duration Auctions",
+            "searchPlaceholder": "Search by auction name, ID, or seller",
+            "idPrefix": "ID:",
+            "columns": {
+                "item": "Item",
+                "seller": "Seller",
+                "hall": "Hall",
+                "category": "Category",
+                "status": "Status",
+                "dateRange": "Auction Date Range"
+            },
+            "status": {
+                "live": "Live",
+                "scheduled": "Scheduled",
+                "hidden": "Hidden",
+                "ended": "Ended",
+                "rejected": "Rejected"
+            },
+            "filters": {
+                "status": "Status",
+                "category": "Category",
+                "allStatus": "All Status",
+                "allCategory": "All Category"
+            }
+        },
+        "details": {
+            "title": "Duration Auction Details",
             "itemId": "Item ID",
             "basicInfo": "Basic Information",
             "category": "Category",

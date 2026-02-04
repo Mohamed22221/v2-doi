@@ -5,6 +5,7 @@ export type AppConfig = {
     tourPath: string
     locale: string
     enableMock: boolean
+    enableFakeLogin: boolean
 }
 
 const appConfig: AppConfig = {
@@ -14,6 +15,7 @@ const appConfig: AppConfig = {
     tourPath: '/',
     locale: 'en',
     enableMock: true,
+    enableFakeLogin: false,
 }
 
 export default appConfig

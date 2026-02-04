@@ -136,6 +136,11 @@ export const protectedRoutes = [
         authority: [],
     },
     {
+        key: 'duration-auctions',
+        path: `/duration-auctions/:id`,
+        component: lazy(() => import('@/pages/duration-auctions/DetailsDurationAuction')),
+    },
+    {
         key: 'manageAds',
         path: '/manage-ads',
         component: lazy(() => import('@/pages/manage-ads')),

@@ -70,7 +70,8 @@
             "passwordPlaceholder": "كلمة المرور",
             "forgotPassword": "نسيت كلمة المرور؟",
             "signingIn": "جاري تسجيل الدخول...",
-            "signIn": "تسجيل الدخول"
+            "signIn": "تسجيل الدخول",
+            "fakeSignIn": "دخول وهمي (للحالات الطارئة)"
         },
         "forgot": {
             "title": "نسيت كلمة المرور",
@@ -542,6 +543,114 @@
         },
         "details": {
             "title": "تفاصيل المزاد المباشر",
+            "itemId": "رقم المنتج",
+            "basicInfo": "معلومات أساسية",
+            "category": "الفئة",
+            "hall": "القاعة",
+            "start": "بداية المزاد",
+            "end": "نهاية المزاد",
+            "description": "الوصف",
+            "pricingAndStock": "التسعير والمخزون",
+            "availableQuantity": "الكمية المتوفرة",
+            "startingPrice": "سعر البداية",
+            "finalPrice": "السعر النهائي",
+            "winner": "الفائز",
+            "currentHighestBid": "أعلى مزايدة حالية",
+            "timeRemaining": "الوقت المتبقي",
+            "mediaAssets": "أصول الوسائط",
+            "sellerInfo": "معلومات البائع",
+            "sellerId": "رقم البائع",
+            "sellerName": "اسم البائع",
+            "phoneNumber": "رقم الهاتف",
+            "sellerStatus": "حالة البائع",
+            "activityLog": "سجل النشاطات",
+            "logItem": "المنتج",
+            "createdAt": "أنشئت في",
+            "reason": "السبب",
+            "actions": {
+                "reject": "رفض",
+                "hide": "إخفاء المزاد",
+                "forceEnd": "إنهاء المزاد",
+                "unhide": "إظهار المنتج"
+            },
+            "modals": {
+                "reasons": {
+                    "incorrectCategory": "فئة غير صحيحة",
+                    "blurryImages": "صور غير واضحة",
+                    "missingDescription": "وصف مفقود",
+                    "duplicateItem": "منتج مكرر",
+                    "outOfSeason": "خارج الموسم",
+                    "temporarilyUnavailable": "غير متوفر مؤقتاً",
+                    "testing": "تجربة",
+                    "other": "أخرى"
+                },
+                "reject": {
+                    "title": "رفض المنتج",
+                    "description": "هل أنت متأكد من رغبتك في رفض هذا العنصر؟ سيتم رفض هذا المنتج ولن يظهر في التطبيق أو الموقع الإلكتروني.",
+                    "reasonLabel": "سبب الرفض",
+                    "reasonPlaceholder": "اختر سبباً",
+                    "noteLabel": "ملاحظة",
+                    "notePlaceholder": "أضف ملاحظة...",
+                    "confirm": "رفض المنتج"
+                },
+                "hide": {
+                    "title": "إخفاء المنتج",
+                    "description": "هل أنت متأكد من رغبتك في إخفاء هذا العنصر؟ سيتم إخفاء هذا المزاد عن المستخدمين فوراً.",
+                    "reasonLabel": "سبب الإخفاء",
+                    "reasonPlaceholder": "اختر سبباً",
+                    "noteLabel": "ملاحظة",
+                    "notePlaceholder": "أضف ملاحظة...",
+                    "footerText": "هذا السبب للاستخدام الداخلي فقط.",
+                    "confirm": "إخفاء المنتج"
+                },
+                "forceEnd": {
+                    "title": "إنهاء المزاد قسراً",
+                    "description": "هل تريد إنهاء المزاد قسراً؟ سيؤدي هذا إلى إيقاف المزايدة فوراً وإنهاء المزاد.",
+                    "confirm": "إنهاء المزاد"
+                },
+                "unhide": {
+                    "title": "إظهار المنتج",
+                    "description": "هل أنت متأكد من رغبتك في إظهار هذا المنتج؟ سيصبح المنتج مرئياً للمستخدمين بناءً على حالته الحالية.",
+                    "confirm": "إظهار المنتج"
+                },
+                "errors": {
+                    "reasonRequired": "السبب مطلوب"
+                }
+            },
+            "errors": {
+                "itemNotFound": "المزاد غير موجود"
+            }
+        }
+    },
+    "durationAuctions": {
+        "table": {
+            "title": "مزادات المدة",
+            "searchPlaceholder": "البحث عن طريق اسم المزاد أو معرفه أو البائع",
+            "idPrefix": "المعرف:",
+            "columns": {
+                "item": "العنصر",
+                "seller": "البائع",
+                "hall": "القاعة",
+                "category": "الفئة",
+                "status": "الحالة",
+                "dateRange": "نطاق تاريخ المزاد"
+            },
+            "status": {
+                "live": "مباشر",
+                "scheduled": "مجدول",
+                "hidden": "مخفي",
+                "ended": "منتهي",
+                "rejected": "مرفوض"
+            },
+            "filters": {
+                "status": "الحالة",
+                "category": "الفئة",
+                "allStatus": "كل الحالات",
+                "allCategory": "كل الفئات"
+            }
+        },
+        "details": {
+            "title": "تفاصيل مزاد المدة",
             "itemId": "رقم المنتج",
             "basicInfo": "معلومات أساسية",
             "category": "الفئة",
