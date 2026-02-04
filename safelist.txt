@@ -496,6 +496,7 @@ text-primary-600
 text-primary-700
 text-primary-800
 text-primary-900
+text-primary-1000
 text-neutral-10
 text-neutral-50
 text-neutral-100
@@ -1019,6 +1020,7 @@ bg-primary-600
 bg-primary-700
 bg-primary-800
 bg-primary-900
+bg-primary-1000
 bg-neutral-10
 bg-neutral-50
 bg-neutral-100
@@ -1542,6 +1544,7 @@ dark:bg-primary-600
 dark:bg-primary-700
 dark:bg-primary-800
 dark:bg-primary-900
+dark:bg-primary-1000
 dark:bg-neutral-10
 dark:bg-neutral-50
 dark:bg-neutral-100
@@ -2065,6 +2068,7 @@ dark:hover:bg-primary-600
 dark:hover:bg-primary-700
 dark:hover:bg-primary-800
 dark:hover:bg-primary-900
+dark:hover:bg-primary-1000
 dark:hover:bg-neutral-10
 dark:hover:bg-neutral-50
 dark:hover:bg-neutral-100
@@ -2588,6 +2592,7 @@ dark:active:bg-primary-600
 dark:active:bg-primary-700
 dark:active:bg-primary-800
 dark:active:bg-primary-900
+dark:active:bg-primary-1000
 dark:active:bg-neutral-10
 dark:active:bg-neutral-50
 dark:active:bg-neutral-100
@@ -3111,6 +3116,7 @@ hover:text-primary-600
 hover:text-primary-700
 hover:text-primary-800
 hover:text-primary-900
+hover:text-primary-1000
 hover:text-neutral-10
 hover:text-neutral-50
 hover:text-neutral-100
@@ -3634,6 +3640,7 @@ hover:bg-primary-600
 hover:bg-primary-700
 hover:bg-primary-800
 hover:bg-primary-900
+hover:bg-primary-1000
 hover:bg-neutral-10
 hover:bg-neutral-50
 hover:bg-neutral-100
@@ -4157,6 +4164,7 @@ active:bg-primary-600
 active:bg-primary-700
 active:bg-primary-800
 active:bg-primary-900
+active:bg-primary-1000
 active:bg-neutral-10
 active:bg-neutral-50
 active:bg-neutral-100
@@ -4680,6 +4688,7 @@ ring-primary-600
 ring-primary-700
 ring-primary-800
 ring-primary-900
+ring-primary-1000
 ring-neutral-10
 ring-neutral-50
 ring-neutral-100
@@ -5203,6 +5212,7 @@ hover:ring-primary-600
 hover:ring-primary-700
 hover:ring-primary-800
 hover:ring-primary-900
+hover:ring-primary-1000
 hover:ring-neutral-10
 hover:ring-neutral-50
 hover:ring-neutral-100
@@ -5726,6 +5736,7 @@ focus:ring-primary-600
 focus:ring-primary-700
 focus:ring-primary-800
 focus:ring-primary-900
+focus:ring-primary-1000
 focus:ring-neutral-10
 focus:ring-neutral-50
 focus:ring-neutral-100
@@ -6249,6 +6260,7 @@ focus-within:ring-primary-600
 focus-within:ring-primary-700
 focus-within:ring-primary-800
 focus-within:ring-primary-900
+focus-within:ring-primary-1000
 focus-within:ring-neutral-10
 focus-within:ring-neutral-50
 focus-within:ring-neutral-100
@@ -6772,6 +6784,7 @@ border-primary-600
 border-primary-700
 border-primary-800
 border-primary-900
+border-primary-1000
 border-neutral-10
 border-neutral-50
 border-neutral-100
@@ -7295,6 +7308,7 @@ focus:border-primary-600
 focus:border-primary-700
 focus:border-primary-800
 focus:border-primary-900
+focus:border-primary-1000
 focus:border-neutral-10
 focus:border-neutral-50
 focus:border-neutral-100
@@ -7818,6 +7832,7 @@ focus-within:border-primary-600
 focus-within:border-primary-700
 focus-within:border-primary-800
 focus-within:border-primary-900
+focus-within:border-primary-1000
 focus-within:border-neutral-10
 focus-within:border-neutral-50
 focus-within:border-neutral-100
@@ -8341,6 +8356,7 @@ dark:text-primary-600
 dark:text-primary-700
 dark:text-primary-800
 dark:text-primary-900
+dark:text-primary-1000
 dark:text-neutral-10
 dark:text-neutral-50
 dark:text-neutral-100
@@ -8864,6 +8880,7 @@ dark:hover:text-primary-600
 dark:hover:text-primary-700
 dark:hover:text-primary-800
 dark:hover:text-primary-900
+dark:hover:text-primary-1000
 dark:hover:text-neutral-10
 dark:hover:text-neutral-50
 dark:hover:text-neutral-100

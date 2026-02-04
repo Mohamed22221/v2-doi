@@ -128,28 +128,38 @@ export const getDisputeDetailsById = (id: string): DisputeItemDetails | undefine
     return {
         ...item,
         description: "The buyer reported that the item received does not match the description provided in the listing. The seller has been notified and is required to respond within 48 hours.",
-        orderAmount: 1500,
+        orderType: 'live-auction',
+        heldAmount: 2000,
+        slaCounter: {
+            days: 2,
+            hours: 9,
+            minutes: 59
+        },
+        buyerMessage: 'المنتج لا يطابق الوصف المذكور في الإعلان، وهناك عيوب واضحة لم تُذكر.',
+        requestedOutcome: 'Return + Full refund',
+        orderSnapshot: {
+            itemTotalAmount: 2000,
+            shippingFees: 50,
+            vat: 50,
+            totalAmount: 2100
+        },
+        orderAmount: 2100,
         buyerDetails: {
-            id: 'BY-1234',
+            id: 'BY-2231',
             name: item.buyer.name,
-            phone: item.buyer.phone,
+            phone: '+966 xxxxxxxxx',
             email: 'buyer@example.com'
         },
         sellerDetails: {
-            id: 'SL-5678',
+            id: 'SL-2231',
             name: item.seller,
             phone: '+966 xxxxxxxxx',
             status: 'active'
         },
         activityLog: [
             {
-                item: 'Dispute opened by buyer',
-                createdAt: item.openedAt,
-                reason: item.reason
-            },
-            {
-                item: 'Seller notified',
-                createdAt: item.openedAt,
+                item: 'Dispute opened',
+                createdAt: '09/23/2025 10:45 AM',
                 reason: ''
             }
         ]

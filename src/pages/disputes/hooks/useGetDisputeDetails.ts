@@ -6,6 +6,9 @@ export function useGetDisputeDetails(id: string) {
     const [data, setData] = useState<DisputeItemDetails | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
+    const [version, setVersion] = useState(0)
+
+    const refetch = () => setVersion(prev => prev + 1)
 
     useEffect(() => {
         setIsLoading(true)
@@ -21,12 +24,13 @@ export function useGetDisputeDetails(id: string) {
             }
             setIsLoading(false)
         }, 300)
-    }, [id])
+    }, [id, version])
 
     return {
         data,
         isLoading,
         isError,
+        refetch,
         errorMessage: isError ? 'Dispute not found' : ''
     }
 }

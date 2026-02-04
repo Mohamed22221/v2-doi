@@ -24,7 +24,11 @@
         "dragToMove": "اسحب لتحريك الصورة",
         "zoomInstruction": "قم بالتكبير أولاً لتتمكن من تحريك الصورة والوصول للحواف",
         "exportCsv": "تصدير CSV",
-        "sellerInfo": "معلومات البائع"
+        "sellerInfo": "معلومات البائع",
+        "buyer": "المشتري",
+        "seller": "البائع",
+        "required": "مطلوب",
+        "currency": "ر.س"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -1187,26 +1191,115 @@
                 "view": "عرض"
             }
         },
+        "actions": {
+            "exportCase": "تصدير القضية",
+            "resolveDispute": "حل النزاع",
+            "requestEvidence": "طلب مزيد من الأدلة"
+        },
         "details": {
             "title": "تفاصيل النزاع",
-            "disputeId": "رقم النزاع",
-            "basicInfo": "المعلومات الأساسية",
-            "orderId": "رقم الطلب",
-            "reason": "السبب",
-            "openedAt": "تاريخ الفتح",
-            "orderAmount": "قيمة الطلب",
-            "buyerInfo": "بيانات المشتري",
-            "buyerId": "معرف المشتري",
-            "buyerName": "اسم المشتري",
-            "phoneNumber": "رقم الهاتف",
-            "email": "البريد الإلكتروني",
-            "sellerInfo": "بيانات البائع",
-            "sellerId": "معرف البائع",
-            "sellerName": "اسم البائع",
-            "sellerStatus": "حالة البائع",
-            "activityLog": "سجل النشاطات",
+            "breadcrumb": "تفاصيل النزاع",
+            "overview": {
+                "title": "نظرة عامة",
+                "disputeId": "رقم النزاع",
+                "orderType": "نوع الطلب",
+                "disputeStatus": "حالة النزاع",
+                "orderId": "رقم الطلب",
+                "heldAmount": "المبلغ المحجوز",
+                "slaCounter": "عداد SLA",
+                "days": "أيام",
+                "hours": "ساعات",
+                "minutes": "دقائق",
+                "orderTypes": {
+                    "liveAuction": "مزاد مباشر",
+                    "fixedPrice": "سعر ثابت",
+                    "durationAuction": "مزاد بمدة"
+                }
+            },
+            "summary": {
+                "title": "ملخص النزاع",
+                "reason": "السبب",
+                "requestedOutcome": "النتيجة المطلوبة",
+                "buyerMessage": "رسالة المشتري"
+            },
+            "orderSnapshot": {
+                "title": "لقطة من الطلب",
+                "itemTotalAmount": "مبلغ الصنف",
+                "shippingFees": "رسوم الشحن",
+                "vat": "ضريبة القيمة المضافة",
+                "totalAmount": "المبلغ الإجمالي"
+            },
+            "buyerInfo": {
+                "title": "معلومات المشتري",
+                "buyerId": "رقم المشتري",
+                "buyerName": "اسم المشتري",
+                "phoneNumber": "رقم الهاتف"
+            },
+            "sellerInfo": {
+                "title": "معلومات البائع",
+                "sellerId": "رقم البائع",
+                "sellerName": "اسم البائع",
+                "phoneNumber": "رقم الهاتف",
+                "sellerStatus": "حالة البائع"
+            },
+            "activityLog": {
+                "title": "سجل النشاط",
+                "item": "الصنف",
+                "createdAt": "تم الإنشاء في",
+                "reason": "السبب"
+            },
+            "modals": {
+                "requestEvidence": {
+                    "title": "طلب مزيد من الأدلة",
+                    "description": "اطلب من المشتري أو البائع تقديم أدلة إضافية للمساعدة في حل هذا النزاع.",
+                    "requestFrom": "طلب الأدلة من",
+                    "requestFromPlaceholder": "اختر الطرف",
+                    "evidenceType": "نوع الأدلة",
+                    "evidenceTypePlaceholder": "اختر نوع الأدلة",
+                    "deadline": "الموعد النهائي للأدلة",
+                    "deadlinePlaceholder": "اختر عدد الأيام",
+                    "helperText": "سيتم إرسال الطلب كإشعار وإضافته إلى سجل القضية.",
+                    "submit": "إرسال الطلب",
+                    "types": {
+                        "photos": "صور",
+                        "receipt": "إيصال",
+                        "shippingProof": "إثبات شحن"
+                    }
+                },
+                "resolveDispute": {
+                    "title": "حل النزاع",
+                    "description": "اختر القرار النهائي. هذا القرار نهائي وسيتم تسجيله في سجل القضية.",
+                    "outcome": "نتيجة الحل",
+                    "outcomePlaceholder": "اختر النتيجة",
+                    "submit": "حل النزاع",
+                    "outcomes": {
+                        "buyerWins": "فوز المشتري",
+                        "sellerWins": "فوز البائع",
+                        "compensationType": "نوع التعويض"
+                    },
+                    "fields": {
+                        "refundAmount": "مبلغ الاسترداد",
+                        "refundAmountPlaceholder": "اكتب المبلغ",
+                        "reason": "السبب",
+                        "reasonPlaceholder": "أدخل السبب",
+                        "compensationType": "نوع التعويض",
+                        "compensationTypePlaceholder": "اختر الخيار",
+                        "compensationValue": "قيمة التعويض",
+                        "compensationValuePlaceholder": "اكتب المبلغ"
+                    },
+                    "options": {
+                        "partialRefund": "استرداد جزئي",
+                        "returnShipping": "شحن المرتجع"
+                    },
+                    "helpers": {
+                        "buyerWins": "سيتم رد الأموال إلى المشتري وخصمها من محفظة البائع إذا لزم الأمر.",
+                        "compensationType": "يمكنك إصدار تعويض جزئي أو طلب إرجاع، وتحديد من يتحمل تكاليف الشحن.",
+                        "sellerWins": "سيتم صرف المبلغ المحجوز للبائع."
+                    }
+                }
+            },
             "errors": {
-                "disputeNotFound": "لم يتم العثور على النزاع"
+                "disputeNotFound": "النزاع غير موجود"
             }
         }
     },

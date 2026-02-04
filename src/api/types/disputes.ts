@@ -24,6 +24,21 @@ export interface DisputeItem {
 
 export interface DisputeItemDetails extends DisputeItem {
     description: string
+    orderType: 'live-auction' | 'fixed-price' | 'duration-auction'
+    heldAmount: number
+    slaCounter: {
+        days: number
+        hours: number
+        minutes: number
+    }
+    buyerMessage: string
+    requestedOutcome: string
+    orderSnapshot: {
+        itemTotalAmount: number
+        shippingFees: number
+        vat: number
+        totalAmount: number
+    }
     orderAmount: number
     buyerDetails: {
         id: string

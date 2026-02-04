@@ -24,7 +24,11 @@
         "dragToMove": "Drag to move image",
         "zoomInstruction": "Zoom in first to be able to move and reach image edges",
         "exportCsv": "Export CSV",
-        "sellerInfo": "Seller Info"
+        "sellerInfo": "Seller Info",
+        "buyer": "Buyer",
+        "seller": "Seller",
+        "required": "Required",
+        "currency": "SAR"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -1187,24 +1191,113 @@
                 "view": "View"
             }
         },
+        "actions": {
+            "exportCase": "Export case",
+            "resolveDispute": "Resolve dispute",
+            "requestEvidence": "Request more evidence"
+        },
         "details": {
             "title": "Dispute Details",
-            "disputeId": "Dispute ID",
-            "basicInfo": "Basic Information",
-            "orderId": "Order ID",
-            "reason": "Reason",
-            "openedAt": "Opened At",
-            "orderAmount": "Order Amount",
-            "buyerInfo": "Buyer Info",
-            "buyerId": "Buyer ID",
-            "buyerName": "Buyer Name",
-            "phoneNumber": "Phone Number",
-            "email": "Email",
-            "sellerInfo": "Seller Info",
-            "sellerId": "Seller ID",
-            "sellerName": "Seller Name",
-            "sellerStatus": "Seller Status",
-            "activityLog": "Activity Log",
+            "breadcrumb": "Dispute Details",
+            "overview": {
+                "title": "Overview",
+                "disputeId": "Dispute ID",
+                "orderType": "Order Type",
+                "disputeStatus": "Dispute Status",
+                "orderId": "Order ID",
+                "heldAmount": "Held amount",
+                "slaCounter": "SLA counter",
+                "days": "Days",
+                "hours": "Hrs",
+                "minutes": "Mins",
+                "orderTypes": {
+                    "liveAuction": "Live Auction",
+                    "fixedPrice": "Fixed Price",
+                    "durationAuction": "Duration Auction"
+                }
+            },
+            "summary": {
+                "title": "Dispute Summary",
+                "reason": "Reason",
+                "requestedOutcome": "Requested outcome",
+                "buyerMessage": "Buyer message"
+            },
+            "orderSnapshot": {
+                "title": "Order Snapshot",
+                "itemTotalAmount": "Item total amount",
+                "shippingFees": "Shipping fees",
+                "vat": "VAT",
+                "totalAmount": "Total Amount"
+            },
+            "buyerInfo": {
+                "title": "Buyer Info",
+                "buyerId": "Buyer ID",
+                "buyerName": "Buyer Name",
+                "phoneNumber": "Phone Number"
+            },
+            "sellerInfo": {
+                "title": "Seller Info",
+                "sellerId": "Seller ID",
+                "sellerName": "Seller Name",
+                "phoneNumber": "Phone Number",
+                "sellerStatus": "Seller Status"
+            },
+            "activityLog": {
+                "title": "Activity Log",
+                "item": "Item",
+                "createdAt": "Created at",
+                "reason": "Reason"
+            },
+            "modals": {
+                "requestEvidence": {
+                    "title": "Request more evidence",
+                    "description": "Ask the buyer or seller to provide additional proof to help resolve this dispute.",
+                    "requestFrom": "Request evidence from",
+                    "requestFromPlaceholder": "Select Side",
+                    "evidenceType": "Evidence type",
+                    "evidenceTypePlaceholder": "Select Evidence type",
+                    "deadline": "Evidence deadline",
+                    "deadlinePlaceholder": "Choose days",
+                    "helperText": "The request will be sent as a notification and added to the case log.",
+                    "submit": "Send request",
+                    "types": {
+                        "photos": "Photos",
+                        "receipt": "Receipt",
+                        "shippingProof": "Shipping proof"
+                    }
+                },
+                "resolveDispute": {
+                    "title": "Resolve dispute",
+                    "description": "Choose the final resolution. This decision is final and will be recorded in the case log.",
+                    "outcome": "Resolution outcome",
+                    "outcomePlaceholder": "Select Outcome",
+                    "submit": "Resolve Dispute",
+                    "outcomes": {
+                        "buyerWins": "Buyer wins",
+                        "sellerWins": "Seller wins",
+                        "compensationType": "Compensation type"
+                    },
+                    "fields": {
+                        "refundAmount": "Refund amount",
+                        "refundAmountPlaceholder": "Write Amount",
+                        "reason": "Reason",
+                        "reasonPlaceholder": "Enter the reason",
+                        "compensationType": "Compensation type",
+                        "compensationTypePlaceholder": "Select Option",
+                        "compensationValue": "Compensation value",
+                        "compensationValuePlaceholder": "Write Amount"
+                    },
+                    "options": {
+                        "partialRefund": "Partial refund",
+                        "returnShipping": "Return shipping"
+                    },
+                    "helpers": {
+                        "buyerWins": "Funds will be refunded to the buyer and deducted from the seller wallet if needed.",
+                        "compensationType": "You can issue partial compensation or request a return, and decide who covers shipping.",
+                        "sellerWins": "Held amount will be released to the seller."
+                    }
+                }
+            },
             "errors": {
                 "disputeNotFound": "Dispute not found"
             }
