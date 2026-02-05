@@ -97,6 +97,18 @@ export const protectedRoutes = [
         component: lazy(() => import('@/pages/categories/ActionCategory/UpdateCategory')),
     },
     {
+        key: 'halls',
+        path: '/halls',
+        component: lazy(() => import('@/pages/halls')),
+        authority: [],
+    },
+    {
+        key: 'halls',
+        path: '/halls/create',
+        component: lazy(() => import('@/pages/halls/ActionHall/CreateHall')),
+        authority: [],
+    },
+    {
         key: 'orders',
         path: '/orders',
         component: lazy(() => import('@/pages/orders')),

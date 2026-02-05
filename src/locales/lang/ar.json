@@ -39,6 +39,7 @@
         "models": "الموديلات",
         "orders": "الطلبات",
         "fixedPrice": "العناصر بسعر ثابت",
+        "halls": "إدارة القاعات",
         "manageAds": "إدارة الإعلانات",
         "payments": "المدفوعات",
         "support": "الدعم",
@@ -1355,6 +1356,65 @@
         },
         "color": {
             "primary": "الأساسي"
+        }
+    },
+    "halls": {
+        "table": {
+            "title": "إدارة القاعات",
+            "searchPlaceholder": "البحث عن طريق اسم القاعة أو الكود",
+            "emptyText": "لم يتم العثور على قاعات",
+            "columns": {
+                "hallName": "اسم القاعة",
+                "status": "الحالة",
+                "assigned": "المسندة",
+                "createdAt": "أنشئت في"
+            },
+            "status": {
+                "active": "نشط",
+                "achieved": "مكتمل",
+                "hidden": "مخفي"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "allStatus": "جميع الحالات",
+                "dateRange": "نطاق التاريخ:",
+                "today": "اليوم"
+            },
+            "actions": {
+                "createHall": "إضافة قاعة"
+            }
+        },
+        "create": {
+            "title": "إضافة قاعة جديدة",
+            "submit": "إنشاء قاعة",
+            "success": "تم إنشاء القاعة بنجاح"
+        },
+        "update": {
+            "title": "تحديث القاعة",
+            "submit": "تحديث القاعة",
+            "success": "تم تحديث القاعة بنجاح"
+        },
+        "generalInformation": "معلومات عامة",
+        "description": "الوصف",
+        "descriptionPlaceholder": "أدخل الوصف",
+        "mediaAssets": "أصول الوسائط",
+        "coverImage": "صورة الغلاف",
+        "publishing": "النشر",
+        "activeStatus": "الحالة",
+        "sortOrder": "ترتيب العرض",
+        "sortOrderPlaceholder": "0",
+        "classification": "التصنيف",
+        "parentHall": "فئة رئيسية",
+        "subHall": "فئة فرعية",
+        "selectParent": "اختر الفئة الرئيسية",
+        "name": "اسم القاعة",
+        "namePlaceholder": "أدخل اسم القاعة",
+        "errors": {
+            "nameRequired": "اسم القاعة مطلوب",
+            "statusRequired": "الحالة مطلوبة",
+            "sortOrderRequired": "ترتيب العرض مطلوب",
+            "imageRequired": "صورة الغلاف مطلوبة",
+            "invalidImageUrl": "رابط الصورة غير صالح"
         }
     }
 }

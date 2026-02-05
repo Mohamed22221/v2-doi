@@ -39,6 +39,7 @@
         "models": "Models",
         "orders": "Orders",
         "fixedPrice": "Fixed Price Items",
+        "halls": "Manage Halls",
         "manageAds": "Manage Ads",
         "payments": "Payments",
         "support": "Support",
@@ -1355,6 +1356,65 @@
         },
         "color": {
             "primary": "Primary"
+        }
+    },
+    "halls": {
+        "table": {
+            "title": "Manage Halls",
+            "searchPlaceholder": "Search by Hall Name or code",
+            "emptyText": "No halls found",
+            "columns": {
+                "hallName": "Hall Name",
+                "status": "Status",
+                "assigned": "Assigned",
+                "createdAt": "Created At"
+            },
+            "status": {
+                "active": "Active",
+                "achieved": "Achieved",
+                "hidden": "Hidden"
+            },
+            "filters": {
+                "status": "Status:",
+                "allStatus": "All Status",
+                "dateRange": "Date range:",
+                "today": "Today"
+            },
+            "actions": {
+                "createHall": "Create Hall"
+            }
+        },
+        "create": {
+            "title": "Add New Hall",
+            "submit": "Create Hall",
+            "success": "Hall created successfully"
+        },
+        "update": {
+            "title": "Update Hall",
+            "submit": "Update Hall",
+            "success": "Hall updated successfully"
+        },
+        "generalInformation": "General Information",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter Description",
+        "mediaAssets": "Media Assets",
+        "coverImage": "COVER IMAGE",
+        "publishing": "Publishing",
+        "activeStatus": "Status",
+        "sortOrder": "Sort Order",
+        "sortOrderPlaceholder": "0",
+        "classification": "Classification",
+        "parentHall": "Parent Category",
+        "subHall": "Sub Category",
+        "selectParent": "Select Parent Category",
+        "name": "Hall Name",
+        "namePlaceholder": "Enter Hall Name",
+        "errors": {
+            "nameRequired": "Hall name is required",
+            "statusRequired": "Status is required",
+            "sortOrderRequired": "Sort order is required",
+            "imageRequired": "Cover image is required",
+            "invalidImageUrl": "Invalid image URL"
         }
     }
 }

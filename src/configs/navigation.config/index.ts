@@ -67,6 +67,16 @@ const navigationConfig: NavigationTree[] = [
     },
 
     {
+        key: 'halls',
+        path: '/halls',
+        title: 'Manage Halls',
+        translateKey: 'nav.halls',
+        icon: 'halls',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
+    {
         key: 'orders',
         path: '/orders',
         title: 'Orders',
