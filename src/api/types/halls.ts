@@ -43,3 +43,16 @@ export interface AssignedAuctionItem {
     startDate: string
     endDate: string
 }
+
+export interface AssignableAuction {
+    id: string
+    title: string
+    auctionCode: string
+    sellerName: string
+    status: string
+    category: string
+    date?: string
+    startingBid: number
+    currency: string
+    imageUrl: string
+}

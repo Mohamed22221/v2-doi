@@ -1429,6 +1429,28 @@
                     "dateRange": "نطاق التاريخ"
                 },
                 "searchPlaceholder": "البحث عن طريق اسم المنتج أو البائع"
+            },
+            "assignModal": {
+                "title": "تعيين مزاد مباشر",
+                "subtitle": "حدد المزادات لإضافتها إلى",
+                "searchPlaceholder": "ابحث عن طريق عنوان المزاد أو معرف المزاد أو البائع",
+                "filters": {
+                    "status": "الحالة",
+                    "category": "الفئة",
+                    "date": "التاريخ",
+                    "allStatus": "كل الحالات",
+                    "allCategory": "كل الفئات",
+                    "anytime": "أي وقت"
+                },
+                "footer": {
+                    "selected": "مزادات مختارة",
+                    "cancel": "إلغاء",
+                    "assign": "تعيين المختار"
+                },
+                "row": {
+                    "startingBid": "مزايدة البداية",
+                    "seller": "البائع"
+                }
             }
         },
         "actions": {

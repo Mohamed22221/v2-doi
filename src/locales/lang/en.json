@@ -1429,6 +1429,28 @@
                     "dateRange": "Date range"
                 },
                 "searchPlaceholder": "Search by Product name or seller"
+            },
+            "assignModal": {
+                "title": "Assign Live Auction",
+                "subtitle": "Select Auctions to add to",
+                "searchPlaceholder": "Search by auction title, auction ID, or seller",
+                "filters": {
+                    "status": "Status",
+                    "category": "Category",
+                    "date": "Date",
+                    "allStatus": "All Status",
+                    "allCategory": "All Category",
+                    "anytime": "Anytime"
+                },
+                "footer": {
+                    "selected": "Auctions Selected",
+                    "cancel": "Cancel",
+                    "assign": "Assign Selected"
+                },
+                "row": {
+                    "startingBid": "Starting Bid",
+                    "seller": "Seller"
+                }
             }
         },
         "actions": {

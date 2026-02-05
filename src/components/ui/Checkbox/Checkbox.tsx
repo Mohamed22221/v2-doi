@@ -18,6 +18,7 @@ export interface CheckboxProps extends CommonProps {
     value?: CheckboxValue
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     field?: any
+    checkboxClassOuter?: string
 }
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
@@ -41,6 +42,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
         checked: controlledChecked,
         labelRef,
         field,
+        checkboxClassOuter,
         ...rest
     } = props
 
@@ -123,7 +125,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
     const checkboxColor =
         color || colorContext || `${themeColor}-${primaryColorLevel}`
 
-    const checkboxDefaultClass = `checkbox text-${checkboxColor}`
+    const checkboxDefaultClass = `checkbox text-${checkboxColor} ${checkboxClassOuter}`
     const checkboxColorClass = disabled && 'disabled'
     const labelDefaultClass = `checkbox-label`
     const labelDisabledClass = disabled && 'disabled'
