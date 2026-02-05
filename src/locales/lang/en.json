@@ -1415,6 +1415,24 @@
             "sortOrderRequired": "Sort order is required",
             "imageRequired": "Cover image is required",
             "invalidImageUrl": "Invalid image URL"
+        },
+        "details": {
+            "title": "Hall Details",
+            "assignLiveAuctions": "Assign Live Auctions",
+            "table": {
+                "columns": {
+                    "item": "Item",
+                    "idPrefix": "ID:",
+                    "seller": "Seller",
+                    "category": "Category",
+                    "status": "Status",
+                    "dateRange": "Date range"
+                },
+                "searchPlaceholder": "Search by Product name or seller"
+            }
+        },
+        "actions": {
+            "view": "View"
         }
     }
 }

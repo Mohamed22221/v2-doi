@@ -1415,6 +1415,24 @@
             "sortOrderRequired": "ترتيب العرض مطلوب",
             "imageRequired": "صورة الغلاف مطلوبة",
             "invalidImageUrl": "رابط الصورة غير صالح"
+        },
+        "details": {
+            "title": "تفاصيل القاعة",
+            "assignLiveAuctions": "تعيين المزادات المباشرة",
+            "table": {
+                "columns": {
+                    "item": "العنصر",
+                    "idPrefix": "معرف:",
+                    "seller": "البائع",
+                    "category": "الفئة",
+                    "status": "الحالة",
+                    "dateRange": "نطاق التاريخ"
+                },
+                "searchPlaceholder": "البحث عن طريق اسم المنتج أو البائع"
+            }
+        },
+        "actions": {
+            "view": "عرض"
         }
     }
 }

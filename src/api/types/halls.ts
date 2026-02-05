@@ -31,3 +31,15 @@ export interface HallPayload {
     image?: string | null
     code: string
 }
+
+export interface AssignedAuctionItem {
+    id: string
+    itemName: string
+    itemCode: string
+    sellerName: string
+    categoryParent: string
+    categoryChild: string
+    status: 'live' | 'scheduled' | 'hidden' | 'ended' | 'rejected'
+    startDate: string
+    endDate: string
+}
