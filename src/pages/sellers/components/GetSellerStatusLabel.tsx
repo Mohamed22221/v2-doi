@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next"
 export type SellerStatus = 'approved' | 'rejected' | 'pending'
 export type AccountStatus = 'active' | 'suspended' | 'deleted'
 
-export const getSellerStatusLabel = (status?: SellerStatus) => {
-    const { t } = useTranslation()
+export const getSellerStatusLabel = (t: any, status?: SellerStatus) => {
     switch (status) {
         case 'approved': return t('fixedPrice.sellers.status.approved')
         case 'rejected': return t('fixedPrice.sellers.status.rejected')
@@ -22,8 +21,7 @@ export const getSellerStatusVariant = (status?: SellerStatus) => {
     }
 }
 
-export const getAccountStatusLabel = (status?: AccountStatus) => {
-    const { t } = useTranslation()
+export const getAccountStatusLabel = (t: any, status?: AccountStatus) => {
     switch (status) {
         case 'active': return t('fixedPrice.sellers.status.active')
         case 'suspended': return t('fixedPrice.sellers.status.suspended')

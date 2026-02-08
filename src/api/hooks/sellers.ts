@@ -12,7 +12,6 @@ import type { TAPIResponseItem, TAPIResponseItems } from '../types/api'
 import {
     SellerItem,
     SellerDocument,
-    TSellersParams,
     TSellerActionPayload,
 } from '../types/sellers'
 import { useAppSelector } from '@/store'

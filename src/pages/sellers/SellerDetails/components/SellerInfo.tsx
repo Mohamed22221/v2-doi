@@ -5,7 +5,7 @@ import StatusPill from '@/components/shared/table/StatusPill'
 import { useTranslation } from 'react-i18next'
 import { formatDateTime } from '@/utils/formatDateTime'
 import { getSellerStatusLabel, getSellerStatusVariant } from '@/pages/sellers/components/GetSellerStatusLabel'
-import SellerDropdownOptions, { SellerAction } from './SellerDropdownOptions'
+import SellerDropdownOptions from './SellerDropdownOptions'
 import SellerSuspendModal from './modalStatus/SellerSuspendModal'
 import SellerActivateModal from './modalStatus/SellerActivateModal'
 import SellerRestore from './SellerRestore'
@@ -56,7 +56,7 @@ const SellerInfo = ({ data }: Props) => {
                             </h2>
                             <StatusPill
                                 variant={getSellerStatusVariant(data?.approvalStatus)}
-                                label={getSellerStatusLabel(data?.approvalStatus)}
+                                label={getSellerStatusLabel(t, data?.approvalStatus)}
                                 size="sm"
                             />
                         </div>

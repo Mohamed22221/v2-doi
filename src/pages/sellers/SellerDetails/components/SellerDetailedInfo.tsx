@@ -92,7 +92,7 @@ const SellerDetailedInfo = ({ data }: Props) => {
                             value={
                                 <StatusPill
                                     variant={getAccountStatusVariant(data?.accountStatus as AccountStatus)}
-                                    label={getAccountStatusLabel(data?.accountStatus as AccountStatus)}
+                                    label={getAccountStatusLabel(t, data?.accountStatus as AccountStatus)}
                                     size="sm"
                                 />
                             }

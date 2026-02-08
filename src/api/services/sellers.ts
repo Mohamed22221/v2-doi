@@ -3,7 +3,6 @@ import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import {
     SellerItem,
     SellerDocument,
-    TSellersParams,
     TSellerActionPayload,
 } from '../types/sellers'
 

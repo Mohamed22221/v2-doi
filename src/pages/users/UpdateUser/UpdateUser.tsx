@@ -1,12 +1,10 @@
-import { Breadcrumb } from '@/components/ui'
+import { Breadcrumb, Icon } from '@/components/ui'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import { lazy, Suspense } from 'react'
 import FormUpdateSkeleton from './components/FormUpdateSkeleton'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
-import { Icon } from '@/components/ui'
 
 const FormUpdate = lazy(() => import('./components/FormUpdate'))
 

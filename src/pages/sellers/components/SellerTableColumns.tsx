@@ -53,7 +53,7 @@ export function useSellerTableColumns() {
                     return (
                         <StatusPill
                             variant={getSellerStatusVariant(status)}
-                            label={getSellerStatusLabel(status)}
+                            label={getSellerStatusLabel(t, status)}
                             size="sm"
                         />
                     )
