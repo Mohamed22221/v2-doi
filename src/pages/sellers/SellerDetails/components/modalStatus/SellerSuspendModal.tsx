@@ -1,31 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, Formik } from 'formik'
+import { Form, Formik, Field, FieldProps } from 'formik'
+import * as Yup from 'yup'
 import {
     Dialog,
     Notification,
     toast,
     Icon,
+    Input,
 } from '@/components/ui'
+import { FormItem } from '@/components/ui/Form'
 
 import { ModalHeader, ModalFooter } from '@/components/shared/StatusModal'
-import { FormItem } from '@/components/ui/Form'
-import { Field, FieldProps } from 'formik'
-import { Input } from '@/components/ui'
-import * as Yup from 'yup'
-import { SellerRejectModalProps, ModalConfig } from './modalStatus/types'
+import { SellerRejectModalProps as SellerSuspendModalProps, ModalConfig } from './types'
 
-import { useRejectSeller } from '@/api/hooks/sellers'
+import { useSuspendSeller } from '@/api/hooks/sellers'
 import { getApiErrorMessage } from '@/api/error'
 
-const SellerRejectModal = ({
+const SellerSuspendModal = ({
     isOpen,
     onClose,
     onConfirmSuccess,
     id
-}: SellerRejectModalProps) => {
+}: SellerSuspendModalProps) => {
     const { t } = useTranslation()
-    const { mutate: rejectSeller, isPending } = useRejectSeller()
+    const { mutate: suspendSeller, isPending } = useSuspendSeller()
 
     const initialValues = {
         reason: '',
@@ -36,7 +35,7 @@ const SellerRejectModal = ({
     })
 
     const onConfirm = async (values: { reason: string }) => {
-        rejectSeller({
+        suspendSeller({
             userId: id,
             data: { reason: values.reason }
         }, {
@@ -62,10 +61,10 @@ const SellerRejectModal = ({
     }
 
     const config: ModalConfig = {
-        title: t('fixedPrice.sellers.details.modals.reject.title'),
-        description: t('fixedPrice.sellers.details.modals.reject.description'),
+        title: t('users.userDetails.suspendModal.titleSuspend'),
+        description: t('users.userDetails.suspendModal.description'),
         icon: <Icon name="errorModal" />,
-        confirmText: t('fixedPrice.sellers.details.modals.reject.confirm'),
+        confirmText: t('users.userDetails.suspendModal.confirmSuspension'),
         confirmVariant: 'solid',
         confirmColor: 'red',
     }
@@ -85,10 +84,10 @@ const SellerRejectModal = ({
                 {({ touched, errors }) => (
                     <Form>
                         <ModalHeader config={config} />
-                        <div className="p-2">
+                        <div className="p-2 ">
                             <FormItem
                                 asterisk
-                                label={t('fixedPrice.sellers.details.modals.reject.reasonLabel')}
+                                label={t('users.userDetails.suspendModal.reasonLabel')}
                                 invalid={Boolean(touched.reason && errors.reason)}
                                 errorMessage={errors.reason}
                             >
@@ -97,7 +96,7 @@ const SellerRejectModal = ({
                                         <Input
                                             {...field}
                                             textArea
-                                            placeholder={t('fixedPrice.sellers.details.modals.reject.reasonPlaceholder')}
+                                            placeholder={t('users.userDetails.suspendModal.notePlaceholder')}
                                             rows={4}
                                         />
                                     )}
@@ -116,4 +115,4 @@ const SellerRejectModal = ({
     )
 }
 
-export default SellerRejectModal
+export default SellerSuspendModal

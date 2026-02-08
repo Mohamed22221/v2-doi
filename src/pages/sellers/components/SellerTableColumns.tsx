@@ -12,7 +12,7 @@ import {
     getSellerStatusVariant
 } from './GetSellerStatusLabel'
 
-import { SellerItem } from '../data/sellers.mock'
+import { SellerItem } from '@/api/types/sellers'
 
 /* -------- Hook that returns columns -------- */
 export function useSellerTableColumns() {
@@ -27,9 +27,9 @@ export function useSellerTableColumns() {
                 cell: ({ row }) => (
                     <TwoLineText
                         imageSize="sm"
-                        image={row.original.user.image || undefined}
-                        title={`${row.original.user.firstName} ${row.original.user.lastName}`}
-                        subtitle={row.original.id}
+                        image={row.original?.user?.image || undefined}
+                        title={`${row.original?.user?.firstName} ${row.original?.user?.lastName}`}
+                        subtitle={row.original?.user?.id}
                         subtitlePrefix={t('users.table.columns.idPrefix')}
                         size="sm"
                     />
@@ -38,18 +38,18 @@ export function useSellerTableColumns() {
             {
                 header: t('users.table.columns.email'),
                 accessorKey: 'user.email',
-                cell: ({ row }) => row.original.user.email,
+                cell: ({ row }) => row.original?.user?.email,
             },
             {
                 header: t('users.table.columns.phone'),
                 accessorKey: 'user.phone',
-                cell: ({ row }) => row.original.user.phone,
+                cell: ({ row }) => row.original?.user?.phone,
             },
             {
                 header: t('users.table.columns.status'),
-                accessorKey: 'status',
+                accessorKey: 'approvalStatus',
                 cell: ({ row }) => {
-                    const status = row.original.status
+                    const status = row.original?.approvalStatus
                     return (
                         <StatusPill
                             variant={getSellerStatusVariant(status)}
@@ -64,7 +64,7 @@ export function useSellerTableColumns() {
                 accessorKey: 'user.createdAt',
                 cell: ({ row }) => {
                     const { date, time } = formatDateTime(
-                        row.original.user.createdAt,
+                        row.original?.user?.createdAt,
                     )
                     return (
                         <TwoLineText title={date} subtitle={time} size="sm" />
@@ -80,7 +80,7 @@ export function useSellerTableColumns() {
                             size="md"
                             shape="circle"
                             onClick={() =>
-                                navigate(`/sellers/${row.original.id}`)
+                                navigate(`/sellers/${row.original?.user?.id}`)
                             }
                         >
                             {t('users.table.actions.view')}

@@ -259,7 +259,18 @@
                 "confirmActivateMessage": "هل أنت متأكد أنك تريد تفعيل حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى استعادة وصوله إلى جميع ميزات المنصة والجلسات النشطة.",
                 "cancel": "إلغاء",
                 "confirmSuspension": "تأكيد التعليق",
-                "confirmActivation": "تأكيد التفعيل"
+                "confirmActivation": "تأكيد التفعيل",
+                "description": "يرجى تقديم سبب واضح لتعليق الحساب.",
+                "reasonLabel": "سبب التعليق",
+                "reasonPlaceholder": "اختر السبب",
+                "noteLabel": "ملاحظة",
+                "notePlaceholder": "أدخل ملاحظات إضافية حول التعليق",
+                "reasons": {
+                    "policyViolation": "انتهاك السياسة",
+                    "fraudulentActivity": "نشاط احتيالي",
+                    "poorPerformance": "أداء ضعيف",
+                    "other": "أخرى"
+                }
             },
             "status": {
                 "verified": "موثق",
@@ -287,7 +298,9 @@
                 "description": "سيؤدي التعطيل إلى حظر تسجيل الدخول والنشاط، ولكن ستظل بيانات المستخدم موجودة",
                 "cancel": "إلغاء",
                 "confirm": "حذف مؤقت",
-                "success": "تم حذف المستخدم مؤقتًا بنجاح."
+                "success": "تم حذف المستخدم مؤقتًا بنجاح.",
+                "reasonLabel": "سبب الحذف",
+                "reasonPlaceholder": "أدخل سبب الحذف"
             },
             "restoreDeleteModal": {
                 "msgRestore": "تم حذف هذا المستخدم. يمكنك استعادته مرة أخرى.",
@@ -416,6 +429,9 @@
                 "approved": "مقبول",
                 "rejected": "مرفوض",
                 "pending": "قيد الانتظار",
+                "active": "نشط",
+                "suspended": "معلق",
+                "deleted": "محذوف",
                 "suspend": "تعليق المستخدم",
                 "approveRequest": "الموافقة على الطلب",
                 "rejectRequest": "رفض الطلب",
@@ -429,6 +445,7 @@
                 "companyName": "اسم الشركة",
                 "contactNumber": "رقم التواصل",
                 "commercialRegistrationNumber": "رقم السجل التجاري",
+                "nationalIdNumber": "رقم الهوية الوطنية",
                 "requestSubmitted": "تاريخ تقديم الطلب",
                 "accountStatus": "حالة الحساب"
             },
@@ -448,7 +465,13 @@
                         "noteLabel": "ملاحظة",
                         "notePlaceholder": "أدخل ملاحظة حول الرفض",
                         "footerText": "* سيتم تسجيل هذا السبب في سجل الحساب.",
-                        "confirm": "تأكيد التعليق",
+                        "confirm": "تأكيد الرفض",
+                        "cancel": "إلغاء"
+                    },
+                    "approve": {
+                        "title": "الموافقة على الطلب",
+                        "description": "هل أنت متأكد أنك تريد الموافقة على طلب <strong>{{name}}</strong>؟ سيسمح لهم ذلك بالبدء في البيع على المنصة.",
+                        "confirm": "تأكيد الموافقة",
                         "cancel": "إلغاء"
                     }
                 }

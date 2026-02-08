@@ -6,10 +6,13 @@ import StatusPill from '@/components/shared/table/StatusPill'
 import { Badge } from '@/components/ui'
 import SectionHeader from '@/components/shared/cards/SectionHeader'
 import DocumentsSection from '@/components/shared/cards/DocumentsSection'
-import { getSellerStatusLabel, getSellerStatusVariant } from '../../components/GetSellerStatusLabel'
+import {
+    getAccountStatusLabel,
+    getAccountStatusVariant,
+    AccountStatus
+} from '../../components/GetSellerStatusLabel'
 import { formatDateTime } from '@/utils/formatDateTime'
-
-import { SellerItem } from '../../data/sellers.mock'
+import { SellerItem } from '@/api/types/sellers'
 
 type Props = {
     data: SellerItem
@@ -88,12 +91,13 @@ const SellerDetailedInfo = ({ data }: Props) => {
                             label={t('fixedPrice.sellers.info.accountStatus')}
                             value={
                                 <StatusPill
-                                    variant={getSellerStatusVariant(data.status)}
-                                    label={getSellerStatusLabel(data.status)}
+                                    variant={getAccountStatusVariant(data?.accountStatus as AccountStatus)}
+                                    label={getAccountStatusLabel(data?.accountStatus as AccountStatus)}
                                     size="sm"
                                 />
                             }
                         />
+
                     </div>
                 </div>
 
@@ -114,6 +118,10 @@ const SellerDetailedInfo = ({ data }: Props) => {
                         <InfoRow
                             label={t('fixedPrice.sellers.info.commercialRegistrationNumber')}
                             value={data.commercialRegistrationNumber}
+                        />
+                        <InfoRow
+                            label={t('fixedPrice.sellers.info.nationalIdNumber')}
+                            value={data.nationalIdNumber}
                         />
                     </div>
                 </div>

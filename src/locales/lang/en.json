@@ -259,7 +259,18 @@
                 "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will immediately restore their access to all platform features and sessions.",
                 "cancel": "Cancel",
                 "confirmSuspension": "Confirm Suspension",
-                "confirmActivation": "Confirm Activation"
+                "confirmActivation": "Confirm Activation",
+                "description": "Please provide a clear reason for the account suspension.",
+                "reasonLabel": "Suspension Reason",
+                "reasonPlaceholder": "Select the reason",
+                "noteLabel": "Note",
+                "notePlaceholder": "Enter additional notes about the suspension",
+                "reasons": {
+                    "policyViolation": "Policy Violation",
+                    "fraudulentActivity": "Fraudulent Activity",
+                    "poorPerformance": "Poor Performance",
+                    "other": "Other"
+                }
             },
             "status": {
                 "verified": "Verified",
@@ -279,7 +290,9 @@
                 "description": "Deactivating will block login and activity, but the user data will remain",
                 "cancel": "Cancel",
                 "confirm": "Temporary Delete",
-                "success": "User temporary deleted successfully."
+                "success": "User temporary deleted successfully.",
+                "reasonLabel": "Deletion Reason",
+                "reasonPlaceholder": "Enter the reason for deletion"
             },
             "hardDeleteModal": {
                 "title": "Permanently delete user",
@@ -416,6 +429,9 @@
                 "approved": "Approved",
                 "rejected": "Rejected",
                 "pending": "Pending",
+                "active": "Active",
+                "suspended": "Suspended",
+                "deleted": "Deleted",
                 "suspend": "Suspend User",
                 "approveRequest": "Approve Request",
                 "rejectRequest": "Reject Request",
@@ -429,6 +445,7 @@
                 "companyName": "Company name",
                 "contactNumber": "Contact number",
                 "commercialRegistrationNumber": "Commercial registration number",
+                "nationalIdNumber": "National ID Number",
                 "requestSubmitted": "Request Submitted",
                 "accountStatus": "Account Status"
             },
@@ -448,7 +465,13 @@
                         "noteLabel": "Note",
                         "notePlaceholder": "Enter the note about rejection",
                         "footerText": "* This reason will be logged in the account history.",
-                        "confirm": "Confirm Suspension",
+                        "confirm": "Confirm Rejection",
+                        "cancel": "Cancel"
+                    },
+                    "approve": {
+                        "title": "Approve Application",
+                        "description": "Are you sure you want to approve <strong>{{name}}</strong> application? This will allow them to start selling on the platform.",
+                        "confirm": "Confirm Approval",
                         "cancel": "Cancel"
                     }
                 }

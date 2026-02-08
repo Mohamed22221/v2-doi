@@ -6,8 +6,8 @@ import {
     useServerTable,
 } from '@/utils/hooks/useServerTable'
 import { useSellerTableColumns } from './SellerTableColumns'
-import { UserItem } from '@/api/types/users'
-import { useGetSellers } from '../hooks/useGetSellers'
+import { SellerItem } from '@/api/types/sellers'
+import { useGetSellers } from '@/api/hooks/sellers'
 import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
 import { useSellerCsvColumns } from './sellers.csv-columns'
 
@@ -19,14 +19,14 @@ export default function SellerTable() {
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
             {
-                key: 'status',
+                key: 'isVerified',
                 label: t('users.table.filters.status'),
                 value: null,
-                valueType: 'string',
+                valueType: 'boolean',
                 options: [
-                    { label: t('fixedPrice.sellers.status.approved'), value: 'approved' },
-                    { label: t('fixedPrice.sellers.status.rejected'), value: 'rejected' },
-                    { label: t('fixedPrice.sellers.status.pending'), value: 'pending' },
+                    { label: t('fixedPrice.sellers.status.approved'), value: true },
+                    { label: t('fixedPrice.sellers.status.pending'), value: false },
+                    { label: t('fixedPrice.sellers.status.rejected'), value: false },
                 ],
                 placeholder: t('users.table.filters.allStatus'),
             },
@@ -43,19 +43,15 @@ export default function SellerTable() {
     })
 
     const {
-        users,
+        sellers: rawSellers,
         isLoading,
         total,
         isError,
         errorMessage,
         limit,
-    } = useGetSellers({
-        search: tableQ.searchValue,
-        isActive: undefined, // No longer using isActive boolean
-        status: tableQ.filters.find(f => f.key === 'status')?.value as any,
-        page: tableQ.requestedPage,
-        limit: tableQ.pageSize
-    } as any)
+    } = useGetSellers()
+
+    const sellers = useMemo(() => rawSellers?.filter(s => !!s.user) ?? [], [rawSellers])
 
     const csvColumns = useSellerCsvColumns()
 
@@ -64,18 +60,18 @@ export default function SellerTable() {
             <ServerCsvExportButton
                 fileNamePrefix="sellers"
                 columns={csvColumns}
-                currentData={users}
-                serviceMethod={async () => ({ data: { items: users, total, page: 1, limit, totalPages: 1 } })}
+                currentData={sellers}
+                serviceMethod={async () => ({ data: { items: sellers, total, page: 1, limit, totalPages: 1 } })}
             />
         )
     }
 
     return (
-        <ViewTable<UserItem>
+        <ViewTable<SellerItem>
             showSearch
             title={t('fixedPrice.sellers.title')}
             columns={columns}
-            data={users ?? []}
+            data={sellers ?? []}
             total={total ?? 0}
             pageSize={tableQ.pageSize}
             searchPlaceholder={t('users.table.searchPlaceholder')}

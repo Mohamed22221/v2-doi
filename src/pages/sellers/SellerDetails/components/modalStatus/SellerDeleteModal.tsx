@@ -1,31 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, Formik } from 'formik'
+import { Form, Formik, Field, FieldProps } from 'formik'
+import * as Yup from 'yup'
 import {
     Dialog,
     Notification,
     toast,
     Icon,
+    Input,
 } from '@/components/ui'
-
-import { ModalHeader, ModalFooter } from '@/components/shared/StatusModal'
 import { FormItem } from '@/components/ui/Form'
-import { Field, FieldProps } from 'formik'
-import { Input } from '@/components/ui'
-import * as Yup from 'yup'
-import { SellerRejectModalProps, ModalConfig } from './modalStatus/types'
-
-import { useRejectSeller } from '@/api/hooks/sellers'
+import { ModalHeader, ModalFooter } from '@/components/shared/StatusModal'
+import { ModalConfig } from './types'
+import { useDeleteSeller } from '@/api/hooks/sellers'
 import { getApiErrorMessage } from '@/api/error'
 
-const SellerRejectModal = ({
+interface SellerDeleteModalProps {
+    isOpen: boolean
+    onClose: () => void
+    id: string
+    onConfirmSuccess?: () => void
+}
+
+const SellerDeleteModal = ({
     isOpen,
     onClose,
     onConfirmSuccess,
     id
-}: SellerRejectModalProps) => {
+}: SellerDeleteModalProps) => {
     const { t } = useTranslation()
-    const { mutate: rejectSeller, isPending } = useRejectSeller()
+    const { mutate: deleteSeller, isPending } = useDeleteSeller()
 
     const initialValues = {
         reason: '',
@@ -36,7 +40,7 @@ const SellerRejectModal = ({
     })
 
     const onConfirm = async (values: { reason: string }) => {
-        rejectSeller({
+        deleteSeller({
             userId: id,
             data: { reason: values.reason }
         }, {
@@ -62,10 +66,10 @@ const SellerRejectModal = ({
     }
 
     const config: ModalConfig = {
-        title: t('fixedPrice.sellers.details.modals.reject.title'),
-        description: t('fixedPrice.sellers.details.modals.reject.description'),
+        title: t('fixedPrice.sellers.status.temporaryDelete'),
+        description: t('users.userDetails.softDeleteModal.description'),
         icon: <Icon name="errorModal" />,
-        confirmText: t('fixedPrice.sellers.details.modals.reject.confirm'),
+        confirmText: t('users.userDetails.softDeleteModal.confirm'),
         confirmVariant: 'solid',
         confirmColor: 'red',
     }
@@ -88,7 +92,7 @@ const SellerRejectModal = ({
                         <div className="p-2">
                             <FormItem
                                 asterisk
-                                label={t('fixedPrice.sellers.details.modals.reject.reasonLabel')}
+                                label={t('users.userDetails.softDeleteModal.reasonLabel')}
                                 invalid={Boolean(touched.reason && errors.reason)}
                                 errorMessage={errors.reason}
                             >
@@ -97,7 +101,7 @@ const SellerRejectModal = ({
                                         <Input
                                             {...field}
                                             textArea
-                                            placeholder={t('fixedPrice.sellers.details.modals.reject.reasonPlaceholder')}
+                                            placeholder={t('users.userDetails.softDeleteModal.reasonPlaceholder')}
                                             rows={4}
                                         />
                                     )}
@@ -116,4 +120,4 @@ const SellerRejectModal = ({
     )
 }
 
-export default SellerRejectModal
+export default SellerDeleteModal

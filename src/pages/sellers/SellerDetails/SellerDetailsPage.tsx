@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next'
 import ErrorState from '@/components/shared/ErrorState'
 import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
 import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
-import { useGetSellerDetails } from '../hooks/useGetSellerDetails'
+import { useGetSellerDetails } from '@/api/hooks/sellers'
+import { getApiErrorMessage } from '@/api/error'
 
 const SellerInfo = lazy(() => import('./components/SellerInfo'))
 const SellerDetailedInfo = lazy(() => import('./components/SellerDetailedInfo'))
@@ -20,12 +21,13 @@ const SellerDetailsPage = () => {
     const { id } = useParams()
     const { t } = useTranslation()
 
-    const { data, isLoading, isError, error } = useGetSellerDetails(id!)
+    const { data: response, isLoading, isError, error } = useGetSellerDetails(id!)
+    const data = response?.data
 
     if (isError) {
         return (
             <div>
-                <ErrorState message={error?.message} fullPage={true} />
+                <ErrorState message={getApiErrorMessage(error)} fullPage={true} />
             </div>
         )
     }

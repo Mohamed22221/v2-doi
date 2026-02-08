@@ -6,15 +6,15 @@ import { useTranslation } from 'react-i18next'
 import { formatDateTime } from '@/utils/formatDateTime'
 import { getSellerStatusLabel, getSellerStatusVariant } from '@/pages/sellers/components/GetSellerStatusLabel'
 import SellerDropdownOptions, { SellerAction } from './SellerDropdownOptions'
-import SuspendUserModal from '@/pages/users/DetailsUser/components/SuspendUserModal'
-import { useToggleUserStatus } from '@/api/hooks/users'
-import { getApiErrorMessage } from '@/api/error'
-import RestoreUser from '@/pages/users/DetailsUser/components/RestoreUser'
+import SellerSuspendModal from './modalStatus/SellerSuspendModal'
+import SellerActivateModal from './modalStatus/SellerActivateModal'
+import SellerRestore from './SellerRestore'
+import { useSuspendSeller, useActivateSeller } from '@/api/hooks/sellers'
 
 import AccountId from '@/components/shared/cards/AccountId'
 import UserInfoMeta from '@/components/shared/cards/UserInfoMeta'
 
-import { SellerItem } from '../../data/sellers.mock'
+import { SellerItem } from '@/api/types/sellers'
 
 type Props = {
     data?: SellerItem
@@ -24,7 +24,9 @@ const SellerInfo = ({ data }: Props) => {
     const { t } = useTranslation()
     const { date } = formatDateTime(data?.user?.createdAt || '')
     const [dialogIsOpen, setIsOpen] = useState(false)
-    const { mutate, isPending } = useToggleUserStatus()
+    const [activateModalOpen, setActivateModalOpen] = useState(false)
+    const { mutate: suspendSeller, isPending: isSuspending } = useSuspendSeller()
+    const { mutate: activateSeller } = useActivateSeller()
 
     const openDialog = () => {
         setIsOpen(true)
@@ -34,34 +36,6 @@ const SellerInfo = ({ data }: Props) => {
         setIsOpen(false)
     }
 
-    const handleSellerAction = (action: SellerAction) => {
-        console.log('Seller action:', action)
-        // Implementation for approve/reject would go here
-    }
-
-    const onDialogOk = () => {
-        mutate(
-            { id: data!.user.id, isActive: data!.user.isActive },
-            {
-                onSuccess: () => {
-                    onDialogClose()
-                    toast.push(
-                        <Notification
-                            title={
-                                data?.user?.isActive
-                                    ? t('users.userDetails.notifications.suspendedSuccess')
-                                    : t('users.userDetails.notifications.activatedSuccess')
-                            }
-                            type="success"
-                        />
-                    )
-                },
-                onError: (error) => {
-                    toast.push(<Notification title={getApiErrorMessage(error)} type="danger" />)
-                }
-            }
-        )
-    }
 
     const userName = `${data?.user?.firstName || ''} ${data?.user?.lastName || ''}`
 
@@ -81,16 +55,15 @@ const SellerInfo = ({ data }: Props) => {
                                 {userName}
                             </h2>
                             <StatusPill
-                                variant={getSellerStatusVariant(data?.status)}
-                                label={getSellerStatusLabel(data?.status)}
+                                variant={getSellerStatusVariant(data?.approvalStatus)}
+                                label={getSellerStatusLabel(data?.approvalStatus)}
                                 size="sm"
                             />
                         </div>
 
-                        <AccountId id={data?.id || ''} />
+                        <AccountId id={data?.user?.id || ''} />
 
                         <UserInfoMeta
-                            location={data?.user?.region}
                             joinedDate={date}
                         />
                     </div>
@@ -99,40 +72,55 @@ const SellerInfo = ({ data }: Props) => {
                 {/* Right Side Actions */}
                 {data?.user?.deletedAt === null && (
                     <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
-                        <Button
-                            color={data?.user?.isActive ? 'red' : 'green'}
-                            onClick={() => openDialog()}
-                            variant="solid"
-                        >
-                            {data?.user?.isActive
-                                ? t('users.userDetails.actions.suspendUser')
-                                : t('users.userDetails.actions.activateUser')}
-                        </Button>
+                        {data?.accountStatus === 'active' && (
+                            <Button
+                                color={'red'}
+                                onClick={() => openDialog()}
+                                variant="solid"
+                            >
+                                {t('users.userDetails.actions.suspendUser')}
+                            </Button>
+                        )}
+                        {data?.accountStatus === 'suspended' && (
+                            <Button
+                                color={'green'}
+                                onClick={() => setActivateModalOpen(true)}
+                                variant="solid"
+                            >
+                                {t('users.userDetails.actions.activateUser')}
+                            </Button>
+                        )}
                         <SellerDropdownOptions
-                            id={data?.id || ''}
+                            id={data?.user?.id || ''}
                             firstName={data?.user?.firstName || ''}
                             lastName={data?.user?.lastName || ''}
-                            status={data?.status}
-                            onAction={handleSellerAction}
+                            approvalStatus={data?.approvalStatus}
+                            accountStatus={data?.accountStatus}
                         />
                     </div>
                 )}
 
-                <SuspendUserModal
-                    dialogIsOpen={dialogIsOpen}
+                <SellerSuspendModal
+                    isOpen={dialogIsOpen}
+                    id={data?.user?.id || ''}
+                    onClose={onDialogClose}
+                    onConfirmSuccess={() => {
+                        // Success toast is handled within the modal
+                    }}
+                />
+                <SellerActivateModal
+                    isOpen={activateModalOpen}
+                    id={data?.user?.id || ''}
+                    onClose={() => setActivateModalOpen(false)}
                     firstName={data?.user?.firstName}
                     lastName={data?.user?.lastName}
-                    isActive={data?.user?.isActive}
-                    onDialogClose={onDialogClose}
-                    onDialogConfirm={onDialogOk}
-                    isLoading={isPending}
                 />
             </div>
             {data?.user?.deletedAt != null && (
-                <RestoreUser
+                <SellerRestore
                     firstName={data?.user?.firstName}
                     lastName={data?.user?.lastName}
-                    id={data?.user?.id}
+                    id={data?.user?.id || ''}
                 />
             )}
         </BackgroundRounded>
