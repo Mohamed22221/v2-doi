@@ -25,3 +25,6 @@ build
 *.sw?
 .vite-cache/
 .env
+
+# Agent/AI Rules
+.agent/rules

@@ -6,6 +6,7 @@ import Tabs from '@/components/ui/Tabs'
 import { useGetProfile } from '@/api/hooks/auth'
 import { Loading } from '@/components/shared'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
+import ErrorState from '@/components/shared/ErrorState'
 // Lazy load settings tabs
 const Profile = lazy(() => import('./Profile'))
 const Password = lazy(() => import('./Password'))
@@ -51,32 +52,43 @@ const Settings = () => {
         setCurrentTab(path)
     }, [path])
     // Render data profile
-    const { data } = useGetProfile()
+    const { data, isError, error, isLoading } = useGetProfile()
     const dataProfile = data?.data
+    if (isError) {
+        return (
+            <div>
+                <ErrorState message={error?.message} fullPage={true} />
+            </div>
+        )
+    }
     return (
         <BackgroundRounded>
-            
-                <Tabs value={currentTab} onChange={(val) => onTabChange(val)}>
-                    <TabList>
-                        {Object.keys(settingsMenu).map((key) => (
-                            <TabNav key={key} value={key}>
-                                {settingsMenu[key].label}
-                            </TabNav>
-                        ))}
-                    </TabList>
-                </Tabs>
+            <Tabs value={currentTab} onChange={(val) => onTabChange(val)}>
+                <TabList>
+                    {Object.keys(settingsMenu).map((key) => (
+                        <TabNav key={key} value={key}>
+                            {settingsMenu[key].label}
+                        </TabNav>
+                    ))}
+                </TabList>
+            </Tabs>
 
-                <div className="px-4 py-6">
-                    <Suspense fallback={LoadingComponent()}>
-                        {currentTab === 'profile' && dataProfile && (
-                            <Profile data={dataProfile} />
-                        )}
-                    </Suspense>
-                    <Suspense fallback={LoadingComponent()}>
-                        {currentTab === 'password' && <Password />}
-                    </Suspense>
-                </div>
-      
+            <div className="px-4 py-6">
+                {isLoading ? (
+                    <LoadingComponent />
+                ) : (
+                    <>
+                        <Suspense fallback={LoadingComponent()}>
+                            {currentTab === 'profile' && dataProfile && (
+                                <Profile data={dataProfile} />
+                            )}
+                        </Suspense>
+                        <Suspense fallback={LoadingComponent()}>
+                            {currentTab === 'password' && <Password />}
+                        </Suspense>
+                    </>
+                )}
+            </div>
         </BackgroundRounded>
     )
 }

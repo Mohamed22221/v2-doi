@@ -30,7 +30,7 @@ const navigationConfig: NavigationTree[] = [
         path: '/sellers',
         title: 'Sellers',
         translateKey: 'nav.sellers',
-        icon: 'users',
+        icon: 'sellers',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [],
         subMenu: [],
