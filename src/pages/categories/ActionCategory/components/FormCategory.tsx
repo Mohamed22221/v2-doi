@@ -495,11 +495,11 @@ const FormCategory = () => {
                                                                     categoryDetails
                                                                         ?.data?.parent
                                                                 }
-                                                                level={
-                                                                    categoryDetails?.data?.level
-                                                                        ? categoryDetails.data.level
-                                                                        : undefined
-                                                                }
+                                                                // level={
+                                                                //     categoryDetails?.data?.level
+                                                                //         ? categoryDetails.data.level
+                                                                //         : undefined
+                                                                // }
                                                                 menuPortalZ={
                                                                     400
                                                                 }

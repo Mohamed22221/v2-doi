@@ -24,7 +24,11 @@
         "dragToMove": "اسحب لتحريك الصورة",
         "zoomInstruction": "قم بالتكبير أولاً لتتمكن من تحريك الصورة والوصول للحواف",
         "exportCsv": "تصدير CSV",
-        "sellerInfo": "معلومات البائع"
+        "sellerInfo": "معلومات البائع",
+        "buyer": "المشتري",
+        "seller": "البائع",
+        "required": "مطلوب",
+        "currency": "ر.س"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -35,6 +39,7 @@
         "models": "الموديلات",
         "orders": "الطلبات",
         "fixedPrice": "العناصر بسعر ثابت",
+        "halls": "إدارة القاعات",
         "manageAds": "إدارة الإعلانات",
         "payments": "المدفوعات",
         "support": "الدعم",
@@ -45,6 +50,7 @@
             "liveAuctions": "المزادات المباشرة",
             "durationAuctions": "المزادات المدفوعة بالمدة"
         },
+        "disputes": "النزاعات",
         "groupMenu": {
             "groupMenu": "Group menu",
             "single": "Group single menu item",
@@ -70,7 +76,8 @@
             "passwordPlaceholder": "كلمة المرور",
             "forgotPassword": "نسيت كلمة المرور؟",
             "signingIn": "جاري تسجيل الدخول...",
-            "signIn": "تسجيل الدخول"
+            "signIn": "تسجيل الدخول",
+            "fakeSignIn": "دخول وهمي (للحالات الطارئة)"
         },
         "forgot": {
             "title": "نسيت كلمة المرور",
@@ -217,7 +224,8 @@
                 "allRoles": "جميع الأدوار",
                 "loading": "جاري التحميل...",
                 "failedRoles": "فشل تحميل الأدوار",
-                "isDeleted": "حالة الحذف:"
+                "isDeleted": "حالة الحذف:",
+                "approvalStatus": "الحالة:"
             }
         },
         "userDetails": {
@@ -252,7 +260,18 @@
                 "confirmActivateMessage": "هل أنت متأكد أنك تريد تفعيل حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى استعادة وصوله إلى جميع ميزات المنصة والجلسات النشطة.",
                 "cancel": "إلغاء",
                 "confirmSuspension": "تأكيد التعليق",
-                "confirmActivation": "تأكيد التفعيل"
+                "confirmActivation": "تأكيد التفعيل",
+                "description": "يرجى تقديم سبب واضح لتعليق الحساب.",
+                "reasonLabel": "سبب التعليق",
+                "reasonPlaceholder": "اختر السبب",
+                "noteLabel": "ملاحظة",
+                "notePlaceholder": "أدخل ملاحظات إضافية حول التعليق",
+                "reasons": {
+                    "policyViolation": "انتهاك السياسة",
+                    "fraudulentActivity": "نشاط احتيالي",
+                    "poorPerformance": "أداء ضعيف",
+                    "other": "أخرى"
+                }
             },
             "status": {
                 "verified": "موثق",
@@ -280,7 +299,9 @@
                 "description": "سيؤدي التعطيل إلى حظر تسجيل الدخول والنشاط، ولكن ستظل بيانات المستخدم موجودة",
                 "cancel": "إلغاء",
                 "confirm": "حذف مؤقت",
-                "success": "تم حذف المستخدم مؤقتًا بنجاح."
+                "success": "تم حذف المستخدم مؤقتًا بنجاح.",
+                "reasonLabel": "سبب الحذف",
+                "reasonPlaceholder": "أدخل سبب الحذف"
             },
             "restoreDeleteModal": {
                 "msgRestore": "تم حذف هذا المستخدم. يمكنك استعادته مرة أخرى.",
@@ -332,29 +353,24 @@
         }
     },
     "sellers": {
-        "details": {
-            "title": "تفاصيل البائع"
+        "info": {
+            "personalInfo": "المعلومات الشخصية",
+            "sellerInfo": "معلومات البائع",
+            "companyName": "اسم الشركة",
+            "contactNumber": "رقم التواصل",
+            "commercialRegistrationNumber": "رقم السجل التجاري",
+            "nationalIdNumber": "رقم الهوية الوطنية",
+            "requestSubmitted": "تاريخ تقديم الطلب",
+            "accountStatus": "حالة الحساب"
+        },
+        "documents": {
+            "title": "مستندات التوثيق",
+            "commercialCertificate": "الشهادة التجارية",
+            "taxCertificate": "الشهادة الضريبية",
+            "nationalId": "بطاقة الهوية الوطنية"
         },
         "img": "الصورة",
         "imgSubtitle": "أضف أو غيّر صورة البائع",
-        "update": {
-            "title": "تعديل بيانات البائع",
-            "subtitle": "قم بتعديل بيانات البائع ثم احفظ التغييرات",
-            "submit": "تحديث البائع",
-            "success": "تم تحديث بيانات البائع بنجاح"
-        },
-        "create": {
-            "title": "إضافة بائع جديد",
-            "subtitle": "قم بإدخال البيانات التالية لإنشاء بائع جديد"
-        },
-        "companyName": "اسم الشركة",
-        "contactNumber": "رقم التواصل",
-        "commercialRegistrationNumber": "رقم السجل التجاري",
-        "errors": {
-            "companyNameRequired": "اسم الشركة مطلوب",
-            "contactNumberRequired": "رقم التواصل مطلوب",
-            "commercialRegistrationNumberRequired": "رقم السجل التجاري مطلوب"
-        },
         "upload": {
             "oneOnly": "يرجى رفع صورة واحدة فقط.",
             "invalidType": "يرجى رفع صورة بصيغة صحيحة (jpeg أو png أو webp).",
@@ -368,7 +384,196 @@
             "removeTitle": "حذف الصورة",
             "removeConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
             "noUrl": "فشل الرفع: لم يتم إرجاع رابط للصورة."
-        }
+        },
+        "table": {
+            "title": "البائعون المسجلون",
+            "searchPlaceholder": "البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف",
+            "emptyText": "لا يوجد بائعين",
+            "columns": {
+                "name": "الاسم",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "status": "الحالة",
+                "registeredDate": "تاريخ التسجيل",
+                "idPrefix": "المعرف:"
+            },
+            "status": {
+                "active": "نشط",
+                "blocked": "محظور",
+                "isDeleted": "محذوف",
+                "nonDeleted": "غير محذوف",
+                "status": "الحالة",
+                "pending": "قيد الانتظار",
+                "approved": "مقبول",
+                "rejected": "مرفوض",
+                "approveRequest": "الموافقة على الطلب",
+                "rejectRequest": "رفض الطلب"
+            },
+            "actions": {
+                "view": "عرض",
+                "softDelete": "حذف مؤقت",
+                "hardDelete": "حذف نهائي"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "role": "الدور:",
+                "allStatus": "جميع الحالات",
+                "allRoles": "جميع الأدوار",
+                "loading": "جاري التحميل...",
+                "failedRoles": "فشل تحميل الأدوار",
+                "isDeleted": "حالة الحذف:",
+                "approvalStatus": "الحالة:"
+            }
+        },
+        "details": {
+            "title": "تفاصيل البائع",
+            "accountStatistics": {
+                "title": "إحصائيات الحساب",
+                "totalSpent": "إجمالي الإنفاق",
+                "totalOrders": "إجمالي الطلبات"
+            },
+            "personalInfo": {
+                "title": "المعلومات الشخصية",
+                "email": "البريد الإلكتروني",
+                "phone": "رقم الهاتف",
+                "registrationDate": "تاريخ التسجيل",
+                "accountStatus": "حالة الحساب"
+            },
+            "shippingAddress": {
+                "title": "العنوان الرئيسي",
+                "fullAddress": "العنوان الكامل",
+                "cityDistrict": "المدينة والحي",
+                "country": "الدولة"
+            },
+            "recentTransactions": {
+                "title": "المعاملات الأخيرة",
+                "emptyText": "لا توجد معاملات.",
+                "viewAllActivity": "عرض جميع الأنشطة"
+            },
+            "suspendModal": {
+                "titleSuspend": "تعليق حساب البائع",
+                "titleActivate": "تفعيل حساب البائع",
+                "confirmSuspendMessage": "هل أنت متأكد أنك تريد تعليق حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى إلغاء وصوله فوراً إلى جميع ميزات المنصة والجلسات النشطة.",
+                "confirmActivateMessage": "هل أنت متأكد أنك تريد تفعيل حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى استعادة وصوله إلى جميع ميزات المنصة والجلسات النشطة.",
+                "cancel": "إلغاء",
+                "confirmSuspension": "تأكيد التعليق",
+                "confirmActivation": "تأكيد التفعيل",
+                "description": "يرجى تقديم سبب واضح لتعليق الحساب.",
+                "reasonLabel": "سبب التعليق",
+                "reasonPlaceholder": "اختر السبب",
+                "noteLabel": "ملاحظة",
+                "notePlaceholder": "أدخل ملاحظات إضافية حول التعليق",
+                "reasons": {
+                    "policyViolation": "انتهاك السياسة",
+                    "fraudulentActivity": "نشاط احتيالي",
+                    "poorPerformance": "أداء ضعيف",
+                    "other": "أخرى"
+                }
+            },
+            "status": {
+                "verified": "موثق",
+                "notVerified": "غير موثق"
+            },
+            "actions": {
+                "suspendSeller": "تعليق البائع",
+                "activateSeller": "تفعيل البائع"
+            },
+            "notifications": {
+                "suspendedSuccess": "تم تعليق حساب البائع بنجاح",
+                "activatedSuccess": "تم تفعيل حساب البائع بنجاح"
+            },
+            "hardDeleteModal": {
+                "title": "حذف البائع نهائيًا",
+                "message": "هل أنت متأكد من حذف البائع <strong>{{name}}</strong> نهائيًا؟",
+                "warning": "لا يمكن التراجع عن هذا الإجراء.",
+                "cancel": "إلغاء",
+                "confirm": "حذف نهائي",
+                "success": "تم حذف البائع نهائيًا بنجاح."
+            },
+            "softDeleteModal": {
+                "title": "حذف مؤقت للبائع",
+                "message": "هل أنت متأكد من حذف البائع <strong>{{name}}</strong> مؤقتًا؟",
+                "description": "سيؤدي التعطيل إلى حظر تسجيل الدخول والنشاط، ولكن ستظل بيانات البائع موجودة",
+                "cancel": "إلغاء",
+                "confirm": "حذف مؤقت",
+                "success": "تم حذف البائع مؤقتًا بنجاح.",
+                "reasonLabel": "سبب الحذف",
+                "reasonPlaceholder": "أدخل سبب الحذف"
+            },
+            "restoreDeleteModal": {
+                "msgRestore": "تم حذف هذا البائع. يمكنك استعادته مرة أخرى.",
+                "btnRestore": "استعادة البائع",
+                "title": "استعادة البائع",
+                "message": "هل أنت متأكد أنك تريد استعادة <strong>{{name}}</strong>؟ سيتم إعادة تفعيل البائع ومنحه إمكانية الوصول إلى النظام مرة أخرى.",
+                "confirm": "استعادة البائع",
+                "cancel": "إلغاء",
+                "success": "تمت استعادة البائع بنجاح"
+            },
+            "accountId": "معرف الحساب",
+            "joined": "انضم في",
+            "modals": {
+                "reject": {
+                    "title": "طلب الرفض",
+                    "description": "سيؤدي هذا الإجراء إلى رفض تسجيل البائع. يرجى تقديم سبب واضح للرفض.",
+                    "reasonLabel": "سبب الرفض",
+                    "reasonPlaceholder": "اختر السبب",
+                    "noteLabel": "ملاحظة",
+                    "notePlaceholder": "أدخل ملاحظة حول الرفض",
+                    "footerText": "* سيتم تسجيل هذا السبب في سجل الحساب.",
+                    "confirm": "تأكيد الرفض",
+                    "cancel": "إلغاء"
+                },
+                "approve": {
+                    "title": "الموافقة على الطلب",
+                    "description": "هل أنت متأكد أنك تريد الموافقة على طلب <strong>{{name}}</strong>؟ سيسمح لهم ذلك بالبدء في البيع على المنصة.",
+                    "confirm": "تأكيد الموافقة",
+                    "cancel": "إلغاء"
+                }
+            }
+        },
+        "create": {
+            "title": "إضافة بائع جديد",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء بائع جديد",
+            "submit": "إضافة البائع",
+            "success": "تم إنشاء البائع بنجاح"
+        },
+        "update": {
+            "title": "تعديل بيانات البائع",
+            "subtitle": "قم بتعديل بيانات البائع ثم احفظ التغييرات",
+            "submit": "حفظ التعديلات",
+            "success": "تم تحديث بيانات البائع بنجاح",
+            "submitUpdate": "تحديث البائع"
+        },
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "password": "كلمة المرور",
+        "role": "الدور",
+        "rolePlaceholder": "اختر الدور",
+        "image": "رابط صورة الملف الشخصي",
+        "isActive": "مفعل",
+        "rolesLoadError": "فشل تحميل الأدوار",
+        "errors": {
+            "firstNameRequired": "الاسم الأول مطلوب",
+            "lastNameRequired": "اسم العائلة مطلوب",
+            "emailRequired": "البريد الإلكتروني مطلوب",
+            "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+            "phoneRequired": "رقم الهاتف مطلوب",
+            "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
+            "passwordRequired": "كلمة المرور مطلوبة",
+            "passwordMin": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+            "roleRequired": "الدور مطلوب",
+            "imageRequired": "رابط الصورة مطلوب",
+            "invalidImageUrl": "يرجى إدخال رابط صورة صحيح",
+            "reasonRequired": "السبب مطلوب",
+            "companyNameRequired": "اسم الشركة مطلوب",
+            "contactNumberRequired": "رقم التواصل مطلوب",
+            "commercialRegistrationNumberRequired": "رقم السجل التجاري مطلوب"
+        },
+        "companyName": "اسم الشركة",
+        "contactNumber": "رقم التواصل",
+        "commercialRegistrationNumber": "رقم السجل التجاري"
     },
     "fixedPrice": {
         "table": {
@@ -409,6 +614,9 @@
                 "approved": "مقبول",
                 "rejected": "مرفوض",
                 "pending": "قيد الانتظار",
+                "active": "نشط",
+                "suspended": "معلق",
+                "deleted": "محذوف",
                 "suspend": "تعليق المستخدم",
                 "approveRequest": "الموافقة على الطلب",
                 "rejectRequest": "رفض الطلب",
@@ -422,6 +630,7 @@
                 "companyName": "اسم الشركة",
                 "contactNumber": "رقم التواصل",
                 "commercialRegistrationNumber": "رقم السجل التجاري",
+                "nationalIdNumber": "رقم الهوية الوطنية",
                 "requestSubmitted": "تاريخ تقديم الطلب",
                 "accountStatus": "حالة الحساب"
             },
@@ -441,7 +650,13 @@
                         "noteLabel": "ملاحظة",
                         "notePlaceholder": "أدخل ملاحظة حول الرفض",
                         "footerText": "* سيتم تسجيل هذا السبب في سجل الحساب.",
-                        "confirm": "تأكيد التعليق",
+                        "confirm": "تأكيد الرفض",
+                        "cancel": "إلغاء"
+                    },
+                    "approve": {
+                        "title": "الموافقة على الطلب",
+                        "description": "هل أنت متأكد أنك تريد الموافقة على طلب <strong>{{name}}</strong>؟ سيسمح لهم ذلك بالبدء في البيع على المنصة.",
+                        "confirm": "تأكيد الموافقة",
                         "cancel": "إلغاء"
                     }
                 }
@@ -542,6 +757,114 @@
         },
         "details": {
             "title": "تفاصيل المزاد المباشر",
+            "itemId": "رقم المنتج",
+            "basicInfo": "معلومات أساسية",
+            "category": "الفئة",
+            "hall": "القاعة",
+            "start": "بداية المزاد",
+            "end": "نهاية المزاد",
+            "description": "الوصف",
+            "pricingAndStock": "التسعير والمخزون",
+            "availableQuantity": "الكمية المتوفرة",
+            "startingPrice": "سعر البداية",
+            "finalPrice": "السعر النهائي",
+            "winner": "الفائز",
+            "currentHighestBid": "أعلى مزايدة حالية",
+            "timeRemaining": "الوقت المتبقي",
+            "mediaAssets": "أصول الوسائط",
+            "sellerInfo": "معلومات البائع",
+            "sellerId": "رقم البائع",
+            "sellerName": "اسم البائع",
+            "phoneNumber": "رقم الهاتف",
+            "sellerStatus": "حالة البائع",
+            "activityLog": "سجل النشاطات",
+            "logItem": "المنتج",
+            "createdAt": "أنشئت في",
+            "reason": "السبب",
+            "actions": {
+                "reject": "رفض",
+                "hide": "إخفاء المزاد",
+                "forceEnd": "إنهاء المزاد",
+                "unhide": "إظهار المنتج"
+            },
+            "modals": {
+                "reasons": {
+                    "incorrectCategory": "فئة غير صحيحة",
+                    "blurryImages": "صور غير واضحة",
+                    "missingDescription": "وصف مفقود",
+                    "duplicateItem": "منتج مكرر",
+                    "outOfSeason": "خارج الموسم",
+                    "temporarilyUnavailable": "غير متوفر مؤقتاً",
+                    "testing": "تجربة",
+                    "other": "أخرى"
+                },
+                "reject": {
+                    "title": "رفض المنتج",
+                    "description": "هل أنت متأكد من رغبتك في رفض هذا العنصر؟ سيتم رفض هذا المنتج ولن يظهر في التطبيق أو الموقع الإلكتروني.",
+                    "reasonLabel": "سبب الرفض",
+                    "reasonPlaceholder": "اختر سبباً",
+                    "noteLabel": "ملاحظة",
+                    "notePlaceholder": "أضف ملاحظة...",
+                    "confirm": "رفض المنتج"
+                },
+                "hide": {
+                    "title": "إخفاء المنتج",
+                    "description": "هل أنت متأكد من رغبتك في إخفاء هذا العنصر؟ سيتم إخفاء هذا المزاد عن المستخدمين فوراً.",
+                    "reasonLabel": "سبب الإخفاء",
+                    "reasonPlaceholder": "اختر سبباً",
+                    "noteLabel": "ملاحظة",
+                    "notePlaceholder": "أضف ملاحظة...",
+                    "footerText": "هذا السبب للاستخدام الداخلي فقط.",
+                    "confirm": "إخفاء المنتج"
+                },
+                "forceEnd": {
+                    "title": "إنهاء المزاد قسراً",
+                    "description": "هل تريد إنهاء المزاد قسراً؟ سيؤدي هذا إلى إيقاف المزايدة فوراً وإنهاء المزاد.",
+                    "confirm": "إنهاء المزاد"
+                },
+                "unhide": {
+                    "title": "إظهار المنتج",
+                    "description": "هل أنت متأكد من رغبتك في إظهار هذا المنتج؟ سيصبح المنتج مرئياً للمستخدمين بناءً على حالته الحالية.",
+                    "confirm": "إظهار المنتج"
+                },
+                "errors": {
+                    "reasonRequired": "السبب مطلوب"
+                }
+            },
+            "errors": {
+                "itemNotFound": "المزاد غير موجود"
+            }
+        }
+    },
+    "durationAuctions": {
+        "table": {
+            "title": "مزادات المدة",
+            "searchPlaceholder": "البحث عن طريق اسم المزاد أو معرفه أو البائع",
+            "idPrefix": "المعرف:",
+            "columns": {
+                "item": "العنصر",
+                "seller": "البائع",
+                "hall": "القاعة",
+                "category": "الفئة",
+                "status": "الحالة",
+                "dateRange": "نطاق تاريخ المزاد"
+            },
+            "status": {
+                "live": "مباشر",
+                "scheduled": "مجدول",
+                "hidden": "مخفي",
+                "ended": "منتهي",
+                "rejected": "مرفوض"
+            },
+            "filters": {
+                "status": "الحالة",
+                "category": "الفئة",
+                "allStatus": "كل الحالات",
+                "allCategory": "كل الفئات"
+            }
+        },
+        "details": {
+            "title": "تفاصيل مزاد المدة",
             "itemId": "رقم المنتج",
             "basicInfo": "معلومات أساسية",
             "category": "الفئة",
@@ -768,8 +1091,10 @@
         "deleteModal": {
             "cannotDeleteTitle": "لا يمكن حذف الفئة",
             "canDeleteTitle": "حذف الفئة",
-            "descriptionBlocked": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة و/أو <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. تم تعطيل الحذف النهائي لمنع فقدان البيانات بشكل كبير.",
-            "descriptionAllowed": "الفئة <strong>{{name}}</strong> فارغة (لا توجد عناصر أو فئات فرعية) لذا يسمح بالحذف المؤقت، والحذف النهائي ونقل لفئه اخري.",
+            "descriptionBlockedActive": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة و/أو <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. يمكنك نقل الفئة أو تعطيلها.",
+            "descriptionBlockedInactive": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة. يمكنك نقل الفئة أو حذفها مؤقتًا.",
+            "descriptionBlockedInactiveSub": "تحتوي <strong>{{name}}</strong> على <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. يجب نقل الفئات الفرعية قبل الحذف.",
+            "descriptionAllowed": "الفئة <strong>{{name}}</strong> فارغة (لا توجد عناصر أو فئات فرعية) لذا يسمح بالحذف المؤقت، ونقل لفئه اخري.",
             "disableOption": "تعطيل الفئة (موصى به)",
             "disableDescription": "التعطيل يحافظ على البيانات ولكن يخفيها عن المستخدمين ويمنع أي استخدام آخر.",
             "bulkMoveOption": "نقل الفئة",
@@ -1044,6 +1369,170 @@
             "codeRequired": "كود اللغة مطلوب"
         }
     },
+    "disputes": {
+        "table": {
+            "title": "النزاعات",
+            "searchPlaceholder": "البحث برقم النزاع، رقم الطلب، المشتري، أو البائع",
+            "emptyText": "لم يتم العثور على نزاعات",
+            "columns": {
+                "disputeId": "رقم النزاع",
+                "orderId": "رقم الطلب",
+                "buyer": "المشتري",
+                "seller": "البائع",
+                "reason": "السبب",
+                "disputeStatus": "حالة النزاع",
+                "openedAt": "تاريخ الفتح"
+            },
+            "status": {
+                "resolvedBuyer": "تم الحل - لصالح المشتري",
+                "resolvedSeller": "تم الحل - لصالح البائع",
+                "resolvedCompromise": "تم الحل - تسوية",
+                "waitingSeller": "في انتظار رد البائع",
+                "disputeOpened": "النزاع مفتوح",
+                "platformMediation": "وساطة المنصة"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "allStatus": "جميع الحالات",
+                "openedDate": "تاريخ الفتح:",
+                "today": "اليوم",
+                "selectDate": "اختر التاريخ"
+            },
+            "actions": {
+                "view": "عرض"
+            }
+        },
+        "actions": {
+            "exportCase": "تصدير القضية",
+            "resolveDispute": "حل النزاع",
+            "requestEvidence": "طلب مزيد من الأدلة"
+        },
+        "details": {
+            "title": "تفاصيل النزاع",
+            "breadcrumb": "تفاصيل النزاع",
+            "overview": {
+                "title": "نظرة عامة",
+                "disputeId": "رقم النزاع",
+                "orderType": "نوع الطلب",
+                "disputeStatus": "حالة النزاع",
+                "orderId": "رقم الطلب",
+                "heldAmount": "المبلغ المحجوز",
+                "slaCounter": "عداد SLA",
+                "days": "أيام",
+                "hours": "ساعات",
+                "minutes": "دقائق",
+                "orderTypes": {
+                    "liveAuction": "مزاد مباشر",
+                    "fixedPrice": "سعر ثابت",
+                    "durationAuction": "مزاد بمدة"
+                }
+            },
+            "summary": {
+                "title": "ملخص النزاع",
+                "reason": "السبب",
+                "requestedOutcome": "النتيجة المطلوبة",
+                "buyerMessage": "رسالة المشتري"
+            },
+            "orderSnapshot": {
+                "title": "لقطة من الطلب",
+                "itemTotalAmount": "مبلغ الصنف",
+                "shippingFees": "رسوم الشحن",
+                "vat": "ضريبة القيمة المضافة",
+                "totalAmount": "المبلغ الإجمالي"
+            },
+            "buyerInfo": {
+                "title": "معلومات المشتري",
+                "buyerId": "رقم المشتري",
+                "buyerName": "اسم المشتري",
+                "phoneNumber": "رقم الهاتف"
+            },
+            "sellerInfo": {
+                "title": "معلومات البائع",
+                "sellerId": "رقم البائع",
+                "sellerName": "اسم البائع",
+                "phoneNumber": "رقم الهاتف",
+                "sellerStatus": "حالة البائع"
+            },
+            "activityLog": {
+                "title": "سجل النشاط",
+                "item": "الصنف",
+                "createdAt": "تم الإنشاء في",
+                "reason": "السبب"
+            },
+            "modals": {
+                "requestEvidence": {
+                    "title": "طلب مزيد من الأدلة",
+                    "description": "اطلب من المشتري أو البائع تقديم أدلة إضافية للمساعدة في حل هذا النزاع.",
+                    "requestFrom": "طلب الأدلة من",
+                    "requestFromPlaceholder": "اختر الطرف",
+                    "evidenceType": "نوع الأدلة",
+                    "evidenceTypePlaceholder": "اختر نوع الأدلة",
+                    "deadline": "الموعد النهائي للأدلة",
+                    "deadlinePlaceholder": "اختر عدد الأيام",
+                    "helperText": "سيتم إرسال الطلب كإشعار وإضافته إلى سجل القضية.",
+                    "submit": "إرسال الطلب",
+                    "types": {
+                        "photos": "صور",
+                        "receipt": "إيصال",
+                        "shippingProof": "إثبات شحن"
+                    }
+                },
+                "resolveDispute": {
+                    "title": "حل النزاع",
+                    "description": "اختر القرار النهائي. هذا القرار نهائي وسيتم تسجيله في سجل القضية.",
+                    "outcome": "نتيجة الحل",
+                    "outcomePlaceholder": "اختر النتيجة",
+                    "submit": "حل النزاع",
+                    "outcomes": {
+                        "buyerWins": "فوز المشتري",
+                        "sellerWins": "فوز البائع",
+                        "compensationType": "نوع التعويض",
+                        "returnItem": "إرجاع المنتج"
+                    },
+                    "fields": {
+                        "refundAmount": "مبلغ الاسترداد",
+                        "refundAmountPlaceholder": "اكتب المبلغ",
+                        "reason": "السبب",
+                        "reasonPlaceholder": "أدخل السبب",
+                        "compensationType": "نوع التعويض",
+                        "compensationTypePlaceholder": "اختر الخيار",
+                        "compensationValue": "قيمة التعويض",
+                        "compensationValuePlaceholder": "اكتب المبلغ",
+                        "releaseAmount": "مبلغ الصرف",
+                        "releaseAmountPlaceholder": "اكتب المبلغ",
+                        "returnShippingPaidBy": "شحن المرتجع مدفوع من قبل",
+                        "returnDeadline": "الموعد النهائي للإرجاع",
+                        "returnDeadlinePlaceholder": "اكتب بالأيام"
+                    },
+                    "options": {
+                        "partialRefund": "استرداد جزئي",
+                        "returnShipping": "شحن المرتجع"
+                    },
+                    "helpers": {
+                        "buyerWins": "سيتم رد الأموال إلى المشتري وخصمها من محفظة البائع إذا لزم الأمر.",
+                        "compensationType": "يمكنك إصدار تعويض جزئي أو طلب إرجاع، وتحديد من يتحمل تكاليف الشحن.",
+                        "sellerWins": "سيتم صرف المبالغ المحجوزة للبائع وسيتم إغلاق النزاع."
+                    }
+                }
+            },
+            "resolution": {
+                "title": "القرار",
+                "outcome": "النتيجة",
+                "reason": "السبب",
+                "outcomes": {
+                    "buyerWins": "فوز المشتري",
+                    "sellerWins": "فوز البائع",
+                    "compromise": "تسوية"
+                },
+                "mockReason": "تم تأكيد عدم تطابق المواد في الصور والوصف",
+                "resolvedAt": "تم الحل في",
+                "resolvedBy": "بواسطة"
+            },
+            "errors": {
+                "disputeNotFound": "النزاع غير موجود"
+            }
+        }
+    },
     "themeConfigurator": {
         "title": "إعدادات المظهر",
         "darkMode": {
@@ -1077,6 +1566,105 @@
         },
         "color": {
             "primary": "الأساسي"
+        }
+    },
+    "halls": {
+        "table": {
+            "title": "إدارة القاعات",
+            "searchPlaceholder": "البحث عن طريق اسم القاعة أو الكود",
+            "emptyText": "لم يتم العثور على قاعات",
+            "columns": {
+                "hallName": "اسم القاعة",
+                "status": "الحالة",
+                "assigned": "المسندة",
+                "createdAt": "أنشئت في"
+            },
+            "status": {
+                "active": "نشط",
+                "achieved": "مكتمل",
+                "hidden": "مخفي"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "allStatus": "جميع الحالات",
+                "dateRange": "نطاق التاريخ:",
+                "today": "اليوم"
+            },
+            "actions": {
+                "createHall": "إضافة قاعة"
+            }
+        },
+        "create": {
+            "title": "إضافة قاعة جديدة",
+            "submit": "إنشاء قاعة",
+            "success": "تم إنشاء القاعة بنجاح"
+        },
+        "update": {
+            "title": "تحديث القاعة",
+            "submit": "تحديث القاعة",
+            "success": "تم تحديث القاعة بنجاح"
+        },
+        "generalInformation": "معلومات عامة",
+        "description": "الوصف",
+        "descriptionPlaceholder": "أدخل الوصف",
+        "mediaAssets": "أصول الوسائط",
+        "coverImage": "صورة الغلاف",
+        "publishing": "النشر",
+        "activeStatus": "الحالة",
+        "sortOrder": "ترتيب العرض",
+        "sortOrderPlaceholder": "0",
+        "classification": "التصنيف",
+        "parentHall": "فئة رئيسية",
+        "subHall": "فئة فرعية",
+        "selectParent": "اختر الفئة الرئيسية",
+        "name": "اسم القاعة",
+        "namePlaceholder": "أدخل اسم القاعة",
+        "errors": {
+            "nameRequired": "اسم القاعة مطلوب",
+            "statusRequired": "الحالة مطلوبة",
+            "sortOrderRequired": "ترتيب العرض مطلوب",
+            "imageRequired": "صورة الغلاف مطلوبة",
+            "invalidImageUrl": "رابط الصورة غير صالح"
+        },
+        "details": {
+            "title": "تفاصيل القاعة",
+            "assignLiveAuctions": "تعيين المزادات المباشرة",
+            "table": {
+                "columns": {
+                    "item": "العنصر",
+                    "idPrefix": "معرف:",
+                    "seller": "البائع",
+                    "category": "الفئة",
+                    "status": "الحالة",
+                    "dateRange": "نطاق التاريخ"
+                },
+                "searchPlaceholder": "البحث عن طريق اسم المنتج أو البائع"
+            },
+            "assignModal": {
+                "title": "تعيين مزاد مباشر",
+                "subtitle": "حدد المزادات لإضافتها إلى",
+                "searchPlaceholder": "ابحث عن طريق عنوان المزاد أو معرف المزاد أو البائع",
+                "filters": {
+                    "status": "الحالة",
+                    "category": "الفئة",
+                    "date": "التاريخ",
+                    "allStatus": "كل الحالات",
+                    "allCategory": "كل الفئات",
+                    "anytime": "أي وقت"
+                },
+                "footer": {
+                    "selected": "مزادات مختارة",
+                    "cancel": "إلغاء",
+                    "assign": "تعيين المختار"
+                },
+                "row": {
+                    "startingBid": "مزايدة البداية",
+                    "seller": "البائع"
+                }
+            }
+        },
+        "actions": {
+            "view": "عرض"
         }
     }
 }

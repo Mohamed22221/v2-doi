@@ -137,7 +137,7 @@ export default function FixedPriceTable() {
     const HeaderActions = () => {
         return (
             <Button
-                size="md"
+                size="sm md:md"
                 icon={<HiDownload className="text-primary-500 dark:text-primary-100" />}
                 onClick={handleExport}
             >

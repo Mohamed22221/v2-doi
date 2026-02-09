@@ -1,30 +1,39 @@
 import React, { useState } from 'react'
-import { Avatar, Button, toast, Notification } from '@/components/ui'
+import { useTranslation } from 'react-i18next'
+
+// UI Components
+import { Avatar, Badge, Button } from '@/components/ui'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { useTranslation } from 'react-i18next'
-import { formatDateTime } from '@/utils/formatDateTime'
-import { getSellerStatusLabel, getSellerStatusVariant } from '@/pages/sellers/components/GetSellerStatusLabel'
-import SellerDropdownOptions, { SellerAction } from './SellerDropdownOptions'
-import SuspendUserModal from '@/pages/users/DetailsUser/components/SuspendUserModal'
-import { useToggleUserStatus } from '@/api/hooks/users'
-import { getApiErrorMessage } from '@/api/error'
-import RestoreUser from '@/pages/users/DetailsUser/components/RestoreUser'
-
 import AccountId from '@/components/shared/cards/AccountId'
 import UserInfoMeta from '@/components/shared/cards/UserInfoMeta'
 
-import { SellerItem } from '../../data/sellers.mock'
+// Local Components & Modals
+import SellerDropdownOptions from './SellerDropdownOptions'
+import SellerSuspendModal from './modalStatus/SellerSuspendModal'
+import SellerActivateModal from './modalStatus/SellerActivateModal'
+import SellerRestore from './SellerRestore'
+
+// Utils & Helpers
+import { formatDateTime } from '@/utils/formatDateTime'
+import { getSellerStatusLabel, getSellerStatusVariant } from '@/pages/sellers/components/GetSellerStatusLabel'
+
+// Types
+import { SellerItem } from '@/api/types/sellers'
 
 type Props = {
     data?: SellerItem
 }
 
+/**
+ * Component to display basic seller info header
+ * Features: Avatar, Name, Status, Account ID, and Action Buttons (Suspend/Activate)
+ */
 const SellerInfo = ({ data }: Props) => {
     const { t } = useTranslation()
     const { date } = formatDateTime(data?.user?.createdAt || '')
     const [dialogIsOpen, setIsOpen] = useState(false)
-    const { mutate, isPending } = useToggleUserStatus()
+    const [activateModalOpen, setActivateModalOpen] = useState(false)
 
     const openDialog = () => {
         setIsOpen(true)
@@ -34,105 +43,106 @@ const SellerInfo = ({ data }: Props) => {
         setIsOpen(false)
     }
 
-    const handleSellerAction = (action: SellerAction) => {
-        console.log('Seller action:', action)
-        // Implementation for approve/reject would go here
-    }
-
-    const onDialogOk = () => {
-        mutate(
-            { id: data!.user.id, isActive: data!.user.isActive },
-            {
-                onSuccess: () => {
-                    onDialogClose()
-                    toast.push(
-                        <Notification
-                            title={
-                                data?.user?.isActive
-                                    ? t('users.userDetails.notifications.suspendedSuccess')
-                                    : t('users.userDetails.notifications.activatedSuccess')
-                            }
-                            type="success"
-                        />
-                    )
-                },
-                onError: (error) => {
-                    toast.push(<Notification title={getApiErrorMessage(error)} type="danger" />)
-                }
-            }
-        )
-    }
-
     const userName = `${data?.user?.firstName || ''} ${data?.user?.lastName || ''}`
 
     return (
         <BackgroundRounded>
             <div className="flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center">
+                    {/* Seller Avatar */}
                     <Avatar
                         src={data?.user?.image || undefined}
                         shape="circle"
                         size={100}
                         className="!w-[100px] !h-[100px]"
                     />
+
+                    {/* Name, Status and Meta Info */}
                     <div className="text-center sm:text-left">
                         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
                             <h2 className="text-xl sm:text-2xl font-semibold ">
                                 {userName}
                             </h2>
                             <StatusPill
-                                variant={getSellerStatusVariant(data?.status)}
-                                label={getSellerStatusLabel(data?.status)}
+                                variant={getSellerStatusVariant(data?.approvalStatus)}
+                                label={getSellerStatusLabel(t, data?.approvalStatus)}
                                 size="sm"
                             />
+                            {data?.user?.role?.name && (
+                                <Badge
+                                    className="mr-4 border border-gray-400"
+                                    content={data?.user?.role?.name}
+                                    innerClass="bg-white text-gray-500"
+                                />
+                            )}
                         </div>
 
-                        <AccountId id={data?.id || ''} />
+                        <AccountId id={data?.user?.id || ''} />
 
-                        <UserInfoMeta
-                            location={data?.user?.region}
-                            joinedDate={date}
-                        />
+                        <UserInfoMeta joinedDate={date} />
                     </div>
                 </div>
 
-                {/* Right Side Actions */}
-                {data?.user?.deletedAt === null && (
+                {/* Right Side Actions for active/non-deleted sellers */}
+                {data?.deletedAt === null && (
                     <div className="flex w-full items-center flex-row justify-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
-                        <Button
-                            color={data?.user?.isActive ? 'red' : 'green'}
-                            onClick={() => openDialog()}
-                            variant="solid"
-                        >
-                            {data?.user?.isActive
-                                ? t('users.userDetails.actions.suspendUser')
-                                : t('users.userDetails.actions.activateUser')}
-                        </Button>
+                        {/* Suspend Action */}
+                        {data?.accountStatus === 'active' && (
+                            <Button
+                                color={'red'}
+                                onClick={() => openDialog()}
+                                variant="solid"
+                            >
+                                {t('sellers.details.actions.suspendSeller')}
+                            </Button>
+                        )}
+
+                        {/* Activate Action */}
+                        {data?.accountStatus === 'suspended' && (
+                            <Button
+                                color={'green'}
+                                onClick={() => setActivateModalOpen(true)}
+                                variant="solid"
+                            >
+                                {t('sellers.details.actions.activateSeller')}
+                            </Button>
+                        )}
+
+                        {/* More Actions Dropdown */}
                         <SellerDropdownOptions
-                            id={data?.id || ''}
+                            id={data?.user?.id || ''}
                             firstName={data?.user?.firstName || ''}
                             lastName={data?.user?.lastName || ''}
-                            status={data?.status}
-                            onAction={handleSellerAction}
+                            approvalStatus={data?.approvalStatus}
+                            accountStatus={data?.accountStatus}
                         />
                     </div>
                 )}
 
-                <SuspendUserModal
-                    dialogIsOpen={dialogIsOpen}
+                {/* Modals */}
+                <SellerSuspendModal
+                    isOpen={dialogIsOpen}
+                    id={data?.user?.id || ''}
+                    onClose={onDialogClose}
+                    onConfirmSuccess={() => {
+                        // Success toast is handled within the modal
+                    }}
+                />
+                <SellerActivateModal
+                    isOpen={activateModalOpen}
+                    id={data?.user?.id || ''}
+                    onClose={() => setActivateModalOpen(false)}
                     firstName={data?.user?.firstName}
                     lastName={data?.user?.lastName}
-                    isActive={data?.user?.isActive}
-                    onDialogClose={onDialogClose}
-                    onDialogConfirm={onDialogOk}
-                    isLoading={isPending}
                 />
             </div>
-            {data?.user?.deletedAt != null && (
-                <RestoreUser
+
+            {/* Restore Notification for deleted sellers */}
+            {data?.deletedAt != null && (
+                <SellerRestore
                     firstName={data?.user?.firstName}
                     lastName={data?.user?.lastName}
-                    id={data?.user?.id}
+                    id={data?.user?.id || ''}
                 />
             )}
         </BackgroundRounded>

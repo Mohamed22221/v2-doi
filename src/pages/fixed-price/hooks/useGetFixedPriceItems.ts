@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
 import { FIXED_PRICE_ITEMS_MOCK } from '../data/fixedPrice.mock'
-import { FixedPriceItem } from '@/api/types/fixed-price'
 
 interface UseGetFixedPriceItemsProps {
     search?: string

@@ -1,5 +1,5 @@
 import ImageUpload from '@/components/shared/ImageUpload'
-import type { TSellerPayload } from '../../hooks/useUpdateSeller'
+import type { TSellerPayload } from '@/api/types/sellers'
 
 type Props = {
     name?: keyof TSellerPayload

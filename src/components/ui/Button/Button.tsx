@@ -11,7 +11,7 @@ import type { ReactNode, ComponentPropsWithRef, MouseEvent } from 'react'
 
 export interface ButtonProps
     extends CommonProps,
-        Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
+    Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
     active?: boolean
     block?: boolean
     color?: string // e.g. "red", "green", "blue", or "red-600"
@@ -20,7 +20,7 @@ export interface ButtonProps
     loading?: boolean
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void
     shape?: TypeAttributes.Shape
-    size?: TypeAttributes.Size
+    size?: TypeAttributes.Size | (string & {})
     variant?: 'solid' | 'twoTone' | 'plain' | 'default' | 'link'
 }
 
@@ -150,43 +150,63 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
         buttonColorLevel as ColorLevel,
     )
 
-    const getButtonSize = () => {
-        let sizeClass = ''
-        switch (buttonSize) {
+    const getButtonSizeClass = (s: string, breakpoint?: string) => {
+        const prefix = breakpoint ? `${breakpoint}:` : ''
+        const sizeIconClass = 'inline-flex items-center justify-center'
+
+        // Normalize size string
+        const baseSize = s as TypeAttributes.Size
+
+        switch (baseSize) {
             case SIZES.LG:
-                sizeClass = classNames(
-                    `h-${CONTROL_SIZES.lg}`,
+                return classNames(
+                    `${prefix}h-${CONTROL_SIZES.lg}`,
                     icon && !children
-                        ? `w-${CONTROL_SIZES.lg} ${sizeIconClass} text-2xl`
-                        : 'px-8 py-2 text-base',
+                        ? `${prefix}w-${CONTROL_SIZES.lg} ${sizeIconClass} ${prefix}text-2xl`
+                        : `${prefix}px-8 ${prefix}py-2 ${prefix}text-base`,
                 )
-                break
             case SIZES.SM:
-                sizeClass = classNames(
-                    `h-${CONTROL_SIZES.sm}`,
+                return classNames(
+                    `${prefix}h-${CONTROL_SIZES.sm}`,
                     icon && !children
-                        ? `w-${CONTROL_SIZES.sm} ${sizeIconClass} text-lg`
-                        : 'px-1 py-2 text-sm',
+                        ? `${prefix}w-${CONTROL_SIZES.sm} ${sizeIconClass} ${prefix}text-lg`
+                        : `${prefix}px-3 ${prefix}py-1 ${prefix}text-sm`,
                 )
-                break
             case SIZES.XS:
-                sizeClass = classNames(
-                    `h-${CONTROL_SIZES.xs}`,
+                return classNames(
+                    `${prefix}h-${CONTROL_SIZES.xs}`,
                     icon && !children
-                        ? `w-${CONTROL_SIZES.xs} ${sizeIconClass} text-base`
-                        : 'px-3 py-1 text-xs',
+                        ? `${prefix}w-${CONTROL_SIZES.xs} ${sizeIconClass} ${prefix}text-base`
+                        : `${prefix}px-3 ${prefix}py-1 ${prefix}text-xs`,
                 )
-                break
+            case SIZES.MD:
             default:
-                sizeClass = classNames(
-                    `h-${CONTROL_SIZES.md}`,
+                return classNames(
+                    `${prefix}h-${CONTROL_SIZES.md}`,
                     icon && !children
-                        ? `w-${CONTROL_SIZES.md} ${sizeIconClass} text-xl`
-                        : 'px-8 py-2',
+                        ? `${prefix}w-${CONTROL_SIZES.md} ${sizeIconClass} ${prefix}text-xl`
+                        : `${prefix}px-8 ${prefix}py-2`,
                 )
-                break
         }
-        return sizeClass
+    }
+
+    const getButtonSize = () => {
+        if (!buttonSize) return getButtonSizeClass(SIZES.MD)
+
+        if (typeof buttonSize === 'string' && buttonSize.includes(' ')) {
+            const sizeParts = buttonSize.split(' ')
+            return sizeParts
+                .map((part) => {
+                    if (part.includes(':')) {
+                        const [breakpoint, s] = part.split(':')
+                        return getButtonSizeClass(s, breakpoint)
+                    }
+                    return getButtonSizeClass(part)
+                })
+                .join(' ')
+        }
+
+        return getButtonSizeClass(buttonSize as string)
     }
 
     const disabledClass = 'opacity-50 cursor-not-allowed'
@@ -197,9 +217,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
         activeColor,
         textColor,
     }: ButtonColor) => {
-        return `${bgColor} ${
-            disabled || loading ? disabledClass : hoverColor + ' ' + activeColor
-        } ${textColor}`
+        return `${bgColor} ${disabled || loading ? disabledClass : hoverColor + ' ' + activeColor
+            } ${textColor}`
     }
 
     const solidColor = () => {

@@ -1,9 +1,12 @@
-import React from 'react'
+import BackgroundRounded from '@/components/shared/BackgroundRounded'
+import DurationAuctionsTable from './components/DurationAuctionsTable'
 
-const DurationAuctionsPage = () => {
+const DurationAuctions = () => {
   return (
-    <div>DurationAuctions</div>
+    <BackgroundRounded>
+      <DurationAuctionsTable />
+    </BackgroundRounded>
   )
 }
 
-export default DurationAuctionsPage
+export default DurationAuctions

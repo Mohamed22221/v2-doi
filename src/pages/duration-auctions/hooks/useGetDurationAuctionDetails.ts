@@ -1,24 +1,21 @@
 import { useState, useEffect } from 'react'
-import { getSellerById, SellerItem } from '../data/sellers.mock'
+import { getDurationAuctionDetailsById } from '../data/duration-auctions.mock'
+import { LiveAuctionItemDetails } from '@/api/types/live-auctions'
 
-export function useGetSellerDetails(id: string) {
-    const [data, setData] = useState<SellerItem | null>(null)
+export function useGetDurationAuctionDetails(id: string) {
+    const [data, setData] = useState<LiveAuctionItemDetails | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
-    const [error, setError] = useState<{ message: string } | null>(null)
 
     useEffect(() => {
         setIsLoading(true)
-        // Simulate API fetch delay
         const timer = setTimeout(() => {
-            const details = getSellerById(id)
+            const details = getDurationAuctionDetailsById(id)
             if (details) {
                 setData(details)
                 setIsError(false)
-                setError(null)
             } else {
                 setIsError(true)
-                setError({ message: 'Seller not found' })
             }
             setIsLoading(false)
         }, 500)
@@ -27,9 +24,9 @@ export function useGetSellerDetails(id: string) {
     }, [id])
 
     return {
-        data,
+        data: data ? { data } : null,
         isLoading,
         isError,
-        error
+        error: isError ? { message: 'durationAuctions.errors.itemNotFound' } : null
     }
 }

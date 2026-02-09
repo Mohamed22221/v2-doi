@@ -1,42 +1,47 @@
 import { useState, useMemo } from 'react'
-import { SELLERS_MOCK } from '../data/sellers.mock'
-import { UserItem } from '@/api/types/users'
+import { DURATION_AUCTIONS_MOCK } from '../data/duration-auctions.mock'
 
-interface UseGetSellersProps {
+interface UseGetDurationAuctionsProps {
     search?: string
-    status?: 'approved' | 'rejected' | 'pending'
+    status?: string
+    category?: string
     page?: number
     limit?: number
 }
 
-export function useGetSellers({
+export function useGetDurationAuctions({
     search,
     status,
+    category,
     page = 1,
     limit = 10
-}: UseGetSellersProps = {}) {
+}: UseGetDurationAuctionsProps) {
     const [isLoading] = useState(false)
 
     const filteredData = useMemo(() => {
-        let result = [...SELLERS_MOCK]
+        let result = [...DURATION_AUCTIONS_MOCK]
 
         if (search) {
             const searchLower = search.toLowerCase()
             result = result.filter(item =>
-                item.firstName.toLowerCase().includes(searchLower) ||
-                item.lastName.toLowerCase().includes(searchLower) ||
-                item.email.toLowerCase().includes(searchLower) ||
+                item.name.toLowerCase().includes(searchLower) ||
                 item.id.toLowerCase().includes(searchLower) ||
-                item.phone.toLowerCase().includes(searchLower)
+                item.seller.toLowerCase().includes(searchLower)
             )
         }
 
-        if (status && status !== null) {
-            result = result.filter(item => (item as any).status === status)
+        if (status && status !== 'null') {
+            result = result.filter(item => item.status === status)
+        }
+
+        if (category && category !== 'null') {
+            result = result.filter(item =>
+                (item as any).categoryId === category
+            )
         }
 
         return result
-    }, [search, status])
+    }, [search, status, category])
 
     const total = filteredData.length
 
@@ -46,7 +51,7 @@ export function useGetSellers({
     }, [filteredData, page, limit])
 
     return {
-        users: paginatedData,
+        items: paginatedData,
         total,
         isLoading,
         isError: false,

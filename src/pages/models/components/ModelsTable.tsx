@@ -201,7 +201,7 @@ export default function ModelsTable() {
                     serviceMethod={ModelsServices.getModels}
                 />
                 <Button
-                    size="md"
+                    size="sm md:md"
                     variant="solid"
                     icon={
                         <HiOutlinePlus className="text-primary-50 dark:text-primary-100" />

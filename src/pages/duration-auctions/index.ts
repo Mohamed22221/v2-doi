@@ -1,3 +1,3 @@
-import DurationAuctions from './DurationAuctions';
+import DurationAuctions from './DurationAuctions'
 
-export default DurationAuctions;
+export default DurationAuctions

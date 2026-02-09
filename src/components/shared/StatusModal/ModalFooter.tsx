@@ -14,7 +14,7 @@ const ModalFooter = ({ config, onClose, onConfirm, isPending }: ModalFooterProps
     const { t } = useTranslation()
 
     return (
-        <div className="flex justify-end gap-2 p-2 mt-2">
+        <div className="flex justify-end gap-2 p-2 mt-1">
             <Button
                 type="button"
                 variant="plain"

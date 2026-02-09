@@ -97,6 +97,23 @@ export const protectedRoutes = [
         component: lazy(() => import('@/pages/categories/ActionCategory/UpdateCategory')),
     },
     {
+        key: 'halls',
+        path: '/halls',
+        component: lazy(() => import('@/pages/halls')),
+        authority: [],
+    },
+    {
+        key: 'halls',
+        path: '/halls/create',
+        component: lazy(() => import('@/pages/halls/ActionHall/CreateHall')),
+        authority: [],
+    },
+    {
+        key: 'halls',
+        path: '/halls/:id',
+        component: lazy(() => import('@/pages/halls/HallDetails')),
+    },
+    {
         key: 'orders',
         path: '/orders',
         component: lazy(() => import('@/pages/orders')),
@@ -136,6 +153,11 @@ export const protectedRoutes = [
         authority: [],
     },
     {
+        key: 'duration-auctions',
+        path: `/duration-auctions/:id`,
+        component: lazy(() => import('@/pages/duration-auctions/DetailsDurationAuction')),
+    },
+    {
         key: 'manageAds',
         path: '/manage-ads',
         component: lazy(() => import('@/pages/manage-ads')),
@@ -169,6 +191,17 @@ export const protectedRoutes = [
         key: 'languages',
         path: '/languages/:id/edit',
         component: lazy(() => import('@/pages/languages/ActionLanguage/UpdateLanguage')),
+    },
+    {
+        key: 'disputes',
+        path: '/disputes',
+        component: lazy(() => import('@/pages/disputes')),
+        authority: [],
+    },
+    {
+        key: 'disputes',
+        path: `/disputes/:id`,
+        component: lazy(() => import('@/pages/disputes/DetailsDispute')),
     },
 
     {

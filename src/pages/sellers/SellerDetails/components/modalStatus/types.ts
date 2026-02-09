@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export type ModalType = 'reject'
+export type ModalType = 'reject' | 'suspend'
 
 export interface ReasonOption {
     label: string

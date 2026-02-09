@@ -24,5 +24,9 @@ const ReactQueryKeys = {
   // languages
   ALL_LANGUAGES: "all-languages",
   LANGUAGE_BY_ID: "language-by-id",
+  // sellers
+  ALL_SELLERS: "all-sellers",
+  GET_SELLER_DETAILS: "seller-details",
+  SELLER_DOCUMENTS: "seller-documents",
 }
 export default ReactQueryKeys

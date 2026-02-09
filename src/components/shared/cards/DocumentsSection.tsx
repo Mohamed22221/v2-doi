@@ -41,14 +41,14 @@ const DocumentsSection = ({ title, documents, t, documentTitleKey }: DocumentsSe
     }
 
     return (
-        <div className="p-6">
+        <div className="p-4 md:p-6">
             {title && (
                 <SectionHeader title={title} />
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {documents.map((doc) => (
-                    <div className="p-0 overflow-hidden border border-gray-100 rounded-xl">
-                        <div className="p-6 flex items-center justify-between">
+                    <div key={doc.id} className="p-0 overflow-hidden border border-gray-100 rounded-xl">
+                        <div className="p-4 md:p-6 flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 {getIcon(doc.type)}
                                 <h4 className="text-base font-bold tracking-wider">
@@ -63,12 +63,12 @@ const DocumentsSection = ({ title, documents, t, documentTitleKey }: DocumentsSe
                                 className="text-neutral-400"
                             />
                         </div>
-                        <div className="px-6 pb-6">
+                        <div className="px-4 md:px-6 pb-4 md:pb-6">
                             <div className="aspect-[16/9] w-full bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
                                 <img
                                     src={doc.image}
                                     alt={doc.title}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover object-center"
                                     crossOrigin="anonymous"
                                 />
                             </div>

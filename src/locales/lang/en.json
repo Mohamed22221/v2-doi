@@ -24,7 +24,11 @@
         "dragToMove": "Drag to move image",
         "zoomInstruction": "Zoom in first to be able to move and reach image edges",
         "exportCsv": "Export CSV",
-        "sellerInfo": "Seller Info"
+        "sellerInfo": "Seller Info",
+        "buyer": "Buyer",
+        "seller": "Seller",
+        "required": "Required",
+        "currency": "SAR"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -35,6 +39,7 @@
         "models": "Models",
         "orders": "Orders",
         "fixedPrice": "Fixed Price Items",
+        "halls": "Manage Halls",
         "manageAds": "Manage Ads",
         "payments": "Payments",
         "support": "Support",
@@ -45,6 +50,7 @@
             "liveAuctions": "Live Auctions",
             "durationAuctions": "Duration Auctions"
         },
+        "disputes": "Disputes",
         "groupMenu": {
             "groupMenu": "Group menu",
             "single": "Group single menu item",
@@ -70,7 +76,8 @@
             "passwordPlaceholder": "Password",
             "forgotPassword": "Forgot Password?",
             "signingIn": "Signing in...",
-            "signIn": "Sign In"
+            "signIn": "Sign In",
+            "fakeSignIn": "Fake Login (Emergency)"
         },
         "forgot": {
             "title": "Forgot Password",
@@ -217,7 +224,8 @@
                 "allStatus": "All Status",
                 "allRoles": "All Roles",
                 "loading": "Loading...",
-                "failedRoles": "Failed roles"
+                "failedRoles": "Failed roles",
+                "approvalStatus": "Status:"
             }
         },
         "userDetails": {
@@ -252,7 +260,18 @@
                 "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will immediately restore their access to all platform features and sessions.",
                 "cancel": "Cancel",
                 "confirmSuspension": "Confirm Suspension",
-                "confirmActivation": "Confirm Activation"
+                "confirmActivation": "Confirm Activation",
+                "description": "Please provide a clear reason for the account suspension.",
+                "reasonLabel": "Suspension Reason",
+                "reasonPlaceholder": "Select the reason",
+                "noteLabel": "Note",
+                "notePlaceholder": "Enter additional notes about the suspension",
+                "reasons": {
+                    "policyViolation": "Policy Violation",
+                    "fraudulentActivity": "Fraudulent Activity",
+                    "poorPerformance": "Poor Performance",
+                    "other": "Other"
+                }
             },
             "status": {
                 "verified": "Verified",
@@ -272,7 +291,9 @@
                 "description": "Deactivating will block login and activity, but the user data will remain",
                 "cancel": "Cancel",
                 "confirm": "Temporary Delete",
-                "success": "User temporary deleted successfully."
+                "success": "User temporary deleted successfully.",
+                "reasonLabel": "Deletion Reason",
+                "reasonPlaceholder": "Enter the reason for deletion"
             },
             "hardDeleteModal": {
                 "title": "Permanently delete user",
@@ -332,29 +353,24 @@
         }
     },
     "sellers": {
-        "details": {
-            "title": "Seller Details"
+        "info": {
+            "personalInfo": "Personal Information",
+            "sellerInfo": "Seller Information",
+            "companyName": "Company name",
+            "contactNumber": "Contact number",
+            "commercialRegistrationNumber": "Commercial registration number",
+            "nationalIdNumber": "National ID Number",
+            "requestSubmitted": "Request Submitted",
+            "accountStatus": "Account Status"
+        },
+        "documents": {
+            "title": "Documentation documents",
+            "commercialCertificate": "Commercial Certificate",
+            "taxCertificate": "Tax Certificate",
+            "nationalId": "National ID"
         },
         "img": "Image",
         "imgSubtitle": "Add or change the seller image",
-        "update": {
-            "title": "Update Seller",
-            "subtitle": "Edit seller information and save your changes",
-            "submit": "Update Seller",
-            "success": "Seller updated successfully"
-        },
-        "create": {
-            "title": "Add New Seller",
-            "subtitle": "Fill in the information below to create a new seller"
-        },
-        "companyName": "Company Name",
-        "contactNumber": "Contact Number",
-        "commercialRegistrationNumber": "Commercial Registration Number",
-        "errors": {
-            "companyNameRequired": "Company name is required",
-            "contactNumberRequired": "Contact number is required",
-            "commercialRegistrationNumberRequired": "Commercial registration number is required"
-        },
         "upload": {
             "oneOnly": "Please upload only one image.",
             "invalidType": "Please upload a valid image (jpeg, png, webp).",
@@ -368,7 +384,196 @@
             "removeTitle": "Remove image",
             "removeConfirm": "Are you sure you want to remove this image?",
             "noUrl": "Upload failed: no image URL returned."
-        }
+        },
+        "table": {
+            "title": "Registered Sellers",
+            "searchPlaceholder": "Search by seller name , email , phone",
+            "emptyText": "No sellers match your filters.",
+            "columns": {
+                "name": "Name",
+                "email": "Email Address",
+                "phone": "Phone",
+                "status": "Status",
+                "registeredDate": "Registered Date",
+                "idPrefix": "ID:"
+            },
+            "status": {
+                "active": "Active",
+                "blocked": "Blocked",
+                "isDeleted": "Deleted",
+                "nonDeleted": "Not deleted",
+                "status": "Status",
+                "pending": "Pending",
+                "approved": "Approved",
+                "rejected": "Rejected",
+                "approveRequest": "Approve Request",
+                "rejectRequest": "Reject Request"
+            },
+            "actions": {
+                "view": "View",
+                "softDelete": "Temporary Delete",
+                "hardDelete": "Permanently Delete"
+            },
+            "filters": {
+                "isDeleted": "Deletion status:",
+                "status": "Status:",
+                "role": "Role:",
+                "allStatus": "All Status",
+                "allRoles": "All Roles",
+                "loading": "Loading...",
+                "failedRoles": "Failed roles",
+                "approvalStatus": "Status:"
+            }
+        },
+        "details": {
+            "title": "Seller Details",
+            "accountStatistics": {
+                "title": "Account Statistics",
+                "totalSpent": "Total Spent",
+                "totalOrders": "Total Orders"
+            },
+            "personalInfo": {
+                "title": "Personal Information",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "registrationDate": "Registration Date",
+                "accountStatus": "Account Status"
+            },
+            "shippingAddress": {
+                "title": "Main Address",
+                "fullAddress": "Full Address",
+                "cityDistrict": "City & District",
+                "country": "Country"
+            },
+            "recentTransactions": {
+                "title": "Recent Transactions",
+                "emptyText": "No transactions.",
+                "viewAllActivity": "View All Activity"
+            },
+            "suspendModal": {
+                "titleSuspend": "Suspend Seller Account",
+                "titleActivate": "Activate Seller Account",
+                "confirmSuspendMessage": "Are you sure you want to suspend <strong>{{name}}</strong>? This will immediately revoke their access to all platform features and active sessions.",
+                "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will immediately restore their access to all platform features and sessions.",
+                "cancel": "Cancel",
+                "confirmSuspension": "Confirm Suspension",
+                "confirmActivation": "Confirm Activation",
+                "description": "Please provide a clear reason for the account suspension.",
+                "reasonLabel": "Suspension Reason",
+                "reasonPlaceholder": "Select the reason",
+                "noteLabel": "Note",
+                "notePlaceholder": "Enter additional notes about the suspension",
+                "reasons": {
+                    "policyViolation": "Policy Violation",
+                    "fraudulentActivity": "Fraudulent Activity",
+                    "poorPerformance": "Poor Performance",
+                    "other": "Other"
+                }
+            },
+            "status": {
+                "verified": "Verified",
+                "notVerified": "Not Verified"
+            },
+            "actions": {
+                "suspendSeller": "Suspend Seller",
+                "activateSeller": "Activate Seller"
+            },
+            "notifications": {
+                "suspendedSuccess": "Seller account suspended successfully",
+                "activatedSuccess": "Seller account activated successfully"
+            },
+            "softDeleteModal": {
+                "title": "Temporary Delete Seller",
+                "message": "Are you sure you want to temporary delete <strong>{{name}}</strong>?",
+                "description": "Deactivating will block login and activity, but the seller data will remain",
+                "cancel": "Cancel",
+                "confirm": "Temporary Delete",
+                "success": "Seller temporary deleted successfully.",
+                "reasonLabel": "Deletion Reason",
+                "reasonPlaceholder": "Enter the reason for deletion"
+            },
+            "hardDeleteModal": {
+                "title": "Permanently delete Seller",
+                "message": "Are you sure you want to permanently delete <strong>{{name}}</strong>?",
+                "warning": "This action cannot be undone.",
+                "cancel": "Cancel",
+                "confirm": "Delete permanently",
+                "success": "The seller has been permanently deleted"
+            },
+            "restoreDeleteModal": {
+                "msgRestore": "This seller has been deleted. You can restore the seller.",
+                "btnRestore": "Restore Seller",
+                "title": "Restore Seller",
+                "message": "Are you sure you want to restore <strong>{{name}}</strong>? The seller will be reactivated and regain access to the system.",
+                "confirm": "Restore Seller",
+                "cancel": "Cancel",
+                "success": "Seller restored successfully"
+            },
+            "accountId": "Account ID",
+            "joined": "Joined",
+            "modals": {
+                "reject": {
+                    "title": "Rejection Application",
+                    "description": "This action will decline the seller's registration. Please provide a clear reason for the rejection.",
+                    "reasonLabel": "Rejection Reason",
+                    "reasonPlaceholder": "Select the reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Enter the note about rejection",
+                    "footerText": "* This reason will be logged in the account history.",
+                    "confirm": "Confirm Rejection",
+                    "cancel": "Cancel"
+                },
+                "approve": {
+                    "title": "Approve Application",
+                    "description": "Are you sure you want to approve <strong>{{name}}</strong> application? This will allow them to start selling on the platform.",
+                    "confirm": "Confirm Approval",
+                    "cancel": "Cancel"
+                }
+            }
+        },
+        "create": {
+            "title": "Add New Seller",
+            "subtitle": "Fill in the information below to create a new seller",
+            "submit": "Create Seller",
+            "success": "Seller created successfully"
+        },
+        "update": {
+            "title": "Update Seller",
+            "subtitle": "Edit seller information and save your changes",
+            "submit": "Update Seller",
+            "success": "Seller updated successfully",
+            "submitUpdate": "Update Seller"
+        },
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "password": "Password",
+        "role": "Role",
+        "rolePlaceholder": "Select role",
+        "image": "Profile Image URL",
+        "isActive": "Active",
+        "rolesLoadError": "Failed to load roles",
+        "errors": {
+            "firstNameRequired": "First name is required",
+            "lastNameRequired": "Last name is required",
+            "emailRequired": "Email is required",
+            "invalidEmail": "Please enter a valid email address",
+            "phoneRequired": "Phone number is required",
+            "invalidPhone": "Please enter a valid phone number",
+            "passwordRequired": "Password is required",
+            "passwordMin": "Password must be at least 6 characters long",
+            "roleRequired": "Role is required",
+            "imageRequired": "Image URL is required",
+            "invalidImageUrl": "Please enter a valid image URL",
+            "reasonRequired": "Reason is required",
+            "companyNameRequired": "Company name is required",
+            "contactNumberRequired": "Contact number is required",
+            "commercialRegistrationNumberRequired": "Commercial registration number is required"
+        },
+        "companyName": "Company Name",
+        "contactNumber": "Contact Number",
+        "commercialRegistrationNumber": "Commercial Registration Number"
     },
     "fixedPrice": {
         "table": {
@@ -409,6 +614,9 @@
                 "approved": "Approved",
                 "rejected": "Rejected",
                 "pending": "Pending",
+                "active": "Active",
+                "suspended": "Suspended",
+                "deleted": "Deleted",
                 "suspend": "Suspend User",
                 "approveRequest": "Approve Request",
                 "rejectRequest": "Reject Request",
@@ -422,6 +630,7 @@
                 "companyName": "Company name",
                 "contactNumber": "Contact number",
                 "commercialRegistrationNumber": "Commercial registration number",
+                "nationalIdNumber": "National ID Number",
                 "requestSubmitted": "Request Submitted",
                 "accountStatus": "Account Status"
             },
@@ -441,7 +650,13 @@
                         "noteLabel": "Note",
                         "notePlaceholder": "Enter the note about rejection",
                         "footerText": "* This reason will be logged in the account history.",
-                        "confirm": "Confirm Suspension",
+                        "confirm": "Confirm Rejection",
+                        "cancel": "Cancel"
+                    },
+                    "approve": {
+                        "title": "Approve Application",
+                        "description": "Are you sure you want to approve <strong>{{name}}</strong> application? This will allow them to start selling on the platform.",
+                        "confirm": "Confirm Approval",
                         "cancel": "Cancel"
                     }
                 }
@@ -542,6 +757,114 @@
         },
         "details": {
             "title": "Live Auction Details",
+            "itemId": "Item ID",
+            "basicInfo": "Basic Information",
+            "category": "Category",
+            "hall": "Hall",
+            "start": "Auction Start",
+            "end": "Auction End",
+            "description": "Description",
+            "pricingAndStock": "Pricing & Stock",
+            "availableQuantity": "Available Quantity",
+            "startingPrice": "Starting Price",
+            "finalPrice": "Final price",
+            "winner": "Winner",
+            "currentHighestBid": "Current highest bid",
+            "timeRemaining": "Time remaining",
+            "mediaAssets": "Media Assets",
+            "sellerInfo": "Seller Info",
+            "sellerId": "Seller ID",
+            "sellerName": "Seller Name",
+            "phoneNumber": "Phone Number",
+            "sellerStatus": "Seller Status",
+            "activityLog": "Activity Log",
+            "logItem": "Item",
+            "createdAt": "Created At",
+            "reason": "Reason",
+            "actions": {
+                "reject": "Reject",
+                "hide": "Hide auction",
+                "forceEnd": "Force end",
+                "unhide": "Unhide item"
+            },
+            "modals": {
+                "reasons": {
+                    "incorrectCategory": "Incorrect Category",
+                    "blurryImages": "Blurry Images",
+                    "missingDescription": "Missing Description",
+                    "duplicateItem": "Duplicate Item",
+                    "outOfSeason": "Out of Season",
+                    "temporarilyUnavailable": "Temporarily Unavailable",
+                    "testing": "Testing",
+                    "other": "Other"
+                },
+                "reject": {
+                    "title": "Rejection Item",
+                    "description": "Are you sure you want to reject this item? This item will not be published and will not appear in the app or website.",
+                    "reasonLabel": "Rejection Reason",
+                    "reasonPlaceholder": "Select a reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Add a note...",
+                    "confirm": "Reject item"
+                },
+                "hide": {
+                    "title": "Hide item",
+                    "description": "Are you sure you want to hide this item? The auction will be hidden from users immediately.",
+                    "reasonLabel": "Reason for hiding",
+                    "reasonPlaceholder": "Select a reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Add a note...",
+                    "footerText": "This reason is for internal use only.",
+                    "confirm": "Hide item"
+                },
+                "forceEnd": {
+                    "title": "Force End Auction",
+                    "description": "Force end auction? This will immediately stop bidding and end the auction.",
+                    "confirm": "Force End"
+                },
+                "unhide": {
+                    "title": "Unhide item",
+                    "description": "Are you sure you want to unhide this item? The item will become visible to users based on its current status.",
+                    "confirm": "Unhide item"
+                },
+                "errors": {
+                    "reasonRequired": "Reason is required"
+                }
+            },
+            "errors": {
+                "itemNotFound": "Auction not found"
+            }
+        }
+    },
+    "durationAuctions": {
+        "table": {
+            "title": "Duration Auctions",
+            "searchPlaceholder": "Search by auction name, ID, or seller",
+            "idPrefix": "ID:",
+            "columns": {
+                "item": "Item",
+                "seller": "Seller",
+                "hall": "Hall",
+                "category": "Category",
+                "status": "Status",
+                "dateRange": "Auction Date Range"
+            },
+            "status": {
+                "live": "Live",
+                "scheduled": "Scheduled",
+                "hidden": "Hidden",
+                "ended": "Ended",
+                "rejected": "Rejected"
+            },
+            "filters": {
+                "status": "Status",
+                "category": "Category",
+                "allStatus": "All Status",
+                "allCategory": "All Category"
+            }
+        },
+        "details": {
+            "title": "Duration Auction Details",
             "itemId": "Item ID",
             "basicInfo": "Basic Information",
             "category": "Category",
@@ -768,8 +1091,10 @@
         "deleteModal": {
             "cannotDeleteTitle": "Cannot Delete Category",
             "canDeleteTitle": "Delete Category",
-            "descriptionBlocked": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. Hard deletion is disabled to prevent massive data loss.",
-            "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, permanent deletion, and moving it to another category are allowed.",
+            "descriptionBlockedActive": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. You can Disable or Move the category.",
+            "descriptionBlockedInactive": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items. You can Soft Delete or Move the category.",
+            "descriptionBlockedInactiveSub": "<strong >{{name}} </strong > has <strong>{{subCategoriesCount}}</strong> sub-categories. You must Move the sub-categories before deletion.",
+            "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, and moving it to another category are allowed.",
             "disableOption": "Deactivate Category (Recommended)",
             "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
             "bulkMoveOption": "Bulk Move",
@@ -1044,6 +1369,170 @@
             "codeRequired": "Language code is required"
         }
     },
+    "disputes": {
+        "table": {
+            "title": "Disputes",
+            "searchPlaceholder": "Search by Dispute ID, Order ID, Buyer, Seller",
+            "emptyText": "No disputes found",
+            "columns": {
+                "disputeId": "Dispute ID",
+                "orderId": "Order ID",
+                "buyer": "Buyer",
+                "seller": "Seller",
+                "reason": "Reason",
+                "disputeStatus": "Dispute Status",
+                "openedAt": "Opened at"
+            },
+            "status": {
+                "resolvedBuyer": "Resolved - Buyer",
+                "resolvedSeller": "Resolved - Seller",
+                "resolvedCompromise": "Resolved - Compromise",
+                "waitingSeller": "Waiting Seller Response",
+                "disputeOpened": "Dispute Opened",
+                "platformMediation": "Platform Mediation"
+            },
+            "filters": {
+                "status": "Status:",
+                "allStatus": "All Status",
+                "openedDate": "Opened date:",
+                "today": "Today",
+                "selectDate": "Select date"
+            },
+            "actions": {
+                "view": "View"
+            }
+        },
+        "actions": {
+            "exportCase": "Export case",
+            "resolveDispute": "Resolve dispute",
+            "requestEvidence": "Request more evidence"
+        },
+        "details": {
+            "title": "Dispute Details",
+            "breadcrumb": "Dispute Details",
+            "overview": {
+                "title": "Overview",
+                "disputeId": "Dispute ID",
+                "orderType": "Order Type",
+                "disputeStatus": "Dispute Status",
+                "orderId": "Order ID",
+                "heldAmount": "Held amount",
+                "slaCounter": "SLA counter",
+                "days": "Days",
+                "hours": "Hrs",
+                "minutes": "Mins",
+                "orderTypes": {
+                    "liveAuction": "Live Auction",
+                    "fixedPrice": "Fixed Price",
+                    "durationAuction": "Duration Auction"
+                }
+            },
+            "summary": {
+                "title": "Dispute Summary",
+                "reason": "Reason",
+                "requestedOutcome": "Requested outcome",
+                "buyerMessage": "Buyer message"
+            },
+            "orderSnapshot": {
+                "title": "Order Snapshot",
+                "itemTotalAmount": "Item total amount",
+                "shippingFees": "Shipping fees",
+                "vat": "VAT",
+                "totalAmount": "Total Amount"
+            },
+            "buyerInfo": {
+                "title": "Buyer Info",
+                "buyerId": "Buyer ID",
+                "buyerName": "Buyer Name",
+                "phoneNumber": "Phone Number"
+            },
+            "sellerInfo": {
+                "title": "Seller Info",
+                "sellerId": "Seller ID",
+                "sellerName": "Seller Name",
+                "phoneNumber": "Phone Number",
+                "sellerStatus": "Seller Status"
+            },
+            "activityLog": {
+                "title": "Activity Log",
+                "item": "Item",
+                "createdAt": "Created at",
+                "reason": "Reason"
+            },
+            "modals": {
+                "requestEvidence": {
+                    "title": "Request more evidence",
+                    "description": "Ask the buyer or seller to provide additional proof to help resolve this dispute.",
+                    "requestFrom": "Request evidence from",
+                    "requestFromPlaceholder": "Select Side",
+                    "evidenceType": "Evidence type",
+                    "evidenceTypePlaceholder": "Select Evidence type",
+                    "deadline": "Evidence deadline",
+                    "deadlinePlaceholder": "Choose days",
+                    "helperText": "The request will be sent as a notification and added to the case log.",
+                    "submit": "Send request",
+                    "types": {
+                        "photos": "Photos",
+                        "receipt": "Receipt",
+                        "shippingProof": "Shipping proof"
+                    }
+                },
+                "resolveDispute": {
+                    "title": "Resolve dispute",
+                    "description": "Choose the final resolution. This decision is final and will be recorded in the case log.",
+                    "outcome": "Resolution outcome",
+                    "outcomePlaceholder": "Select Outcome",
+                    "submit": "Resolve Dispute",
+                    "outcomes": {
+                        "buyerWins": "Buyer wins",
+                        "sellerWins": "Seller wins",
+                        "compensationType": "Compensation type",
+                        "returnItem": "Return item"
+                    },
+                    "fields": {
+                        "refundAmount": "Refund amount",
+                        "refundAmountPlaceholder": "Write Amount",
+                        "reason": "Reason",
+                        "reasonPlaceholder": "Enter the reason",
+                        "compensationType": "Compensation type",
+                        "compensationTypePlaceholder": "Select Option",
+                        "compensationValue": "Compensation value",
+                        "compensationValuePlaceholder": "Write Amount",
+                        "releaseAmount": "Release amount",
+                        "releaseAmountPlaceholder": "Write Amount",
+                        "returnShippingPaidBy": "Return shipping paid by",
+                        "returnDeadline": "Return deadline",
+                        "returnDeadlinePlaceholder": "Write in days"
+                    },
+                    "options": {
+                        "partialRefund": "Partial refund",
+                        "returnShipping": "Return shipping"
+                    },
+                    "helpers": {
+                        "buyerWins": "Funds will be refunded to the buyer and deducted from the seller wallet if needed.",
+                        "compensationType": "You can issue partial compensation or request a return, and decide who covers shipping.",
+                        "sellerWins": "Held funds will be released to the seller and the dispute will be closed."
+                    }
+                }
+            },
+            "resolution": {
+                "title": "Resolution",
+                "outcome": "Outcome",
+                "reason": "Reason",
+                "outcomes": {
+                    "buyerWins": "Buyer Wins",
+                    "sellerWins": "Seller Wins",
+                    "compromise": "Compromise"
+                },
+                "mockReason": "Materials mismatch confirmed in photos and description",
+                "resolvedAt": "Resolved at",
+                "resolvedBy": "Resolved by"
+            },
+            "errors": {
+                "disputeNotFound": "Dispute not found"
+            }
+        }
+    },
     "themeConfigurator": {
         "title": "Theme Config",
         "darkMode": {
@@ -1077,6 +1566,105 @@
         },
         "color": {
             "primary": "Primary"
+        }
+    },
+    "halls": {
+        "table": {
+            "title": "Manage Halls",
+            "searchPlaceholder": "Search by Hall Name or code",
+            "emptyText": "No halls found",
+            "columns": {
+                "hallName": "Hall Name",
+                "status": "Status",
+                "assigned": "Assigned",
+                "createdAt": "Created At"
+            },
+            "status": {
+                "active": "Active",
+                "achieved": "Achieved",
+                "hidden": "Hidden"
+            },
+            "filters": {
+                "status": "Status:",
+                "allStatus": "All Status",
+                "dateRange": "Date range:",
+                "today": "Today"
+            },
+            "actions": {
+                "createHall": "Create Hall"
+            }
+        },
+        "create": {
+            "title": "Add New Hall",
+            "submit": "Create Hall",
+            "success": "Hall created successfully"
+        },
+        "update": {
+            "title": "Update Hall",
+            "submit": "Update Hall",
+            "success": "Hall updated successfully"
+        },
+        "generalInformation": "General Information",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter Description",
+        "mediaAssets": "Media Assets",
+        "coverImage": "COVER IMAGE",
+        "publishing": "Publishing",
+        "activeStatus": "Status",
+        "sortOrder": "Sort Order",
+        "sortOrderPlaceholder": "0",
+        "classification": "Classification",
+        "parentHall": "Parent Category",
+        "subHall": "Sub Category",
+        "selectParent": "Select Parent Category",
+        "name": "Hall Name",
+        "namePlaceholder": "Enter Hall Name",
+        "errors": {
+            "nameRequired": "Hall name is required",
+            "statusRequired": "Status is required",
+            "sortOrderRequired": "Sort order is required",
+            "imageRequired": "Cover image is required",
+            "invalidImageUrl": "Invalid image URL"
+        },
+        "details": {
+            "title": "Hall Details",
+            "assignLiveAuctions": "Assign Live Auctions",
+            "table": {
+                "columns": {
+                    "item": "Item",
+                    "idPrefix": "ID:",
+                    "seller": "Seller",
+                    "category": "Category",
+                    "status": "Status",
+                    "dateRange": "Date range"
+                },
+                "searchPlaceholder": "Search by Product name or seller"
+            },
+            "assignModal": {
+                "title": "Assign Live Auction",
+                "subtitle": "Select Auctions to add to",
+                "searchPlaceholder": "Search by auction title, auction ID, or seller",
+                "filters": {
+                    "status": "Status",
+                    "category": "Category",
+                    "date": "Date",
+                    "allStatus": "All Status",
+                    "allCategory": "All Category",
+                    "anytime": "Anytime"
+                },
+                "footer": {
+                    "selected": "Auctions Selected",
+                    "cancel": "Cancel",
+                    "assign": "Assign Selected"
+                },
+                "row": {
+                    "startingBid": "Starting Bid",
+                    "seller": "Seller"
+                }
+            }
+        },
+        "actions": {
+            "view": "View"
         }
     }
 }

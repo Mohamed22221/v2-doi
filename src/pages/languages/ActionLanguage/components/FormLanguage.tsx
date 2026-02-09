@@ -4,14 +4,15 @@ import { useTranslation } from 'react-i18next'
 import { Field, FieldProps, Form, Formik } from 'formik'
 
 // UI
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
-import Switcher from '@/components/ui/Switcher'
 import {
+    Button,
+    Input,
+    Switcher,
     Notification,
     toast,
     FormContainer,
     FormItem,
+    Icon,
 } from '@/components/ui'
 
 // API hooks
@@ -28,7 +29,6 @@ import getLanguageValidationSchema from './schema'
 // Components
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
-import Icon from '@/components/ui/Icon/Icon'
 import FormLanguageSkeleton from './FormLanguageSkeleton'
 
 // Types

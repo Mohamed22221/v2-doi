@@ -46,16 +46,14 @@ const FormItem = forwardRef<HTMLDivElement, FormItemProps>((props, ref) => {
         switch (formItemLayout) {
             case LAYOUT.HORIZONTAL:
                 return label
-                    ? `h-${CONTROL_SIZES[formItemLabelHeight]} ${
-                          label && 'ltr:pr-2 rtl:pl-2'
-                      }`
+                    ? `h-${CONTROL_SIZES[formItemLabelHeight]} ${label && 'ltr:pr-2 rtl:pl-2'
+                    }`
                     : 'ltr:pr-2 rtl:pl-2'
             case LAYOUT.VERTICAL:
                 return `mb-2`
             case LAYOUT.INLINE:
-                return `h-${CONTROL_SIZES[formItemLabelHeight]} ${
-                    label && 'ltr:pr-2 rtl:pl-2'
-                }`
+                return `h-${CONTROL_SIZES[formItemLabelHeight]} ${label && 'ltr:pr-2 rtl:pl-2'
+                    }`
             default:
                 break
         }

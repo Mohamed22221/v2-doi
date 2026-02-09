@@ -1,36 +1,42 @@
-import Dropdown from '@/components/ui/Dropdown'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     HiDotsHorizontal,
-    HiOutlinePencil,
-    HiOutlineTrash,
     HiOutlineCheckCircle,
     HiOutlineXCircle,
-    HiOutlineBan,
+    HiOutlineTrash,
 } from 'react-icons/hi'
+
+// UI Components
+import Dropdown from '@/components/ui/Dropdown'
 import { Button } from '@/components/ui'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import DeleteUserModal from '@/pages/users/DetailsUser/components/DeleteUserModal'
-import SoftDeleteUserModal from '@/pages/users/DetailsUser/components/SoftDeleteUserModal'
+
+// Local Components & Modals
 import SellerRejectModal from './SellerRejectModal'
+import SellerDeleteModal from './modalStatus/SellerDeleteModal'
+import SellerApproveModal from './modalStatus/SellerApproveModal'
+
+// Types
+import { TApprovalStatus, TAccountStatus } from '@/api/types/sellers'
 
 export type SellerAction =
-    | 'suspend'
     | 'approve_request'
     | 'reject_request'
-    | 'update_user'
     | 'temporary_delete'
-    | 'permanent_delete'
+    | 'restore'
 
 type PropsDropdown = {
     id: string
     firstName: string
     lastName: string
-    status?: 'approved' | 'rejected' | 'pending'
+    approvalStatus?: TApprovalStatus
+    accountStatus?: TAccountStatus
     onAction?: (action: SellerAction) => void
 }
 
+/**
+ * Dropdown toggle component (Three dots icon)
+ */
 const Toggle = () => {
     return (
         <Button className="px-[15px] border-none bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-neutral-400">
@@ -39,37 +45,41 @@ const Toggle = () => {
     )
 }
 
+/**
+ * Dropdown options for Seller actions
+ * Features: Approve, Reject, and Soft Delete actions with associated modals
+ */
 const SellerDropdownOptions = ({
     id,
     firstName,
     lastName,
-    status,
+    approvalStatus,
+    accountStatus,
     onAction
 }: PropsDropdown) => {
-    const navigate = useNavigate()
     const { t } = useTranslation()
 
-    const [hardDeleteOpen, setHardDeleteOpen] = useState(false)
-    const [softDeleteOpen, setSoftDeleteOpen] = useState(false)
+    // Modal Visibility State
     const [rejectModalOpen, setRejectModalOpen] = useState(false)
+    const [approveModalOpen, setApproveModalOpen] = useState(false)
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 
+    /**
+     * Handles action selection from dropdown or other triggers
+     */
     const handleAction = (action: SellerAction) => {
         if (onAction) onAction(action)
 
         switch (action) {
-            case 'update_user':
-                navigate(`/sellers/${id}/edit`)
-                break
             case 'reject_request':
                 setRejectModalOpen(true)
                 break
+            case 'approve_request':
+                setApproveModalOpen(true)
+                break
             case 'temporary_delete':
-                setSoftDeleteOpen(true)
+                setDeleteModalOpen(true)
                 break
-            case 'permanent_delete':
-                setHardDeleteOpen(true)
-                break
-            // Other actions would typically be handled by the parent or a mutation hook
         }
     }
 
@@ -80,85 +90,63 @@ const SellerDropdownOptions = ({
                 placement="bottom-end"
                 menuClass="mt-2 min-w-[200px] p-2"
             >
-                {/* Approve */}
-                {status === 'pending' && (
+                {/* Approve Action: Visible if pending or rejected */}
+                {(approvalStatus === 'pending' || approvalStatus === 'rejected') && (
                     <Dropdown.Item
                         eventKey="approve_request"
                         className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
                         onClick={() => handleAction('approve_request')}
                     >
                         <HiOutlineCheckCircle />
-                        {t('fixedPrice.sellers.status.approveRequest')}
+                        {t('sellers.table.status.approveRequest')}
                     </Dropdown.Item>
                 )}
 
-                {/* Reject */}
-                {status === 'pending' && (
+                {/* Reject Action: Visible if pending or approved */}
+                {(approvalStatus === 'pending' || approvalStatus === 'approved') && (
                     <Dropdown.Item
                         eventKey="reject_request"
                         className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
                         onClick={() => handleAction('reject_request')}
                     >
                         <HiOutlineXCircle />
-                        {t('fixedPrice.sellers.status.rejectRequest')}
+                        {t('sellers.table.status.rejectRequest')}
                     </Dropdown.Item>
                 )}
 
-                {status === 'pending' && (
-                    <Dropdown.Item variant="divider" className="my-1" />
+                {/* Soft Delete Action: Visible if not already deleted */}
+                {accountStatus !== 'deleted' && (
+                    <>
+                        <Dropdown.Item variant="divider" className="my-1" />
+                        <Dropdown.Item
+                            eventKey="temporary_delete"
+                            className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
+                            onClick={() => handleAction('temporary_delete')}
+                        >
+                            <HiOutlineTrash />
+                            {t('sellers.table.actions.softDelete')}
+                        </Dropdown.Item>
+                    </>
                 )}
-
-                {/* Update */}
-                <Dropdown.Item
-                    eventKey="update_user"
-                    className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
-                    onClick={() => handleAction('update_user')}
-                >
-                    <HiOutlinePencil />
-                    {t('fixedPrice.sellers.status.updateUser')}
-                </Dropdown.Item>
-
-                <Dropdown.Item variant="divider" className="my-1" />
-
-                {/* Soft Delete */}
-                <Dropdown.Item
-                    eventKey="temporary_delete"
-                    className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-gray-50"
-                    onClick={() => handleAction('temporary_delete')}
-                >
-                    <HiOutlineTrash />
-                    {t('fixedPrice.sellers.status.temporaryDelete')}
-                </Dropdown.Item>
-
-                {/* Hard Delete */}
-                <Dropdown.Item
-                    eventKey="permanent_delete"
-                    className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-red-50 text-red-500"
-                    onClick={() => handleAction('permanent_delete')}
-                >
-                    <HiOutlineTrash />
-                    {t('fixedPrice.sellers.status.permanentDelete')}
-                </Dropdown.Item>
             </Dropdown>
 
-            <DeleteUserModal
-                dialogIsOpen={hardDeleteOpen}
-                firstName={firstName}
-                lastName={lastName}
-                onDialogClose={() => setHardDeleteOpen(false)}
-                id={id}
-            />
-            <SoftDeleteUserModal
-                dialogIsOpen={softDeleteOpen}
-                firstName={firstName}
-                lastName={lastName}
-                onDialogClose={() => setSoftDeleteOpen(false)}
-                id={id}
-            />
+            {/* Action Modals */}
             <SellerRejectModal
                 isOpen={rejectModalOpen}
                 onClose={() => setRejectModalOpen(false)}
                 id={id}
+            />
+            <SellerDeleteModal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                id={id}
+            />
+            <SellerApproveModal
+                isOpen={approveModalOpen}
+                onClose={() => setApproveModalOpen(false)}
+                id={id}
+                firstName={firstName}
+                lastName={lastName}
             />
         </>
     )

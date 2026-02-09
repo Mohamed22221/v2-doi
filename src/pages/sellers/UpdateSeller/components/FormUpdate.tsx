@@ -10,18 +10,23 @@ import { FormContainer, FormItem } from '@/components/ui/Form'
 import { Notification, toast } from '@/components/ui'
 
 // Hooks
-import { useGetSellerDetails } from '../../hooks/useGetSellerDetails'
-import { useUpdateSeller, TSellerPayload } from '../../hooks/useUpdateSeller'
+import {
+    useGetSellerDetails,
+    useUpdateSeller,
+} from '@/api/hooks/sellers'
 import { getApiErrorMessage } from '@/api/error'
+
+// Types
+import { TSellerPayload } from '@/api/types/sellers'
 
 // Validation
 import getSellerValidationSchema from './schema'
 
 // Components
 import { PasswordInput } from '@/components/shared'
+import ErrorState from '@/components/shared/ErrorState'
 import SellerImageUpload from './SellerImageUpload'
 import FormUpdateSkeleton from './FormUpdateSkeleton'
-import ErrorState from '@/components/shared/ErrorState'
 
 const FormUpdate = () => {
     const navigate = useNavigate()
@@ -99,18 +104,18 @@ const FormUpdate = () => {
         <Formik
             enableReinitialize
             initialValues={
-                isUpdateMode && sellerDetails
+                isUpdateMode && sellerDetails?.data
                     ? {
-                        firstName: sellerDetails.user?.firstName ?? '',
-                        lastName: sellerDetails.user?.lastName ?? '',
-                        email: sellerDetails.user?.email ?? '',
-                        phone: sellerDetails.user?.phone ?? '',
+                        firstName: sellerDetails.data.user?.firstName ?? '',
+                        lastName: sellerDetails.data.user?.lastName ?? '',
+                        email: sellerDetails.data.user?.email ?? '',
+                        phone: sellerDetails.data.user?.phone ?? '',
                         password: '',
-                        isActive: sellerDetails.user?.isActive ?? true,
-                        image: sellerDetails.user?.image ?? '',
-                        businessName: sellerDetails.businessName ?? '',
-                        businessPhone: sellerDetails.businessPhone ?? '',
-                        commercialRegistrationNumber: sellerDetails.commercialRegistrationNumber ?? '',
+                        isActive: sellerDetails.data.user?.isActive ?? true,
+                        image: sellerDetails.data.user?.image ?? '',
+                        businessName: sellerDetails.data.businessName ?? '',
+                        businessPhone: sellerDetails.data.businessPhone ?? '',
+                        commercialRegistrationNumber: sellerDetails.data.commercialRegistrationNumber ?? '',
                     }
                     : initialValues
             }
@@ -129,7 +134,7 @@ const FormUpdate = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormItem
                                     asterisk
-                                    label={t('users.firstName')}
+                                    label={t('sellers.firstName')}
                                     invalid={Boolean(
                                         touched.firstName &&
                                         errors.firstName,
@@ -144,7 +149,7 @@ const FormUpdate = () => {
 
                                 <FormItem
                                     asterisk
-                                    label={t('users.lastName')}
+                                    label={t('sellers.lastName')}
                                     invalid={Boolean(
                                         touched.lastName && errors.lastName,
                                     )}
@@ -161,7 +166,7 @@ const FormUpdate = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormItem
                                     asterisk
-                                    label={t('users.email')}
+                                    label={t('sellers.email')}
                                     invalid={Boolean(
                                         touched.email && errors.email,
                                     )}
@@ -172,7 +177,7 @@ const FormUpdate = () => {
 
                                 <FormItem
                                     asterisk
-                                    label={t('users.phone')}
+                                    label={t('sellers.phone')}
                                     invalid={Boolean(
                                         touched.phone && errors.phone,
                                     )}
@@ -232,7 +237,7 @@ const FormUpdate = () => {
 
                                 <FormItem
                                     asterisk={!isUpdateMode}
-                                    label={t('users.password')}
+                                    label={t('sellers.password')}
                                     invalid={Boolean(
                                         touched.password && errors.password,
                                     )}
@@ -250,7 +255,7 @@ const FormUpdate = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                 <FormItem
                                     asterisk
-                                    label={t('users.table.status.status')}
+                                    label={t('sellers.table.status.status')}
                                 >
                                     <Field name="isActive">
                                         {({
@@ -279,8 +284,8 @@ const FormUpdate = () => {
                                 <Button
                                     type="button"
                                     variant="default"
-                                    onClick={() => navigate(-1)}
                                     disabled={submitting}
+                                    onClick={() => navigate(-1)}
                                 >
                                     {t('common.cancelChanges')}
                                 </Button>

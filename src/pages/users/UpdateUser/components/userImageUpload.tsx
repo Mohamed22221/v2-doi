@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import ImageUpload from '@/components/shared/ImageUpload'
 import type { TUserPayload } from '@/api/types/users'
 

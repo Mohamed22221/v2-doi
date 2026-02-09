@@ -29,7 +29,7 @@ type DeleteCategoryModalProps = {
     level?: number
 }
 
-type DeleteOption = 'disable' | 'move' | 'softDelete' | 'hardDelete'
+type DeleteOption = 'disable' | 'move' | 'softDelete'
 
 const DeleteCategoryModal = ({
     dialogIsOpen,
@@ -58,13 +58,30 @@ const DeleteCategoryModal = ({
 
     useEffect(() => {
         if (dialogIsOpen) {
-            setSelectedOption(
-                isDeletionBlocked && status === 'active'
-                    ? 'disable'
-                    : status !== 'active'
-                        ? 'move'
-                        : 'softDelete',
-            )
+            // Scenario 2: Active & Blocked -> 'disable'
+            if (isDeletionBlocked && status === 'active') {
+                setSelectedOption('disable')
+            }
+            // Scenario 3A: Inactive & Blocked & Has SubCategories -> 'move'
+            else if (
+                isDeletionBlocked &&
+                status !== 'active' &&
+                subCategoriesCount > 0
+            ) {
+                setSelectedOption('move')
+            }
+            // Scenario 3B: Inactive & Blocked & No SubCategories -> 'softDelete'
+            else if (
+                isDeletionBlocked &&
+                status !== 'active' &&
+                subCategoriesCount === 0
+            ) {
+                setSelectedOption('softDelete')
+            }
+            // Scenario 1: Empty -> 'softDelete'
+            else {
+                setSelectedOption('softDelete')
+            }
             setDestinationId(null)
         }
     }, [dialogIsOpen, isDeletionBlocked, status])
@@ -122,14 +139,11 @@ const DeleteCategoryModal = ({
         baseClassName: string = '',
     ) => {
         const isActive = selectedOption === option
-        const isRed = option === 'hardDelete'
 
         return classNames(
             'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
             isActive
-                ? isRed
-                    ? 'border-red-200 bg-red-50/50 dark:border-red-700 dark:bg-red-900/10'
-                    : 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
+                ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
                 : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 hover:border-neutral-200 dark:hover:border-neutral-700',
             baseClassName,
         )
@@ -164,9 +178,13 @@ const DeleteCategoryModal = ({
                 <p className="text-neutral-500 dark:text-neutral-400 mb-8 max-w-sm text-sm leading-relaxed">
                     <Trans
                         i18nKey={
-                            isDeletionBlocked
-                                ? 'categories.deleteModal.descriptionBlocked'
-                                : 'categories.deleteModal.descriptionAllowed'
+                            !isDeletionBlocked
+                                ? 'categories.deleteModal.descriptionAllowed'
+                                : status === 'active'
+                                    ? 'categories.deleteModal.descriptionBlockedActive'
+                                    : subCategoriesCount > 0
+                                        ? 'categories.deleteModal.descriptionBlockedInactiveSub'
+                                        : 'categories.deleteModal.descriptionBlockedInactive'
                         }
                         values={{
                             name: categoryName,
@@ -187,41 +205,39 @@ const DeleteCategoryModal = ({
                     onChange={(val) => setSelectedOption(val as DeleteOption)}
                     className="w-full space-y-4 max-h-54 overflow-y-auto"
                 >
-                    {isDeletionBlocked ? (
-                        <>
-                            {status === 'active' && (
-                                <div
-                                    className={getOptionClasses('disable')}
-                                    onClick={() => setSelectedOption('disable')}
-                                >
-                                    <Radio value="disable" className="mt-1" />
-                                    <div className="flex-1 text-left">
-                                        <div className="flex justify-between items-center mb-1">
-                                            <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
-                                                {t(
-                                                    'categories.deleteModal.disableOption',
-                                                )}
-                                            </span>
-                                            <Badge
-                                                content="Recommended"
-                                                className="bg-green-100 dark:bg-green-900/30 text-green-500 dark:text-green-400 border-none rounded-md px-2 py-0 text-[10px] font-bold"
-                                            />
-                                        </div>
-                                        <p className="text-xs text-neutral-400 leading-relaxed text-start ">
-                                            {t(
-                                                'categories.deleteModal.disableDescription',
-                                            )}
-                                        </p>
-                                    </div>
-                                    <Icon
-                                        name="shieldCheck"
-                                        className="shrink-0 text-primary-500 dark:text-primary-100"
+                    {/* Scenario 2: Blocked & Active -> Show Disable */}
+                    {isDeletionBlocked && status === 'active' && (
+                        <div
+                            className={getOptionClasses('disable')}
+                            onClick={() => setSelectedOption('disable')}
+                        >
+                            <Radio value="disable" className="mt-1" />
+                            <div className="flex-1 text-left">
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
+                                        {t('categories.deleteModal.disableOption')}
+                                    </span>
+                                    <Badge
+                                        content="Recommended"
+                                        className="bg-green-100 dark:bg-green-900/30 text-green-500 dark:text-green-400 border-none rounded-md px-2 py-0 text-[10px] font-bold"
                                     />
                                 </div>
-                            )}
-                        </>
-                    ) : (
-                        <>
+                                <p className="text-xs text-neutral-400 leading-relaxed text-start ">
+                                    {t('categories.deleteModal.disableDescription')}
+                                </p>
+                            </div>
+                            <Icon
+                                name="shieldCheck"
+                                className="shrink-0 text-primary-500 dark:text-primary-100"
+                            />
+                        </div>
+                    )}
+
+                    {/* Scenario 1 & 3B: Empty OR (Blocked & Inactive & No SubCategories) -> Show Soft Delete */}
+                    {(!isDeletionBlocked ||
+                        (isDeletionBlocked &&
+                            status !== 'active' &&
+                            subCategoriesCount === 0)) && (
                             <div
                                 className={getOptionClasses('softDelete')}
                                 onClick={() => setSelectedOption('softDelete')}
@@ -230,9 +246,7 @@ const DeleteCategoryModal = ({
                                 <div className="flex-1 text-left">
                                     <div className="flex justify-between items-center mb-1">
                                         <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
-                                            {t(
-                                                'categories.deleteModal.softDeleteOption',
-                                            )}
+                                            {t('categories.deleteModal.softDeleteOption')}
                                         </span>
                                         <Badge
                                             content="Recommended"
@@ -250,8 +264,10 @@ const DeleteCategoryModal = ({
                                     className="shrink-0 text-primary-500 dark:text-primary-100"
                                 />
                             </div>
-                        </>
-                    )}
+                        )}
+
+
+
                     <div
                         className={getOptionClasses('move', 'flex-col ')}
                         onClick={() => setSelectedOption('move')}
@@ -280,9 +296,11 @@ const DeleteCategoryModal = ({
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <label className="flex items-center gap-2 text-[11px] font-bold text-primary-500 dark:text-primary-100  uppercase tracking-wider mb-2">
-                                    <span>{t(
-                                        'categories.deleteModal.destinationLabel',
-                                    )}</span>
+                                    <span>
+                                        {t(
+                                            'categories.deleteModal.destinationLabel',
+                                        )}
+                                    </span>
                                 </label>
                                 <CategorySelect
                                     size="sm"
@@ -293,12 +311,15 @@ const DeleteCategoryModal = ({
                                     value={destinationId}
                                     menuPortalZ={9999}
                                     // level={level}
-                                    onChange={(opt) =>
-                                        setDestinationId(opt ?? null)
-                                    }
-                                    classNames='text-start'
+                                    onChange={(opt) => {
+                                        if (Array.isArray(opt)) {
+                                            setDestinationId(opt[0] ?? null)
+                                        } else {
+                                            setDestinationId(opt ?? null)
+                                        }
+                                    }}
+                                    classNames="text-start"
                                 />
-
                             </div>
                         )}
                     </div>
@@ -333,8 +354,6 @@ const DeleteCategoryModal = ({
                         t('categories.deleteModal.confirmMove')}
                     {selectedOption === 'softDelete' &&
                         t('categories.deleteModal.confirmSoftDelete')}
-                    {selectedOption === 'hardDelete' &&
-                        t('categories.deleteModal.confirmHardDelete')}
                 </Button>
             </div>
         </Dialog>

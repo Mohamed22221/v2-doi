@@ -21,7 +21,7 @@ import useQueryLocation from '@/utils/useQueryLocation'
 import { useAppSelector } from '@/store'
 
 // Helpers to set cookies
-const setAccessTokenCookie = (token: string) => {
+export const setAccessTokenCookie = (token: string) => {
     Cookies.set(ACCESS_TOKEN, token, {
         expires: 1 / 96,
         sameSite: 'lax',

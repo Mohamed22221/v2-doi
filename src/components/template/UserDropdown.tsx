@@ -20,7 +20,7 @@ type DropdownList = {
 const _UserDropdown = ({ className }: CommonProps) => {
     const { t } = useTranslation()
     const { signOut } = useAuth()
-    const { data, isLoading } = useGetProfile()
+    const { data, isLoading, isError } = useGetProfile()
     const dataProfile = data?.data
 
     const dropdownItemList: DropdownList[] = [
@@ -30,27 +30,30 @@ const _UserDropdown = ({ className }: CommonProps) => {
             icon: <HiOutlineUser />,
         },
     ]
-    const UserAvatar = (
-        <div className={classNames(className, 'flex items-center gap-2')}>
-            <Avatar size={32} shape="circle" icon={<HiOutlineUser />} />
-            <div className="min-w-0 w-[92px]">
-                <div className="text-xs capitalize truncate ">
-                    {!isLoading ? (
-                        dataProfile?.role
-                    ) : (
-                        <Skeleton className="w-23 h-3 my-[2px]" />
-                    )}
-                </div>
+    const UserAvatar = !isError && (
+        <>
+            {' '}
+            <div className={classNames(className, 'flex items-center gap-2')}>
+                <Avatar size={32} shape="circle" icon={<HiOutlineUser />} />
+                <div className="min-w-0 w-[92px]">
+                    <div className="text-xs capitalize truncate ">
+                        {!isLoading ? (
+                            dataProfile?.role
+                        ) : (
+                            <Skeleton className="w-23 h-3 my-[2px]" />
+                        )}
+                    </div>
 
-                <div className="font-bold truncate">
-                    {!isLoading ? (
-                        dataProfile?.email
-                    ) : (
-                        <Skeleton className="w-25 h-3 " />
-                    )}
+                    <div className="font-bold truncate">
+                        {!isLoading ? (
+                            dataProfile?.email
+                        ) : (
+                            <Skeleton className="w-25 h-3 " />
+                        )}
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div>{' '}
+        </>
     )
 
     return (
@@ -60,22 +63,25 @@ const _UserDropdown = ({ className }: CommonProps) => {
                 renderTitle={UserAvatar}
                 placement="bottom-end"
             >
-                <Dropdown.Item variant="header">
-                    <div className="py-2 px-3 flex items-center gap-2">
-                        <Avatar shape="circle" icon={<HiOutlineUser />} />
-                        <div>
-                            <div className="font-bold text-gray-900 dark:text-gray-100">
-                                {dataProfile
-                                    ? dataProfile.email
-                                    : 'user01@mail.com'}
-                            </div>
-                            <div className="text-xs">
-                                {dataProfile ? dataProfile.role : 'admin'}
+                {!isError && (
+                    <Dropdown.Item variant="header">
+                        <div className="py-2 px-3 flex items-center gap-2">
+                            <Avatar shape="circle" icon={<HiOutlineUser />} />
+                            <div>
+                                <div className="font-bold text-gray-900 dark:text-gray-100">
+                                    {dataProfile
+                                        ? dataProfile.email
+                                        : 'user01@mail.com'}
+                                </div>
+                                <div className="text-xs">
+                                    {dataProfile ? dataProfile.role : 'admin'}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Dropdown.Item>
-                <Dropdown.Item variant="divider" />
+                        <Dropdown.Item variant="divider" />
+                    </Dropdown.Item>
+                )}
+
                 {dropdownItemList.map((item) => (
                     <Dropdown.Item
                         key={item.label}
