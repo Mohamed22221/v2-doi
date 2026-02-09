@@ -353,29 +353,24 @@
         }
     },
     "sellers": {
-        "details": {
-            "title": "Seller Details"
+        "info": {
+            "personalInfo": "Personal Information",
+            "sellerInfo": "Seller Information",
+            "companyName": "Company name",
+            "contactNumber": "Contact number",
+            "commercialRegistrationNumber": "Commercial registration number",
+            "nationalIdNumber": "National ID Number",
+            "requestSubmitted": "Request Submitted",
+            "accountStatus": "Account Status"
+        },
+        "documents": {
+            "title": "Documentation documents",
+            "commercialCertificate": "Commercial Certificate",
+            "taxCertificate": "Tax Certificate",
+            "nationalId": "National ID"
         },
         "img": "Image",
         "imgSubtitle": "Add or change the seller image",
-        "update": {
-            "title": "Update Seller",
-            "subtitle": "Edit seller information and save your changes",
-            "submit": "Update Seller",
-            "success": "Seller updated successfully"
-        },
-        "create": {
-            "title": "Add New Seller",
-            "subtitle": "Fill in the information below to create a new seller"
-        },
-        "companyName": "Company Name",
-        "contactNumber": "Contact Number",
-        "commercialRegistrationNumber": "Commercial Registration Number",
-        "errors": {
-            "companyNameRequired": "Company name is required",
-            "contactNumberRequired": "Contact number is required",
-            "commercialRegistrationNumberRequired": "Commercial registration number is required"
-        },
         "upload": {
             "oneOnly": "Please upload only one image.",
             "invalidType": "Please upload a valid image (jpeg, png, webp).",
@@ -389,7 +384,196 @@
             "removeTitle": "Remove image",
             "removeConfirm": "Are you sure you want to remove this image?",
             "noUrl": "Upload failed: no image URL returned."
-        }
+        },
+        "table": {
+            "title": "Registered Sellers",
+            "searchPlaceholder": "Search by seller name , email , phone",
+            "emptyText": "No sellers match your filters.",
+            "columns": {
+                "name": "Name",
+                "email": "Email Address",
+                "phone": "Phone",
+                "status": "Status",
+                "registeredDate": "Registered Date",
+                "idPrefix": "ID:"
+            },
+            "status": {
+                "active": "Active",
+                "blocked": "Blocked",
+                "isDeleted": "Deleted",
+                "nonDeleted": "Not deleted",
+                "status": "Status",
+                "pending": "Pending",
+                "approved": "Approved",
+                "rejected": "Rejected",
+                "approveRequest": "Approve Request",
+                "rejectRequest": "Reject Request"
+            },
+            "actions": {
+                "view": "View",
+                "softDelete": "Temporary Delete",
+                "hardDelete": "Permanently Delete"
+            },
+            "filters": {
+                "isDeleted": "Deletion status:",
+                "status": "Status:",
+                "role": "Role:",
+                "allStatus": "All Status",
+                "allRoles": "All Roles",
+                "loading": "Loading...",
+                "failedRoles": "Failed roles",
+                "approvalStatus": "Status:"
+            }
+        },
+        "details": {
+            "title": "Seller Details",
+            "accountStatistics": {
+                "title": "Account Statistics",
+                "totalSpent": "Total Spent",
+                "totalOrders": "Total Orders"
+            },
+            "personalInfo": {
+                "title": "Personal Information",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "registrationDate": "Registration Date",
+                "accountStatus": "Account Status"
+            },
+            "shippingAddress": {
+                "title": "Main Address",
+                "fullAddress": "Full Address",
+                "cityDistrict": "City & District",
+                "country": "Country"
+            },
+            "recentTransactions": {
+                "title": "Recent Transactions",
+                "emptyText": "No transactions.",
+                "viewAllActivity": "View All Activity"
+            },
+            "suspendModal": {
+                "titleSuspend": "Suspend Seller Account",
+                "titleActivate": "Activate Seller Account",
+                "confirmSuspendMessage": "Are you sure you want to suspend <strong>{{name}}</strong>? This will immediately revoke their access to all platform features and active sessions.",
+                "confirmActivateMessage": "Are you sure you want to activate <strong>{{name}}</strong>? This will immediately restore their access to all platform features and sessions.",
+                "cancel": "Cancel",
+                "confirmSuspension": "Confirm Suspension",
+                "confirmActivation": "Confirm Activation",
+                "description": "Please provide a clear reason for the account suspension.",
+                "reasonLabel": "Suspension Reason",
+                "reasonPlaceholder": "Select the reason",
+                "noteLabel": "Note",
+                "notePlaceholder": "Enter additional notes about the suspension",
+                "reasons": {
+                    "policyViolation": "Policy Violation",
+                    "fraudulentActivity": "Fraudulent Activity",
+                    "poorPerformance": "Poor Performance",
+                    "other": "Other"
+                }
+            },
+            "status": {
+                "verified": "Verified",
+                "notVerified": "Not Verified"
+            },
+            "actions": {
+                "suspendSeller": "Suspend Seller",
+                "activateSeller": "Activate Seller"
+            },
+            "notifications": {
+                "suspendedSuccess": "Seller account suspended successfully",
+                "activatedSuccess": "Seller account activated successfully"
+            },
+            "softDeleteModal": {
+                "title": "Temporary Delete Seller",
+                "message": "Are you sure you want to temporary delete <strong>{{name}}</strong>?",
+                "description": "Deactivating will block login and activity, but the seller data will remain",
+                "cancel": "Cancel",
+                "confirm": "Temporary Delete",
+                "success": "Seller temporary deleted successfully.",
+                "reasonLabel": "Deletion Reason",
+                "reasonPlaceholder": "Enter the reason for deletion"
+            },
+            "hardDeleteModal": {
+                "title": "Permanently delete Seller",
+                "message": "Are you sure you want to permanently delete <strong>{{name}}</strong>?",
+                "warning": "This action cannot be undone.",
+                "cancel": "Cancel",
+                "confirm": "Delete permanently",
+                "success": "The seller has been permanently deleted"
+            },
+            "restoreDeleteModal": {
+                "msgRestore": "This seller has been deleted. You can restore the seller.",
+                "btnRestore": "Restore Seller",
+                "title": "Restore Seller",
+                "message": "Are you sure you want to restore <strong>{{name}}</strong>? The seller will be reactivated and regain access to the system.",
+                "confirm": "Restore Seller",
+                "cancel": "Cancel",
+                "success": "Seller restored successfully"
+            },
+            "accountId": "Account ID",
+            "joined": "Joined",
+            "modals": {
+                "reject": {
+                    "title": "Rejection Application",
+                    "description": "This action will decline the seller's registration. Please provide a clear reason for the rejection.",
+                    "reasonLabel": "Rejection Reason",
+                    "reasonPlaceholder": "Select the reason",
+                    "noteLabel": "Note",
+                    "notePlaceholder": "Enter the note about rejection",
+                    "footerText": "* This reason will be logged in the account history.",
+                    "confirm": "Confirm Rejection",
+                    "cancel": "Cancel"
+                },
+                "approve": {
+                    "title": "Approve Application",
+                    "description": "Are you sure you want to approve <strong>{{name}}</strong> application? This will allow them to start selling on the platform.",
+                    "confirm": "Confirm Approval",
+                    "cancel": "Cancel"
+                }
+            }
+        },
+        "create": {
+            "title": "Add New Seller",
+            "subtitle": "Fill in the information below to create a new seller",
+            "submit": "Create Seller",
+            "success": "Seller created successfully"
+        },
+        "update": {
+            "title": "Update Seller",
+            "subtitle": "Edit seller information and save your changes",
+            "submit": "Update Seller",
+            "success": "Seller updated successfully",
+            "submitUpdate": "Update Seller"
+        },
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "password": "Password",
+        "role": "Role",
+        "rolePlaceholder": "Select role",
+        "image": "Profile Image URL",
+        "isActive": "Active",
+        "rolesLoadError": "Failed to load roles",
+        "errors": {
+            "firstNameRequired": "First name is required",
+            "lastNameRequired": "Last name is required",
+            "emailRequired": "Email is required",
+            "invalidEmail": "Please enter a valid email address",
+            "phoneRequired": "Phone number is required",
+            "invalidPhone": "Please enter a valid phone number",
+            "passwordRequired": "Password is required",
+            "passwordMin": "Password must be at least 6 characters long",
+            "roleRequired": "Role is required",
+            "imageRequired": "Image URL is required",
+            "invalidImageUrl": "Please enter a valid image URL",
+            "reasonRequired": "Reason is required",
+            "companyNameRequired": "Company name is required",
+            "contactNumberRequired": "Contact number is required",
+            "commercialRegistrationNumberRequired": "Commercial registration number is required"
+        },
+        "companyName": "Company Name",
+        "contactNumber": "Contact Number",
+        "commercialRegistrationNumber": "Commercial Registration Number"
     },
     "fixedPrice": {
         "table": {

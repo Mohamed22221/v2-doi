@@ -1,23 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, Formik } from 'formik'
+import { Form, Formik, Field, FieldProps } from 'formik'
+import * as Yup from 'yup'
+
+// UI Components
 import {
     Dialog,
     Notification,
     toast,
     Icon,
+    Input,
 } from '@/components/ui'
-
-import { ModalHeader, ModalFooter } from '@/components/shared/StatusModal'
 import { FormItem } from '@/components/ui/Form'
-import { Field, FieldProps } from 'formik'
-import { Input } from '@/components/ui'
-import * as Yup from 'yup'
-import { SellerRejectModalProps, ModalConfig } from './modalStatus/types'
 
+// Shared Components
+import { ModalHeader, ModalFooter } from '@/components/shared/StatusModal'
+
+// Hooks
 import { useRejectSeller } from '@/api/hooks/sellers'
 import { getApiErrorMessage } from '@/api/error'
 
+// Types
+import { SellerRejectModalProps, ModalConfig } from './modalStatus/types'
+
+/**
+ * Modal component for rejecting a seller request
+ * Requires a reason for rejection
+ */
 const SellerRejectModal = ({
     isOpen,
     onClose,
@@ -35,6 +44,9 @@ const SellerRejectModal = ({
         reason: Yup.string().required(t('fixedPrice.details.modals.errors.reasonRequired')),
     })
 
+    /**
+     * Handles the rejection confirmation
+     */
     const onConfirm = async (values: { reason: string }) => {
         rejectSeller({
             userId: id,
@@ -62,10 +74,10 @@ const SellerRejectModal = ({
     }
 
     const config: ModalConfig = {
-        title: t('fixedPrice.sellers.details.modals.reject.title'),
-        description: t('fixedPrice.sellers.details.modals.reject.description'),
+        title: t('sellers.details.modals.reject.title'),
+        description: t('sellers.details.modals.reject.description'),
         icon: <Icon name="errorModal" />,
-        confirmText: t('fixedPrice.sellers.details.modals.reject.confirm'),
+        confirmText: t('sellers.details.modals.reject.confirm'),
         confirmVariant: 'solid',
         confirmColor: 'red',
     }
@@ -88,7 +100,7 @@ const SellerRejectModal = ({
                         <div className="p-2">
                             <FormItem
                                 asterisk
-                                label={t('fixedPrice.sellers.details.modals.reject.reasonLabel')}
+                                label={t('sellers.details.modals.reject.reasonLabel')}
                                 invalid={Boolean(touched.reason && errors.reason)}
                                 errorMessage={errors.reason}
                             >
@@ -97,7 +109,7 @@ const SellerRejectModal = ({
                                         <Input
                                             {...field}
                                             textArea
-                                            placeholder={t('fixedPrice.sellers.details.modals.reject.reasonPlaceholder')}
+                                            placeholder={t('sellers.details.modals.reject.reasonPlaceholder')}
                                             rows={4}
                                         />
                                     )}

@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Formik, Field, FieldProps } from 'formik'
 import * as Yup from 'yup'
+
+// UI Components
 import {
     Dialog,
     Notification,
@@ -10,10 +12,16 @@ import {
     Input,
 } from '@/components/ui'
 import { FormItem } from '@/components/ui/Form'
+
+// Shared Components
 import { ModalHeader, ModalFooter } from '@/components/shared/StatusModal'
-import { ModalConfig } from './types'
+
+// Hooks
 import { useDeleteSeller } from '@/api/hooks/sellers'
 import { getApiErrorMessage } from '@/api/error'
+
+// Types
+import { ModalConfig } from './types'
 
 interface SellerDeleteModalProps {
     isOpen: boolean
@@ -22,6 +30,10 @@ interface SellerDeleteModalProps {
     onConfirmSuccess?: () => void
 }
 
+/**
+ * Modal component for soft deleting a seller
+ * Requires a reason for deletion
+ */
 const SellerDeleteModal = ({
     isOpen,
     onClose,
@@ -36,9 +48,12 @@ const SellerDeleteModal = ({
     }
 
     const validationSchema = Yup.object().shape({
-        reason: Yup.string().required(t('fixedPrice.details.modals.errors.reasonRequired')),
+        reason: Yup.string().required(t('sellers.errors.reasonRequired')),
     })
 
+    /**
+     * Handles the deletion confirmation
+     */
     const onConfirm = async (values: { reason: string }) => {
         deleteSeller({
             userId: id,
@@ -66,10 +81,10 @@ const SellerDeleteModal = ({
     }
 
     const config: ModalConfig = {
-        title: t('fixedPrice.sellers.status.temporaryDelete'),
-        description: t('users.userDetails.softDeleteModal.description'),
+        title: t('sellers.table.actions.softDelete'),
+        description: t('sellers.details.softDeleteModal.description'),
         icon: <Icon name="errorModal" />,
-        confirmText: t('users.userDetails.softDeleteModal.confirm'),
+        confirmText: t('sellers.details.softDeleteModal.confirm'),
         confirmVariant: 'solid',
         confirmColor: 'red',
     }
@@ -92,7 +107,7 @@ const SellerDeleteModal = ({
                         <div className="p-2">
                             <FormItem
                                 asterisk
-                                label={t('users.userDetails.softDeleteModal.reasonLabel')}
+                                label={t('sellers.details.softDeleteModal.reasonLabel')}
                                 invalid={Boolean(touched.reason && errors.reason)}
                                 errorMessage={errors.reason}
                             >
@@ -101,7 +116,7 @@ const SellerDeleteModal = ({
                                         <Input
                                             {...field}
                                             textArea
-                                            placeholder={t('users.userDetails.softDeleteModal.reasonPlaceholder')}
+                                            placeholder={t('sellers.details.softDeleteModal.reasonPlaceholder')}
                                             rows={4}
                                         />
                                     )}

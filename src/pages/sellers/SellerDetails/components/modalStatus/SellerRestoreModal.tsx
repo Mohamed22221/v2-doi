@@ -30,7 +30,7 @@ const SellerRestoreModal = ({
                 onClose()
                 toast.push(
                     <Notification
-                        title={t('users.userDetails.restoreDeleteModal.success')}
+                        title={t('sellers.details.restoreDeleteModal.success')}
                         type="success"
                     />,
                 )
@@ -47,10 +47,10 @@ const SellerRestoreModal = ({
     }
 
     const config: StatusModalConfig = {
-        title: t('users.userDetails.restoreDeleteModal.title'),
+        title: t('sellers.details.restoreDeleteModal.title'),
         description: '',
-        icon: <Icon name="shieldCheck" className="text-emerald-500" />,
-        confirmText: t('users.userDetails.restoreDeleteModal.confirm'),
+        icon: <Icon name="hideModal" />,
+        confirmText: t('sellers.details.restoreDeleteModal.confirm'),
         confirmVariant: 'solid',
         confirmColor: 'emerald',
     }
@@ -67,7 +67,7 @@ const SellerRestoreModal = ({
                 <div className="text-center">
                     <p>
                         < Trans
-                            i18nKey="users.userDetails.restoreDeleteModal.message"
+                            i18nKey="sellers.details.restoreDeleteModal.message"
                             values={{ name }}
                             components={{ strong: <strong /> }}
                         />

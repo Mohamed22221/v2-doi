@@ -9,28 +9,28 @@ export const useSellerCsvColumns = () => {
     return useMemo<CsvColumnDef<SellerItem>[]>(
         () => [
             {
-                header: t('users.table.columns.name'),
+                header: t('sellers.table.columns.name'),
                 accessor: (row: SellerItem) => `${row.user.firstName} ${row.user.lastName}`,
             },
             {
-                header: t('users.table.columns.email'),
+                header: t('sellers.table.columns.email'),
                 accessor: (row: SellerItem) => row.user.email,
             },
             {
-                header: t('users.table.columns.phone'),
+                header: t('sellers.table.columns.phone'),
                 accessor: (row: SellerItem) => row.user.phone,
             },
             {
-                header: t('users.table.status.status'),
+                header: t('sellers.table.columns.status'),
                 accessor: (row: SellerItem) =>
                     row.approvalStatus === 'approved'
-                        ? t('fixedPrice.sellers.status.approved')
+                        ? t('sellers.table.status.approved')
                         : row.approvalStatus === 'pending'
-                            ? t('fixedPrice.sellers.status.pending')
-                            : t('fixedPrice.sellers.status.rejected'),
+                            ? t('sellers.table.status.pending')
+                            : t('sellers.table.status.rejected'),
             },
             {
-                header: t('users.table.columns.registeredDate'),
+                header: t('sellers.table.columns.registeredDate'),
                 accessor: (row: SellerItem) => row.user.createdAt,
             },
         ],

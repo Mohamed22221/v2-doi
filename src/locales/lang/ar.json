@@ -353,29 +353,24 @@
         }
     },
     "sellers": {
-        "details": {
-            "title": "تفاصيل البائع"
+        "info": {
+            "personalInfo": "المعلومات الشخصية",
+            "sellerInfo": "معلومات البائع",
+            "companyName": "اسم الشركة",
+            "contactNumber": "رقم التواصل",
+            "commercialRegistrationNumber": "رقم السجل التجاري",
+            "nationalIdNumber": "رقم الهوية الوطنية",
+            "requestSubmitted": "تاريخ تقديم الطلب",
+            "accountStatus": "حالة الحساب"
+        },
+        "documents": {
+            "title": "مستندات التوثيق",
+            "commercialCertificate": "الشهادة التجارية",
+            "taxCertificate": "الشهادة الضريبية",
+            "nationalId": "بطاقة الهوية الوطنية"
         },
         "img": "الصورة",
         "imgSubtitle": "أضف أو غيّر صورة البائع",
-        "update": {
-            "title": "تعديل بيانات البائع",
-            "subtitle": "قم بتعديل بيانات البائع ثم احفظ التغييرات",
-            "submit": "تحديث البائع",
-            "success": "تم تحديث بيانات البائع بنجاح"
-        },
-        "create": {
-            "title": "إضافة بائع جديد",
-            "subtitle": "قم بإدخال البيانات التالية لإنشاء بائع جديد"
-        },
-        "companyName": "اسم الشركة",
-        "contactNumber": "رقم التواصل",
-        "commercialRegistrationNumber": "رقم السجل التجاري",
-        "errors": {
-            "companyNameRequired": "اسم الشركة مطلوب",
-            "contactNumberRequired": "رقم التواصل مطلوب",
-            "commercialRegistrationNumberRequired": "رقم السجل التجاري مطلوب"
-        },
         "upload": {
             "oneOnly": "يرجى رفع صورة واحدة فقط.",
             "invalidType": "يرجى رفع صورة بصيغة صحيحة (jpeg أو png أو webp).",
@@ -389,7 +384,196 @@
             "removeTitle": "حذف الصورة",
             "removeConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
             "noUrl": "فشل الرفع: لم يتم إرجاع رابط للصورة."
-        }
+        },
+        "table": {
+            "title": "البائعون المسجلون",
+            "searchPlaceholder": "البحث بالاسم، البريد الإلكتروني، أو رقم الهاتف",
+            "emptyText": "لا يوجد بائعين",
+            "columns": {
+                "name": "الاسم",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "status": "الحالة",
+                "registeredDate": "تاريخ التسجيل",
+                "idPrefix": "المعرف:"
+            },
+            "status": {
+                "active": "نشط",
+                "blocked": "محظور",
+                "isDeleted": "محذوف",
+                "nonDeleted": "غير محذوف",
+                "status": "الحالة",
+                "pending": "قيد الانتظار",
+                "approved": "مقبول",
+                "rejected": "مرفوض",
+                "approveRequest": "الموافقة على الطلب",
+                "rejectRequest": "رفض الطلب"
+            },
+            "actions": {
+                "view": "عرض",
+                "softDelete": "حذف مؤقت",
+                "hardDelete": "حذف نهائي"
+            },
+            "filters": {
+                "status": "الحالة:",
+                "role": "الدور:",
+                "allStatus": "جميع الحالات",
+                "allRoles": "جميع الأدوار",
+                "loading": "جاري التحميل...",
+                "failedRoles": "فشل تحميل الأدوار",
+                "isDeleted": "حالة الحذف:",
+                "approvalStatus": "الحالة:"
+            }
+        },
+        "details": {
+            "title": "تفاصيل البائع",
+            "accountStatistics": {
+                "title": "إحصائيات الحساب",
+                "totalSpent": "إجمالي الإنفاق",
+                "totalOrders": "إجمالي الطلبات"
+            },
+            "personalInfo": {
+                "title": "المعلومات الشخصية",
+                "email": "البريد الإلكتروني",
+                "phone": "رقم الهاتف",
+                "registrationDate": "تاريخ التسجيل",
+                "accountStatus": "حالة الحساب"
+            },
+            "shippingAddress": {
+                "title": "العنوان الرئيسي",
+                "fullAddress": "العنوان الكامل",
+                "cityDistrict": "المدينة والحي",
+                "country": "الدولة"
+            },
+            "recentTransactions": {
+                "title": "المعاملات الأخيرة",
+                "emptyText": "لا توجد معاملات.",
+                "viewAllActivity": "عرض جميع الأنشطة"
+            },
+            "suspendModal": {
+                "titleSuspend": "تعليق حساب البائع",
+                "titleActivate": "تفعيل حساب البائع",
+                "confirmSuspendMessage": "هل أنت متأكد أنك تريد تعليق حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى إلغاء وصوله فوراً إلى جميع ميزات المنصة والجلسات النشطة.",
+                "confirmActivateMessage": "هل أنت متأكد أنك تريد تفعيل حساب <strong>{{name}}</strong>؟ سيؤدي هذا إلى استعادة وصوله إلى جميع ميزات المنصة والجلسات النشطة.",
+                "cancel": "إلغاء",
+                "confirmSuspension": "تأكيد التعليق",
+                "confirmActivation": "تأكيد التفعيل",
+                "description": "يرجى تقديم سبب واضح لتعليق الحساب.",
+                "reasonLabel": "سبب التعليق",
+                "reasonPlaceholder": "اختر السبب",
+                "noteLabel": "ملاحظة",
+                "notePlaceholder": "أدخل ملاحظات إضافية حول التعليق",
+                "reasons": {
+                    "policyViolation": "انتهاك السياسة",
+                    "fraudulentActivity": "نشاط احتيالي",
+                    "poorPerformance": "أداء ضعيف",
+                    "other": "أخرى"
+                }
+            },
+            "status": {
+                "verified": "موثق",
+                "notVerified": "غير موثق"
+            },
+            "actions": {
+                "suspendSeller": "تعليق البائع",
+                "activateSeller": "تفعيل البائع"
+            },
+            "notifications": {
+                "suspendedSuccess": "تم تعليق حساب البائع بنجاح",
+                "activatedSuccess": "تم تفعيل حساب البائع بنجاح"
+            },
+            "hardDeleteModal": {
+                "title": "حذف البائع نهائيًا",
+                "message": "هل أنت متأكد من حذف البائع <strong>{{name}}</strong> نهائيًا؟",
+                "warning": "لا يمكن التراجع عن هذا الإجراء.",
+                "cancel": "إلغاء",
+                "confirm": "حذف نهائي",
+                "success": "تم حذف البائع نهائيًا بنجاح."
+            },
+            "softDeleteModal": {
+                "title": "حذف مؤقت للبائع",
+                "message": "هل أنت متأكد من حذف البائع <strong>{{name}}</strong> مؤقتًا؟",
+                "description": "سيؤدي التعطيل إلى حظر تسجيل الدخول والنشاط، ولكن ستظل بيانات البائع موجودة",
+                "cancel": "إلغاء",
+                "confirm": "حذف مؤقت",
+                "success": "تم حذف البائع مؤقتًا بنجاح.",
+                "reasonLabel": "سبب الحذف",
+                "reasonPlaceholder": "أدخل سبب الحذف"
+            },
+            "restoreDeleteModal": {
+                "msgRestore": "تم حذف هذا البائع. يمكنك استعادته مرة أخرى.",
+                "btnRestore": "استعادة البائع",
+                "title": "استعادة البائع",
+                "message": "هل أنت متأكد أنك تريد استعادة <strong>{{name}}</strong>؟ سيتم إعادة تفعيل البائع ومنحه إمكانية الوصول إلى النظام مرة أخرى.",
+                "confirm": "استعادة البائع",
+                "cancel": "إلغاء",
+                "success": "تمت استعادة البائع بنجاح"
+            },
+            "accountId": "معرف الحساب",
+            "joined": "انضم في",
+            "modals": {
+                "reject": {
+                    "title": "طلب الرفض",
+                    "description": "سيؤدي هذا الإجراء إلى رفض تسجيل البائع. يرجى تقديم سبب واضح للرفض.",
+                    "reasonLabel": "سبب الرفض",
+                    "reasonPlaceholder": "اختر السبب",
+                    "noteLabel": "ملاحظة",
+                    "notePlaceholder": "أدخل ملاحظة حول الرفض",
+                    "footerText": "* سيتم تسجيل هذا السبب في سجل الحساب.",
+                    "confirm": "تأكيد الرفض",
+                    "cancel": "إلغاء"
+                },
+                "approve": {
+                    "title": "الموافقة على الطلب",
+                    "description": "هل أنت متأكد أنك تريد الموافقة على طلب <strong>{{name}}</strong>؟ سيسمح لهم ذلك بالبدء في البيع على المنصة.",
+                    "confirm": "تأكيد الموافقة",
+                    "cancel": "إلغاء"
+                }
+            }
+        },
+        "create": {
+            "title": "إضافة بائع جديد",
+            "subtitle": "قم بإدخال البيانات التالية لإنشاء بائع جديد",
+            "submit": "إضافة البائع",
+            "success": "تم إنشاء البائع بنجاح"
+        },
+        "update": {
+            "title": "تعديل بيانات البائع",
+            "subtitle": "قم بتعديل بيانات البائع ثم احفظ التغييرات",
+            "submit": "حفظ التعديلات",
+            "success": "تم تحديث بيانات البائع بنجاح",
+            "submitUpdate": "تحديث البائع"
+        },
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "password": "كلمة المرور",
+        "role": "الدور",
+        "rolePlaceholder": "اختر الدور",
+        "image": "رابط صورة الملف الشخصي",
+        "isActive": "مفعل",
+        "rolesLoadError": "فشل تحميل الأدوار",
+        "errors": {
+            "firstNameRequired": "الاسم الأول مطلوب",
+            "lastNameRequired": "اسم العائلة مطلوب",
+            "emailRequired": "البريد الإلكتروني مطلوب",
+            "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+            "phoneRequired": "رقم الهاتف مطلوب",
+            "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
+            "passwordRequired": "كلمة المرور مطلوبة",
+            "passwordMin": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+            "roleRequired": "الدور مطلوب",
+            "imageRequired": "رابط الصورة مطلوب",
+            "invalidImageUrl": "يرجى إدخال رابط صورة صحيح",
+            "reasonRequired": "السبب مطلوب",
+            "companyNameRequired": "اسم الشركة مطلوب",
+            "contactNumberRequired": "رقم التواصل مطلوب",
+            "commercialRegistrationNumberRequired": "رقم السجل التجاري مطلوب"
+        },
+        "companyName": "اسم الشركة",
+        "contactNumber": "رقم التواصل",
+        "commercialRegistrationNumber": "رقم السجل التجاري"
     },
     "fixedPrice": {
         "table": {

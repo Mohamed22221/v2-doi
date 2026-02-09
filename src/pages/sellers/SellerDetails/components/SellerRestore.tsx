@@ -22,7 +22,7 @@ const SellerRestore = ({ firstName, lastName, id }: SellerRestoreProps) => {
                 <div className="flex min-w-0 items-start gap-2 text-yellow-600 sm:items-center">
                     <HiExclamation size={22} className="shrink-0 mt-0.5 sm:mt-0" />
                     <p className="min-w-0 sm:text-base text-[14px] text-yellow-600 break-words">
-                        {t('users.userDetails.restoreDeleteModal.msgRestore')}
+                        {t('sellers.details.restoreDeleteModal.msgRestore')}
                     </p>
                 </div>
 
@@ -34,7 +34,7 @@ const SellerRestore = ({ firstName, lastName, id }: SellerRestoreProps) => {
                         onClick={openModal}
                         className="w-full sm:w-auto"
                     >
-                        {t('users.userDetails.restoreDeleteModal.btnRestore')}
+                        {t('sellers.details.restoreDeleteModal.btnRestore')}
                     </Button>
                 </div>
             </div>

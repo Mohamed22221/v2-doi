@@ -1,7 +1,13 @@
-import { Dialog, Icon, Notification, toast } from '@/components/ui'
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
+
+// UI Components
+import { Dialog, Icon, Notification, toast } from '@/components/ui'
+
+// Shared Components
 import { ModalHeader, ModalBody, ModalFooter, StatusModalConfig } from '@/components/shared/StatusModal'
+
+// Hooks
 import { useApproveSeller } from '@/api/hooks/sellers'
 import { getApiErrorMessage } from '@/api/error'
 
@@ -14,6 +20,10 @@ type SellerApproveModalProps = {
     onConfirmSuccess?: () => void
 }
 
+/**
+ * Modal component for approving a seller request
+ * Features: Shows the seller's name and asks for confirmation
+ */
 const SellerApproveModal = ({
     isOpen,
     onClose,
@@ -27,6 +37,9 @@ const SellerApproveModal = ({
 
     const name = `${firstName ?? ''} ${lastName ?? ''}`.trim() || t('common.unknownUser')
 
+    /**
+     * Handles the approval confirmation
+     */
     const onConfirm = () => {
         approveSeller(id, {
             onSuccess: () => {
@@ -51,10 +64,10 @@ const SellerApproveModal = ({
     }
 
     const config: StatusModalConfig = {
-        title: t('fixedPrice.sellers.details.modals.approve.title'),
+        title: t('sellers.details.modals.approve.title'),
         description: '',
         icon: <Icon name="hideModal" />,
-        confirmText: t('fixedPrice.sellers.details.modals.approve.confirm'),
+        confirmText: t('sellers.details.modals.approve.confirm'),
         confirmVariant: 'solid',
         confirmColor: 'green',
     }
@@ -71,7 +84,7 @@ const SellerApproveModal = ({
                 <div className="text-center">
                     <p>
                         <Trans
-                            i18nKey="fixedPrice.sellers.details.modals.approve.description"
+                            i18nKey="sellers.details.modals.approve.description"
                             values={{ name }}
                             components={{ strong: <strong /> }}
                         />

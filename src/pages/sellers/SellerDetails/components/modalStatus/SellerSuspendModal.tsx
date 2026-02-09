@@ -31,7 +31,7 @@ const SellerSuspendModal = ({
     }
 
     const validationSchema = Yup.object().shape({
-        reason: Yup.string().required(t('fixedPrice.details.modals.errors.reasonRequired')),
+        reason: Yup.string().required(t('sellers.errors.reasonRequired')),
     })
 
     const onConfirm = async (values: { reason: string }) => {
@@ -61,10 +61,10 @@ const SellerSuspendModal = ({
     }
 
     const config: ModalConfig = {
-        title: t('users.userDetails.suspendModal.titleSuspend'),
-        description: t('users.userDetails.suspendModal.description'),
+        title: t('sellers.details.suspendModal.titleSuspend'),
+        description: t('sellers.details.suspendModal.description'),
         icon: <Icon name="errorModal" />,
-        confirmText: t('users.userDetails.suspendModal.confirmSuspension'),
+        confirmText: t('sellers.details.suspendModal.confirmSuspension'),
         confirmVariant: 'solid',
         confirmColor: 'red',
     }
@@ -87,7 +87,7 @@ const SellerSuspendModal = ({
                         <div className="p-2 ">
                             <FormItem
                                 asterisk
-                                label={t('users.userDetails.suspendModal.reasonLabel')}
+                                label={t('sellers.details.suspendModal.reasonLabel')}
                                 invalid={Boolean(touched.reason && errors.reason)}
                                 errorMessage={errors.reason}
                             >
@@ -96,7 +96,7 @@ const SellerSuspendModal = ({
                                         <Input
                                             {...field}
                                             textArea
-                                            placeholder={t('users.userDetails.suspendModal.notePlaceholder')}
+                                            placeholder={t('sellers.details.suspendModal.notePlaceholder')}
                                             rows={4}
                                         />
                                     )}

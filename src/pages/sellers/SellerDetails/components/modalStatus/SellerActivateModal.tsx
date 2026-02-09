@@ -51,10 +51,10 @@ const SellerActivateModal = ({
     }
 
     const config: StatusModalConfig = {
-        title: t('users.userDetails.suspendModal.titleActivate'),
+        title: t('sellers.details.suspendModal.titleActivate'),
         description: '',
         icon: <Icon name="hideModal" />,
-        confirmText: t('users.userDetails.suspendModal.confirmActivation'),
+        confirmText: t('sellers.details.suspendModal.confirmActivation'),
         confirmVariant: 'solid',
         confirmColor: 'green',
     }
@@ -71,7 +71,7 @@ const SellerActivateModal = ({
                 <div className="text-center">
                     <p>
                         <Trans
-                            i18nKey="users.userDetails.suspendModal.confirmActivateMessage"
+                            i18nKey="sellers.details.suspendModal.confirmActivateMessage"
                             values={{ name }}
                             components={{ strong: <strong /> }}
                         />

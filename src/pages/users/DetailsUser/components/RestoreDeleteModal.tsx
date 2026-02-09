@@ -53,7 +53,7 @@ const RestoreDeleteModal = ({
     const config: StatusModalConfig = {
         title: t('users.userDetails.restoreDeleteModal.title'),
         description: '', // Using children
-        icon: <Icon name="shieldCheck" className="text-emerald-500" />,
+        icon: <Icon name="hideModal" />,
         confirmText: t('users.userDetails.restoreDeleteModal.confirm'),
         confirmVariant: 'solid',
         confirmColor: 'emerald',

@@ -46,6 +46,12 @@ const SellersServices = {
 
     restoreSeller: (userId: string): Promise<TAPIResponseItem<SellerItem>> =>
         api.patch(`/admin/sellers/${userId}/restore`),
+
+    updateSeller: (
+        userId: string,
+        data: Partial<SellerItem>,
+    ): Promise<TAPIResponseItem<SellerItem>> =>
+        api.put(`/admin/sellers/${userId}`, data),
 }
 
 export default SellersServices

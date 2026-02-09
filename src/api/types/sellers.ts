@@ -17,6 +17,10 @@ export interface SellerUser extends BaseEntity {
     isPhoneVerified: boolean
     isEmailVerified: boolean
     language: string
+    role?: {
+        id: string
+        name: string
+    }
 }
 
 export interface SellerDocument {
@@ -41,6 +45,7 @@ export interface SellerItem {
     reason: string | null
     verifiedAt: string | null
     documents: SellerDocument[]
+    deletedAt: string | null
 }
 
 export interface TSellersParams {
@@ -52,4 +57,17 @@ export interface TSellersParams {
 
 export interface TSellerActionPayload {
     reason: string
+}
+
+export interface TSellerPayload {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    password?: string
+    isActive: boolean
+    image: string
+    businessName: string | null
+    businessPhone: string | null
+    commercialRegistrationNumber: string | null
 }

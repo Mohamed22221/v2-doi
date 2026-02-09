@@ -174,3 +174,24 @@ export const useRestoreSeller = () => {
         },
     })
 }
+
+export const useUpdateSeller = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({
+            id,
+            data,
+        }: {
+            id: string
+            data: any
+        }) => SellersServices.updateSeller(id, data),
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, variables.id],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
+            })
+        },
+    })
+}
