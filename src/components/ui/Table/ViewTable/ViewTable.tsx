@@ -113,13 +113,13 @@ const ViewTable = <TData extends object>({
             {title && (
                 <>
 
-                    <div className="px-3 md:px-5 flex justify-between items-center md:h-[90px] h-[70px]">
-                        <h3 className="text-[17px] md:text-[24px]">{title || t('viewTable.defaultTitle')}</h3>
-                        <div className="flex items-center gap-2">
+                    <div className="px-4 md:px-5 flex flex-col md:flex-row md:justify-between md:items-center py-4 md:py-0 md:h-[90px] min-h-[70px] gap-4">
+                        <h3 className="text-[17px] md:text-[24px] font-semibold">{title || t('viewTable.defaultTitle')}</h3>
+                        <div className="flex flex-wrap items-center gap-2">
                             {headerActions}
                             {showExportButton && (
                                 <Button
-                                    size="md"
+                                    size="sm md:md"
                                     icon={
                                         <HiDownload className="text-primary-500 dark:text-primary-100" />
                                     }

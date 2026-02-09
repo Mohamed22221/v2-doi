@@ -17,7 +17,7 @@ export default function CsvExportButton<T>({
 
     const title = (
         <Button
-            size="md"
+            size="sm md:md"
             className={className}
             icon={
                 isExporting ? (

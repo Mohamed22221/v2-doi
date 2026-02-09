@@ -155,7 +155,7 @@ export default function BrandsTable() {
     const ButtonCreateLink = () => {
         return (
             <Button
-                size="md"
+                size="sm md:md"
                 variant="solid"
                 icon={
                     <HiOutlinePlus className="text-primary-50 dark:text-primary-100" />

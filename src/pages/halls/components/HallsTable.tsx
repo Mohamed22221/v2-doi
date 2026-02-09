@@ -88,14 +88,14 @@ export default function HallsTable() {
         return (
             <div className="flex items-center gap-2">
                 <Button
-                    size="md"
+                    size="sm md:md"
                     icon={<HiDownload />}
                     onClick={handleExport}
                 >
                     {t('common.exportCsv')}
                 </Button>
                 <Button
-                    size="md"
+                    size="sm md:md"
                     variant="solid"
                     icon={<HiPlus />}
                     onClick={handleCreate}
