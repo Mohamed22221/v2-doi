@@ -12,7 +12,7 @@ import {
     Icon,
     Badge,
 } from '@/components/ui'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
 
@@ -21,6 +21,7 @@ type DeleteBrandModalProps = {
     id: string | number
     onDialogClose: () => void
     brandName?: string
+    totalItems?: number
 }
 
 type DeleteOption = 'softDelete' | 'hardDelete'
@@ -30,8 +31,10 @@ const DeleteBrandModal = ({
     onDialogClose,
     brandName,
     id,
+    totalItems,
 }: DeleteBrandModalProps) => {
     const { t } = useTranslation()
+    const isHardDeleteDisabled = (totalItems || 0) > 0
     const [selectedOption, setSelectedOption] = useState<DeleteOption>('softDelete')
 
     const { mutate: softDelete, isPending: isSoftDeleting } =
@@ -109,9 +112,14 @@ const DeleteBrandModal = ({
 
                 <p className="text-neutral-500 dark:text-neutral-400 mb-8 max-w-sm text-sm leading-relaxed">
                     <Trans
-                        i18nKey="brands.deleteModal.descriptionAllowed"
+                        i18nKey={
+                            isHardDeleteDisabled
+                                ? 'brands.deleteModal.descriptionBlocked'
+                                : 'brands.deleteModal.descriptionAllowed'
+                        }
                         values={{
                             name: brandName,
+                            itemsCount: totalItems,
                         }}
                         components={{
                             strong: (
@@ -153,10 +161,21 @@ const DeleteBrandModal = ({
                     </div>
 
                     <div
-                        className={getOptionClasses('hardDelete')}
-                        onClick={() => setSelectedOption('hardDelete')}
+                        className={classNames(
+                            getOptionClasses('hardDelete'),
+                            isHardDeleteDisabled &&
+                            'opacity-50 cursor-not-allowed pointer-events-none',
+                        )}
+                        onClick={() =>
+                            !isHardDeleteDisabled &&
+                            setSelectedOption('hardDelete')
+                        }
                     >
-                        <Radio value="hardDelete" className="mt-1" />
+                        <Radio
+                            value="hardDelete"
+                            className="mt-1"
+                            disabled={isHardDeleteDisabled}
+                        />
                         <div className="flex-1 text-start">
                             <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
                                 {t('brands.deleteModal.hardDeleteOption')}

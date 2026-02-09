@@ -19,14 +19,25 @@ export default function SellerTable() {
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
             {
-                key: 'isVerified',
-                label: t('users.table.filters.status'),
+                key: 'approvalStatus',
+                label: t('users.table.filters.approvalStatus'),
+                value: null,
+                valueType: 'string',
+                options: [
+                    { label: t('fixedPrice.sellers.status.pending'), value: 'pending' },
+                    { label: t('fixedPrice.sellers.status.approved'), value: 'approved' },
+                    { label: t('fixedPrice.sellers.status.rejected'), value: 'rejected' },
+                ],
+                placeholder: t('users.table.filters.allStatus'),
+            },
+            {
+                key: 'isDeleted',
+                label: t('users.table.filters.isDeleted'),
                 value: null,
                 valueType: 'boolean',
                 options: [
-                    { label: t('fixedPrice.sellers.status.approved'), value: true },
-                    { label: t('fixedPrice.sellers.status.pending'), value: false },
-                    { label: t('fixedPrice.sellers.status.rejected'), value: false },
+                    { label: t('users.table.status.isDeleted'), value: true },
+                    { label: t('users.table.status.nonDeleted'), value: false },
                 ],
                 placeholder: t('users.table.filters.allStatus'),
             },

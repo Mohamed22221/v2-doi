@@ -224,7 +224,8 @@
                 "allRoles": "جميع الأدوار",
                 "loading": "جاري التحميل...",
                 "failedRoles": "فشل تحميل الأدوار",
-                "isDeleted": "حالة الحذف:"
+                "isDeleted": "حالة الحذف:",
+                "approvalStatus": "الحالة:"
             }
         },
         "userDetails": {
@@ -906,8 +907,10 @@
         "deleteModal": {
             "cannotDeleteTitle": "لا يمكن حذف الفئة",
             "canDeleteTitle": "حذف الفئة",
-            "descriptionBlocked": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة و/أو <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. تم تعطيل الحذف النهائي لمنع فقدان البيانات بشكل كبير.",
-            "descriptionAllowed": "الفئة <strong>{{name}}</strong> فارغة (لا توجد عناصر أو فئات فرعية) لذا يسمح بالحذف المؤقت، والحذف النهائي ونقل لفئه اخري.",
+            "descriptionBlockedActive": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة و/أو <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. يمكنك نقل الفئة أو تعطيلها.",
+            "descriptionBlockedInactive": "تحتوي <strong>{{name}}</strong> على <strong>{{itemsCount}}</strong> من العناصر النشطة. يمكنك نقل الفئة أو حذفها مؤقتًا.",
+            "descriptionBlockedInactiveSub": "تحتوي <strong>{{name}}</strong> على <strong>{{subCategoriesCount}}</strong> من الفئات الفرعية. يجب نقل الفئات الفرعية قبل الحذف.",
+            "descriptionAllowed": "الفئة <strong>{{name}}</strong> فارغة (لا توجد عناصر أو فئات فرعية) لذا يسمح بالحذف المؤقت، ونقل لفئه اخري.",
             "disableOption": "تعطيل الفئة (موصى به)",
             "disableDescription": "التعطيل يحافظ على البيانات ولكن يخفيها عن المستخدمين ويمنع أي استخدام آخر.",
             "bulkMoveOption": "نقل الفئة",

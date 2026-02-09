@@ -221,6 +221,7 @@ export default function BrandsTable() {
                 onDialogClose={closeDeleteModal}
                 id={selectedBrand?.id ?? ''}
                 brandName={selectedBrandName}
+                totalItems={selectedBrand?.totalItems}
             />
 
             <RestoreBrandModal

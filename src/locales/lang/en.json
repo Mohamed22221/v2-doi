@@ -224,7 +224,8 @@
                 "allStatus": "All Status",
                 "allRoles": "All Roles",
                 "loading": "Loading...",
-                "failedRoles": "Failed roles"
+                "failedRoles": "Failed roles",
+                "approvalStatus": "Status:"
             }
         },
         "userDetails": {
@@ -906,8 +907,10 @@
         "deleteModal": {
             "cannotDeleteTitle": "Cannot Delete Category",
             "canDeleteTitle": "Delete Category",
-            "descriptionBlocked": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. Hard deletion is disabled to prevent massive data loss.",
-            "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, permanent deletion, and moving it to another category are allowed.",
+            "descriptionBlockedActive": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items and/or <strong>{{subCategoriesCount}}</strong> sub-categories. You can Disable or Move the category.",
+            "descriptionBlockedInactive": "<strong >{{name}} </strong > has <strong>{{itemsCount}}</strong> active items. You can Soft Delete or Move the category.",
+            "descriptionBlockedInactiveSub": "<strong >{{name}} </strong > has <strong>{{subCategoriesCount}}</strong> sub-categories. You must Move the sub-categories before deletion.",
+            "descriptionAllowed": "The <strong>{{name}}</strong> category is empty (there are no items or subcategories), so temporary deletion, and moving it to another category are allowed.",
             "disableOption": "Deactivate Category (Recommended)",
             "disableDescription": "Deactivating keeps the data but hides it from users and prevents any further use.",
             "bulkMoveOption": "Bulk Move",

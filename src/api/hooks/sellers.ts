@@ -77,7 +77,7 @@ export const useApproveSeller = () => {
                 queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, userId],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.ALL_SELLERS, ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
             })
         },
     })
@@ -98,7 +98,7 @@ export const useRejectSeller = () => {
                 queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, variables.userId],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.ALL_SELLERS, ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
             })
         },
     })
@@ -119,7 +119,7 @@ export const useSuspendSeller = () => {
                 queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, variables.userId],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.ALL_SELLERS, ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
             })
         },
     })
@@ -140,7 +140,7 @@ export const useDeleteSeller = () => {
                 queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, variables.userId],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.ALL_SELLERS, ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
             })
         },
     })
@@ -150,12 +150,12 @@ export const useActivateSeller = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (userId: string) => SellersServices.activateSeller(userId),
-        onSuccess: () => {
+        onSuccess: (_data, userId) => {
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, userId],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.ALL_SELLERS, ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
             })
         },
     })
@@ -169,7 +169,7 @@ export const useRestoreSeller = () => {
                 queryKey: [ReactQueryKeys.GET_SELLER_DETAILS, userId],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.ALL_SELLERS, ReactQueryKeys.GET_SELLER_DETAILS],
+                queryKey: [ReactQueryKeys.ALL_SELLERS],
             })
         },
     })
