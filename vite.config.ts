@@ -38,7 +38,7 @@ export default defineConfig({
                     }
                     if (id.includes('node_modules')) {
                         if (id.includes('quill')) return 'quill'
-                        if (id.includes('d3')) return 'd3'
+                        // if (id.includes('d3')) return 'd3'
                     }
                 },
             },
