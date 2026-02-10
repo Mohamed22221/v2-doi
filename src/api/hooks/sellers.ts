@@ -183,7 +183,7 @@ export const useUpdateSeller = () => {
             data,
         }: {
             id: string
-            data: any
+            data: Record<string, unknown>
         }) => SellersServices.updateSeller(id, data),
         onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({

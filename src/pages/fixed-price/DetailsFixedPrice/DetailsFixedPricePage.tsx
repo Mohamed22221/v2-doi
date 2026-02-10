@@ -1,10 +1,10 @@
 import { Breadcrumb } from '@/components/ui'
-import { useGetFixedPriceDetails } from '../hooks/useGetFixedPriceDetails'
+import { useGetProductById } from '@/api/hooks/products'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import ErrorState from '@/components/shared/ErrorState'
-import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton' // Adapting user skeleton
+import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
 import PricingAndDescriptionSkeleton from './components/skeletons/PricingAndDescriptionSkeleton'
 import MediaAssetsSkeleton from './components/skeletons/MediaAssetsSkeleton'
 import SellerInfoSkeleton from './components/skeletons/SellerInfoSkeleton'
@@ -18,25 +18,24 @@ const MediaAssets = lazy(() => import('./components/MediaAssets'))
 const SellerInfo = lazy(() => import('./components/SellerInfo'))
 const ActivityLog = lazy(() => import('./components/ActivityLog'))
 
-
 const DetailsFixedPriceSkeleton = () => (
     <div className="flex flex-col gap-6">
         <PricingAndDescriptionSkeleton />
         <MediaAssetsSkeleton />
         <SellerInfoSkeleton />
-        <ActivityLogSkeleton />
+        {/* <ActivityLogSkeleton /> */}
     </div>
 )
 
 const DetailsFixedPricePage = () => {
     const { t } = useTranslation()
     const { id } = useParams()
-    const { data, isError, isLoading, error } = useGetFixedPriceDetails(id!)
+    const { product, isError, isLoading, errorMessage } = useGetProductById(id!)
 
     if (isError) {
         return (
             <div>
-                <ErrorState message={error?.message} fullPage={true} />
+                <ErrorState message={errorMessage ?? undefined} fullPage={true} />
             </div>
         )
     }
@@ -50,12 +49,11 @@ const DetailsFixedPricePage = () => {
                 ]}
             />
             <div className="flex flex-col gap-6">
-
                 <Suspense fallback={<UserInfoSkeleton />}>
                     {isLoading ? (
                         <UserInfoSkeleton />
                     ) : (
-                        <FixedPriceInfo data={data?.data} />
+                        <FixedPriceInfo data={product} />
                     )}
                 </Suspense>
 
@@ -64,10 +62,10 @@ const DetailsFixedPricePage = () => {
                         <DetailsFixedPriceSkeleton />
                     ) : (
                         <>
-                            <PricingAndDescription data={data?.data} />
-                            <MediaAssets media={data?.data?.mediaAssets} />
-                            <SellerInfo seller={data?.data?.sellerDetails} />
-                            <ActivityLog logs={data?.data?.activityLog} />
+                            <PricingAndDescription data={product} />
+                            <MediaAssets media={product?.images?.map(img => img.url)} />
+                            <SellerInfo seller={{ id: product?.userId || '', name: '', phone: '', status: 'active' }} />
+                            {/* <ActivityLog logs={[]} /> */}
                         </>
                     )}
                 </Suspense>
@@ -77,3 +75,5 @@ const DetailsFixedPricePage = () => {
 }
 
 export default DetailsFixedPricePage
+
+

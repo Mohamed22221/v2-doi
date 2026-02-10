@@ -1,46 +1,62 @@
-import { FixedPriceItemDetails } from '@/api/types/fixed-price'
+import { Product } from '@/api/types/products'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { Button } from '@/components/ui'
+import { Button, Notification, toast } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import FixedPriceStatusModal from './FixedPriceStatusModal'
-import { getStatusLabel, getStatusVariant } from '../../components/GetStatusLabel'
+import FixedPriceStatusModal from './modalStatus/FixedPriceStatusModal'
+import {
+    getStatusLabel,
+    getStatusVariant,
+} from '../../components/GetStatusLabel'
+import ProductApproveModal from './modalStatus/ProductApproveModal'
 
 interface Props {
-    data?: FixedPriceItemDetails
+    data?: Product | null
 }
 
+/**
+ * FixedPriceInfo Component
+ * Displays the header section of the Fixed Price product details page,
+ * including the title, status, and action buttons (Approve, Reject, Hide, Unhide).
+ */
 const FixedPriceInfo = ({ data }: Props) => {
     const { t } = useTranslation()
+
+    // State to manage the status modals (Reject, Hide, Unhide, Approve)
     const [modalConfig, setModalConfig] = useState<{
         isOpen: boolean
-        type: 'reject' | 'hide' | 'unhide'
+        type: 'reject' | 'hide' | 'unhide' | 'approve'
     }>({
         isOpen: false,
         type: 'reject',
     })
 
-
-    const openModal = (type: 'reject' | 'hide' | 'unhide') => {
+    /**
+     * Opens a specific modal based on the action type
+     * @param type - The type of modal to open
+     */
+    const openModal = (type: 'reject' | 'hide' | 'unhide' | 'approve') => {
         setModalConfig({ isOpen: true, type })
     }
 
     return (
         <BackgroundRounded>
             <div className="flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
+                {/* Product Title and Status Pill */}
                 <div>
                     <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-xl sm:text-2xl font-semibold ">
-                            {data?.name}
+                            {data?.title}
                         </h2>
                         <StatusPill
-                            variant={getStatusVariant(data?.status)}
-                            label={getStatusLabel(data?.status)}
+                            variant={getStatusVariant(data?.effectiveStatus)}
+                            label={getStatusLabel(data?.effectiveStatus, t)}
                             size="sm"
                         />
                     </div>
 
+                    {/* Account/Product ID Info */}
                     <div className="mt-1 flex items-center gap-1">
                         <p className="text-primary-500 dark:text-primary-200 text-sm">
                             {t('users.userDetails.accountId')}:
@@ -51,8 +67,10 @@ const FixedPriceInfo = ({ data }: Props) => {
                     </div>
                 </div>
 
+                {/* Dynamic Action Buttons based on Product Status */}
                 <div className="flex gap-3">
-                    {data?.status === 'pending_review' && (
+                    {/* Actions for Products Pending Approval */}
+                    {data?.effectiveStatus === 'pending_approval' && (
                         <>
                             <Button
                                 variant="default"
@@ -66,13 +84,15 @@ const FixedPriceInfo = ({ data }: Props) => {
                                 variant="solid"
                                 size="md"
                                 className="bg-[#2B3467] hover:bg-[#1E254A]"
+                                onClick={() => openModal('approve')}
                             >
                                 {t('fixedPrice.details.actions.approve')}
                             </Button>
                         </>
                     )}
 
-                    {data?.status === 'active' && (
+                    {/* Actions for Active Products */}
+                    {data?.effectiveStatus === 'active' && (
                         <Button
                             variant="solid"
                             size="md"
@@ -83,7 +103,8 @@ const FixedPriceInfo = ({ data }: Props) => {
                         </Button>
                     )}
 
-                    {data?.status === 'hidden' && (
+                    {/* Actions for Hidden Products */}
+                    {data?.effectiveStatus === 'hidden' && (
                         <Button
                             variant="solid"
                             size="md"
@@ -95,11 +116,23 @@ const FixedPriceInfo = ({ data }: Props) => {
                 </div>
             </div>
 
+            {/* Status Modals for Reject, Hide, and Unhide actions */}
             <FixedPriceStatusModal
-                isOpen={modalConfig.isOpen}
-                type={modalConfig.type}
+                isOpen={modalConfig.isOpen && modalConfig.type !== 'approve'}
+                type={modalConfig.type === 'approve' ? 'reject' : modalConfig.type}
                 id={data?.id || ''}
-                onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
+                onClose={() =>
+                    setModalConfig({ ...modalConfig, isOpen: false })
+                }
+            />
+            {/* Confirmation Modal for Approval action */}
+            <ProductApproveModal
+                isOpen={modalConfig.isOpen && modalConfig.type === 'approve'}
+                id={data?.id || ''}
+                title={data?.title}
+                onClose={() =>
+                    setModalConfig({ ...modalConfig, isOpen: false })
+                }
             />
         </BackgroundRounded>
     )

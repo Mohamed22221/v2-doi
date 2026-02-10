@@ -36,6 +36,7 @@ const MediaAssets = ({ media, title }: MediaAssetsProps) => {
                                 src={url}
                                 alt={`Asset ${index}`}
                                 className="w-full h-full object-cover"
+                                crossOrigin="anonymous"
                             />
                         </div>
                     ))}
@@ -57,6 +58,7 @@ const MediaAssets = ({ media, title }: MediaAssetsProps) => {
                         src={viewImage || ''}
                         alt="Preview"
                         className="max-w-full max-h-[80vh] rounded-lg object-contain mt-4"
+                        crossOrigin="anonymous"
                     />
                 </div>
             </Dialog>

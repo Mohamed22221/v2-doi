@@ -28,5 +28,8 @@ const ReactQueryKeys = {
   ALL_SELLERS: "all-sellers",
   GET_SELLER_DETAILS: "seller-details",
   SELLER_DOCUMENTS: "seller-documents",
+  // products
+  ALL_PRODUCTS: "all-products",
+  PRODUCT_BY_ID: "product-by-id",
 }
 export default ReactQueryKeys

@@ -593,7 +593,8 @@
                 "rejected": "Rejected",
                 "hidden": "Hidden",
                 "outOfStock": "Out of stock",
-                "pendingReview": "Pending Review"
+                "pendingReview": "Pending Review",
+                "draft": "Draft"
             },
             "filters": {
                 "status": "Status",
@@ -664,6 +665,7 @@
         },
         "details": {
             "title": "Fixed Price Details",
+            "noCategoryAssigned": "No category assigned",
             "basicInfo": "Basic Information",
             "pricingStock": "Pricing & Stock",
             "availableQuantity": "Available Quantity",
@@ -682,6 +684,12 @@
                 "unhide": "Unhide Item"
             },
             "modals": {
+                "approve": {
+                    "title": "Approve Product",
+                    "description": "Are you sure you want to approve <strong>{{name}}</strong>? This will make it visible to all users on the platform.",
+                    "confirm": "Approve Product",
+                    "cancel": "Cancel"
+                },
                 "reject": {
                     "title": "Rejection Item",
                     "description": "Are you sure you want to reject this item? This item will not be published and will not appear in the app or website.",
