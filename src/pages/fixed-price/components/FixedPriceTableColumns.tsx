@@ -100,7 +100,7 @@ export function useFixedPriceTableColumns() {
                 header: '',
                 id: 'actions',
                 cell: ({ row }) => (
-                    <div className="w-[120px]">
+                    <div className="w-[140px]">
                         <Button
                             size="md"
                             variant="default"
