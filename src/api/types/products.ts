@@ -70,7 +70,7 @@ export interface Product extends BaseEntity {
     model: ProductModel | null
     images: ProductImage[]
     parentId: string | null
-    // bundleItems: any[]
+    bundleItems?: Product[]
     isBundle: boolean
     regionId: string | null
     cityId: string | null

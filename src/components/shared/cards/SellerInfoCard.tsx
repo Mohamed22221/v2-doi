@@ -1,18 +1,34 @@
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
+// Components
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import InfoRow from '@/components/shared/cards/InfoRow'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+
+// Utils
+import {
+    getSellerStatusLabel,
+    getSellerStatusVariant,
+} from '@/pages/sellers/components/GetSellerStatusLabel'
+
+// Types
+import { TApprovalStatus } from '@/api/types/sellers'
 
 interface SellerInfoCardProps {
     seller?: {
         id: string
         name: string
         phone: string
-        status: 'active' | 'inactive'
+        approvalStatus: TApprovalStatus
     }
 }
 
+/**
+ * SellerInfoCard component
+ * Displays seller details in a structured card with status visualization.
+ * Used in detail pages to show seller summary.
+ */
 const SellerInfoCard = ({ seller }: SellerInfoCardProps) => {
     const { t } = useTranslation()
 
@@ -37,7 +53,7 @@ const SellerInfoCard = ({ seller }: SellerInfoCardProps) => {
                     </div>
 
                     <InfoRow
-                        label={t('users.table.columns.name') || 'Seller Name'}
+                        label={t('common.sellerName') || 'Seller Name'}
                         value={seller?.name}
                     />
 
@@ -52,9 +68,8 @@ const SellerInfoCard = ({ seller }: SellerInfoCardProps) => {
                         </span>
                         <div>
                             <StatusPill
-                                value={seller?.status === 'active'}
-                                activeText={t('users.table.status.active')}
-                                inactiveText={t('users.table.status.blocked')}
+                                variant={getSellerStatusVariant(seller?.approvalStatus)}
+                                label={getSellerStatusLabel(t, seller?.approvalStatus)}
                                 size="sm"
                             />
                         </div>

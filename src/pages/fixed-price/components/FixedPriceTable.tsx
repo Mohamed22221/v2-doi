@@ -12,6 +12,9 @@ import { useFixedPriceTableColumns } from './FixedPriceTableColumns'
 import { useGetAllProducts } from '@/api/hooks/products'
 import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
+import ProductsServices from '@/api/services/products'
+import { useFixedPriceCsvColumns } from './fixed-price.csv-columns'
 
 // Types
 import { Product } from '@/api/types/products'
@@ -123,29 +126,20 @@ export default function FixedPriceTable() {
 
     const columns = useFixedPriceTableColumns()
 
-    /**
-     * Handles the CSV export action.
-     * Currently a placeholder for future implementation.
-     */
-    const handleExport = () => {
-        // Placeholder for export functionality
-        console.log('Exporting CSV...')
-        alert('Exporting CSV... (This is a placeholder)')
-    }
+    const csvColumns = useFixedPriceCsvColumns()
 
     /**
      * HeaderActions Component
-     * Renders the export button in the table header.
+     * Renders the export button and other actions in the table header.
      */
     const HeaderActions = () => {
         return (
-            <Button
-                size="sm md:md"
-                icon={<HiDownload className="text-primary-500 dark:text-primary-100" />}
-                onClick={handleExport}
-            >
-                {t('viewTable.defaultExportButtonText')}
-            </Button>
+            <ServerCsvExportButton
+                fileNamePrefix="fixed-price-items"
+                columns={csvColumns}
+                currentData={products}
+                serviceMethod={ProductsServices.getProducts}
+            />
         )
     }
 

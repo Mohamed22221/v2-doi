@@ -28,7 +28,20 @@
         "buyer": "المشتري",
         "seller": "البائع",
         "required": "مطلوب",
-        "currency": "ر.س"
+        "currency": "ر.س",
+        "products": "المنتجات",
+        "item": "المنتج",
+        "category": "الفئة",
+        "price": "السعر",
+        "action": "الإجراء",
+        "close": "إغلاق",
+        "productDetails": "تفاصيل المنتج",
+        "basicInformation": "المعلومات الأساسية",
+        "productCondition": "حالة المنتج",
+        "productDefects": "عيوب المنتج",
+        "pricingAndStock": "التسعير والمخزون",
+        "availableQuantity": "الكمية المتوفرة",
+        "sellerName": "اسم البائع"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -578,7 +591,7 @@
     "fixedPrice": {
         "table": {
             "title": "العناصر بسعر ثابت",
-            "searchPlaceholder": "البحث باسم المنتج، المعرف، أو البائع",
+            "searchPlaceholder": "البحث باسم المنتج",
             "emptyText": "لم يتم العثور على عناصر",
             "columns": {
                 "item": "المنتج",
@@ -670,6 +683,12 @@
             "pricingStock": "التسعير والمخزون",
             "availableQuantity": "الكمية المتوفرة",
             "price": "السعر",
+            "productCondition": "حالة المنتج",
+            "productDefects": "عيوب المنتج",
+            "condition": {
+                "new": "جديد",
+                "used": "مستعمل"
+            },
             "mediaAssets": "ملفات الميديا",
             "sellerInfo": "بيانات البائع",
             "sellerId": "معرف البائع",
@@ -1017,6 +1036,7 @@
         }
     },
     "categories": {
+        "notFound": "الفئة غير موجودة",
         "table": {
             "columns": {
                 "categoryName": "اسم التصنيف",

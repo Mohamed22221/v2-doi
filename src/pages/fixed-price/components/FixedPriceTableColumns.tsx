@@ -14,6 +14,7 @@ import { Product } from '@/api/types/products'
 
 // Local Components
 import { getStatusLabel, getStatusVariant } from './GetStatusLabel'
+import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
 
 
 /**
@@ -61,18 +62,8 @@ export function useFixedPriceTableColumns() {
                 header: t('fixedPrice.table.columns.category'),
                 accessorKey: 'category',
                 cell: ({ row }) => {
-                    const categoryName =
-                        row.original.category?.translations?.[0]?.name ??
-                        row.original.category?.slug ??
-                        '-'
-
                     return (
-                        <TwoLineText
-                            imageSize="sm"
-                            image={row.original.category?.image}
-                            title={categoryName}
-                            size="sm"
-                        />
+                        <CategoryBreadcrumb category={row.original.category} orientation="vertical" />
                     )
                 },
             },
