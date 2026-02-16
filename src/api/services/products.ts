@@ -10,7 +10,7 @@ const ProductsServices = {
     getProducts: (
         searchParams: string,
     ): Promise<TAPIResponseItems<Product[]>> =>
-        api.get(`/admin/products?${searchParams}&sellType=fixed_price`),
+        api.get(`/admin/products?${searchParams}&productSellType=fixed_price`),
 
     getProductById: (id: string): Promise<TAPIResponseItem<Product>> =>
         api.get(`/admin/products/${id}`),

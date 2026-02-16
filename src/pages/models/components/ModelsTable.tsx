@@ -23,7 +23,7 @@ import RestoreModelModal from './RestoreModelModal'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
 export default function ModelsTable() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -84,7 +84,7 @@ export default function ModelsTable() {
     const categoryOptions = useMemo(() => {
         return (
             categoriesData?.items?.map((cat: Category) => {
-                const byPageLang = cat.translations?.[0].name
+                const byPageLang = cat.translations?.[0]?.name
 
                 const label = byPageLang || cat.slug
 
@@ -99,7 +99,7 @@ export default function ModelsTable() {
     const brandsOptions = useMemo(() => {
         return (
             brandsData?.items?.map((cat: Brand) => {
-                const byPageLang = cat.translations?.[0].name
+                const byPageLang = cat.translations?.[0]?.name
 
                 const label = byPageLang || cat.slug
 
