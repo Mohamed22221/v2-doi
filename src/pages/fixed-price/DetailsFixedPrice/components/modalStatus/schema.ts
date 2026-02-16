@@ -4,10 +4,10 @@ import { ModalType } from './types'
 
 const getFixedPriceStatusValidationSchema = (t: TFunction, type: ModalType) => {
     return Yup.object().shape({
-        reason: type !== 'unhide'
+        reason: Yup.string().nullable(),
+        note: type !== 'unhide'
             ? Yup.string().required(t('fixedPrice.details.modals.errors.reasonRequired'))
-            : Yup.string().nullable(),
-        note: Yup.string().optional(),
+            : Yup.string().optional(),
     })
 }
 

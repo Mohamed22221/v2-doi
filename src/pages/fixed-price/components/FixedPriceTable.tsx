@@ -1,33 +1,57 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ViewTable from '@/components/ui/Table/ViewTable/ViewTable'
-import {
-    ServerFilterConfig,
-    useServerTable,
-} from '@/utils/hooks/useServerTable'
-import { useFixedPriceTableColumns } from './FixedPriceTableColumns'
-import { FixedPriceItem } from '@/api/types/fixed-price'
-import { useGetFixedPriceItems } from '../hooks/useGetFixedPriceItems'
-import Button from '@/components/ui/Button'
 import { HiDownload } from 'react-icons/hi'
 
+// Components
+import ViewTable from '@/components/ui/Table/ViewTable/ViewTable'
+import Button from '@/components/ui/Button'
+
+// Hooks
+import { ServerFilterConfig, useServerTable } from '@/utils/hooks/useServerTable'
+import { useFixedPriceTableColumns } from './FixedPriceTableColumns'
+import { useGetAllProducts } from '@/api/hooks/products'
 import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
+import ProductsServices from '@/api/services/products'
+import { useFixedPriceCsvColumns } from './fixed-price.csv-columns'
+
+// Types
+import { Product } from '@/api/types/products'
 import { Category } from '@/api/types/categories'
 
+/**
+ * FixedPriceTable Component
+ * Renders a data table for fixed-price products with filtering, searching, and pagination.
+ */
 export default function FixedPriceTable() {
     const { t, i18n } = useTranslation()
     const pageLanguage = i18n.language
 
+    // States for category search and debouncing
+    const [categorySearch, setCategorySearch] = useState('')
+    const debouncedCategorySearch = useDebouncedValue(categorySearch, 400)
+
+    // Fetch products
+    const {
+        products,
+        isLoading,
+        total,
+        errorMessage,
+        isError,
+        limit,
+    } = useGetAllProducts()
+
+    // Fetch categories for the filter
     const {
         data: categoriesData,
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
-        isLoading: isLoadingCategories,
-        isError: isCategoriesError,
         isFetching,
-    } = useGetAllCategoriesSelect()
+    } = useGetAllCategoriesSelect(debouncedCategorySearch)
 
+    // Map categories to filter options
     const categoryOptions = useMemo(() => {
         return (
             categoriesData?.items?.map((cat: Category) => {
@@ -47,34 +71,20 @@ export default function FixedPriceTable() {
         )
     }, [categoriesData, pageLanguage])
 
+    // Table filters configuration
     const filtersConfig: ServerFilterConfig[] = useMemo(
         () => [
             {
-                key: 'status',
+                key: 'effectiveStatus',
                 label: t('fixedPrice.table.filters.status'),
                 value: null,
                 valueType: 'string',
                 options: [
-                    {
-                        label: t('fixedPrice.table.status.active'),
-                        value: 'active',
-                    },
-                    {
-                        label: t('fixedPrice.table.status.rejected'),
-                        value: 'rejected',
-                    },
-                    {
-                        label: t('fixedPrice.table.status.hidden'),
-                        value: 'hidden',
-                    },
-                    {
-                        label: t('fixedPrice.table.status.outOfStock'),
-                        value: 'out_of_stock',
-                    },
-                    {
-                        label: t('fixedPrice.table.status.pendingReview'),
-                        value: 'pending_review',
-                    },
+                    { label: t('fixedPrice.table.status.active'), value: 'active' },
+                    { label: t('fixedPrice.table.status.rejected'), value: 'rejected' },
+                    { label: t('fixedPrice.table.status.hidden'), value: 'hidden' },
+                    { label: t('fixedPrice.table.status.outOfStock'), value: 'sold' },
+                    { label: t('fixedPrice.table.status.pendingReview'), value: 'pending_approval' },
                 ],
                 placeholder: t('fixedPrice.table.filters.allStatus'),
             },
@@ -91,6 +101,8 @@ export default function FixedPriceTable() {
                     isFetchingNextPage,
                     isFetching,
                 },
+                isSearchable: true,
+                onSearch: (v) => setCategorySearch(v),
             },
         ],
         [
@@ -103,6 +115,7 @@ export default function FixedPriceTable() {
         ],
     )
 
+    // Server-side table state management
     const tableQ = useServerTable({
         pageSize: 10,
         initialFilters: filtersConfig,
@@ -111,47 +124,31 @@ export default function FixedPriceTable() {
         limitParamKey: 'limit',
     })
 
-    const {
-        items,
-        total,
-        isLoading,
-        isError,
-        errorMessage,
-        limit
-    } = useGetFixedPriceItems({
-        search: tableQ.searchValue,
-        status: tableQ.filters.find(f => f.key === 'status')?.value as string,
-        categoryId: tableQ.filters.find(f => f.key === 'categoryId')?.value as string,
-        page: tableQ.requestedPage,
-        limit: tableQ.pageSize
-    })
-
     const columns = useFixedPriceTableColumns()
 
-    const handleExport = () => {
-        // Placeholder for export functionality
-        console.log('Exporting CSV...')
-        alert('Exporting CSV... (This is a placeholder)')
-    }
+    const csvColumns = useFixedPriceCsvColumns()
 
+    /**
+     * HeaderActions Component
+     * Renders the export button and other actions in the table header.
+     */
     const HeaderActions = () => {
         return (
-            <Button
-                size="sm md:md"
-                icon={<HiDownload className="text-primary-500 dark:text-primary-100" />}
-                onClick={handleExport}
-            >
-                {t('viewTable.defaultExportButtonText')}
-            </Button>
+            <ServerCsvExportButton
+                fileNamePrefix="fixed-price-items"
+                columns={csvColumns}
+                currentData={products}
+                serviceMethod={ProductsServices.getProducts}
+            />
         )
     }
 
     return (
-        <ViewTable<FixedPriceItem>
+        <ViewTable<Product>
             showSearch
             title={t('fixedPrice.table.title')}
             columns={columns}
-            data={items ?? []}
+            data={products ?? []}
             total={total ?? 0}
             pageSize={limit}
             searchPlaceholder={t('fixedPrice.table.searchPlaceholder')}
@@ -163,7 +160,6 @@ export default function FixedPriceTable() {
             requestedPage={tableQ.requestedPage}
             isError={isError}
             errorText={errorMessage ?? ''}
-
             onPageChange={tableQ.onPageChange}
             onFilterChange={tableQ.onFilterChange}
             onSearchChange={tableQ.onSearchChange}
@@ -173,3 +169,4 @@ export default function FixedPriceTable() {
         />
     )
 }
+

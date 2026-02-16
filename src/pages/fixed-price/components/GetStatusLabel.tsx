@@ -1,25 +1,51 @@
-import { FixedPriceStatus } from "@/api/types/fixed-price"
-import { useTranslation } from "react-i18next"
+import { EffectiveStatus } from "@/api/types/products"
+import { TFunction } from "i18next"
 
-export const getStatusLabel = (status?: FixedPriceStatus) => {
-    const { t } = useTranslation()
+/**
+ * Returns the translated label for a given product status.
+ * @param status - The effective status of the product.
+ * @param t - The translation function from useTranslation.
+ * @returns The translated status string or the status itself if no match is found.
+ */
+export const getStatusLabel = (status: EffectiveStatus | undefined, t: TFunction) => {
     switch (status) {
-        case 'active': return t('fixedPrice.table.status.active')
-        case 'rejected': return t('fixedPrice.table.status.rejected')
-        case 'hidden': return t('fixedPrice.table.status.hidden')
-        case 'out_of_stock': return t('fixedPrice.table.status.outOfStock')
-        case 'pending_review': return t('fixedPrice.table.status.pendingReview')
-        default: return status
+        case 'active':
+            return t('fixedPrice.table.status.active')
+        case 'rejected':
+            return t('fixedPrice.table.status.rejected')
+        case 'hidden':
+            return t('fixedPrice.table.status.hidden')
+        case 'sold':
+            return t('fixedPrice.table.status.outOfStock')
+        case 'pending_approval':
+            return t('fixedPrice.table.status.pendingReview')
+        case 'draft':
+            return t('fixedPrice.table.status.draft')
+        default:
+            return status ?? ''
     }
 }
 
-export const getStatusVariant = (status?: FixedPriceStatus) => {
+/**
+ * Returns the visual variant (color) for a given product status.
+ * @param status - The effective status of the product.
+ * @returns A string representing the status variant (success, warning, danger, neutral).
+ */
+export const getStatusVariant = (status?: EffectiveStatus) => {
     switch (status) {
-        case 'active': return 'success'
-        case 'pending_review': return 'warning'
-        case 'rejected': return 'danger'
-        case 'hidden': return 'neutral'
-        case 'out_of_stock': return 'neutral'
-        default: return 'neutral'
+        case 'active':
+            return 'success'
+
+        case 'pending_approval':
+            return 'warning'
+        case 'rejected':
+            return 'danger'
+        case 'hidden':
+        case 'sold':
+        case 'draft':
+            return 'neutral'
+        default:
+            return 'neutral'
     }
 }
+

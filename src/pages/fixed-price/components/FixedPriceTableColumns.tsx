@@ -1,74 +1,87 @@
-import { ColumnDef } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { formatDateTime } from '@/utils/formatDateTime'
-import { FixedPriceItem, FixedPriceStatus } from '@/api/types/fixed-price'
+import { ColumnDef } from '@tanstack/react-table'
+
+// Components
 import TwoLineText from '@/components/shared/table/TwoLineText'
 import StatusPill from '@/components/shared/table/StatusPill'
 import Button from '@/components/ui/Button'
-import { getStatusLabel, getStatusVariant } from './GetStatusLabel'
 
+// Utils & Types
+import { formatDateTime } from '@/utils/formatDateTime'
+import { Product } from '@/api/types/products'
+
+// Local Components
+import { getStatusLabel, getStatusVariant } from './GetStatusLabel'
+import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
+
+
+/**
+ * useFixedPriceTableColumns Hook
+ * Returns the column definitions for the Fixed Price products table.
+ * Includes translations and custom cell rendering for items, sellers, and actions.
+ */
 export function useFixedPriceTableColumns() {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
-
-    return useMemo<ColumnDef<FixedPriceItem>[]>(() => {
+    return useMemo<ColumnDef<Product>[]>(() => {
         return [
+            // Item Information Column (Title + Image)
+            // Displays the product title and its main image.
             {
                 header: t('fixedPrice.table.columns.item'),
-                accessorKey: 'name',
+                accessorKey: 'title',
                 cell: ({ row }) => (
                     <TwoLineText
                         imageSize="sm"
-                        image={row.original.image}
-                        title={row.original.name}
+                        image={row.original.images?.[0]?.url}
+                        title={row.original.title}
                         subtitle={row.original.id}
                         size="sm"
                     />
                 ),
             },
+            // Seller Column (Name)
+            // Displays the seller's full name (firstName + lastName) or userId as a fallback.
             {
                 header: t('fixedPrice.table.columns.seller'),
-                accessorKey: 'seller',
+                accessorKey: 'user',
+                cell: ({ row }) => {
+                    const user = row.original.user
+                    if (user?.firstName || user?.lastName) {
+                        return `${user.firstName || ''} ${user.lastName || ''}`.trim()
+                    }
+                    return row.original.userId
+                },
             },
+            // Category Column (Name + Image)
+            // Displays the category name (translated) and its image.
             {
                 header: t('fixedPrice.table.columns.category'),
-                accessorKey: 'categoryChild',
+                accessorKey: 'category',
                 cell: ({ row }) => {
-                    const enName =
-                        row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'en',
-                        )?.name ?? row.original.slug
-
-                    const arName =
-                        row.original.translations.find(
-                            (tr) => tr.languageCode.toLowerCase() === 'ar',
-                        )?.name ?? row.original.slug
-
                     return (
-                        <TwoLineText
-                            imageSize="sm"
-                            image={row.original.image}
-                            title={enName}
-                            subtitle={arName}
-                            size="sm"
-                        />
+                        <CategoryBreadcrumb category={row.original.category} orientation="vertical" />
                     )
                 },
             },
+            // Status Column (Pill representation)
+            // Uses StatusPill to show the effective status of the product.
             {
                 header: t('fixedPrice.table.columns.status'),
-                accessorKey: 'status',
+                accessorKey: 'moderationStatus',
                 cell: ({ row }) => (
                     <StatusPill
-                        variant={getStatusVariant(row.original.status)}
-                        label={getStatusLabel(row.original.status)}
+                        variant={getStatusVariant(row.original.effectiveStatus)}
+                        label={getStatusLabel(row.original.effectiveStatus, t)}
                         size="sm"
                     />
                 ),
             },
+            // Created At Column (Date + Time)
+            // Formats and displays the creation date and time.
             {
                 header: t('fixedPrice.table.columns.createdAt'),
                 accessorKey: 'createdAt',
@@ -81,11 +94,13 @@ export function useFixedPriceTableColumns() {
                     )
                 },
             },
+            // Actions Column (View Details Button)
+            // Navigation button to the product's details page.
             {
                 header: '',
                 id: 'actions',
                 cell: ({ row }) => (
-                    <div className="w-[120px]">
+                    <div className="w-[140px]">
                         <Button
                             size="md"
                             variant="default"
@@ -101,3 +116,4 @@ export function useFixedPriceTableColumns() {
         ]
     }, [navigate, t])
 }
+

@@ -28,7 +28,20 @@
         "buyer": "Buyer",
         "seller": "Seller",
         "required": "Required",
-        "currency": "SAR"
+        "currency": "SAR",
+        "products": "Products",
+        "item": "Item",
+        "category": "Category",
+        "price": "Price",
+        "action": "Action",
+        "close": "Close",
+        "productDetails": "Product Details",
+        "basicInformation": "Basic Information",
+        "productCondition": "Product Condition",
+        "productDefects": "Product Defects",
+        "pricingAndStock": "Pricing & Stock",
+        "availableQuantity": "Available Quantity",
+        "sellerName": "Seller Name"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -578,7 +591,7 @@
     "fixedPrice": {
         "table": {
             "title": "Fixed Price Items",
-            "searchPlaceholder": "Search by item name, item ID, or seller",
+            "searchPlaceholder": "Search by product name",
             "emptyText": "No items found",
             "columns": {
                 "item": "Item",
@@ -593,7 +606,8 @@
                 "rejected": "Rejected",
                 "hidden": "Hidden",
                 "outOfStock": "Out of stock",
-                "pendingReview": "Pending Review"
+                "pendingReview": "Pending Review",
+                "draft": "Draft"
             },
             "filters": {
                 "status": "Status",
@@ -664,10 +678,17 @@
         },
         "details": {
             "title": "Fixed Price Details",
+            "noCategoryAssigned": "No category assigned",
             "basicInfo": "Basic Information",
             "pricingStock": "Pricing & Stock",
             "availableQuantity": "Available Quantity",
             "price": "Price",
+            "productCondition": "Product Condition",
+            "productDefects": "Product defects",
+            "condition": {
+                "new": "New",
+                "used": "Used"
+            },
             "mediaAssets": "Media Assets",
             "sellerInfo": "Seller Info",
             "sellerId": "Seller ID",
@@ -682,6 +703,12 @@
                 "unhide": "Unhide Item"
             },
             "modals": {
+                "approve": {
+                    "title": "Approve Product",
+                    "description": "Are you sure you want to approve <strong>{{name}}</strong>? This will make it visible to all users on the platform.",
+                    "confirm": "Approve Product",
+                    "cancel": "Cancel"
+                },
                 "reject": {
                     "title": "Rejection Item",
                     "description": "Are you sure you want to reject this item? This item will not be published and will not appear in the app or website.",
@@ -1009,6 +1036,7 @@
         }
     },
     "categories": {
+        "notFound": "Category not found",
         "table": {
             "columns": {
                 "categoryName": "Category Name",

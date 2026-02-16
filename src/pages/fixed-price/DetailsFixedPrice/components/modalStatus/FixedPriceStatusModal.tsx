@@ -9,54 +9,97 @@ import {
 } from '@/components/ui'
 
 import { ModalHeader, ModalBody, ModalFooter } from '@/components/shared/StatusModal'
-import getFixedPriceStatusValidationSchema from './modalStatus/schema'
-import { FixedPriceStatusModalProps, FormValues, ModalConfig, ReasonOption } from './modalStatus/types'
+import getFixedPriceStatusValidationSchema from './schema'
+import { FixedPriceStatusModalProps, FormValues, ModalConfig, ReasonOption } from './types'
 
+import { useRejectProduct, useHideProduct, useUnHideProduct } from '@/api/hooks/products'
+import { getApiErrorMessage } from '@/api/error'
+
+/**
+ * FixedPriceStatusModal Component
+ * A reusable modal for handling product status changes: reject, hide, and unhide.
+ * It uses Formik for form management and validation.
+ */
 const FixedPriceStatusModal = ({
     isOpen,
     onClose,
     type,
+    id,
     onConfirmSuccess,
 }: FixedPriceStatusModalProps) => {
     const { t } = useTranslation()
-    const [isPending, setIsPending] = useState(false)
 
-    const rejectionReasons: ReasonOption[] = [
-        { label: t('fixedPrice.details.modals.reasons.incorrectCategory'), value: 'incorrect_category' },
-        { label: t('fixedPrice.details.modals.reasons.blurryImages'), value: 'blurry_images' },
-        { label: t('fixedPrice.details.modals.reasons.missingDescription'), value: 'missing_description' },
-        { label: t('fixedPrice.details.modals.reasons.duplicateItem'), value: 'duplicate_item' },
-        { label: t('fixedPrice.details.modals.reasons.other'), value: 'other' },
-    ]
+    // API hooks for different product actions
+    const { mutate: rejectProduct, isPending: isRejectPending } = useRejectProduct()
+    const { mutate: hideProduct, isPending: isHidePending } = useHideProduct()
+    const { mutate: unHideProduct, isPending: isUnHidePending } = useUnHideProduct()
 
-    const hidingReasons: ReasonOption[] = [
-        { label: t('fixedPrice.details.modals.reasons.outOfSeason'), value: 'out_of_season' },
-        { label: t('fixedPrice.details.modals.reasons.temporarilyUnavailable'), value: 'temporarily_unavailable' },
-        { label: t('fixedPrice.details.modals.reasons.testing'), value: 'testing' },
-        { label: t('fixedPrice.details.modals.reasons.other'), value: 'other' },
-    ]
+    // Combined pending state for use in the modal footer
+    const isPending = isRejectPending || isHidePending || isUnHidePending
 
     const initialValues: FormValues = {
         reason: '',
         note: '',
     }
 
-    const onConfirm = async (values: FormValues) => {
-        setIsPending(true)
-        // Simulate API call
-        setTimeout(() => {
-            setIsPending(false)
-            toast.push(
-                <Notification
-                    title={t('common.success')}
-                    type="success"
-                />
-            )
-            onClose()
-            if (onConfirmSuccess) onConfirmSuccess()
-        }, 1000)
+    /**
+     * Handles successful API response
+     */
+    const handleSuccess = () => {
+        toast.push(
+            <Notification
+                title={t('common.success')}
+                type="success"
+            />
+        )
+        onClose()
+        if (onConfirmSuccess) onConfirmSuccess()
     }
 
+    /**
+     * Handles API error response
+     * @param error - The error object from the API
+     */
+    const handleError = (error: any) => {
+        toast.push(
+            <Notification
+                title={getApiErrorMessage(error)}
+                type="danger"
+            />
+        )
+    }
+
+    /**
+     * Form submission handler
+     * @param values - The form values including the rejection/hidden reason
+     */
+    const onConfirm = async (values: FormValues) => {
+        switch (type) {
+            case 'reject':
+                rejectProduct(
+                    { id, data: { rejectionReason: values.note } },
+                    { onSuccess: handleSuccess, onError: handleError }
+                )
+                break
+            case 'hide':
+                hideProduct(
+                    { id, data: { hiddenReason: values.note } },
+                    { onSuccess: handleSuccess, onError: handleError }
+                )
+                break
+            case 'unhide':
+                unHideProduct(id, {
+                    onSuccess: handleSuccess,
+                    onError: handleError,
+                })
+                break
+        }
+    }
+
+    /**
+     * Generates the configuration for the Modal (Title, Description, etc.) 
+     * based on the current action type.
+     */
     const getModalConfig = (): ModalConfig => {
         switch (type) {
             case 'reject':
@@ -64,11 +107,8 @@ const FixedPriceStatusModal = ({
                     title: t('fixedPrice.details.modals.reject.title'),
                     description: t('fixedPrice.details.modals.reject.description'),
                     icon: <Icon name="errorModal" />,
-                    reasonLabel: t('fixedPrice.details.modals.reject.reasonLabel'),
-                    reasonPlaceholder: t('fixedPrice.details.modals.reject.reasonPlaceholder'),
-                    reasons: rejectionReasons,
-                    noteLabel: t('fixedPrice.details.modals.reject.noteLabel'),
-                    notePlaceholder: t('fixedPrice.details.modals.reject.notePlaceholder'),
+                    noteLabel: t('fixedPrice.details.modals.reject.reasonLabel'),
+                    notePlaceholder: t('fixedPrice.details.modals.reject.reasonPlaceholder'),
                     confirmText: t('fixedPrice.details.modals.reject.confirm'),
                     confirmVariant: 'solid',
                     confirmColor: 'red',
@@ -78,11 +118,8 @@ const FixedPriceStatusModal = ({
                     title: t('fixedPrice.details.modals.hide.title'),
                     description: t('fixedPrice.details.modals.hide.description'),
                     icon: <Icon name="errorModal" />,
-                    reasonLabel: t('fixedPrice.details.modals.hide.reasonLabel'),
-                    reasonPlaceholder: t('fixedPrice.details.modals.hide.reasonPlaceholder'),
-                    reasons: hidingReasons,
-                    noteLabel: t('fixedPrice.details.modals.hide.noteLabel'),
-                    notePlaceholder: t('fixedPrice.details.modals.hide.notePlaceholder'),
+                    noteLabel: t('fixedPrice.details.modals.hide.reasonLabel'),
+                    notePlaceholder: t('fixedPrice.details.modals.hide.reasonPlaceholder'),
                     footerText: t('fixedPrice.details.modals.hide.footerText'),
                     confirmText: t('fixedPrice.details.modals.hide.confirm'),
                     confirmVariant: 'solid',

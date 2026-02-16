@@ -1,26 +1,14 @@
 import { BaseEntity } from './common'
+import { UserItem } from './users'
 
 export type TApprovalStatus = 'approved' | 'pending' | 'rejected'
 export type TAccountStatus = 'active' | 'suspended' | 'deleted'
 
-export interface SellerUser extends BaseEntity {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    roleId: number
-    isActive: boolean
+export interface SellerUser extends BaseEntity, UserItem {
     failedLoginAttempts: number
     lastLogin: string | null
     lastPasswordChange: string
-    image: string | null
-    isPhoneVerified: boolean
-    isEmailVerified: boolean
     language: string
-    role?: {
-        id: string
-        name: string
-    }
 }
 
 export interface SellerDocument {

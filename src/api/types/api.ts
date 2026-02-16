@@ -25,4 +25,3 @@ export type TPaginationSimple = {
     total: number
     totalPages: number
 }
-

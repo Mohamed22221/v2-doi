@@ -28,7 +28,20 @@
         "buyer": "المشتري",
         "seller": "البائع",
         "required": "مطلوب",
-        "currency": "ر.س"
+        "currency": "ر.س",
+        "products": "المنتجات",
+        "item": "المنتج",
+        "category": "الفئة",
+        "price": "السعر",
+        "action": "الإجراء",
+        "close": "إغلاق",
+        "productDetails": "تفاصيل المنتج",
+        "basicInformation": "المعلومات الأساسية",
+        "productCondition": "حالة المنتج",
+        "productDefects": "عيوب المنتج",
+        "pricingAndStock": "التسعير والمخزون",
+        "availableQuantity": "الكمية المتوفرة",
+        "sellerName": "اسم البائع"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -578,7 +591,7 @@
     "fixedPrice": {
         "table": {
             "title": "العناصر بسعر ثابت",
-            "searchPlaceholder": "البحث باسم المنتج، المعرف، أو البائع",
+            "searchPlaceholder": "البحث باسم المنتج",
             "emptyText": "لم يتم العثور على عناصر",
             "columns": {
                 "item": "المنتج",
@@ -593,7 +606,8 @@
                 "rejected": "مرفوض",
                 "hidden": "مخفي",
                 "outOfStock": "نفد من المخزون",
-                "pendingReview": "قيد المراجعة"
+                "pendingReview": "قيد المراجعة",
+                "draft": "مسودة"
             },
             "filters": {
                 "status": "الحالة",
@@ -664,10 +678,17 @@
         },
         "details": {
             "title": "تفاصيل المنتج بسعر ثابت",
+            "noCategoryAssigned": "لا توجد فئة محددة",
             "basicInfo": "المعلومات الأساسية",
             "pricingStock": "التسعير والمخزون",
             "availableQuantity": "الكمية المتوفرة",
             "price": "السعر",
+            "productCondition": "حالة المنتج",
+            "productDefects": "عيوب المنتج",
+            "condition": {
+                "new": "جديد",
+                "used": "مستعمل"
+            },
             "mediaAssets": "ملفات الميديا",
             "sellerInfo": "بيانات البائع",
             "sellerId": "معرف البائع",
@@ -682,6 +703,12 @@
                 "unhide": "إلغاء الإخفاء"
             },
             "modals": {
+                "approve": {
+                    "title": "الموافقة على المنتج",
+                    "description": "هل أنت متأكد من رغبتك في الموافقة على <strong>{{name}}</strong>؟ سيؤدي ذلك إلى ظهوره لجميع المستخدمين على المنصة.",
+                    "confirm": "موافقة على المنتج",
+                    "cancel": "إلغاء"
+                },
                 "reject": {
                     "title": "رفض العنصر",
                     "description": "هل أنت متأكد من رغبتك في رفض هذا العنصر؟ لن يتم نشر هذا العنصر ولن يظهر في التطبيق أو الموقع.",
@@ -1009,6 +1036,7 @@
         }
     },
     "categories": {
+        "notFound": "الفئة غير موجودة",
         "table": {
             "columns": {
                 "categoryName": "اسم التصنيف",
