@@ -607,6 +607,7 @@
                 "hidden": "مخفي",
                 "outOfStock": "نفد من المخزون",
                 "pendingReview": "قيد المراجعة",
+                "auctionScheduled": "مُجدول للمزاد",
                 "draft": "مسودة"
             },
             "filters": {

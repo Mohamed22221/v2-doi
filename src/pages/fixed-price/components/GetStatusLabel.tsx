@@ -19,6 +19,8 @@ export const getStatusLabel = (status: EffectiveStatus | undefined, t: TFunction
             return t('fixedPrice.table.status.outOfStock')
         case 'pending_approval':
             return t('fixedPrice.table.status.pendingReview')
+        case 'auction_scheduled':
+            return t('fixedPrice.table.status.auctionScheduled')
         case 'draft':
             return t('fixedPrice.table.status.draft')
         default:

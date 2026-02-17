@@ -9,19 +9,15 @@ import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
 
 // Types
 import { Product } from '@/api/types/products'
-import { Category } from '@/api/types/categories'
 
 interface Props {
     data?: Product | null
-    category?: Category | null
 }
 
-const PricingAndDescription = ({ data, category }: Props) => {
+const PricingAndDescription = ({ data }: Props) => {
     const { t } = useTranslation()
 
     // Fetch parent category if it exists
-
-
 
     const DataCategoryIsBundel = () => {
         return (
@@ -32,7 +28,7 @@ const PricingAndDescription = ({ data, category }: Props) => {
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5'>
                         <InfoRow
                             label={t('fixedPrice.table.columns.category')}
-                            value={<CategoryBreadcrumb category={category} />}
+                            value={<CategoryBreadcrumb category={data?.category} />}
                         />
                         <InfoRow
                             label={t('common.description') || 'Description'}
@@ -46,14 +42,14 @@ const PricingAndDescription = ({ data, category }: Props) => {
 
     return (
         <BackgroundRounded>
-            {!!data?.isBundle ? <DataCategoryIsBundel /> : <div className="p-6 space-y-8">
+            {data?.isBundle ? <DataCategoryIsBundel /> : <div className="p-6 space-y-8">
                 {/* Basic Information */}
                 <div>
                     <SectionHeader title={t('fixedPrice.details.basicInfo')} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
                         <InfoRow
                             label={t('fixedPrice.table.columns.category')}
-                            value={<CategoryBreadcrumb category={category} />}
+                            value={<CategoryBreadcrumb category={data?.category} />}
                         />
                         <InfoRow
                             label={t('fixedPrice.details.productCondition')}

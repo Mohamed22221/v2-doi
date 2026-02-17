@@ -607,6 +607,7 @@
                 "hidden": "Hidden",
                 "outOfStock": "Out of stock",
                 "pendingReview": "Pending Review",
+                "auctionScheduled": "Auction Scheduled",
                 "draft": "Draft"
             },
             "filters": {

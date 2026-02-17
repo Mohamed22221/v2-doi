@@ -13,11 +13,10 @@ import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
 import PricingAndDescriptionSkeleton from './components/skeletons/PricingAndDescriptionSkeleton'
 import MediaAssetsSkeleton from './components/skeletons/MediaAssetsSkeleton'
 import SellerInfoSkeleton from './components/skeletons/SellerInfoSkeleton'
-import ActivityLogSkeleton from './components/skeletons/ActivityLogSkeleton'
+// import ActivityLogSkeleton from './components/skeletons/ActivityLogSkeleton'
 
 // Hooks
 import { useGetProductById } from '@/api/hooks/products'
-import { useGetCategoryById } from '@/api/hooks/categories'
 import { useGetSellerDetails } from '@/api/hooks/sellers'
 
 // Lazy Components
@@ -37,9 +36,7 @@ const DetailsFixedPricePage = () => {
     const { t } = useTranslation()
     const { id } = useParams()
     const { product, isError, isLoading, errorMessage } = useGetProductById(id!)
-    const { category, isLoading: isLoadingCategory } = useGetCategoryById(product?.categoryId || '', {
-        enabled: !!product?.categoryId,
-    })
+
 
     const { data: sellerData, isLoading: isLoadingSeller } = useGetSellerDetails(product?.userId || '', {
         enabled: !!product?.userId,
@@ -71,11 +68,11 @@ const DetailsFixedPricePage = () => {
                 </Suspense>
 
                 <Suspense fallback={<PricingAndDescriptionSkeleton />}>
-                    {isLoading || isLoadingCategory ? (
+                    {isLoading ? (
                         <PricingAndDescriptionSkeleton />
                     ) : (
 
-                        <PricingAndDescription data={product} category={category} />
+                        <PricingAndDescription data={product} />
                     )}
                 </Suspense>
 
