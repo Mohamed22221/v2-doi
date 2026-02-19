@@ -72,6 +72,10 @@
                 "item1": "Group collapse menu item 1",
                 "item2": "Group collapse menu item 2"
             }
+        },
+        "manageLocation": {
+            "title": "إدارة المواقع",
+            "regions": "المناطق"
         }
     },
     "home": {
@@ -1694,6 +1698,52 @@
         },
         "actions": {
             "view": "عرض"
+        }
+    },
+    "locations": {
+        "regions": {
+            "table": {
+                "title": "المناطق",
+                "searchPlaceholder": "البحث عن طريق اسم المنطقة...",
+                "emptyText": "لم يتم العثور على مناطق",
+                "columns": {
+                    "regionName": "اسم المنطقة",
+                    "nameAr": "الاسم بالعربي",
+                    "cities": "المدن",
+                    "createdAt": "أنشئت في"
+                }
+            },
+            "actions": {
+                "addRegion": "إضافة منطقة"
+            },
+            "modal": {
+                "createTitle": "إضافة منطقة",
+                "editTitle": "تعديل المنطقة",
+                "fields": {
+                    "nameLabel": "اسم المنطقة (English)",
+                    "namePlaceholder": "اكتب اسم المنطقة بالإنجليزية",
+                    "nameArLabel": "اسم المنطقة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                },
+                "actions": {
+                    "create": "إضافة",
+                    "edit": "تعديل"
+                },
+                "success": {
+                    "create": "تم إضافة المنطقة بنجاح",
+                    "edit": "تم تعديل المنطقة بنجاح",
+                    "delete": "تم حذف المنطقة بنجاح"
+                },
+                "delete": {
+                    "title": "حذف منطقة {{name}}؟",
+                    "description": "تحتوي هذه المنطقة على {{count}} من المدن. سيؤثر حذفها على جميع المدن والمناطق المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف"
+                },
+                "errors": {
+                    "nameRequired": "اسم المنطقة مطلوب",
+                    "nameArRequired": "الاسم بالعربي مطلوب"
+                }
+            }
         }
     }
 }

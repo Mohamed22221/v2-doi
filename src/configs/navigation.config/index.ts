@@ -128,6 +128,27 @@ const navigationConfig: NavigationTree[] = [
         ],
     },
     {
+        key: 'manageLocation',
+        path: '',
+        title: 'Manage Location',
+        translateKey: 'nav.manageLocation.title',
+        icon: 'location',
+        type: NAV_ITEM_TYPE_COLLAPSE,
+        authority: [],
+        subMenu: [
+            {
+                key: 'regions',
+                path: '/locations/regions',
+                title: 'Regions',
+                translateKey: 'nav.manageLocation.regions',
+                icon: '',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+        ],
+    },
+    {
         key: 'disputes',
         path: '/disputes',
         title: 'Disputes',

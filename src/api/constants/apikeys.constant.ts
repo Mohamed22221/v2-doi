@@ -31,5 +31,7 @@ const ReactQueryKeys = {
   // products
   ALL_PRODUCTS: "all-products",
   PRODUCT_BY_ID: "product-by-id",
+  // regions
+  ALL_REGIONS: "all-regions",
 }
 export default ReactQueryKeys

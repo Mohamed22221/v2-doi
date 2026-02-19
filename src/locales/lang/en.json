@@ -72,6 +72,10 @@
                 "item1": "Group collapse menu item 1",
                 "item2": "Group collapse menu item 2"
             }
+        },
+        "manageLocation": {
+            "title": "Manage Location",
+            "regions": "Regions"
         }
     },
     "home": {
@@ -1694,6 +1698,52 @@
         },
         "actions": {
             "view": "View"
+        }
+    },
+    "locations": {
+        "regions": {
+            "table": {
+                "title": "Regions",
+                "searchPlaceholder": "Search by region name...",
+                "emptyText": "No regions found",
+                "columns": {
+                    "regionName": "Region Name",
+                    "nameAr": "Arabic Name",
+                    "cities": "Cities",
+                    "createdAt": "Created At"
+                }
+            },
+            "actions": {
+                "addRegion": "Add Region"
+            },
+            "modal": {
+                "createTitle": "Create Region",
+                "editTitle": "Edit Region",
+                "fields": {
+                    "nameLabel": "Region Name (English)",
+                    "namePlaceholder": "Write Region Name",
+                    "nameArLabel": "اسم المنطقة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                },
+                "actions": {
+                    "create": "Create",
+                    "edit": "Edit"
+                },
+                "success": {
+                    "create": "Region created successfully",
+                    "edit": "Region updated successfully",
+                    "delete": "Region deleted successfully"
+                },
+                "delete": {
+                    "title": "Delete {{name}} Region?",
+                    "description": "This region has {{count}} cities. Deleting it will affect all related cities and areas. This action cannot be undone.",
+                    "confirm": "Delete"
+                },
+                "errors": {
+                    "nameRequired": "Region name is required",
+                    "nameArRequired": "Arabic name is required"
+                }
+            }
         }
     }
 }

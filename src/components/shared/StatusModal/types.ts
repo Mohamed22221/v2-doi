@@ -8,7 +8,7 @@ export interface StatusReasonOption {
 export interface StatusModalConfig {
     title: string
     description: string
-    icon: ReactNode
+    icon?: ReactNode
     reasonLabel?: string
     reasonPlaceholder?: string
     reasons?: StatusReasonOption[]
