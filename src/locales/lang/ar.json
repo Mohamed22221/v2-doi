@@ -75,7 +75,8 @@
         },
         "manageLocation": {
             "title": "إدارة المواقع",
-            "regions": "المناطق"
+            "regions": "المناطق",
+            "cities": "المدن"
         }
     },
     "home": {
@@ -1742,6 +1743,53 @@
                 "errors": {
                     "nameRequired": "اسم المنطقة مطلوب",
                     "nameArRequired": "الاسم بالعربي مطلوب"
+                }
+            }
+        },
+        "cities": {
+            "table": {
+                "title": "المدن",
+                "searchPlaceholder": "البحث عن طريق اسم المدينة...",
+                "emptyText": "لم يتم العثور على مدن",
+                "columns": {
+                    "cityName": "اسم المدينة",
+                    "region": "المنطقة",
+                    "areas": "المناطق",
+                    "createdAt": "أنشئت في"
+                }
+            },
+            "actions": {
+                "addCity": "إضافة مدينة"
+            },
+            "modal": {
+                "createTitle": "إضافة مدينة",
+                "editTitle": "تعديل المدينة",
+                "fields": {
+                    "nameLabel": "اسم المدينة (English)",
+                    "namePlaceholder": "اكتب اسم المدينة بالإنجليزية",
+                    "nameArLabel": "اسم المدينة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "regionLabel": "المنطقة",
+                    "regionPlaceholder": "اختر المنطقة"
+                },
+                "actions": {
+                    "create": "إضافة",
+                    "edit": "تعديل"
+                },
+                "success": {
+                    "create": "تم إضافة المدينة بنجاح",
+                    "edit": "تم تعديل المدينة بنجاح",
+                    "delete": "تم حذف المدينة بنجاح"
+                },
+                "delete": {
+                    "title": "حذف {{name}}؟",
+                    "description": "تحتوي هذه المدينة على {{count}} من المناطق. سيؤثر حذفها على جميع المناطق المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف"
+                },
+                "errors": {
+                    "nameRequired": "اسم المدينة مطلوب",
+                    "nameArRequired": "الاسم بالعربي مطلوب",
+                    "regionRequired": "المنطقة مطلوبة"
                 }
             }
         }

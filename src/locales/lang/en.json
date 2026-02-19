@@ -75,7 +75,8 @@
         },
         "manageLocation": {
             "title": "Manage Location",
-            "regions": "Regions"
+            "regions": "Regions",
+            "cities": "Cities"
         }
     },
     "home": {
@@ -1742,6 +1743,53 @@
                 "errors": {
                     "nameRequired": "Region name is required",
                     "nameArRequired": "Arabic name is required"
+                }
+            }
+        },
+        "cities": {
+            "table": {
+                "title": "Cities",
+                "searchPlaceholder": "Search by city name...",
+                "emptyText": "No cities found",
+                "columns": {
+                    "cityName": "City Name",
+                    "region": "Region",
+                    "areas": "Areas",
+                    "createdAt": "Created At"
+                }
+            },
+            "actions": {
+                "addCity": "Add City"
+            },
+            "modal": {
+                "createTitle": "Create City",
+                "editTitle": "Edit City",
+                "fields": {
+                    "nameLabel": "City Name (English)",
+                    "namePlaceholder": "Write City Name",
+                    "nameArLabel": "اسم المدينة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "regionLabel": "Region",
+                    "regionPlaceholder": "Select a Region"
+                },
+                "actions": {
+                    "create": "Create",
+                    "edit": "Edit"
+                },
+                "success": {
+                    "create": "City created successfully",
+                    "edit": "City updated successfully",
+                    "delete": "City deleted successfully"
+                },
+                "delete": {
+                    "title": "Delete {{name}}?",
+                    "description": "This city has {{count}} areas. Deleting it will affect all related areas. This action cannot be undone.",
+                    "confirm": "Delete"
+                },
+                "errors": {
+                    "nameRequired": "City name is required",
+                    "nameArRequired": "Arabic name is required",
+                    "regionRequired": "Region is required"
                 }
             }
         }
