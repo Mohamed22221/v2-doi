@@ -35,5 +35,7 @@ const ReactQueryKeys = {
   ALL_REGIONS: "all-regions",
   // cities
   ALL_CITIES: "all-cities",
+  // areas
+  ALL_AREAS: "all-areas",
 }
 export default ReactQueryKeys

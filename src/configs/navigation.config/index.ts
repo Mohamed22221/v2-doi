@@ -156,6 +156,16 @@ const navigationConfig: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+            {
+                key: 'areas',
+                path: '/locations/areas',
+                title: 'Areas',
+                translateKey: 'nav.manageLocation.areas',
+                icon: '',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
         ],
     },
     {

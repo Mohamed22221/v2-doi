@@ -215,6 +215,12 @@ export const protectedRoutes = [
         component: lazy(() => import('@/pages/locations/cities')),
         authority: [],
     },
+    {
+        key: 'areas',
+        path: '/locations/areas',
+        component: lazy(() => import('@/pages/locations/areas')),
+        authority: [],
+    },
 
     {
         key: 'settings',

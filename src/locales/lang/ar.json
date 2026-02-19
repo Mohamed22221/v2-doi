@@ -76,7 +76,8 @@
         "manageLocation": {
             "title": "إدارة المواقع",
             "regions": "المناطق",
-            "cities": "المدن"
+            "cities": "المدن",
+            "areas": "المناطق الفرعية"
         }
     },
     "home": {
@@ -1790,6 +1791,52 @@
                     "nameRequired": "اسم المدينة مطلوب",
                     "nameArRequired": "الاسم بالعربي مطلوب",
                     "regionRequired": "المنطقة مطلوبة"
+                }
+            }
+        },
+        "areas": {
+            "table": {
+                "title": "الأحياء",
+                "emptyText": "لم يتم العثور على أحياء",
+                "columns": {
+                    "areaName": "اسم الحي",
+                    "city": "المدينة",
+                    "region": "المنطقة",
+                    "createdAt": "أنشئت في"
+                }
+            },
+            "actions": {
+                "addArea": "إضافة حي"
+            },
+            "modal": {
+                "createTitle": "إضافة حي",
+                "editTitle": "تعديل الحي",
+                "fields": {
+                    "nameLabel": "اسم الحي (English)",
+                    "namePlaceholder": "اكتب اسم الحي بالإنجليزية",
+                    "nameArLabel": "اسم الحي (عربي)",
+                    "nameArPlaceholder": "اكتب اسم الحي",
+                    "cityLabel": "المدينة",
+                    "cityPlaceholder": "اختر المدينة"
+                },
+                "actions": {
+                    "create": "إضافة",
+                    "edit": "تعديل"
+                },
+                "success": {
+                    "create": "تم إضافة الحي بنجاح",
+                    "edit": "تم تعديل الحي بنجاح",
+                    "delete": "تم حذف الحي بنجاح"
+                },
+                "delete": {
+                    "title": "حذف حي {{name}}؟",
+                    "description": "سيؤثر حذف هذا الحي على جميع البيانات المرتبطة به. لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف"
+                },
+                "errors": {
+                    "nameRequired": "اسم الحي مطلوب",
+                    "nameArRequired": "اسم الحي مطلوب",
+                    "cityRequired": "المدينة مطلوبة"
                 }
             }
         }

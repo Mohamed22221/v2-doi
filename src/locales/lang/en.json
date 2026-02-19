@@ -76,7 +76,8 @@
         "manageLocation": {
             "title": "Manage Location",
             "regions": "Regions",
-            "cities": "Cities"
+            "cities": "Cities",
+            "areas": "Areas"
         }
     },
     "home": {
