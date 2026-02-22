@@ -3,7 +3,6 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import {
     Input,
-    Button as UIButton,
     FormItem,
     FormContainer,
     Dialog,
@@ -21,7 +20,6 @@ import { useCreateCity, useUpdateCity } from '@/api/hooks/cities'
 import { useGetAllRegions } from '@/api/hooks/regions'
 import { getApiErrorMessage } from '@/api/error'
 import { City } from '@/api/types/cities'
-import Icon from '@/components/ui/Icon/Icon'
 
 type CityUpsertModalProps = {
     isOpen: boolean

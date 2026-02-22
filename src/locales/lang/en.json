@@ -1793,6 +1793,52 @@
                     "regionRequired": "Region is required"
                 }
             }
+        },
+        "areas": {
+            "table": {
+                "title": "Areas",
+                "emptyText": "No areas found",
+                "columns": {
+                    "areaName": "Area Name",
+                    "city": "City",
+                    "region": "Region",
+                    "createdAt": "Created At"
+                }
+            },
+            "actions": {
+                "addArea": "Add Area"
+            },
+            "modal": {
+                "createTitle": "Add Area",
+                "editTitle": "Edit Area",
+                "fields": {
+                    "nameLabel": "Area Name (English)",
+                    "namePlaceholder": "Enter area name in English",
+                    "nameArLabel": "Area Name (Arabic)",
+                    "nameArPlaceholder": "Enter area name",
+                    "cityLabel": "City",
+                    "cityPlaceholder": "Select city"
+                },
+                "actions": {
+                    "create": "Add",
+                    "edit": "Edit"
+                },
+                "success": {
+                    "create": "Area added successfully",
+                    "edit": "Area updated successfully",
+                    "delete": "Area deleted successfully"
+                },
+                "delete": {
+                    "title": "Delete area {{name}}?",
+                    "description": "Deleting this area will affect all associated data. This action cannot be undone.",
+                    "confirm": "Delete"
+                },
+                "errors": {
+                    "nameRequired": "Area name is required",
+                    "nameArRequired": "Area name is required",
+                    "cityRequired": "City is required"
+                }
+            }
         }
     }
 }

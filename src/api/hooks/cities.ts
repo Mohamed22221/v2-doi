@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import CitiesServices from '../services/cities'
+import CitiesServices, { TAPIResponseCities } from '../services/cities'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
@@ -7,24 +7,24 @@ import { getApiErrorMessage } from '../error'
 import { City } from '../types/cities'
 
 export const useGetAllCities = () => {
+    const { i18n } = useTranslation()
+    const lang = i18n.language
     const [searchParams] = useSearchParams()
-    // Ensure we don't send pagination/search if not needed, 
-    // but following Regions pattern which currently sends whatever is in query string
     const queryString = searchParams.toString()
 
-    const query = useQuery({
-        queryKey: [ReactQueryKeys.ALL_CITIES, queryString],
+    const query = useQuery<TAPIResponseCities<City[]>>({
+        queryKey: [ReactQueryKeys.ALL_CITIES, queryString, lang],
         queryFn: () => CitiesServices.getCities(queryString),
     })
 
-    const { data, isError, error } = query
-
     return {
         ...query,
-        cities: data?.data ?? [],
-        // total: data?.data?.total ?? 0,
-        // limit: data?.data?.limit ?? 10,
-        errorMessage: isError ? getApiErrorMessage(error) : '',
+        cities: query.data?.data?.cities ?? [],
+        total: query.data?.data?.total ?? 0,
+        page: query.data?.data?.page ?? 1,
+        limit: query.data?.data?.limit ?? 10,
+        totalPages: query.data?.data?.totalPages ?? 1,
+        errorMessage: query.error ? getApiErrorMessage(query.error) : null,
     }
 }
 

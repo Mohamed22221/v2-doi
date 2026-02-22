@@ -9,14 +9,12 @@ import { Badge, Icon, Button } from '@/components/ui'
 // Utils & Types
 import { formatDateTime } from '@/utils/formatDateTime'
 import { City } from '@/api/types/cities'
-import { Region } from '@/api/types/regions'
 
 /**
  * useCitiesTableColumns Hook
  * Returns the column definitions for the Cities table.
  */
 export function useCitiesTableColumns(
-    regions: Region[],
     onEdit: (city: City) => void,
     onDelete: (city: City) => void
 ) {
@@ -40,7 +38,7 @@ export function useCitiesTableColumns(
                 header: t('locations.cities.table.columns.region'),
                 accessorKey: 'regionId',
                 cell: ({ row }) => {
-                    const region = regions.find(r => r.id === row.original.regionId)
+                    const region = row?.original?.region
                     const regionName = isAr ? region?.nameAr : region?.name
                     return (
                         <Badge
@@ -57,7 +55,7 @@ export function useCitiesTableColumns(
                 cell: ({ row }) => {
                     return (
                         <Badge
-                            content={row.original.areas || 0}
+                            content={row.original.areasCount || 0}
                             className="bg-primary-50 dark:bg-primary-500 border-none"
                             innerClass="text-primary-500 dark:text-primary-50"
                         />
@@ -109,5 +107,5 @@ export function useCitiesTableColumns(
                 ),
             },
         ]
-    }, [t, regions, onEdit, onDelete, isAr])
+    }, [t, onEdit, onDelete, isAr])
 }

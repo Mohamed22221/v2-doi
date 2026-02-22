@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HiOutlinePlus } from 'react-icons/hi'
 
@@ -14,6 +14,10 @@ import { useRegionsTableColumns } from './RegionsTableColumns'
 
 // Types
 import { Region } from '@/api/types/regions'
+import {
+    ServerFilterConfig,
+    useServerTable,
+} from '@/utils/hooks/useServerTable'
 
 /**
  * RegionsTable Component
@@ -29,7 +33,8 @@ export default function RegionsTable() {
     const [selectedRegion, setSelectedRegion] = useState<Region | null>(null)
 
     // Fetch regions
-    const { regions, isLoading, isError, errorMessage } = useGetAllRegions()
+    const { regions, isLoading, isError, errorMessage, limit, total } =
+        useGetAllRegions()
 
     const onAdd = () => {
         setSelectedRegion(null)
@@ -57,7 +62,7 @@ export default function RegionsTable() {
         return (
             <Button
                 size="md"
-                variant='solid'
+                variant="solid"
                 icon={<HiOutlinePlus />}
                 onClick={onAdd}
             >
@@ -66,23 +71,34 @@ export default function RegionsTable() {
         )
     }
 
+    const filtersConfig: ServerFilterConfig[] = useMemo(() => [], [t])
+    const tableQ = useServerTable({
+        pageSize: limit,
+        initialFilters: filtersConfig,
+        searchParamKey: 'search',
+        pageParamKey: 'page',
+        limitParamKey: 'limit',
+    })
+
     return (
         <>
             <ViewTable<Region>
-                showSearch={false}
+                showSearch
                 title={t('locations.regions.table.title')}
                 columns={columns}
                 data={regions ?? []}
-                total={regions?.length ?? 0}
-                pageSize={regions?.length || 10}
-                isLoading={isLoading}
+                total={total ?? 0}
+                pageSize={tableQ.pageSize}
                 emptyText={t('locations.regions.table.emptyText')}
-                requestedPage={1}
+                isLoading={isLoading}
+                requestedPage={tableQ.requestedPage}
                 isError={isError}
-                errorText={errorMessage}
-                onPageChange={() => { }}
-                onSearchChange={() => { }}
-                searchValue=""
+                errorText={errorMessage ?? ''}
+                onPageChange={tableQ.onPageChange}
+                onFilterChange={tableQ.onFilterChange}
+                onSearchChange={tableQ.onSearchChange}
+                onClearAll={tableQ.clearAll}
+                searchValue={tableQ.searchValue}
                 headerActions={<HeaderActions />}
                 showExportButton={false}
             />

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HiOutlinePlus } from 'react-icons/hi'
 
@@ -10,11 +10,14 @@ import CityDeleteModal from './CityDeleteModal'
 
 // Hooks
 import { useGetAllCities } from '@/api/hooks/cities'
-import { useGetAllRegions } from '@/api/hooks/regions'
 import { useCitiesTableColumns } from './CitiesTableColumns'
 
 // Types
 import { City } from '@/api/types/cities'
+import {
+    ServerFilterConfig,
+    useServerTable,
+} from '@/utils/hooks/useServerTable'
 
 /**
  * CitiesTable Component
@@ -29,8 +32,14 @@ export default function CitiesTable() {
     const [selectedCity, setSelectedCity] = useState<City | null>(null)
 
     // Fetch cities & regions (for mapping)
-    const { cities, isLoading: isCitiesLoading, isError, errorMessage } = useGetAllCities()
-    const { regions, isLoading: isRegionsLoading } = useGetAllRegions()
+    const {
+        cities,
+        isLoading: isCitiesLoading,
+        isError,
+        errorMessage,
+        limit,
+        total,
+    } = useGetAllCities()
 
     const onAdd = () => {
         setSelectedCity(null)
@@ -48,7 +57,7 @@ export default function CitiesTable() {
     }
 
     // Column definitions
-    const columns = useCitiesTableColumns(regions, onEdit, onDelete)
+    const columns = useCitiesTableColumns(onEdit, onDelete)
 
     /**
      * HeaderActions Component
@@ -58,7 +67,7 @@ export default function CitiesTable() {
         return (
             <Button
                 size="md"
-                variant='solid'
+                variant="solid"
                 icon={<HiOutlinePlus />}
                 onClick={onAdd}
             >
@@ -67,23 +76,34 @@ export default function CitiesTable() {
         )
     }
 
+    const filtersConfig: ServerFilterConfig[] = useMemo(() => [], [t])
+    const tableQ = useServerTable({
+        pageSize: limit,
+        initialFilters: filtersConfig,
+        searchParamKey: 'search',
+        pageParamKey: 'page',
+        limitParamKey: 'limit',
+    })
+
     return (
         <>
             <ViewTable<City>
-                showSearch={false}
+                showSearch
                 title={t('locations.cities.table.title')}
+                emptyText={t('locations.cities.table.emptyText')}
                 columns={columns}
                 data={cities ?? []}
-                total={cities?.length ?? 0}
-                pageSize={cities?.length || 10}
-                isLoading={isCitiesLoading || isRegionsLoading}
-                emptyText={t('locations.cities.table.emptyText')}
-                requestedPage={1}
+                total={total ?? 0}
+                pageSize={tableQ.pageSize}
+                isLoading={isCitiesLoading}
+                requestedPage={tableQ.requestedPage}
                 isError={isError}
-                errorText={errorMessage}
-                onPageChange={() => { }}
-                onSearchChange={() => { }}
-                searchValue=""
+                errorText={errorMessage ?? ''}
+                onPageChange={tableQ.onPageChange}
+                onFilterChange={tableQ.onFilterChange}
+                onSearchChange={tableQ.onSearchChange}
+                onClearAll={tableQ.clearAll}
+                searchValue={tableQ.searchValue}
                 headerActions={<HeaderActions />}
                 showExportButton={false}
             />

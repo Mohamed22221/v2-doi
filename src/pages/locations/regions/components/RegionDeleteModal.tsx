@@ -81,7 +81,7 @@ const RegionDeleteModal = ({
                 <div className="text-center space-y-2">
                     <p className="text-gray-500 dark:text-gray-400">
                         {t('locations.regions.modal.delete.description', {
-                            count: region.cities?.length || 0
+                            count: region.citiesCount || 0
                         })}
                     </p>
                 </div>

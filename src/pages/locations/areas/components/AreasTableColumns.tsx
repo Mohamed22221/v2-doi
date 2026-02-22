@@ -36,9 +36,9 @@ export function useAreasTableColumns(
             },
             {
                 header: t('locations.areas.table.columns.city'),
-                accessorKey: 'cityId',
+                accessorKey: 'city',
                 cell: ({ row }) => {
-                    const cityName = isAr ? row.original.cityNameAr : row.original.cityName
+                    const cityName = isAr ? row.original.city?.nameAr : row.original.city?.name
                     return (
                         <Badge
                             content={cityName || row.original.cityId}
@@ -50,9 +50,9 @@ export function useAreasTableColumns(
             },
             {
                 header: t('locations.areas.table.columns.region'),
-                accessorKey: 'regionName',
+                accessorKey: 'city',
                 cell: ({ row }) => {
-                    const regionName = isAr ? row.original.regionNameAr : row.original.regionName
+                    const regionName = isAr ? row.original?.city?.region?.nameAr : row.original?.city?.region?.name
                     return (
                         <Badge
                             content={regionName || '-'}

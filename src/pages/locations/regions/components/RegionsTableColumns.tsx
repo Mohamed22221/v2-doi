@@ -33,10 +33,10 @@ export function useRegionsTableColumns(
             },
             {
                 header: t('locations.regions.table.columns.cities'),
-                accessorKey: 'cities',
+                accessorKey: 'citiesCount',
                 cell: ({ row }) => (
                     <Badge
-                        content={row?.original?.cities?.length || 0}
+                        content={row?.original?.citiesCount || 0}
                         className="bg-primary-50 dark:bg-primary-500 border-none"
                         innerClass="text-primary-500 dark:text-primary-50"
                     />

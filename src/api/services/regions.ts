@@ -1,9 +1,16 @@
-import { TAPIResponse, TAPIResponseItem } from '../types/api'
+import { TAPIResponseItem, TPaginationSimple } from '../types/api'
 import api from '../api'
 import { Region } from '../types/regions'
 
+export type TAPIResponseRegions<T> = {
+    status: true
+    message: string
+    data: {
+        regions: T
+    } & TPaginationSimple
+}
 const RegionsServices = {
-    getRegions: (searchParams: string): Promise<TAPIResponse<Region[]>> =>
+    getRegions: (searchParams: string): Promise<TAPIResponseRegions<Region[]>> =>
         api.get(`/admin/regions?${searchParams}`),
     createRegion: (data: Partial<Region>): Promise<TAPIResponseItem<Region>> =>
         api.post('/admin/regions', data),

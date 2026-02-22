@@ -1,27 +1,31 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import RegionsServices from '../services/regions'
+import RegionsServices, { TAPIResponseRegions } from '../services/regions'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
 import { Region } from '../types/regions'
 
+
 export const useGetAllRegions = () => {
     const { i18n } = useTranslation()
     const lang = i18n.language
     const [searchParams] = useSearchParams()
     const queryString = searchParams.toString()
-    const query = useQuery({
+    const query = useQuery<TAPIResponseRegions<Region[]>>({
         queryKey: [ReactQueryKeys.ALL_REGIONS, queryString, lang],
         queryFn: () => RegionsServices.getRegions(queryString),
     })
 
-    const { data, error, isError } = query
 
     return {
         ...query,
-        regions: data?.data ?? [],
-        errorMessage: isError ? getApiErrorMessage(error) : '',
+        regions: query.data?.data?.regions ?? [],
+        total: query.data?.data?.total ?? 0,
+        page: query.data?.data?.page ?? 1,
+        limit: query.data?.data?.limit ?? 10,
+        totalPages: query.data?.data?.totalPages ?? 1,
+        errorMessage: query.error ? getApiErrorMessage(query.error) : null,
     }
 }
 
