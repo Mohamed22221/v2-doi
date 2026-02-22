@@ -72,6 +72,12 @@
                 "item1": "Group collapse menu item 1",
                 "item2": "Group collapse menu item 2"
             }
+        },
+        "manageLocation": {
+            "title": "إدارة المواقع",
+            "regions": "المناطق",
+            "cities": "المدن",
+            "areas": "المناطق الفرعية"
         }
     },
     "home": {
@@ -607,6 +613,7 @@
                 "hidden": "مخفي",
                 "outOfStock": "نفد من المخزون",
                 "pendingReview": "قيد المراجعة",
+                "auctionScheduled": "مُجدول للمزاد",
                 "draft": "مسودة"
             },
             "filters": {
@@ -1693,6 +1700,145 @@
         },
         "actions": {
             "view": "عرض"
+        }
+    },
+    "locations": {
+        "regions": {
+            "table": {
+                "title": "المناطق",
+                "searchPlaceholder": "البحث عن طريق اسم المنطقة...",
+                "emptyText": "لم يتم العثور على مناطق",
+                "columns": {
+                    "regionName": "اسم المنطقة",
+                    "nameAr": "الاسم بالعربي",
+                    "cities": "المدن",
+                    "createdAt": "أنشئت في"
+                }
+            },
+            "actions": {
+                "addRegion": "إضافة منطقة"
+            },
+            "modal": {
+                "createTitle": "إضافة منطقة",
+                "editTitle": "تعديل المنطقة",
+                "fields": {
+                    "nameLabel": "اسم المنطقة (English)",
+                    "namePlaceholder": "اكتب اسم المنطقة بالإنجليزية",
+                    "nameArLabel": "اسم المنطقة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                },
+                "actions": {
+                    "create": "إضافة",
+                    "edit": "تعديل"
+                },
+                "success": {
+                    "create": "تم إضافة المنطقة بنجاح",
+                    "edit": "تم تعديل المنطقة بنجاح",
+                    "delete": "تم حذف المنطقة بنجاح"
+                },
+                "delete": {
+                    "title": "حذف منطقة {{name}}؟",
+                    "description": "تحتوي هذه المنطقة على {{count}} من المدن. سيؤثر حذفها على جميع المدن والمناطق المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف"
+                },
+                "errors": {
+                    "nameRequired": "اسم المنطقة مطلوب",
+                    "nameArRequired": "الاسم بالعربي مطلوب"
+                }
+            }
+        },
+        "cities": {
+            "table": {
+                "title": "المدن",
+                "searchPlaceholder": "البحث عن طريق اسم المدينة...",
+                "emptyText": "لم يتم العثور على مدن",
+                "columns": {
+                    "cityName": "اسم المدينة",
+                    "region": "المنطقة",
+                    "areas": "المناطق",
+                    "createdAt": "أنشئت في"
+                }
+            },
+            "actions": {
+                "addCity": "إضافة مدينة"
+            },
+            "modal": {
+                "createTitle": "إضافة مدينة",
+                "editTitle": "تعديل المدينة",
+                "fields": {
+                    "nameLabel": "اسم المدينة (English)",
+                    "namePlaceholder": "اكتب اسم المدينة بالإنجليزية",
+                    "nameArLabel": "اسم المدينة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "regionLabel": "المنطقة",
+                    "regionPlaceholder": "اختر المنطقة"
+                },
+                "actions": {
+                    "create": "إضافة",
+                    "edit": "تعديل"
+                },
+                "success": {
+                    "create": "تم إضافة المدينة بنجاح",
+                    "edit": "تم تعديل المدينة بنجاح",
+                    "delete": "تم حذف المدينة بنجاح"
+                },
+                "delete": {
+                    "title": "حذف {{name}}؟",
+                    "description": "تحتوي هذه المدينة على {{count}} من المناطق. سيؤثر حذفها على جميع المناطق المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف"
+                },
+                "errors": {
+                    "nameRequired": "اسم المدينة مطلوب",
+                    "nameArRequired": "الاسم بالعربي مطلوب",
+                    "regionRequired": "المنطقة مطلوبة"
+                }
+            }
+        },
+        "areas": {
+            "table": {
+                "title": "الأحياء",
+                "emptyText": "لم يتم العثور على أحياء",
+                "columns": {
+                    "areaName": "اسم الحي",
+                    "city": "المدينة",
+                    "region": "المنطقة",
+                    "createdAt": "أنشئت في"
+                }
+            },
+            "actions": {
+                "addArea": "إضافة حي"
+            },
+            "modal": {
+                "createTitle": "إضافة حي",
+                "editTitle": "تعديل الحي",
+                "fields": {
+                    "nameLabel": "اسم الحي (English)",
+                    "namePlaceholder": "اكتب اسم الحي بالإنجليزية",
+                    "nameArLabel": "اسم الحي (عربي)",
+                    "nameArPlaceholder": "اكتب اسم الحي",
+                    "cityLabel": "المدينة",
+                    "cityPlaceholder": "اختر المدينة"
+                },
+                "actions": {
+                    "create": "إضافة",
+                    "edit": "تعديل"
+                },
+                "success": {
+                    "create": "تم إضافة الحي بنجاح",
+                    "edit": "تم تعديل الحي بنجاح",
+                    "delete": "تم حذف الحي بنجاح"
+                },
+                "delete": {
+                    "title": "حذف حي {{name}}؟",
+                    "description": "سيؤثر حذف هذا الحي على جميع البيانات المرتبطة به. لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف"
+                },
+                "errors": {
+                    "nameRequired": "اسم الحي مطلوب",
+                    "nameArRequired": "اسم الحي مطلوب",
+                    "cityRequired": "المدينة مطلوبة"
+                }
+            }
         }
     }
 }

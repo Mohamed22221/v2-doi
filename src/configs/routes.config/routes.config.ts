@@ -203,6 +203,24 @@ export const protectedRoutes = [
         path: `/disputes/:id`,
         component: lazy(() => import('@/pages/disputes/DetailsDispute')),
     },
+    {
+        key: 'regions',
+        path: '/locations/regions',
+        component: lazy(() => import('@/pages/locations/regions')),
+        authority: [],
+    },
+    {
+        key: 'cities',
+        path: '/locations/cities',
+        component: lazy(() => import('@/pages/locations/cities')),
+        authority: [],
+    },
+    {
+        key: 'areas',
+        path: '/locations/areas',
+        component: lazy(() => import('@/pages/locations/areas')),
+        authority: [],
+    },
 
     {
         key: 'settings',

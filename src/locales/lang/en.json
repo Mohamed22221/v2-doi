@@ -72,10 +72,16 @@
                 "item1": "Group collapse menu item 1",
                 "item2": "Group collapse menu item 2"
             }
+        },
+        "manageLocation": {
+            "title": "Manage Location",
+            "regions": "Regions",
+            "cities": "Cities",
+            "areas": "Areas"
         }
     },
     "home": {
-        "welcomeTitle": "Welcome on Board, let's get started with Doi",
+        "welcomeTitle": "Welcome on Board, let's get started with DOUEH!",
         "welcomeSubtitle": "Effortlessly manage your auctions, listings, and user interactions from your centralized admin dashboard."
     },
     "auth": {
@@ -607,6 +613,7 @@
                 "hidden": "Hidden",
                 "outOfStock": "Out of stock",
                 "pendingReview": "Pending Review",
+                "auctionScheduled": "Auction Scheduled",
                 "draft": "Draft"
             },
             "filters": {
@@ -1693,6 +1700,145 @@
         },
         "actions": {
             "view": "View"
+        }
+    },
+    "locations": {
+        "regions": {
+            "table": {
+                "title": "Regions",
+                "searchPlaceholder": "Search by region name...",
+                "emptyText": "No regions found",
+                "columns": {
+                    "regionName": "Region Name",
+                    "nameAr": "Arabic Name",
+                    "cities": "Cities",
+                    "createdAt": "Created At"
+                }
+            },
+            "actions": {
+                "addRegion": "Add Region"
+            },
+            "modal": {
+                "createTitle": "Create Region",
+                "editTitle": "Edit Region",
+                "fields": {
+                    "nameLabel": "Region Name (English)",
+                    "namePlaceholder": "Write Region Name",
+                    "nameArLabel": "اسم المنطقة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                },
+                "actions": {
+                    "create": "Create",
+                    "edit": "Edit"
+                },
+                "success": {
+                    "create": "Region created successfully",
+                    "edit": "Region updated successfully",
+                    "delete": "Region deleted successfully"
+                },
+                "delete": {
+                    "title": "Delete {{name}} Region?",
+                    "description": "This region has {{count}} cities. Deleting it will affect all related cities and areas. This action cannot be undone.",
+                    "confirm": "Delete"
+                },
+                "errors": {
+                    "nameRequired": "Region name is required",
+                    "nameArRequired": "Arabic name is required"
+                }
+            }
+        },
+        "cities": {
+            "table": {
+                "title": "Cities",
+                "searchPlaceholder": "Search by city name...",
+                "emptyText": "No cities found",
+                "columns": {
+                    "cityName": "City Name",
+                    "region": "Region",
+                    "areas": "Areas",
+                    "createdAt": "Created At"
+                }
+            },
+            "actions": {
+                "addCity": "Add City"
+            },
+            "modal": {
+                "createTitle": "Create City",
+                "editTitle": "Edit City",
+                "fields": {
+                    "nameLabel": "City Name (English)",
+                    "namePlaceholder": "Write City Name",
+                    "nameArLabel": "اسم المدينة (عربي)",
+                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "regionLabel": "Region",
+                    "regionPlaceholder": "Select a Region"
+                },
+                "actions": {
+                    "create": "Create",
+                    "edit": "Edit"
+                },
+                "success": {
+                    "create": "City created successfully",
+                    "edit": "City updated successfully",
+                    "delete": "City deleted successfully"
+                },
+                "delete": {
+                    "title": "Delete {{name}}?",
+                    "description": "This city has {{count}} areas. Deleting it will affect all related areas. This action cannot be undone.",
+                    "confirm": "Delete"
+                },
+                "errors": {
+                    "nameRequired": "City name is required",
+                    "nameArRequired": "Arabic name is required",
+                    "regionRequired": "Region is required"
+                }
+            }
+        },
+        "areas": {
+            "table": {
+                "title": "Areas",
+                "emptyText": "No areas found",
+                "columns": {
+                    "areaName": "Area Name",
+                    "city": "City",
+                    "region": "Region",
+                    "createdAt": "Created At"
+                }
+            },
+            "actions": {
+                "addArea": "Add Area"
+            },
+            "modal": {
+                "createTitle": "Add Area",
+                "editTitle": "Edit Area",
+                "fields": {
+                    "nameLabel": "Area Name (English)",
+                    "namePlaceholder": "Enter area name in English",
+                    "nameArLabel": "Area Name (Arabic)",
+                    "nameArPlaceholder": "Enter area name",
+                    "cityLabel": "City",
+                    "cityPlaceholder": "Select city"
+                },
+                "actions": {
+                    "create": "Add",
+                    "edit": "Edit"
+                },
+                "success": {
+                    "create": "Area added successfully",
+                    "edit": "Area updated successfully",
+                    "delete": "Area deleted successfully"
+                },
+                "delete": {
+                    "title": "Delete area {{name}}?",
+                    "description": "Deleting this area will affect all associated data. This action cannot be undone.",
+                    "confirm": "Delete"
+                },
+                "errors": {
+                    "nameRequired": "Area name is required",
+                    "nameArRequired": "Area name is required",
+                    "cityRequired": "City is required"
+                }
+            }
         }
     }
 }

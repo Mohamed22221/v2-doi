@@ -19,7 +19,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-4 tracking-tight">
-                {t('home.welcomeTitle', "Welcome on Board, let's get started with Doi")}
+                {t('home.welcomeTitle', "Welcome on Board, let's get started with DOUEH!")}
             </h1>
 
             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">

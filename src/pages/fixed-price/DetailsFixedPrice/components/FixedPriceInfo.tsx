@@ -1,7 +1,7 @@
 import { Product } from '@/api/types/products'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { Button, Notification, toast } from '@/components/ui'
+import { Button } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import FixedPriceStatusModal from './modalStatus/FixedPriceStatusModal'

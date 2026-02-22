@@ -1,10 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { HiDownload } from 'react-icons/hi'
 
 // Components
 import ViewTable from '@/components/ui/Table/ViewTable/ViewTable'
-import Button from '@/components/ui/Button'
 
 // Hooks
 import { ServerFilterConfig, useServerTable } from '@/utils/hooks/useServerTable'
@@ -85,6 +83,9 @@ export default function FixedPriceTable() {
                     { label: t('fixedPrice.table.status.hidden'), value: 'hidden' },
                     { label: t('fixedPrice.table.status.outOfStock'), value: 'sold' },
                     { label: t('fixedPrice.table.status.pendingReview'), value: 'pending_approval' },
+                    { label: t('fixedPrice.table.status.auctionScheduled'), value: 'auction_scheduled' },
+                    { label: t('fixedPrice.table.status.draft'), value: 'draft' },
+
                 ],
                 placeholder: t('fixedPrice.table.filters.allStatus'),
             },

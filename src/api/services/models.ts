@@ -31,7 +31,7 @@ const ModelsServices = {
     restoreModel: (id: string): Promise<TAPIResponseItem<Model>> =>
         api.patch(`/admin/models/${id}/restore`),
 
-        getInfinityModels: (
+    getInfinityModels: (
         page: number,
         limit: number = 10,
     ): Promise<TAPIResponseItems<Model[]>> =>
