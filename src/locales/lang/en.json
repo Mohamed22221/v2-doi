@@ -1723,9 +1723,9 @@
                 "editTitle": "Edit Region",
                 "fields": {
                     "nameLabel": "Region Name (English)",
-                    "namePlaceholder": "Write Region Name",
-                    "nameArLabel": "اسم المنطقة (عربي)",
-                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                    "namePlaceholder": "Write Region Name (English)",
+                    "nameArLabel": "Region Name (Arabic)",
+                    "nameArPlaceholder": "Write Region Name (Arabic)"
                 },
                 "actions": {
                     "create": "Create",
@@ -1767,11 +1767,12 @@
                 "editTitle": "Edit City",
                 "fields": {
                     "nameLabel": "City Name (English)",
-                    "namePlaceholder": "Write City Name",
-                    "nameArLabel": "اسم المدينة (عربي)",
-                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "namePlaceholder": "Write City Name (English)",
+                    "nameArLabel": "City Name (Arabic)",
+                    "nameArPlaceholder": "Write City Name (Arabic)",
                     "regionLabel": "Region",
-                    "regionPlaceholder": "Select a Region"
+                    "regionPlaceholder": "Select a Region",
+                    "regionErrorPlaceholder": "Error loading regions"
                 },
                 "actions": {
                     "create": "Create",

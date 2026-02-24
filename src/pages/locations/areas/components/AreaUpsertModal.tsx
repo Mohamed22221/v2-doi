@@ -17,9 +17,11 @@ import {
     StatusModalConfig,
 } from '@/components/shared/StatusModal'
 import { useCreateArea, useUpdateArea } from '@/api/hooks/areas'
-import { useGetAllCities } from '@/api/hooks/cities'
+import { useGetAllCitiesSelect } from '@/api/hooks/cities'
 import { getApiErrorMessage } from '@/api/error'
 import { Area } from '@/api/types/areas'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
+import { useMemo, useState } from 'react'
 
 type AreaUpsertModalProps = {
     isOpen: boolean
@@ -38,9 +40,20 @@ const AreaUpsertModal = ({
     const isEdit = Boolean(area?.id)
     const isAr = i18n.language === 'ar'
 
+    const [searchQuery, setSearchQuery] = useState('')
+    const debouncedSearchQuery = useDebouncedValue(searchQuery, 500)
+
     const { mutateAsync: createArea, isPending: isCreating } = useCreateArea()
     const { mutateAsync: updateArea, isPending: isUpdating } = useUpdateArea()
-    const { cities, isLoading: isCitiesLoading } = useGetAllCities()
+
+    const {
+        data: cities,
+        isLoading: isCitiesLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isError,
+    } = useGetAllCitiesSelect(debouncedSearchQuery)
 
     const initialValues = {
         name: area?.name || '',
@@ -85,11 +98,6 @@ const AreaUpsertModal = ({
         }
     }
 
-    const cityOptions = cities.map((city: any) => ({
-        label: isAr ? city.nameAr : city.name,
-        value: city.id,
-    }))
-
     const config: StatusModalConfig = {
         title: isEdit
             ? t('locations.areas.modal.editTitle')
@@ -101,6 +109,32 @@ const AreaUpsertModal = ({
         confirmVariant: 'solid',
         confirmColor: 'primary',
     }
+
+    const initialCityOption = useMemo(() => {
+        if (!isEdit || !area?.cityId) return null
+        return {
+            label: isAr ? (area.city?.nameAr ?? '') : (area.city?.name ?? ''),
+            value: area.cityId,
+        }
+    }, [isEdit, area, isAr])
+
+    const cityOptions = useMemo(() => {
+        const options = cities?.items?.map((c) => ({
+            label: isAr ? c?.nameAr : c?.name,
+            value: c?.id,
+        })) || []
+
+        // Prepend the initial option if it isn't in the loaded list yet
+        if (initialCityOption && !options.some((o) => o.value === initialCityOption.value)) {
+            return [initialCityOption, ...options]
+        }
+        return options
+    }, [cities, isAr, initialCityOption])
+
+    const resolvedPlaceholder = useMemo(() => {
+        if (isError) return t('locations.areas.modal.fields.cityErrorPlaceholder')
+        return t('locations.areas.modal.fields.cityPlaceholder')
+    }, [isError, t])
 
     return (
         <Dialog
@@ -159,15 +193,18 @@ const AreaUpsertModal = ({
                                         errorMessage={errors.cityId}
                                     >
                                         <Select
-                                            placeholder={t('locations.areas.modal.fields.cityPlaceholder')}
+                                            placeholder={resolvedPlaceholder}
                                             options={cityOptions}
+                                            value={cityOptions.find((opt) => opt.value === values.cityId) ?? null}
+                                            onChange={(opt) => setFieldValue('cityId', opt?.value ?? '')}
                                             isLoading={isCitiesLoading}
-                                            value={cityOptions.find(option => option.value === values.cityId)}
-                                            onChange={(option) => {
-                                                if (option) {
-                                                    setFieldValue('cityId', option.value)
-                                                }
-                                            }}
+                                            hasMore={hasNextPage}
+                                            isLoadingMore={isFetchingNextPage}
+                                            onLoadMore={() => fetchNextPage()}
+                                            onInputChange={(val) => setSearchQuery(val)}
+                                            loadMoreLabel={t('viewTable.filters.loadMore')}
+                                            isClearable
+                                            isSearchable
                                         />
                                     </FormItem>
                                 </FormContainer>

@@ -17,9 +17,11 @@ import {
     StatusModalConfig,
 } from '@/components/shared/StatusModal'
 import { useCreateCity, useUpdateCity } from '@/api/hooks/cities'
-import { useGetAllRegions } from '@/api/hooks/regions'
+import { useGetAllRegions, useGetAllRegionsSelect } from '@/api/hooks/regions'
 import { getApiErrorMessage } from '@/api/error'
 import { City } from '@/api/types/cities'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
+import { useMemo, useState } from 'react'
 
 type CityUpsertModalProps = {
     isOpen: boolean
@@ -36,9 +38,17 @@ const CityUpsertModal = ({
     const isEdit = Boolean(city?.id)
     const isAr = i18n.language === 'ar'
 
+    const [searchQuery, setSearchQuery] = useState('')
+    const debouncedSearchQuery = useDebouncedValue(searchQuery, 500)
+
     const { mutate: createCity, isPending: isCreating } = useCreateCity()
     const { mutate: updateCity, isPending: isUpdating } = useUpdateCity()
-    const { regions, isLoading: isRegionsLoading } = useGetAllRegions()
+
+    const { data: regions, isLoading: isRegionsLoading, fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isError,
+    } = useGetAllRegionsSelect(debouncedSearchQuery)
 
     const initialValues = {
         name: city?.name || '',
@@ -113,10 +123,34 @@ const CityUpsertModal = ({
         confirmColor: 'primary',
     }
 
-    const regionOptions = regions?.map((r) => ({
-        label: isAr ? r.nameAr : r.name,
-        value: r.id,
-    })) || []
+    const initialRegionOption = useMemo(() => {
+        if (!isEdit || !city?.regionId) return null
+        return {
+            label: isAr ? (city.region?.nameAr ?? '') : (city.region?.name ?? ''),
+            value: city.regionId,
+        }
+    }, [isEdit, city, isAr])
+
+    const regionOptions = useMemo(() => {
+        const options = regions?.items?.map((r) => ({
+            label: isAr ? r?.nameAr : r?.name,
+            value: r?.id,
+        })) || []
+
+        // Prepend the initial option if it isn't already in the list
+        if (initialRegionOption && !options.some((o) => o.value === initialRegionOption.value)) {
+            return [initialRegionOption, ...options]
+        }
+        return options
+    }, [regions, isAr, initialRegionOption])
+
+
+    const placeholder = t('locations.cities.modal.fields.regionPlaceholder')
+    const errorPlaceholder = t('locations.cities.modal.fields.regionErrorPlaceholder')
+    const resolvedPlaceholder = useMemo(() => {
+        if (!isError) return placeholder
+        return errorPlaceholder
+    }, [isError, placeholder, errorPlaceholder])
 
     return (
         <Dialog
@@ -169,11 +203,18 @@ const CityUpsertModal = ({
                                         errorMessage={errors.regionId}
                                     >
                                         <Select
-                                            placeholder={t('locations.cities.modal.fields.regionPlaceholder')}
+                                            placeholder={resolvedPlaceholder}
                                             options={regionOptions}
                                             value={regionOptions.find(opt => opt.value === values.regionId)}
                                             onChange={(opt) => setFieldValue('regionId', opt?.value)}
                                             isLoading={isRegionsLoading}
+                                            hasMore={hasNextPage}
+                                            isLoadingMore={isFetchingNextPage}
+                                            onLoadMore={() => fetchNextPage()}
+                                            onInputChange={(val) => setSearchQuery(val)}
+                                            loadMoreLabel={t('viewTable.filters.loadMore')}
+                                            isClearable
+                                            isSearchable
                                         />
                                     </FormItem>
                                 </FormContainer>

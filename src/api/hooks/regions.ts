@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import RegionsServices, { TAPIResponseRegions } from '../services/regions'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
 import { Region } from '../types/regions'
+import { useAppSelector } from '@/store'
 
 
 export const useGetAllRegions = () => {
@@ -63,5 +64,28 @@ export const useDeleteRegion = () => {
                 queryKey: [ReactQueryKeys.ALL_REGIONS],
             })
         },
+    })
+}
+
+
+export function useGetAllRegionsSelect(search?: string) {
+    const lang = useAppSelector((state) => state.locale.currentLang)
+    return useInfiniteQuery({
+        queryKey: ['ALL_REGIONS_SELECT', search, lang],
+        initialPageParam: 1,
+        queryFn: ({ pageParam }) =>
+            RegionsServices.getInfinityRegions(
+                pageParam as number,
+                10,
+                search,
+            ),
+        getNextPageParam: (lastPage) =>
+            lastPage.data.page < lastPage.data.totalPages
+                ? lastPage.data.page + 1
+                : undefined,
+        select: (data) => ({
+            ...data,
+            items: data.pages.flatMap((p) => p.data.regions),
+        }),
     })
 }

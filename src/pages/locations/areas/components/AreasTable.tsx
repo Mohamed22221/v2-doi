@@ -11,6 +11,8 @@ import AreaDeleteModal from './AreaDeleteModal'
 // Hooks
 import { useGetAllAreas } from '@/api/hooks/areas'
 import { useAreasTableColumns } from './AreasTableColumns'
+import { useAreasCsvColumns } from './areas.csv-columns'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
 
 // Types
 import { Area } from '@/api/types/areas'
@@ -29,7 +31,7 @@ export default function AreasTable() {
     const [selectedArea, setSelectedArea] = useState<Area | null>(null)
 
     // Fetch areas
-    const { areas, isLoading, isError, errorMessage , limit, total } = useGetAllAreas()
+    const { areas, isLoading, isError, errorMessage, limit, total } = useGetAllAreas()
 
     const onAdd = () => {
         setSelectedArea(null)
@@ -49,20 +51,38 @@ export default function AreasTable() {
     // Column definitions
     const columns = useAreasTableColumns(onEdit, onDelete)
 
+    // CSV Export Configuration
+    const csvColumns = useAreasCsvColumns()
+
     /**
      * HeaderActions Component
-     * Renders the "Add Area" action in the table header.
      */
     const HeaderActions = () => {
         return (
-            <Button
-                size="md"
-                variant='solid'
-                icon={<HiOutlinePlus />}
-                onClick={onAdd}
-            >
-                {t('locations.areas.actions.addArea')}
-            </Button>
+            <div className="flex items-center gap-2">
+                <ServerCsvExportButton
+                    fileNamePrefix="areas"
+                    columns={csvColumns}
+                    currentData={areas}
+                    serviceMethod={async () => ({
+                        data: {
+                            areas: areas,
+                            total,
+                            page: 1,
+                            limit,
+                            totalPages: 1,
+                        },
+                    })}
+                />
+                <Button
+                    size="sm md:md"
+                    variant="solid"
+                    icon={<HiOutlinePlus />}
+                    onClick={onAdd}
+                >
+                    {t('locations.areas.actions.addArea')}
+                </Button>
+            </div>
         )
     }
     const filtersConfig: ServerFilterConfig[] = useMemo(() => [], [t])
@@ -81,7 +101,7 @@ export default function AreasTable() {
                 emptyText={t('locations.areas.table.emptyText')}
                 columns={columns}
                 data={areas ?? []}
-                 total={total ?? 0}
+                total={total ?? 0}
                 pageSize={tableQ.pageSize}
                 isLoading={isLoading}
                 requestedPage={tableQ.requestedPage}
