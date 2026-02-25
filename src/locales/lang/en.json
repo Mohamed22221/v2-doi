@@ -1616,7 +1616,7 @@
             },
             "status": {
                 "active": "Active",
-                "achieved": "Achieved",
+                "archieved": "Archived",
                 "hidden": "Hidden"
             },
             "filters": {
@@ -1673,7 +1673,7 @@
                     "status": "Status",
                     "dateRange": "Date range"
                 },
-                "searchPlaceholder": "Search by Product name or seller"
+                "searchPlaceholder": "Search by Product name"
             },
             "assignModal": {
                 "title": "Assign Live Auction",

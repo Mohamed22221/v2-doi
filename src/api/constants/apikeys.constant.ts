@@ -37,5 +37,7 @@ const ReactQueryKeys = {
   ALL_CITIES: "all-cities",
   // areas
   ALL_AREAS: "all-areas",
+  // halls
+  ALL_HALLS: "all-halls",
 }
 export default ReactQueryKeys

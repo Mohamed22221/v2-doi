@@ -1,35 +1,34 @@
-import { LanguageCode } from './common'
+export type HallVisibilityStatus = 'ACTIVE' | 'HIDDEN' | 'ARCHIVED'
 
-export type HallStatus = 'active' | 'achieved' | 'hidden'
+// Legacy status type kept for backward compat with mock-based form
+export type HallStatus = HallVisibilityStatus
 
-export interface HallTranslation {
-    languageCode: LanguageCode;
-    name: string;
-    description?: string;
-}
 
+
+// Real API shape — list endpoint
 export interface HallItem {
     id: string
-    name: string // This will be the name in current UI language
-    code: string
-    status: HallStatus
-    assignedCount: number
     createdAt: string
-    parentId: string | null
-    parent?: HallItem | null
-    children?: HallItem[]
-    translations: HallTranslation[]
-    sortOrder: number
-    image: string | null
+    nameEn: string
+    nameAr: string
+    visibilityStatus: HallVisibilityStatus
+    status?: HallVisibilityStatus
+    itemsCount?: number
 }
 
 export interface HallPayload {
-    translations: HallTranslation[]
-    parentId?: string | null
-    status: HallStatus
-    sortOrder: number
-    image?: string | null
-    code: string
+    nameEn: string
+    nameAr: string
+    visibilityStatus: HallVisibilityStatus
+    categoryId?: string
+    sortOrder?: number
+    status?: HallVisibilityStatus
+}
+
+export interface HallTranslation {
+    languageCode: string
+    name: string
+    description?: string
 }
 
 export interface AssignedAuctionItem {

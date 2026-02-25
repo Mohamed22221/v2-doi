@@ -12,38 +12,46 @@ import Badge from '@/components/ui/Badge'
 
 export function useHallsTableColumns() {
     const navigate = useNavigate()
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     return useMemo<ColumnDef<HallItem>[]>(() => {
+        const lang = i18n.language
+
         return [
             {
                 header: t('halls.table.columns.hallName'),
                 accessorKey: 'name',
-                cell: ({ row }) => (
-                    <TwoLineText
-                        title={row.original.name}
-                        subtitle={row.original.code}
-                        size="sm"
-                    />
-                ),
+                cell: ({ row }) => {
+                    const name =
+                        lang === 'ar'
+                            ? row.original?.nameAr
+                            : row.original?.nameEn
+                    return (
+                        <TwoLineText
+                            title={name}
+                            subtitle={row.original?.id}
+                            size="sm"
+                        />
+                    )
+                }
             },
             {
                 header: t('halls.table.columns.status'),
-                accessorKey: 'status',
+                accessorKey: 'visibilityStatus',
                 cell: ({ row }) => (
                     <StatusPill
-                        variant={getStatusVariant(row.original.status)}
-                        label={getStatusLabel(row.original.status)}
+                        variant={getStatusVariant(row.original?.visibilityStatus)}
+                        label={getStatusLabel(row.original?.visibilityStatus)}
                         size="sm"
                     />
                 ),
             },
             {
                 header: t('halls.table.columns.assigned'),
-                accessorKey: 'assignedCount',
+                accessorKey: 'itemsCount',
                 cell: ({ row }) => (
                     <Badge
-                        content={row.original.assignedCount}
+                        content={row.original?.itemsCount}
                         className="bg-primary-50 dark:bg-primary-500 border-none"
                         innerClass="text-primary-500 dark:text-primary-50"
                     />
@@ -79,5 +87,5 @@ export function useHallsTableColumns() {
                 ),
             },
         ]
-    }, [navigate, t])
+    }, [navigate, t, i18n.language])
 }

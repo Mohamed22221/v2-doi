@@ -24,12 +24,12 @@ const Simple = ({ children, content, ...rest }: SimpleProps) => {
                         {content}
                         {children
                             ? cloneElement(
-                                  children as ReactElement,
-                                  {
-                                      contentClassName: 'text-center',
-                                      ...rest,
-                                  } as CommonProps,
-                              )
+                                children as ReactElement,
+                                {
+                                    contentClassName: 'text-center',
+                                    ...rest,
+                                } as CommonProps,
+                            )
                             : null}
                     </div>
                 </Card>
