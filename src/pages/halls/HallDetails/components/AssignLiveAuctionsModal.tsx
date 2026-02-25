@@ -176,7 +176,7 @@ const AssignLiveAuctionsModal = ({
                                             size="smxs"
                                         />
                                     </div>
-                                    <p className="flex items-center gap-1 text-[11px] sm:text-[13px] text-gray-500 dark:text-gray-400">
+                                    <div className="flex items-center gap-1 text-[11px] sm:text-[13px] text-gray-500 dark:text-gray-400">
                                         <span>{t('halls.details.assignModal.row.seller')}:</span>
                                         <div className="flex items-center gap-1 sm:gap-3">
                                             <span>{auction.sellerName}</span>
@@ -184,7 +184,7 @@ const AssignLiveAuctionsModal = ({
                                             <span>{auction.auctionCode}</span>
 
                                         </div>
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="text-right">

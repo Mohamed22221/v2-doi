@@ -1673,7 +1673,19 @@
                     "status": "الحالة",
                     "dateRange": "نطاق التاريخ"
                 },
-                "searchPlaceholder": "البحث عن  اسم المنتج أو البائع"
+                "searchPlaceholder": "البحث عن اسم المنتج",
+                "status": {
+                    "live": "مباشر",
+                    "scheduled": "مجدول",
+                    "hidden": "مخفي",
+                    "ended": "منتهي",
+                    "rejected": "مرفوض",
+                    "cancelled": "ملغي"
+                },
+                "filters": {
+                    "status": "الحالة:",
+                    "allStatus": "جميع الحالات"
+                }
             },
             "assignModal": {
                 "title": "تعيين مزاد مباشر",

@@ -3,11 +3,11 @@ import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import AccountId from '@/components/shared/cards/AccountId'
 import { Button } from '@/components/ui'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { HallItem } from '@/api/types/halls'
+import { HallItem, HallItemDetails } from '@/api/types/halls'
 import { getStatusLabel, getStatusVariant } from '../../components/GetStatusLabel'
 
 interface HallDetailsHeaderProps {
-    hall: HallItem
+    hall: HallItemDetails
     onAssignAuctions?: () => void
 }
 
@@ -18,8 +18,9 @@ const HallDetailsHeader = ({
     const { t, i18n } = useTranslation()
     const currentLang = i18n.language
 
-    // Find the translation for the current language, fallback to any if not found
-    const translation = hall.translations.find(tr => tr.languageCode === currentLang) || hall.translations[0]
+    const name = currentLang === 'ar' ? hall.nameAr : hall.nameEn
+    const description = currentLang === 'ar' ? hall.descriptionAr : hall.descriptionEn
+
 
     return (
         <BackgroundRounded>
@@ -27,22 +28,22 @@ const HallDetailsHeader = ({
                 <div className="flex-1">
                     <div className="flex items-center gap-3 flex-wrap">
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
-                            {translation?.name || hall.name}
+                            {name}
                         </h2>
                         <StatusPill
-                            variant={getStatusVariant(hall.status)}
-                            label={getStatusLabel(hall.status)}
+                            variant={getStatusVariant(hall?.visibilityStatus)}
+                            label={getStatusLabel(hall?.visibilityStatus)}
                             size="sm"
                         />
                     </div>
 
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                         <span className="font-medium text-primary-1000 dark:text-primary-100 text-sm">
-                            {hall.code}
+                            {hall.id}
                         </span>
                         <span className="text-gray-400">•</span>
                         <p className="text-sm text-black dark:text-gray-400">
-                            {translation?.description}
+                            {description}
                         </p>
                     </div>
                 </div>

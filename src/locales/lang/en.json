@@ -1673,7 +1673,19 @@
                     "status": "Status",
                     "dateRange": "Date range"
                 },
-                "searchPlaceholder": "Search by Product name"
+                "searchPlaceholder": "Search by Product",
+                "status": {
+                    "live": "Live",
+                    "scheduled": "Scheduled",
+                    "hidden": "Hidden",
+                    "ended": "Ended",
+                    "rejected": "Rejected",
+                    "cancelled": "Cancelled"
+                },
+                "filters": {
+                    "status": "Status:",
+                    "allStatus": "All Status"
+                }
             },
             "assignModal": {
                 "title": "Assign Live Auction",
