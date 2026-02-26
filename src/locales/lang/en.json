@@ -614,6 +614,9 @@
                 "outOfStock": "Out of stock",
                 "pendingReview": "Pending Review",
                 "auctionScheduled": "Auction Scheduled",
+                "auctionLive": "Auction Live",
+                "auctionEnded": "Auction Ended",
+                "inactive": "Inactive",
                 "draft": "Draft"
             },
             "filters": {
@@ -1617,7 +1620,8 @@
             "status": {
                 "active": "Active",
                 "archieved": "Archived",
-                "hidden": "Hidden"
+                "hidden": "Hidden",
+                "draft": "Draft"
             },
             "filters": {
                 "status": "Status:",
@@ -1663,6 +1667,8 @@
         },
         "details": {
             "title": "Hall Details",
+            "scheduleHall": "Schedule Hall",
+            "deleteHall": "Delete Hall",
             "assignLiveAuctions": "Assign Live Auctions",
             "table": {
                 "columns": {
@@ -1690,6 +1696,7 @@
             "assignModal": {
                 "title": "Assign Live Auction",
                 "subtitle": "Select Auctions to add to",
+                "successMessage": "Auctions assigned successfully",
                 "searchPlaceholder": "Search by auction title, auction ID, or seller",
                 "filters": {
                     "status": "Status",
@@ -1707,6 +1714,18 @@
                 "row": {
                     "startingBid": "Starting Bid",
                     "seller": "Seller"
+                }
+            },
+            "modals": {
+                "schedule": {
+                    "title": "Schedule Hall",
+                    "description": "Are you sure you want to schedule this hall? It will become active and visible to users.",
+                    "confirm": "Schedule Hall"
+                },
+                "delete": {
+                    "title": "Delete Hall",
+                    "description": "Are you sure you want to delete this hall? This action cannot be undone.",
+                    "confirm": "Delete Hall"
                 }
             }
         },

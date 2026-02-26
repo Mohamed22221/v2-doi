@@ -27,6 +27,7 @@ import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 import Icon from '@/components/ui/Icon/Icon'
 import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
+import RegionsSelect from '@/components/helpers/RegionsSelect'
 
 // Types
 import type { HallStatus, HallItem, HallTranslation } from '@/api/types/halls'
@@ -39,6 +40,7 @@ type FormValues = {
     name: string
     description: string
     parentId: string | null
+    regionId: string | null
     status: HallStatus
     image: string
     sortOrder: number
@@ -63,6 +65,7 @@ const FormHall = () => {
         name: '',
         description: '',
         parentId: null,
+        regionId: null,
         status: 'active',
         image: '',
         sortOrder: 0,
@@ -178,6 +181,7 @@ const FormHall = () => {
                     ? {
                         ...initialValues,
                         parentId: hallDetails.parentId ?? null,
+                        regionId: (hallDetails as any).regionId ?? null,
                         status: hallDetails.status ?? 'active',
                         image: hallDetails.image ?? '',
                         sortOrder: hallDetails.sortOrder ?? 0,
@@ -264,6 +268,17 @@ const FormHall = () => {
                                                     name="name"
                                                     component={Input}
                                                     placeholder={t('halls.namePlaceholder')}
+                                                />
+                                            </FormItem>
+
+                                            <FormItem
+                                                label={t('locations.cities.modal.fields.regionLabel')}
+                                            >
+                                                <RegionsSelect
+                                                    value={values.regionId}
+                                                    onChange={(val) => setFieldValue('regionId', val)}
+                                                    initialOption={(hallDetails as any)?.region}
+                                                    placeholder={t('locations.cities.modal.fields.regionPlaceholder')}
                                                 />
                                             </FormItem>
 

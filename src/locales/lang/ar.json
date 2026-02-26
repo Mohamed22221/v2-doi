@@ -614,6 +614,9 @@
                 "outOfStock": "نفد من المخزون",
                 "pendingReview": "قيد المراجعة",
                 "auctionScheduled": "مُجدول للمزاد",
+                "auctionLive": "مزاد مباشر",
+                "auctionEnded": "مزاد منتهي",
+                "inactive": "غير نشط",
                 "draft": "مسودة"
             },
             "filters": {
@@ -1617,7 +1620,8 @@
             "status": {
                 "active": "نشط",
                 "archieved": "مؤرشف",
-                "hidden": "مخفي"
+                "hidden": "مخفي",
+                "draft": "مسودة"
             },
             "filters": {
                 "status": "الحالة:",
@@ -1663,6 +1667,8 @@
         },
         "details": {
             "title": "تفاصيل القاعة",
+            "scheduleHall": "جدولة القاعة",
+            "deleteHall": "حذف القاعة",
             "assignLiveAuctions": "تعيين المزادات المباشرة",
             "table": {
                 "columns": {
@@ -1690,6 +1696,7 @@
             "assignModal": {
                 "title": "تعيين مزاد مباشر",
                 "subtitle": "حدد المزادات لإضافتها إلى",
+                "successMessage": "تم تعيين المزادات بنجاح",
                 "searchPlaceholder": "ابحث عن طريق عنوان المزاد أو معرف المزاد أو البائع",
                 "filters": {
                     "status": "الحالة",
@@ -1707,6 +1714,18 @@
                 "row": {
                     "startingBid": "مزايدة البداية",
                     "seller": "البائع"
+                }
+            },
+            "modals": {
+                "schedule": {
+                    "title": "جدولة القاعة",
+                    "description": "هل أنت متأكد من جدولة هذه القاعة؟ ستصبح نشطة ومرئية للمستخدمين.",
+                    "confirm": "جدولة القاعة"
+                },
+                "delete": {
+                    "title": "حذف القاعة",
+                    "description": "هل أنت متأكد من حذف هذه القاعة؟ لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف القاعة"
                 }
             }
         },

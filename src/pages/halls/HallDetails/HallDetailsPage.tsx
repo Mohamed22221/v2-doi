@@ -4,7 +4,9 @@ import { Breadcrumb, toast, Notification } from '@/components/ui'
 import AssignedAuctionsTable from './components/AssignedAuctionsTable'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import AssignLiveAuctionsModal from './components/AssignLiveAuctionsModal'
-import { useParams } from 'react-router-dom'
+import HallActionModal from './components/HallActionModal'
+import type { HallActionType } from './components/HallActionModal'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useGetHallById } from '@/api/hooks/halls'
 import { Skeleton } from '@/components/ui'
 import HallDetailsSkeleton from './components/HallDetailsSkeleton'
@@ -15,7 +17,9 @@ const HallDetailsHeader = lazy(() => import('./components/HallDetailsHeader'))
 const HallDetailsPage = () => {
     const { t, i18n } = useTranslation()
     const { id } = useParams<{ id: string }>()
+    const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [hallActionType, setHallActionType] = useState<HallActionType | null>(null)
     const currentLang = i18n.language
 
     const { hall, isLoading, isError, errorMessage } = useGetHallById(id || "")
@@ -59,6 +63,8 @@ const HallDetailsPage = () => {
                         <HallDetailsHeader
                             hall={hall}
                             onAssignAuctions={() => setIsModalOpen(true)}
+                            onSchedule={() => setHallActionType('schedule')}
+                            onDelete={() => setHallActionType('delete')}
                         />
                     )
                 )}
@@ -71,10 +77,25 @@ const HallDetailsPage = () => {
                 isOpen={isModalOpen}
                 onOpenChange={setIsModalOpen}
                 hallName={name || hall?.nameEn || ""}
-                onAssign={handleAssign}
+                hallId={id || ""}
             />
+
+            {hallActionType && (
+                <HallActionModal
+                    isOpen={!!hallActionType}
+                    onClose={() => setHallActionType(null)}
+                    type={hallActionType}
+                    hallId={id || ""}
+                    onConfirmSuccess={() => {
+                        if (hallActionType === 'delete') {
+                            navigate('/halls')
+                        }
+                    }}
+                />
+            )}
         </div>
     )
 }
 
 export default HallDetailsPage
+

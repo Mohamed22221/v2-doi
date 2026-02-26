@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import HallsServices from '../services/halls'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
 import { HallItem, HallItemDetails, HallPayload } from '../types/halls'
-import { HallAuctionItem } from '../types/hall-auctions'
+import { AssignableAuctionItem, HallAuctionItem } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 
 export const useGetAllHalls = () => {
@@ -81,3 +81,59 @@ export const useCreateHall = () => {
     })
 }
 
+export const useGetAssignableAuctions = (search?: string, enabled = true) => {
+    const { i18n } = useTranslation()
+    const lang = i18n.language
+    return useInfiniteQuery({
+        queryKey: ['ASSIGNABLE_AUCTIONS', search, lang],
+        initialPageParam: 1,
+        enabled,
+        queryFn: ({ pageParam }) =>
+            HallsServices.getAssignableAuctions(
+                pageParam as number,
+                10,
+                search,
+            ),
+        getNextPageParam: (lastPage) =>
+            lastPage.data.page < lastPage.data.totalPages
+                ? lastPage.data.page + 1
+                : undefined,
+        select: (data) => ({
+            ...data,
+            items: data.pages.flatMap((p) => p.data.items),
+        }),
+    })
+}
+
+export const useAssignItemsToHall = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id, data }: { id: string, data: { productIds: string[] } }) => HallsServices.assignItemsToHall(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
+        },
+    })
+}
+
+export const useArchiveHall = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: string) => HallsServices.archiveHall(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_DETAILS] })
+            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
+        },
+    })
+}
+
+export const useDeleteHall = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: string) => HallsServices.deleteHall(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
+        },
+    })
+}
