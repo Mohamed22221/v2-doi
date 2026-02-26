@@ -8,7 +8,7 @@ type Props = {
 
 const HallImageUpload = ({
     name = 'image',
-    uploadType = 'hall',
+    uploadType = 'complaint',
 }: Props) => {
     const { t } = useTranslation()
 

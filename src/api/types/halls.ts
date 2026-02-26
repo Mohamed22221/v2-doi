@@ -29,10 +29,12 @@ export interface HallItem extends HallItemDetails {
 export interface HallPayload {
     nameEn: string
     nameAr: string
-    visibilityStatus: HallVisibilityStatus
+    descriptionEn?: string
+    descriptionAr?: string
+    coverImage?: string
     categoryId?: string
     regionId?: string
-    sortOrder?: number
-    status?: HallVisibilityStatus
+    itemBiddingDurationSeconds?: number
+    extensionSeconds?: number
 }
 

@@ -22,6 +22,7 @@ import getHallValidationSchema from './schema'
 // Components
 import HallImageUpload from './HallImageUpload'
 import FormHallSkeleton from './FormHallSkeleton'
+import ErrorState from '@/components/shared/ErrorState'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 import Icon from '@/components/ui/Icon/Icon'
@@ -29,19 +30,23 @@ import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
 import RegionsSelect from '@/components/helpers/RegionsSelect'
 
-// Types
-import type { HallStatus, HallItem, HallTranslation } from '@/api/types/halls'
-import { LanguageCode } from '@/api/types/common'
+// API hooks
+import {
+    useGetHallById,
+    useCreateHall,
+    useUpdateHall,
+} from '@/api/hooks/halls'
+import { getApiErrorMessage } from '@/api/error'
 
-// Mock Data
-import { HALLS_ITEMS_MOCK } from '../../data/halls.mock'
+// Types
+import type { HallVisibilityStatus, HallPayload } from '@/api/types/halls'
 
 type FormValues = {
     name: string
     description: string
     parentId: string | null
     regionId: string | null
-    status: HallStatus
+    status: HallVisibilityStatus
     image: string
     sortOrder: number
     language: string
@@ -54,10 +59,16 @@ const FormHall = () => {
     const isUpdateMode = Boolean(id)
     const { t } = useTranslation()
 
-    // Simulate fetching details
-    const hallDetails = isUpdateMode
-        ? HALLS_ITEMS_MOCK.find(h => h.id === id)
-        : null
+    // Fetch hall details for edit mode
+    const {
+        hall: hallDetails,
+        isLoading,
+        isError,
+        error,
+    } = useGetHallById(id as string)
+
+    const { mutateAsync: createHall, isPending: isCreating } = useCreateHall()
+    const { mutateAsync: updateHall, isPending: isUpdating } = useUpdateHall()
 
     const [hallType, setHallType] = useState<'main' | 'sub'>('main')
 
@@ -66,7 +77,7 @@ const FormHall = () => {
         description: '',
         parentId: null,
         regionId: null,
-        status: 'active',
+        status: 'ACTIVE',
         image: '',
         sortOrder: 0,
         language: 'en',
@@ -78,9 +89,7 @@ const FormHall = () => {
         setSubmitting: (v: boolean) => void,
     ) => {
         try {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1000))
-
+            // Final sync: save current visible fields to the store
             const finalStore = {
                 ...values.localTranslations,
                 [values.language]: {
@@ -89,27 +98,24 @@ const FormHall = () => {
                 },
             }
 
-            const translations = Object.entries(finalStore)
-                .filter(([, v]) => v.name?.trim() || v.description?.trim())
-                .map(([languageCode, v]) => ({
-                    languageCode: languageCode as LanguageCode,
-                    name: v.name || '',
-                    description: v.description || '',
-                }))
+            // Extract en/ar translations for the API payload
+            const enData = finalStore['en'] || { name: '', description: '' }
+            const arData = finalStore['ar'] || { name: '', description: '' }
+
+            const payload: HallPayload = {
+                nameEn: enData.name || '',
+                nameAr: arData.name || '',
+                descriptionEn: enData.description || '',
+                descriptionAr: arData.description || '',
+                coverImage: values.image || undefined,
+                categoryId: values.parentId || undefined,
+                regionId: values.regionId || undefined,
+                itemBiddingDurationSeconds: 60,
+
+            }
 
             if (isUpdateMode && id) {
-                const index = HALLS_ITEMS_MOCK.findIndex(h => h.id === id)
-                if (index !== -1) {
-                    HALLS_ITEMS_MOCK[index] = {
-                        ...HALLS_ITEMS_MOCK[index],
-                        name: values.name,
-                        status: values.status,
-                        parentId: values.parentId,
-                        sortOrder: Number(values.sortOrder),
-                        image: values.image || null,
-                        translations: translations as HallTranslation[]
-                    }
-                }
+                await updateHall({ id, data: payload })
                 toast.push(
                     <Notification
                         title={t('halls.update.success')}
@@ -117,19 +123,7 @@ const FormHall = () => {
                     />,
                 )
             } else {
-                const newHall: HallItem = {
-                    id: (HALLS_ITEMS_MOCK.length + 1).toString(),
-                    name: values.name,
-                    code: `HALL-${Math.floor(Math.random() * 1000)}`, // Logic still needs a code but UI is clean
-                    status: values.status,
-                    assignedCount: 0,
-                    createdAt: new Date().toISOString(),
-                    parentId: values.parentId,
-                    sortOrder: Number(values.sortOrder),
-                    image: values.image || null,
-                    translations: translations as HallTranslation[]
-                }
-                HALLS_ITEMS_MOCK.unshift(newHall)
+                await createHall(payload)
                 toast.push(
                     <Notification
                         title={t('halls.create.success')}
@@ -141,7 +135,7 @@ const FormHall = () => {
         } catch (error) {
             toast.push(
                 <Notification
-                    title={t('common.error')}
+                    title={getApiErrorMessage(error)}
                     type="danger"
                 />,
             )
@@ -166,12 +160,21 @@ const FormHall = () => {
     }
 
     useEffect(() => {
-        if (hallDetails?.parentId) {
-            setHallType('sub')
-        } else if (isUpdateMode && hallDetails?.parentId === null) {
+        if (hallDetails?.regionId) {
+            // keep existing logic
+        }
+    }, [hallDetails?.regionId])
+
+    useEffect(() => {
+        if (isUpdateMode && hallDetails) {
+            // parentId-based hall type detection
+            // (no parentId field on API yet, so default to main)
             setHallType('main')
         }
-    }, [hallDetails?.parentId, isUpdateMode])
+    }, [hallDetails, isUpdateMode])
+
+    if (isUpdateMode && isLoading) return <FormHallSkeleton />
+    if (isUpdateMode && isError) return <ErrorState message={(error as any)?.message} fullPage={true} />
 
     return (
         <Formik
@@ -180,25 +183,26 @@ const FormHall = () => {
                 isUpdateMode && hallDetails
                     ? {
                         ...initialValues,
-                        parentId: hallDetails.parentId ?? null,
-                        regionId: (hallDetails as any).regionId ?? null,
-                        status: hallDetails.status ?? 'active',
+                        parentId: null,
+                        regionId: hallDetails.regionId ?? null,
+                        status: hallDetails.visibilityStatus ?? 'ACTIVE',
                         image: hallDetails.image ?? '',
-                        sortOrder: hallDetails.sortOrder ?? 0,
-                        localTranslations:
-                            hallDetails.translations?.reduce(
-                                (acc: Record<string, { name: string; description: string }>, trans) => {
-                                    const lang = trans.languageCode.toLowerCase()
-                                    const entry = acc[lang] || { name: '', description: '' }
-                                    if (trans.name) entry.name = trans.name
-                                    if (trans.description) entry.description = trans.description
-                                    return { ...acc, [lang]: entry }
-                                },
-                                {},
-                            ) ?? {},
-                        language: hallDetails.translations?.[0]?.languageCode || 'en',
-                        name: hallDetails.translations?.[0]?.name || '',
-                        description: hallDetails.translations?.[0]?.description || '',
+                        sortOrder: 0,
+                        localTranslations: {
+                            en: {
+                                name: hallDetails.nameEn || '',
+                                description: hallDetails.descriptionEn || '',
+                            },
+                            ar: {
+                                name: hallDetails.nameAr || '',
+                                description: hallDetails.descriptionAr || '',
+                            },
+                        },
+                        language: 'en',
+                        name: hallDetails.nameEn || '',
+                        description: hallDetails.descriptionEn || '',
+                        itemBiddingDurationSeconds: 60,
+
                     }
                     : initialValues
             }
@@ -215,7 +219,7 @@ const FormHall = () => {
                 setValues,
                 values,
             }) => {
-                const submitting = isSubmitting
+                const submitting = isSubmitting || isCreating || isUpdating
 
                 return (
                     <Form>
@@ -277,7 +281,7 @@ const FormHall = () => {
                                                 <RegionsSelect
                                                     value={values.regionId}
                                                     onChange={(val) => setFieldValue('regionId', val)}
-                                                    initialOption={(hallDetails as any)?.region}
+                                                    initialOption={hallDetails?.region}
                                                     placeholder={t('locations.cities.modal.fields.regionPlaceholder')}
                                                 />
                                             </FormItem>
@@ -326,7 +330,7 @@ const FormHall = () => {
 
                                         <div className="flex items-center justify-between py-3">
                                             <div className="flex items-center gap-2">
-                                                <span className={`w-2 h-2 rounded-full ${values.status === "active" ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                                                <span className={`w-2 h-2 rounded-full ${values.status === "ACTIVE" ? 'bg-green-500' : 'bg-red-500'}`}></span>
                                                 <label className="text-sm font-medium">
                                                     {t('halls.activeStatus')}
                                                 </label>
@@ -334,11 +338,11 @@ const FormHall = () => {
                                             <Field name="status">
                                                 {({ field, form }: FieldProps<string>) => (
                                                     <Switcher
-                                                        checked={field.value === 'active'}
+                                                        checked={field.value === 'ACTIVE'}
                                                         onChange={(checked) => {
                                                             form.setFieldValue(
                                                                 field.name,
-                                                                checked ? 'active' : 'hidden',
+                                                                checked ? 'ACTIVE' : 'HIDDEN',
                                                             )
                                                         }}
                                                     />
@@ -419,7 +423,7 @@ const FormHall = () => {
                                                                 size="sm"
                                                                 placeholder={t('halls.selectParent')}
                                                                 value={values.parentId}
-                                                                initialOption={hallDetails?.parent as any}
+                                                                initialOption={null}
                                                                 menuPortalZ={400}
                                                                 onChange={(opt) => setFieldValue('parentId', opt ?? null)}
                                                             />

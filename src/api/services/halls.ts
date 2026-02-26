@@ -10,6 +10,9 @@ const HallsServices = {
     createHall: (data: HallPayload): Promise<TAPIResponseItem<HallItem>> =>
         api.post('/admin/halls', data),
 
+    updateHall: (id: string, data: HallPayload): Promise<TAPIResponseItem<HallItem>> =>
+        api.put(`/admin/halls/${id}`, data),
+
     getHallById: (id: string): Promise<TAPIResponseItem<HallItemDetails>> =>
         api.get(`/admin/halls/${id}`),
 

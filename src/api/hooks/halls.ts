@@ -81,6 +81,18 @@ export const useCreateHall = () => {
     })
 }
 
+export const useUpdateHall = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ id, data }: { id: string; data: HallPayload }) =>
+            HallsServices.updateHall(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
+            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_DETAILS] })
+        },
+    })
+}
+
 export const useGetAssignableAuctions = (search?: string, enabled = true) => {
     const { i18n } = useTranslation()
     const lang = i18n.language

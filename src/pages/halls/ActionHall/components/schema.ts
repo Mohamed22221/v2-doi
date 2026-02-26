@@ -7,12 +7,20 @@ const getHallValidationSchema = (t: TFunction) =>
             .trim()
             .required(t('halls.errors.nameRequired')),
 
+        description: Yup.string()
+            .trim()
+            .optional(),
+
         parentId: Yup.string()
             .nullable()
             .optional(),
 
+        regionId: Yup.string()
+            .nullable()
+            .optional(),
+
         status: Yup.string()
-            .oneOf(['active', 'achieved', 'hidden'])
+            .oneOf(['ACTIVE', 'HIDDEN', 'ARCHIVED', 'DRAFT'])
             .required(t('halls.errors.statusRequired')),
 
         sortOrder: Yup.number()

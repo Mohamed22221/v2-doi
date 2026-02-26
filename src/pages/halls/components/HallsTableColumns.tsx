@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
+import { HiOutlinePencil } from 'react-icons/hi'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -62,7 +63,7 @@ export function useHallsTableColumns() {
                 accessorKey: 'createdAt',
                 cell: ({ row }) => {
                     const { date, time } = formatDateTime(
-                        row.original.createdAt,
+                        row.original.createdAt ?? '',
                     )
                     return (
                         <TwoLineText title={date} subtitle={time} size="sm" />
@@ -73,7 +74,15 @@ export function useHallsTableColumns() {
                 header: '',
                 id: 'actions',
                 cell: ({ row }) => (
-                    <div className="w-[120px] flex justify-end">
+                    <div className="w-[160px] flex justify-end gap-2">
+                        <Button
+                            size="md"
+                            variant="default"
+                            icon={<HiOutlinePencil />}
+                            onClick={() =>
+                                navigate(`/halls/${row.original.id}/edit`)
+                            }
+                        />
                         <Button
                             size="md"
                             variant="default"
