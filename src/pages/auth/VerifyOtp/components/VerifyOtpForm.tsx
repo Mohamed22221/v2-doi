@@ -22,6 +22,7 @@ import ResendOtp from './ResendOtp'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Notification, toast } from '@/components/ui'
+import { useAppSelector } from '@/store'
 
 const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
     const { t } = useTranslation()
@@ -32,12 +33,10 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
     const { resendOtp, isSuccess } = useResendOtp()
     const [message, setMessage] = useTimeOutMessage()
     const { state } = useLocation()
+    const { otpCode, otpSessionId, forgotPhone } = useAppSelector(
+        (state) => state.auth.session,
+    )
 
-    // Retrieve stored OTP session ID and code
-    const [initialValues, setInitialValues] = useState<VerifyOtpPayload>({
-        otpSessionId: '',
-        code: '',
-    })
     // Handle form submission
 
     const handleSignIn = async (
@@ -47,17 +46,17 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
         setMessage('')
 
         const payload: VerifyOtpPayload = {
-            code: values.code || initialValues.code,
-            otpSessionId: initialValues.otpSessionId,
+            code: String(values.code || otpCode || ''),
+            otpSessionId: String(otpSessionId || ''),
             platform: 'web',
         }
 
         try {
             if (state?.otp === 'forgot') {
                 const payloadVerify = {
-                    phone: localStorage.getItem('forgot-phone') || '',
-                    sessionId: initialValues.otpSessionId,
-                    otp: values.code || initialValues.code,
+                    phone: forgotPhone || '',
+                    sessionId: otpSessionId || '',
+                    otp: String(values.code || otpCode || ''),
                 }
                 await verifyForgotOtp(payloadVerify)
             } else {
@@ -74,14 +73,10 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
     }
     // Initial form values
 
-    useEffect(() => {
-        const storedOtpSessionId = localStorage.getItem('otp-session-id') || ''
-        const storedOtpCode = localStorage.getItem('otp-code') || ''
-        setInitialValues({
-            otpSessionId: storedOtpSessionId,
-            code: storedOtpCode,
-        })
-    }, [isSuccess])
+    const initialValues: VerifyOtpPayload = {
+        otpSessionId: String(otpSessionId || ''),
+        code: String(otpCode || ''),
+    }
 
     return (
         <div className={className}>
@@ -128,7 +123,7 @@ const VerifyOtpForm = ({ disableSubmit = false, className }: OtpFormProps) => {
                                 <ResendOtp
                                     setMessage={setMessage}
                                     onResend={(payload) =>
-                                        resendOtp(payload).then(() => {})
+                                        resendOtp(payload).then(() => { })
                                     }
                                 />
 

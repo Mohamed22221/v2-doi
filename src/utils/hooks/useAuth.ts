@@ -1,20 +1,21 @@
 import appConfig from '@/configs/app.config'
 import { useNavigate } from 'react-router-dom'
-import { ACCESS_TOKEN } from '@/api/constants/api.constant'
-import Cookies from 'js-cookie'
+import { useAppSelector, useAppDispatch } from '@/store'
+import { signOutSuccess } from '@/store/slices/auth'
 
 function useAuth() {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
-    const tokenData = Cookies.get(ACCESS_TOKEN)
+    const accessToken = useAppSelector((state) => state.auth.session.accessToken)
 
     const signOut = () => {
-        Cookies.remove(ACCESS_TOKEN)
+        dispatch(signOutSuccess())
         navigate(appConfig.unAuthenticatedEntryPath)
     }
 
     return {
-        authenticated: !!tokenData,
+        authenticated: !!accessToken,
         signOut,
     }
 }

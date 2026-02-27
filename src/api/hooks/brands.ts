@@ -21,6 +21,7 @@ export const useGetAllBrands = () => {
     const query = useQuery<TAPIResponseItems<Brand[]>>({
         queryKey: [ReactQueryKeys.ALL_BRANDS, queryString, lang],
         queryFn: () => BrandsServices.getBrands(queryString),
+
     })
 
     return {

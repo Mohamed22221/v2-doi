@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Field, Form, Formik } from 'formik'
+import classNames from 'classnames'
 // UI Components
 import Alert from '@/components/ui/Alert'
 import Button from '@/components/ui/Button'
@@ -16,9 +17,6 @@ import { normalizePhone } from '@/components/validation/phone'
 import validationSchema from './schema'
 // Hooks
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
-import { useNavigate } from 'react-router-dom'
-import appConfig from '@/configs/app.config'
-import { setAccessTokenCookie } from '@/api/hooks/auth'
 // Types
 import type { SignInFormProps, SignInFormSchema, SignInPayload } from './types'
 import { Notification, toast } from '@/components/ui'
@@ -29,17 +27,9 @@ const SignInForm = ({
     forgotPasswordUrl = '/forgot-password',
 }: SignInFormProps) => {
     const { t } = useTranslation()
-    const navigate = useNavigate()
     const { login, isPending } = useLogin()
     const [message, setMessage] = useTimeOutMessage()
 
-    const handleFakeSignIn = () => {
-        setAccessTokenCookie('fake-token-for-emergency')
-        toast.push(
-            <Notification title={t('auth.login.success')} type="success" />,
-        )
-        navigate(appConfig.authenticatedEntryPath)
-    }
 
     const handleSignIn = async (
         values: SignInFormSchema,
@@ -131,7 +121,7 @@ const SignInForm = ({
                                     />
                                 </FormItem>
 
-                                <div className="flex justify-end mb-6">
+                                <div className={classNames('flex justify-end mb-6', isPending && 'pointer-events-none opacity-50')}>
                                     <ActionLink to={forgotPasswordUrl}>
                                         {t('auth.login.forgotPassword')}
                                     </ActionLink>
@@ -149,26 +139,7 @@ const SignInForm = ({
                                         : t('auth.login.signIn')}
                                 </Button>
 
-                                {appConfig.enableFakeLogin && (
-                                    <div className="mt-4">
-                                        <div className="relative flex items-center py-4">
-                                            <div className="flex-grow border-t border-gray-300"></div>
-                                            <span className="flex-shrink mx-4 text-gray-400 text-xs uppercase">
-                                                {t('common.or')}
-                                            </span>
-                                            <div className="flex-grow border-t border-gray-300"></div>
-                                        </div>
-                                        <Button
-                                            block
-                                            type="button"
-                                            variant="twoTone"
-                                            onClick={handleFakeSignIn}
-                                            disabled={isFormSubmitting || disableSubmit}
-                                        >
-                                            {t('auth.login.fakeSignIn')}
-                                        </Button>
-                                    </div>
-                                )}
+
                             </FormContainer>
                         </Form>
                     )
