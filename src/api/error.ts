@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosHeaders } from 'axios'
+import i18n from '@/locales'
 
 export interface ApiError {
     status?: number
@@ -127,7 +128,7 @@ export function normalizeApiError(error: unknown): ApiError {
     // Canceled requests (UX: often ignore)
     if (isRequestCanceled(error)) {
         return {
-            message: 'Request canceled.',
+            message: i18n.t('api.errors.canceled'),
             code: 'ERR_CANCELED',
             isCanceled: true,
             raw: error,
@@ -140,7 +141,7 @@ export function normalizeApiError(error: unknown): ApiError {
             message:
                 error instanceof Error
                     ? error.message
-                    : 'An error occurred. Please try again.',
+                    : i18n.t('api.errors.default'),
             raw: error,
         }
     }
@@ -160,8 +161,8 @@ export function normalizeApiError(error: unknown): ApiError {
 
         return {
             message: isTimeout
-                ? 'Request timed out. Please try again.'
-                : 'Network error, please try again.',
+                ? i18n.t('api.errors.timeout')
+                : i18n.t('api.errors.network'),
             code: axiosError.code,
             raw: sanitizeRawAxiosError(axiosError),
         }
@@ -197,8 +198,8 @@ export function normalizeApiError(error: unknown): ApiError {
         return {
             status,
             message: isLogin
-                ? 'Invalid credentials. Please check your email/phone and password.'
-                : extractedMessage || 'Session expired. Please sign in again.',
+                ? i18n.t('api.errors.invalidCredentials')
+                : i18n.t('api.errors.unauthorized'),
             ...base,
         }
     }
@@ -207,8 +208,8 @@ export function normalizeApiError(error: unknown): ApiError {
         return {
             status,
             message:
-                extractedMessage ||
-                "You don't have permission to perform this action.",
+
+                i18n.t('api.errors.forbidden'),
             ...base,
         }
     }
@@ -216,7 +217,7 @@ export function normalizeApiError(error: unknown): ApiError {
     if (status === 404) {
         return {
             status,
-            message: extractedMessage || 'Resource not found.',
+            message: extractedMessage || i18n.t('api.errors.notFound'),
             ...base,
         }
     }
@@ -224,9 +225,7 @@ export function normalizeApiError(error: unknown): ApiError {
     if (status === 429) {
         return {
             status,
-            message:
-                extractedMessage ||
-                'Too many requests. Please try again shortly.',
+            message: i18n.t('api.errors.tooManyRequests'),
             ...base,
         }
     }
@@ -234,8 +233,7 @@ export function normalizeApiError(error: unknown): ApiError {
     if (status && status >= 500) {
         return {
             status,
-            message:
-                extractedMessage || 'Server error. Please try again later.',
+            message: i18n.t('api.errors.serverError'),
             ...base,
         }
     }
@@ -245,14 +243,14 @@ export function normalizeApiError(error: unknown): ApiError {
         return {
             status,
             message:
-                extractedMessage || 'Please check your input and try again.',
+                extractedMessage || i18n.t('api.errors.badRequest'),
             ...base,
         }
     }
 
     return {
         status,
-        message: extractedMessage || 'An error occurred. Please try again.',
+        message: extractedMessage || i18n.t('api.errors.default'),
         ...base,
     }
 }
@@ -271,7 +269,7 @@ export function getApiErrorMessage(error: unknown): string {
 
     if (isApiErrorLike(error)) {
         const msg = stringifyUnknown(error.message)
-        return msg ?? 'An error occurred. Please try again.'
+        return msg ?? i18n.t('api.errors.default')
     }
 
     return normalizeApiError(error).message

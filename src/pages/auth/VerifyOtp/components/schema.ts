@@ -5,8 +5,8 @@ import type { TFunction } from 'i18next'
 
 const getValidationSchema = (t: TFunction) => Yup.object().shape({
     code: Yup.string()
-        .matches(/^\d{4}$/, t('auth.errors.otpRequired'))
-        .optional(),
+        .required(t('auth.errors.otpRequired'))
+        .matches(/^\d{4}$/, t('auth.errors.otpRequired')),
 })
 
 export default getValidationSchema

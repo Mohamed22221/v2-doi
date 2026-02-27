@@ -1,12 +1,10 @@
 // External libraries
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import Cookies from 'js-cookie'
 
 // Internal constants & services
 import AuthServices from '../services/auth'
 import ReactQueryKeys from '../constants/apikeys.constant'
-import { ACCESS_TOKEN } from '../constants/api.constant'
 import { getApiErrorMessage } from '../error'
 import {
     LoginResponse,
@@ -18,17 +16,12 @@ import {
 import { REDIRECT_URL_KEY } from '@/constants/app.constant'
 import appConfig from '@/configs/app.config'
 import useQueryLocation from '@/utils/useQueryLocation'
-import { useAppSelector } from '@/store'
-
-// Helpers to set cookies
-export const setAccessTokenCookie = (token: string) => {
-    Cookies.set(ACCESS_TOKEN, token, {
-        expires: 1 / 96,
-        sameSite: 'lax',
-        secure: false, // مهم
-        path: '/',
-    })
-}
+import { useAppDispatch, useAppSelector } from '@/store'
+import {
+    clearOtpData,
+    signInSuccess,
+    setOtpData,
+} from '@/store/slices/auth/sessionSlice'
 
 // Hook login and handle errors
 export const useLogin = () => {
@@ -37,30 +30,31 @@ export const useLogin = () => {
     const query = useQueryLocation()
     const redirectUrl = query.get(REDIRECT_URL_KEY)
 
-    const mutation = useMutation({
-        mutationKey: [ReactQueryKeys.SIGN_IN],
-        mutationFn: AuthServices.login,
+    const dispatch = useAppDispatch()
 
+    const mutation = useMutation({
+        mutationFn: AuthServices.login,
         onSuccess: async ({ data }: { data: LoginResponse }) => {
             const accessToken = data?.access_token
+            const refreshToken = data?.refresh_token
 
             // 1) OTP flow
             if (data?.code) {
-                localStorage.setItem('otp-code', data.code)
-                localStorage.setItem('otp-session-id', data.otpSessionId || '')
-
-                navigate(
-                    redirectUrl
-                        ? '/verify-otp?redirectUrl=' + redirectUrl
-                        : '/verify-otp',
+                dispatch(
+                    setOtpData({
+                        otpCode: data.code,
+                        otpSessionId: data.otpSessionId || '',
+                    }),
                 )
+                navigate('/verify-otp')
                 return
             }
 
-            // 2) Token flow
-            if (accessToken) {
+            // 2) Token flow — store both tokens via Redux
+            if (accessToken && refreshToken) {
                 queryClient.clear()
-                setAccessTokenCookie(accessToken)
+                dispatch(signInSuccess({ accessToken, refreshToken }))
+                dispatch(clearOtpData())
                 navigate(
                     redirectUrl
                         ? redirectUrl
@@ -86,6 +80,7 @@ export const useVerifyOtp = () => {
     const navigate = useNavigate()
     const query = useQueryLocation()
     const queryClient = useQueryClient()
+    const dispatch = useAppDispatch()
 
     const mutation = useMutation({
         mutationKey: [ReactQueryKeys.VERIFY_OTP],
@@ -93,11 +88,13 @@ export const useVerifyOtp = () => {
 
         onSuccess: async ({ data }: { data: VerifyOtpResponse }) => {
             const accessToken = data?.access_token
-            if (!accessToken) return
-            // 2) Token flow
-            if (accessToken) {
+            const refreshToken = data?.refresh_token
+
+            // 1) Token flow — store via Redux
+            if (accessToken && refreshToken) {
                 queryClient.clear()
-                setAccessTokenCookie(accessToken)
+                dispatch(signInSuccess({ accessToken, refreshToken }))
+                dispatch(clearOtpData())
                 const redirectUrl = query.get(REDIRECT_URL_KEY)
                 navigate(
                     redirectUrl
@@ -121,6 +118,7 @@ export const useVerifyOtp = () => {
 
 export const useVerifyForgotOtp = () => {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
     const mutation = useMutation({
         mutationKey: [ReactQueryKeys.VERIFY_OTP],
@@ -131,6 +129,7 @@ export const useVerifyForgotOtp = () => {
             if (!resetToken) return
             // 2) Token flow
             if (resetToken) {
+                dispatch(clearOtpData())
                 navigate('/new-password', {
                     state: {
                         resetToken: resetToken,
@@ -152,12 +151,17 @@ export const useVerifyForgotOtp = () => {
 }
 
 export const useResendOtp = () => {
+    const dispatch = useAppDispatch()
     const mutation = useMutation({
         mutationKey: [ReactQueryKeys.RESEND_OTP],
         mutationFn: AuthServices.resendOtp,
         onSuccess: async ({ data }: { data: VerifyOtpRequest }) => {
-            localStorage.setItem('otp-code', data?.code)
-            localStorage.setItem('otp-session-id', data.otpSessionId || '')
+            dispatch(
+                setOtpData({
+                    otpCode: data?.code,
+                    otpSessionId: data.otpSessionId || '',
+                }),
+            )
         },
     })
 
@@ -174,6 +178,7 @@ export const useForgotPassword = () => {
     const navigate = useNavigate()
     const query = useQueryLocation()
     const redirectUrl = query.get(REDIRECT_URL_KEY)
+    const dispatch = useAppDispatch()
     const mutation = useMutation({
         mutationKey: [ReactQueryKeys.FORGOT_PASSWORD],
         mutationFn: AuthServices.forgotPassword,
@@ -181,8 +186,12 @@ export const useForgotPassword = () => {
         onSuccess: async ({ data }: { data: ResponseForgotPassword }) => {
             const otpSessionId = data
             if (!otpSessionId) return
-            localStorage.setItem('otp-code', data.code)
-            localStorage.setItem('otp-session-id', data.otpSessionId)
+            dispatch(
+                setOtpData({
+                    otpCode: data.code,
+                    otpSessionId: data.otpSessionId,
+                }),
+            )
             navigate('/verify-otp', {
                 state: {
                     otp: 'forgot',

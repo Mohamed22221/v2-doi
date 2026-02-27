@@ -41,7 +41,8 @@
         "productDefects": "Product Defects",
         "pricingAndStock": "Pricing & Stock",
         "availableQuantity": "Available Quantity",
-        "sellerName": "Seller Name"
+        "sellerName": "Seller Name",
+        "somethingWentWrong": "Something went wrong"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -153,7 +154,8 @@
             "invalidPhone": "Please enter a valid phone number (+966501234567)",
             "passwordsDoNotMatch": "Your passwords do not match",
             "passwordIsRequired": "Password is required",
-            "otpRequired": "Please enter the 4-digit OTP code."
+            "otpRequired": "Please enter the 4-digit OTP code.",
+            "administratorOnly": "Only administrators are allowed to log in."
         }
     },
     "settings": {
@@ -1871,6 +1873,21 @@
                     "cityRequired": "City is required"
                 }
             }
+        }
+    },
+    "api": {
+        "errors": {
+            "canceled": "Request canceled.",
+            "default": "An error occurred. Please try again.",
+            "timeout": "Request timed out. Please try again.",
+            "network": "Network error, please try again.",
+            "unauthorized": "Session expired. Please sign in again.",
+            "invalidCredentials": "Invalid credentials. Please check your email/phone and password.",
+            "forbidden": "You don't have permission to perform this action.",
+            "notFound": "Resource not found.",
+            "tooManyRequests": "Too many requests. Please try again shortly.",
+            "serverError": "Server error. Please try again later.",
+            "badRequest": "Please check your input and try again."
         }
     }
 }

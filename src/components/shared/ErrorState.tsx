@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 type ErrorStateProps = {
     title?: string
@@ -12,7 +13,7 @@ type ErrorStateProps = {
 }
 
 const ErrorState: React.FC<ErrorStateProps> = ({
-    message = "please try agian",
+    message,
     height = '300px',
     fullPage = false,
     className = '',
@@ -20,6 +21,8 @@ const ErrorState: React.FC<ErrorStateProps> = ({
     image = '/img/others/error.png',
     children,
 }) => {
+    const { t } = useTranslation()
+    const displayMessage = message || t('api.errors.default')
     const style: React.CSSProperties | undefined = fullPage
         ? undefined
         : { height: typeof height === 'number' ? `${height}px` : height }
@@ -35,12 +38,12 @@ const ErrorState: React.FC<ErrorStateProps> = ({
         >
             <img className={imgClassName} src={image} alt="Empty state" />
             <h3 className="font-semibold text-red-500 dark:text-red-900">
-                Something went wrong
+                {t('common.somethingWentWrong')}
             </h3>
 
-            {message && (
+            {displayMessage && (
                 <p className="mt-1 text-sm text-primary-800 dark:text-primary-100">
-                    {message}
+                    {displayMessage}
                 </p>
             )}
 

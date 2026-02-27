@@ -13,7 +13,8 @@ import type { CommonProps } from '@/@types/common'
 import { useForgotPassword } from '@/api/hooks/auth'
 import { isPhone } from '@/components/validation/phone'
 import { getApiErrorMessage } from '@/api/error'
-// import type { AxiosError } from 'axios'
+import { useAppDispatch } from '@/store'
+import { setOtpData } from '@/store/slices/auth/sessionSlice'
 
 interface ForgotPasswordFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -27,7 +28,7 @@ type ForgotPasswordFormSchema = {
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     const { t } = useTranslation()
     const { disableSubmit = false, className, signInUrl = '/sign-in' } = props
-    const { forgotPassword } = useForgotPassword()
+    const { forgotPassword, isPending } = useForgotPassword()
     const [emailSent] = useState(false)
 
     const [message, setMessage] = useTimeOutMessage()
@@ -46,6 +47,8 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
             ),
     })
 
+    const dispatch = useAppDispatch()
+
     const onSendPhone = async (
         values: ForgotPasswordFormSchema,
         setSubmitting: (isSubmitting: boolean) => void,
@@ -54,7 +57,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
 
         try {
             await forgotPassword(values)
-            localStorage.setItem('forgot-phone', values.phone)  
+            dispatch(setOtpData({ forgotPhone: values.phone }))
         } catch (error) {
             setMessage(getApiErrorMessage(error))
         } finally {
@@ -115,9 +118,9 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                             >
                                 {emailSent ? t('auth.forgot.resendCode') : t('auth.forgot.sendCode')}
                             </Button>
-                            <div className="mt-4 text-center">
+                            <div className="mt-4 text-center" >
                                 <span>{t('auth.forgot.backTo')}</span>
-                                <ActionLink to={signInUrl}>{t('auth.forgot.signIn')}</ActionLink>
+                                <ActionLink to={signInUrl} className={isPending ? 'pointer-events-none opacity-50' : ''}>{t('auth.forgot.signIn')}</ActionLink>
                             </div>
                         </FormContainer>
                     </Form>
