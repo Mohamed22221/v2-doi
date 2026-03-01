@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from '@/store'
 import {
     clearOtpData,
     signInSuccess,
+    signOutSuccess,
     setOtpData,
 } from '@/store/slices/auth/sessionSlice'
 
@@ -257,4 +258,31 @@ export const useGetProfile = () => {
         queryKey: [ReactQueryKeys.GET_PROFILE, lang],
         queryFn: AuthServices.getProfile,
     })
+}
+
+export const useLogout = () => {
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const queryClient = useQueryClient()
+
+    const mutation = useMutation({
+        mutationKey: [ReactQueryKeys.LOGOUT],
+        mutationFn: AuthServices.logout,
+        onSuccess: () => {
+            dispatch(signOutSuccess())
+            queryClient.clear()
+            navigate(appConfig.unAuthenticatedEntryPath)
+        },
+        onError: () => {
+            // Even if API fails, we should logout locally for better UX
+            dispatch(signOutSuccess())
+            queryClient.clear()
+            navigate(appConfig.unAuthenticatedEntryPath)
+        },
+    })
+
+    return {
+        ...mutation,
+        logout: mutation.mutateAsync,
+    }
 }

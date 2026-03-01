@@ -1,17 +1,12 @@
-import appConfig from '@/configs/app.config'
-import { useNavigate } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '@/store'
-import { signOutSuccess } from '@/store/slices/auth'
+import { useAppSelector } from '@/store'
+import { useLogout } from '@/api/hooks/auth'
 
 function useAuth() {
-    const navigate = useNavigate()
-    const dispatch = useAppDispatch()
-
     const accessToken = useAppSelector((state) => state.auth.session.accessToken)
+    const { logout } = useLogout()
 
-    const signOut = () => {
-        dispatch(signOutSuccess())
-        navigate(appConfig.unAuthenticatedEntryPath)
+    const signOut = async () => {
+        await logout()
     }
 
     return {

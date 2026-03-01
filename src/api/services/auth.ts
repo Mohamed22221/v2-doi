@@ -46,6 +46,7 @@ const AuthServices = {
         return api.post('/auth/reset-password', payload)
     },
     getProfile: () => api.get<ProfileResponse>('/auth/profile'),
+    logout: () => api.post('/auth/logout'),
 }
 
 export default AuthServices
