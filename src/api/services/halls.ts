@@ -1,19 +1,19 @@
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import api from '../api'
-import { HallItem, HallItemDetails, HallPayload } from '../types/halls'
+import { HallItem, HallItemDetails, MainHall } from '../types/halls'
 import { AssignableAuctionItem, AssignItemsToHallPayload, HallAuctionItem } from '../types/hall-auctions'
 
 const HallsServices = {
     getHalls: (searchParams: string): Promise<TAPIResponseItems<HallItem[]>> =>
         api.get(`/admin/halls?${searchParams}`),
 
-    createHall: (data: HallPayload): Promise<TAPIResponseItem<HallItem>> =>
+    createHall: (data: MainHall): Promise<TAPIResponseItem<MainHall>> =>
         api.post('/admin/halls', data),
 
-    updateHall: (id: string, data: HallPayload): Promise<TAPIResponseItem<HallItem>> =>
+    updateHall: (id: string, data: MainHall): Promise<TAPIResponseItem<HallItem>> =>
         api.put(`/admin/halls/${id}`, data),
 
-    getHallById: (id: string): Promise<TAPIResponseItem<HallItemDetails>> =>
+    getHallById: (id: string): Promise<TAPIResponseItem<HallItem>> =>
         api.get(`/admin/halls/${id}`),
 
     getHallAuctions: (hallId: string, searchParams: string): Promise<TAPIResponseItems<HallAuctionItem[]>> =>

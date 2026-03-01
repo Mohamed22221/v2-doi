@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Field, FieldProps, Form, Formik } from 'formik'
+import dayjs from 'dayjs'
 
 // UI
 import Button from '@/components/ui/Button'
@@ -29,6 +30,7 @@ import Icon from '@/components/ui/Icon/Icon'
 import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
 import RegionsSelect from '@/components/helpers/RegionsSelect'
+import TimeSection from './TimeSection'
 
 // API hooks
 import {
@@ -44,13 +46,17 @@ import type { HallVisibilityStatus, HallPayload } from '@/api/types/halls'
 type FormValues = {
     name: string
     description: string
-    parentId: string | null
+    categorySelectionType: 'all' | 'specific'
+    categoryIds: string[]
     regionId: string | null
-    status: HallVisibilityStatus
-    image: string
-    sortOrder: number
+    coverImage: string
     language: string
     localTranslations: Record<string, { name: string; description: string }>
+    hallDate: Date | null
+    startingTime: string
+    itemDuration: number | string
+    extensionMinutes: number | string
+    visibilityStatus: HallVisibilityStatus
 }
 
 const FormHall = () => {
@@ -75,13 +81,17 @@ const FormHall = () => {
     const initialValues: FormValues = {
         name: '',
         description: '',
-        parentId: null,
+        categorySelectionType: 'all',
+        categoryIds: [],
         regionId: null,
-        status: 'ACTIVE',
-        image: '',
-        sortOrder: 0,
+        coverImage: '',
         language: 'en',
         localTranslations: {},
+        hallDate: null,
+        startingTime: '',
+        itemDuration: '',
+        extensionMinutes: 0,
+        visibilityStatus: 'DRAFT',
     }
 
     const handleSubmit = async (
@@ -98,20 +108,43 @@ const FormHall = () => {
                 },
             }
 
-            // Extract en/ar translations for the API payload
-            const enData = finalStore['en'] || { name: '', description: '' }
-            const arData = finalStore['ar'] || { name: '', description: '' }
+            // Transform buffer into translations array
+            const translations = Object.entries(finalStore)
+                .filter(([, v]) => v.name?.trim() || v.description?.trim())
+                .map(([languageCode, v]) => ({
+                    languageCode: languageCode.toUpperCase() as any,
+                    name: v.name || '',
+                    description: v.description || '',
+                }))
 
-            const payload: HallPayload = {
-                nameEn: enData.name || '',
-                nameAr: arData.name || '',
-                descriptionEn: enData.description || '',
-                descriptionAr: arData.description || '',
-                coverImage: values.image || undefined,
-                categoryId: values.parentId || undefined,
+            // Merge Date and Time into ISO string
+            let scheduledStartTime: string | undefined = undefined
+            if (values.hallDate && values.startingTime) {
+                const combined = dayjs(`${dayjs(values.hallDate).format('YYYY-MM-DD')}T${values.startingTime}:00`)
+                if (combined.isValid()) {
+                    scheduledStartTime = combined.toISOString()
+                }
+            }
+
+            const itemBiddingDurationSeconds = values.itemDuration ? Number(values.itemDuration) * 60 : undefined
+            const extensionSeconds = values.extensionMinutes ? Number(values.extensionMinutes) * 60 : 0
+
+            const payload: any = {
+                translations,
+                coverImage: values.coverImage || undefined,
+                categoryId: values.categoryIds?.[0] || undefined,
                 regionId: values.regionId || undefined,
-                itemBiddingDurationSeconds: 60,
+                visibilityStatus: values.visibilityStatus,
+                extensionSeconds,
+            }
 
+            // Only add these if they meet backend requirements
+            if (itemBiddingDurationSeconds !== undefined && itemBiddingDurationSeconds >= 10) {
+                payload.itemBiddingDurationSeconds = itemBiddingDurationSeconds
+            }
+
+            if (scheduledStartTime) {
+                payload.scheduledStartTime = scheduledStartTime
             }
 
             if (isUpdateMode && id) {
@@ -145,10 +178,11 @@ const FormHall = () => {
     }
 
     const getOptionClasses = (
-        option: 'main' | 'sub',
+        option: string,
+        currentValue: string,
         baseClassName: string = '',
     ) => {
-        const isActive = hallType === option
+        const isActive = currentValue === option
 
         return classNames(
             'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
@@ -159,11 +193,7 @@ const FormHall = () => {
         )
     }
 
-    useEffect(() => {
-        if (hallDetails?.regionId) {
-            // keep existing logic
-        }
-    }, [hallDetails?.regionId])
+
 
     useEffect(() => {
         if (isUpdateMode && hallDetails) {
@@ -173,42 +203,63 @@ const FormHall = () => {
         }
     }, [hallDetails, isUpdateMode])
 
+    useEffect(() => {
+        if (isUpdateMode && hallDetails && hallDetails.visibilityStatus !== 'DRAFT') {
+            toast.push(
+                <Notification
+                    title={t('halls.errors.onlyDraftEditable')}
+                    type="danger"
+                />,
+            )
+            navigate('/halls')
+        }
+    }, [isUpdateMode, hallDetails, navigate, t])
+
+
     if (isUpdateMode && isLoading) return <FormHallSkeleton />
     if (isUpdateMode && isError) return <ErrorState message={(error as any)?.message} fullPage={true} />
+
 
     return (
         <Formik
             enableReinitialize
             initialValues={
-                isUpdateMode && hallDetails
+                (isUpdateMode && hallDetails
                     ? {
                         ...initialValues,
-                        parentId: null,
+                        categorySelectionType: hallDetails.categoryId ? 'specific' : 'all' as 'all' | 'specific',
+                        categoryIds: hallDetails.categoryId ? [hallDetails.categoryId] : [],
                         regionId: hallDetails.regionId ?? null,
-                        status: hallDetails.visibilityStatus ?? 'ACTIVE',
-                        image: hallDetails.image ?? '',
-                        sortOrder: 0,
-                        localTranslations: {
-                            en: {
-                                name: hallDetails.nameEn || '',
-                                description: hallDetails.descriptionEn || '',
-                            },
-                            ar: {
-                                name: hallDetails.nameAr || '',
-                                description: hallDetails.descriptionAr || '',
-                            },
-                        },
+                        coverImage: hallDetails.coverImage ?? '',
+                        localTranslations:
+                            hallDetails.translations?.reduce(
+                                (acc: Record<string, { name: string; description: string }>, t) => {
+                                    const lang = t.languageCode.toLowerCase()
+                                    acc[lang] = {
+                                        name: t.name,
+                                        description: t.description || '',
+                                    }
+                                    return acc
+                                },
+                                {},
+                            ) ?? {},
                         language: 'en',
-                        name: hallDetails.nameEn || '',
-                        description: hallDetails.descriptionEn || '',
-                        itemBiddingDurationSeconds: 60,
-
+                        name: hallDetails.translations?.find(t => t.languageCode.toLowerCase() === 'en')?.name || '',
+                        description: hallDetails.translations?.find(t => t.languageCode.toLowerCase() === 'en')?.description || '',
+                        hallDate: hallDetails.scheduledStartTime ? new Date(hallDetails.scheduledStartTime) : null,
+                        startingTime: hallDetails.scheduledStartTime ? dayjs(hallDetails.scheduledStartTime).format('HH:mm') : '',
+                        itemDuration: hallDetails.itemBiddingDurationSeconds ? hallDetails.itemBiddingDurationSeconds / 60 : '',
+                        extensionMinutes: 0,
+                        visibilityStatus: hallDetails.visibilityStatus ?? 'DRAFT',
                     }
-                    : initialValues
+                    : initialValues) as FormValues
             }
             validationSchema={getHallValidationSchema(t)}
-            onSubmit={(values, { setSubmitting }) =>
+            onSubmit={(values, { setSubmitting }) => {
+                console.log(values)
                 handleSubmit(values, setSubmitting)
+
+            }
             }
         >
             {({
@@ -218,8 +269,14 @@ const FormHall = () => {
                 setFieldValue,
                 setValues,
                 values,
+                submitForm,
             }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
+
+                const initialCategoryOptions = React.useMemo(() =>
+                    hallDetails?.category ? [hallDetails.category] : [],
+                    [hallDetails?.category]
+                )
 
                 return (
                     <Form>
@@ -237,7 +294,7 @@ const FormHall = () => {
                                                     onChange={(lang) => {
                                                         if (!lang) return
 
-                                                        const updatedStore = {
+                                                        const updatedStore: Record<string, { name: string; description: string }> = {
                                                             ...values.localTranslations,
                                                             [values.language]: {
                                                                 name: values.name,
@@ -276,13 +333,16 @@ const FormHall = () => {
                                             </FormItem>
 
                                             <FormItem
+                                                asterisk
                                                 label={t('locations.cities.modal.fields.regionLabel')}
+                                                invalid={Boolean(touched.regionId && errors.regionId)}
+                                                errorMessage={errors.regionId}
                                             >
                                                 <RegionsSelect
                                                     value={values.regionId}
                                                     onChange={(val) => setFieldValue('regionId', val)}
-                                                    initialOption={hallDetails?.region}
                                                     placeholder={t('locations.cities.modal.fields.regionPlaceholder')}
+                                                    size='md'
                                                 />
                                             </FormItem>
 
@@ -313,60 +373,19 @@ const FormHall = () => {
                                                 <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">
                                                     *
                                                 </span>
-                                                {t('halls.coverImage')} (16:9)
+                                                {t('halls.coverImage')} (4:3)
                                             </label>
                                             <HallImageUpload />
+
                                         </div>
                                     </BackgroundRounded>
+
+                                    {/* <TimeSection /> */}
                                 </div>
 
                                 {/* Right Column - Publishing & Classification (lg:col-span-1) */}
                                 <div className="lg:col-span-1 space-y-4">
-                                    <BackgroundRounded className="px-6">
-                                        <HeaderInformation
-                                            title={t('halls.publishing')}
-                                            icon={<Icon name="show" />}
-                                        />
-
-                                        <div className="flex items-center justify-between py-3">
-                                            <div className="flex items-center gap-2">
-                                                <span className={`w-2 h-2 rounded-full ${values.status === "ACTIVE" ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                                                <label className="text-sm font-medium">
-                                                    {t('halls.activeStatus')}
-                                                </label>
-                                            </div>
-                                            <Field name="status">
-                                                {({ field, form }: FieldProps<string>) => (
-                                                    <Switcher
-                                                        checked={field.value === 'ACTIVE'}
-                                                        onChange={(checked) => {
-                                                            form.setFieldValue(
-                                                                field.name,
-                                                                checked ? 'ACTIVE' : 'HIDDEN',
-                                                            )
-                                                        }}
-                                                    />
-                                                )}
-                                            </Field>
-                                        </div>
-
-                                        <div className="py-3 mt-2">
-                                            <FormItem
-                                                asterisk
-                                                label={t('halls.sortOrder')}
-                                                invalid={Boolean(touched.sortOrder && errors.sortOrder)}
-                                                errorMessage={errors.sortOrder}
-                                            >
-                                                <Field
-                                                    name="sortOrder"
-                                                    type="number"
-                                                    component={Input}
-                                                    placeholder={t('halls.sortOrderPlaceholder')}
-                                                />
-                                            </FormItem>
-                                        </div>
-                                    </BackgroundRounded>
-
+                                    <TimeSection />
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('halls.classification')}
@@ -376,60 +395,59 @@ const FormHall = () => {
                                         <div className="py-3">
                                             <Radio.Group
                                                 vertical
-                                                value={hallType}
+                                                value={values.categorySelectionType}
                                                 onChange={(val) => {
-                                                    setHallType(val)
-                                                    if (val === 'main') {
-                                                        setFieldValue('parentId', null)
-                                                    }
+                                                    setFieldValue('categorySelectionType', val)
                                                 }}
                                                 className="w-full space-y-4"
                                             >
                                                 <div
-                                                    className={getOptionClasses('main')}
+                                                    className={getOptionClasses('all', values.categorySelectionType)}
                                                     onClick={() => {
-                                                        setHallType('main')
-                                                        setFieldValue('parentId', null)
+                                                        setFieldValue('categorySelectionType', 'all')
                                                     }}
                                                 >
                                                     <div className="flex gap-4 w-full">
-                                                        <Radio value="main" />
+                                                        <Radio value="all" />
                                                         <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
-                                                            {t('halls.parentHall')}
+                                                            {t('halls.categories.all')}
                                                         </span>
                                                     </div>
                                                 </div>
 
                                                 <div
-                                                    className={getOptionClasses('sub', 'flex-col')}
-                                                    onClick={() => setHallType('sub')}
+                                                    className={getOptionClasses('specific', values.categorySelectionType, 'flex-col')}
+                                                    onClick={() => setFieldValue('categorySelectionType', 'specific')}
                                                 >
                                                     <div className="flex gap-4 w-full">
-                                                        <Radio value="sub" />
+                                                        <Radio value="specific" />
                                                         <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                                            {t('halls.subHall')}
+                                                            {t('halls.categories.specific')}
                                                         </span>
                                                     </div>
 
-                                                    {hallType === 'sub' && (
+                                                    {values.categorySelectionType === 'specific' && (
                                                         <div
                                                             className="w-full mt-1 pt-2 border-t border-dashed border-neutral-100 dark:border-neutral-700"
                                                             onClick={(e) => e.stopPropagation()}
                                                         >
                                                             <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
-                                                                {t('halls.selectParent')}
+                                                                {t('halls.selectCategory')}
                                                             </label>
                                                             <CategorySelect
+                                                                isMulti
+                                                                level={3}
                                                                 size="sm"
-                                                                placeholder={t('halls.selectParent')}
-                                                                value={values.parentId}
-                                                                initialOption={null}
+                                                                placeholder={t('halls.selectCategory')}
+                                                                value={values.categoryIds}
+                                                                initialId={values.categoryIds}
+                                                                initialOption={initialCategoryOptions}
                                                                 menuPortalZ={400}
-                                                                onChange={(opt) => setFieldValue('parentId', opt ?? null)}
+                                                                onChange={(opt) => setFieldValue('categoryIds', opt ?? [])}
                                                             />
-                                                            {touched.parentId && errors.parentId && (
+                                                            {touched.categoryIds && errors.categoryIds && (
                                                                 <div className="text-xs text-red-500 mt-1">
-                                                                    {errors.parentId as string}
+                                                                    {errors.categoryIds as string}
                                                                 </div>
                                                             )}
                                                         </div>
@@ -442,6 +460,37 @@ const FormHall = () => {
                             </div>
 
                             <div className="mt-4 flex gap-3">
+
+
+
+
+                                <Button
+                                    variant="solid"
+                                    type="button"
+                                    loading={submitting}
+                                    disabled={submitting}
+                                    onClick={() => {
+                                        setFieldValue('visibilityStatus', 'ARCHIVED')
+                                        setTimeout(() => submitForm(), 0)
+                                    }}
+                                >
+                                    {isUpdateMode
+                                        ? t('halls.update.submit')
+                                        : t('halls.create.submit')}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="plain"
+                                    className="border-[2px] !border-primary-200 hover:border-primary-200 bg-"
+                                    loading={submitting}
+                                    disabled={submitting}
+                                    onClick={() => {
+                                        setFieldValue('visibilityStatus', 'DRAFT')
+                                        setTimeout(() => submitForm(), 0)
+                                    }}
+                                >
+                                    {t('common.saveAsDraft')}
+                                </Button>
                                 <Button
                                     type="button"
                                     onClick={() => navigate(-1)}
@@ -449,22 +498,12 @@ const FormHall = () => {
                                 >
                                     {t('common.cancelChanges')}
                                 </Button>
-                                <Button
-                                    variant="solid"
-                                    type="submit"
-                                    loading={submitting}
-                                    disabled={submitting}
-                                >
-                                    {isUpdateMode
-                                        ? t('halls.update.submit')
-                                        : t('halls.create.submit')}
-                                </Button>
                             </div>
                         </FormContainer>
-                    </Form>
+                    </Form >
                 )
             }}
-        </Formik>
+        </Formik >
     )
 }
 

@@ -9,6 +9,7 @@
         "cancelChanges": "إلغاء التغييرات",
         "dropImage": "اسحب الصورة هنا، أو",
         "browse": "تصفح",
+        "uploadCoverImage": "رفع صورة الغلاف",
         "supportFormats": "الصيغ المدعومة: jpeg, png, webp",
         "loading": "تحميل",
         "add": "إضافة",
@@ -42,7 +43,9 @@
         "pricingAndStock": "التسعير والمخزون",
         "availableQuantity": "الكمية المتوفرة",
         "sellerName": "اسم البائع",
-        "somethingWentWrong": "حدث خطأ ما"
+        "somethingWentWrong": "حدث خطأ ما",
+        "saveAsDraft": "حفظ كمسودة",
+        "noDataShort": "لا يوجد"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -1650,6 +1653,9 @@
         "descriptionPlaceholder": "أدخل الوصف",
         "mediaAssets": "أصول الوسائط",
         "coverImage": "صورة الغلاف",
+        "upload": {
+            "success": "تم رفع الصورة بنجاح"
+        },
         "publishing": "النشر",
         "activeStatus": "الحالة",
         "sortOrder": "ترتيب العرض",
@@ -1658,14 +1664,35 @@
         "parentHall": "فئة رئيسية",
         "subHall": "فئة فرعية",
         "selectParent": "اختر الفئة الرئيسية",
+        "categories": {
+            "all": "الكل",
+            "specific": "فئات محددة"
+        },
+        "selectCategory": "اختر فئات محددة",
         "name": "اسم القاعة",
         "namePlaceholder": "أدخل اسم القاعة",
+        "time": {
+            "title": "الوقت",
+            "hallDate": "تاريخ القاعة",
+            "hallDatePlaceholder": "اختر التاريخ",
+            "startingTime": "وقت البدء",
+            "startingTimePlaceholder": "اختر الوقت",
+            "itemDuration": "مدة العنصر",
+            "itemDurationPlaceholder": "اختر المدة بالدقائق",
+            "mins": "دقيقة"
+        },
         "errors": {
             "nameRequired": "اسم القاعة مطلوب",
             "statusRequired": "الحالة مطلوبة",
             "sortOrderRequired": "ترتيب العرض مطلوب",
             "imageRequired": "صورة الغلاف مطلوبة",
-            "invalidImageUrl": "رابط الصورة غير صالح"
+            "invalidImageUrl": "رابط الصورة غير صالح",
+            "categoryRequired": "مطلوب فئة واحدة على الأقل",
+            "hallDateRequired": "تاريخ القاعة مطلوب",
+            "startingTimeRequired": "وقت البدء مطلوب",
+            "itemDurationRequired": "مدة العنصر مطلوبة",
+            "onlyDraftEditable": "يمكن تعديل القاعات المسودة فقط",
+            "notEditable": "القاعة غير قابلة للتعديل"
         },
         "details": {
             "title": "تفاصيل القاعة",

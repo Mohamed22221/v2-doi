@@ -55,6 +55,7 @@ export function useAssignedAuctionsTableColumns() {
                         <TwoLineText
                             title={item.product?.title ?? '—'}
                             subtitle={item.id}
+                            titleLabel={t('halls.details.table.columns.item')}
                             size="sm"
                         />
                     )

@@ -9,6 +9,7 @@
         "cancelChanges": "Cancel Changes",
         "dropImage": "Drop your image here, or",
         "browse": "browse",
+        "uploadCoverImage": "Upload Cover Image",
         "supportFormats": "Support: jpeg, png, webp",
         "loading": "Loading",
         "add": "Add",
@@ -42,7 +43,9 @@
         "pricingAndStock": "Pricing & Stock",
         "availableQuantity": "Available Quantity",
         "sellerName": "Seller Name",
-        "somethingWentWrong": "Something went wrong"
+        "somethingWentWrong": "Something went wrong",
+        "saveAsDraft": "Save as Draft",
+        "noDataShort": "Not Found"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -1650,6 +1653,9 @@
         "descriptionPlaceholder": "Enter Description",
         "mediaAssets": "Media Assets",
         "coverImage": "COVER IMAGE",
+        "upload": {
+            "success": "Image uploaded successfully"
+        },
         "publishing": "Publishing",
         "activeStatus": "Status",
         "sortOrder": "Sort Order",
@@ -1658,14 +1664,35 @@
         "parentHall": "Parent Category",
         "subHall": "Sub Category",
         "selectParent": "Select Parent Category",
+        "categories": {
+            "all": "All",
+            "specific": "Specific Categories"
+        },
+        "selectCategory": "Select Specific Categories",
         "name": "Hall Name",
         "namePlaceholder": "Enter Hall Name",
+        "time": {
+            "title": "Time",
+            "hallDate": "Hall Date",
+            "hallDatePlaceholder": "Select Date",
+            "startingTime": "Starting Time",
+            "startingTimePlaceholder": "Select Time",
+            "itemDuration": "Item Duration",
+            "itemDurationPlaceholder": "Select Duration in mins",
+            "mins": "mins"
+        },
         "errors": {
             "nameRequired": "Hall name is required",
             "statusRequired": "Status is required",
             "sortOrderRequired": "Sort order is required",
             "imageRequired": "Cover image is required",
-            "invalidImageUrl": "Invalid image URL"
+            "invalidImageUrl": "Invalid image URL",
+            "categoryRequired": "At least one category is required",
+            "hallDateRequired": "Hall date is required",
+            "startingTimeRequired": "Starting time is required",
+            "itemDurationRequired": "Item duration is required",
+            "onlyDraftEditable": "Only draft halls can be edited",
+            "notEditable": "Hall is not editable"
         },
         "details": {
             "title": "Hall Details",

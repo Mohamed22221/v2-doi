@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Breadcrumb, toast, Notification } from '@/components/ui'
+import { Breadcrumb } from '@/components/ui'
 import AssignedAuctionsTable from './components/AssignedAuctionsTable'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import AssignLiveAuctionsModal from './components/AssignLiveAuctionsModal'
@@ -8,7 +8,6 @@ import HallActionModal from './components/HallActionModal'
 import type { HallActionType } from './components/HallActionModal'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useGetHallById } from '@/api/hooks/halls'
-import { Skeleton } from '@/components/ui'
 import HallDetailsSkeleton from './components/HallDetailsSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
 
@@ -20,22 +19,9 @@ const HallDetailsPage = () => {
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [hallActionType, setHallActionType] = useState<HallActionType | null>(null)
-    const currentLang = i18n.language
-
     const { hall, isLoading, isError, errorMessage } = useGetHallById(id || "")
-    const name = currentLang === 'ar' ? hall?.nameAr : hall?.nameEn
+    const name = hall?.translations?.[0]?.name
 
-    const handleAssign = (selectedIds: string[]) => {
-        console.log('Assigned IDs:', selectedIds)
-        toast.push(
-            <Notification
-                title={t('common.success') || 'Success'}
-                type="success"
-            >
-                {selectedIds.length} auctions have been assigned successfully.
-            </Notification>,
-        )
-    }
 
 
 
@@ -63,7 +49,7 @@ const HallDetailsPage = () => {
                         <HallDetailsHeader
                             hall={hall}
                             onAssignAuctions={() => setIsModalOpen(true)}
-                            onSchedule={() => setHallActionType('schedule')}
+                            onSchedule={() => navigate(`/halls/${id}/edit`)}
                             onDelete={() => setHallActionType('delete')}
                         />
                     )
@@ -76,7 +62,7 @@ const HallDetailsPage = () => {
             <AssignLiveAuctionsModal
                 isOpen={isModalOpen}
                 onOpenChange={setIsModalOpen}
-                hallName={name || hall?.nameEn || ""}
+                hallName={name || ""}
                 hallId={id || ""}
             />
 

@@ -21,16 +21,16 @@ export function useHallsTableColumns() {
         return [
             {
                 header: t('halls.table.columns.hallName'),
-                accessorKey: 'name',
+                accessorKey: 'translations',
                 cell: ({ row }) => {
                     const name =
-                        lang === 'ar'
-                            ? row.original?.nameAr
-                            : row.original?.nameEn
+                        row.original.translations?.[0]?.name
                     return (
                         <TwoLineText
                             title={name}
                             subtitle={row.original?.id}
+                            titleLabel={t('halls.table.columns.hallName')}
+                            subtitleLabel={t('halls.table.columns.id')}
                             size="sm"
                         />
                     )
@@ -74,17 +74,18 @@ export function useHallsTableColumns() {
                 header: '',
                 id: 'actions',
                 cell: ({ row }) => (
-                    <div className="w-[160px] flex justify-end gap-2">
-                        <Button
+                    <div className="w-[90px]">
+                        {/* <Button
                             size="md"
                             variant="default"
                             icon={<HiOutlinePencil />}
                             onClick={() =>
                                 navigate(`/halls/${row.original.id}/edit`)
                             }
-                        />
+                        /> */}
                         <Button
                             size="md"
+                            shape="circle"
                             variant="default"
                             onClick={() =>
                                 navigate(`/halls/${row.original.id}`)

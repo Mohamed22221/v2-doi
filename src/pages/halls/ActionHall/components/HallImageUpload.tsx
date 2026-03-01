@@ -7,7 +7,7 @@ type Props = {
 }
 
 const HallImageUpload = ({
-    name = 'image',
+    name = 'coverImage',
     uploadType = 'complaint',
 }: Props) => {
     const { t } = useTranslation()
@@ -18,7 +18,7 @@ const HallImageUpload = ({
             uploadType={uploadType}
             tPrefix="halls"
             crop={true}
-            aspectRatio={16 / 9}
+            aspectRatio={4 / 3}
         />
     )
 }

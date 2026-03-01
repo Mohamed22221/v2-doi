@@ -35,6 +35,7 @@ export function useBrandsTableColumns({
                             imageSize="sm"
                             image={row.original.logoUrl}
                             title={name}
+                            titleLabel={t('brands.table.columns.brandName')}
                             size="sm"
                         />
                     )

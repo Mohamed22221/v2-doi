@@ -1,4 +1,7 @@
 import React from 'react'
+import TextEllipsis from '../TextEllipsis'
+import { Icon } from '@/components/ui'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
     /** Main line (big text) */
@@ -29,6 +32,10 @@ type Props = {
     className?: string
     titleClassName?: string
     subtitleClassName?: string
+    subtitleLabel?: string
+    titleLabel?: string
+    variant?: 'default' | 'danger'
+    trueImage?: boolean
 }
 
 /**
@@ -50,7 +57,17 @@ export default function TwoLineText({
     className = '',
     titleClassName = '',
     subtitleClassName = '',
+    titleLabel = '',
+    subtitleLabel = '',
+    trueImage = false,
 }: Props) {
+    const { t } = useTranslation()
+
+    const getNoDataText = (label?: string) => {
+        if (!label) return t('common.noDataShort') || 'لا يوجد'
+        return `${t('common.noDataShort') || 'لا يوجد'} ${label}`
+    }
+
     const sizes = {
         sm: { title: 'text-sm', subtitle: 'text-xs', gap: 'gap-0.5' },
         md: { title: 'text-base', subtitle: 'text-sm', gap: 'gap-1' },
@@ -62,7 +79,7 @@ export default function TwoLineText({
         md: 'w-10 h-10',
         lg: 'w-12 h-12',
     } as const
-
+    console.log(image)
     return (
         <div className={['flex gap-3', className].join(' ')}>
             {/* Image / Avatar */}
@@ -79,11 +96,21 @@ export default function TwoLineText({
                             crossOrigin="anonymous"
                         />
                     ) : (
-                        image
+                        <div className="flex-shrink-0">
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                <Icon name="assets" />
+                            </div>
+                        </div>
                     )}
                 </div>
             )}
-
+            {trueImage && image === undefined && (
+                <div className="flex-shrink-0">
+                    <div className="w-full h-full flex items-center justify-center text-gray-400 rounded-full">
+                        <Icon name="assets" />
+                    </div>
+                </div>
+            )}
             {/* Text */}
             <div className={[`flex ${subtitle ? "flex-col" : "items-center"}`, sizes[size].gap].join(' ')}>
                 <div
@@ -93,27 +120,34 @@ export default function TwoLineText({
                         titleClassName,
                     ].join(' ')}
                 >
-                    {title}
+                    {title || getNoDataText(titleLabel)}
                 </div>
 
-                {subtitle !== undefined && subtitle !== null && (
-                    <div
-                        className={[
-                            'text-gray-500 dark:text-gray-400 leading-snug',
-                            sizes[size].subtitle,
-                            subtitleClassName,
-                        ].join(' ')}
-                    >
-                        {subtitlePrefix ? (
+                <div
+                    className={[
+                        'text-gray-500 dark:text-gray-400 leading-snug',
+                        sizes[size].subtitle,
+                        subtitleClassName,
+                    ].join(' ')}
+                >
+                    {subtitle && (
+                        subtitlePrefix ? (
                             <>
                                 <span className="mr-1">{subtitlePrefix}</span>
-                                <span>{subtitle}</span>
+                                <TextEllipsis
+                                    text={String(subtitle)}
+                                    maxTextCount={25}
+                                />
                             </>
                         ) : (
-                            subtitle
-                        )}
-                    </div>
-                )}
+                            <TextEllipsis
+                                text={String(subtitle)}
+                                maxTextCount={25}
+                            />
+                        )
+                    )}
+                    {/* {!subtitle && getNoDataText(subtitleLabel)} */}
+                </div>
             </div>
         </div>
     )

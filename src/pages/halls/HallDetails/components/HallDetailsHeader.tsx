@@ -20,21 +20,20 @@ const HallDetailsHeader = ({
     onDelete,
 }: HallDetailsHeaderProps) => {
     const { t, i18n } = useTranslation()
-    const currentLang = i18n.language
-
-    const name = currentLang === 'ar' ? hall.nameAr : hall.nameEn
-    const description = currentLang === 'ar' ? hall.descriptionAr : hall.descriptionEn
+    const name = hall.translations?.[0]?.name
+    const description = hall.translations?.[0]?.description
 
 
     return (
         <BackgroundRounded>
             <div className="flex flex-col md:flex-row md:mx-4 items-center gap-1">
                 <div className="w-[250px] h-[200px] md:w-[250px] md:h-[200px] rounded-[10px] sm:rounded-[12px] overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
-                    {hall?.image ? (
+                    {hall?.coverImage ? (
                         <img
-                            src={hall.image}
-                            alt={hall.title ?? ''}
+                            src={hall.coverImage}
+                            alt={name ?? ''}
                             className="w-full h-full object-cover"
+                            crossOrigin="anonymous"
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
@@ -59,10 +58,10 @@ const HallDetailsHeader = ({
                         <span className="font-medium text-primary-1000 dark:text-primary-100 text-sm">
                             {hall.id}
                         </span>
-                        <span className="text-gray-400">•</span>
-                        <p className="text-sm text-black dark:text-gray-400">
+                        {description && <span className="text-gray-400">•</span>}
+                        {description && <p className="text-sm text-black dark:text-gray-400">
                             {description}
-                        </p>
+                        </p>}
                     </div>
                     <div className="flex flex-wrap items-center gap-2 mt-2 sm:gap-3">
                         {hall.visibilityStatus === 'DRAFT' ? (

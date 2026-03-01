@@ -24,9 +24,8 @@ export const getStatusVariant = (status: HallVisibilityStatus): StatusVariant =>
         case 'ARCHIVED':
             return 'warning'
         case 'HIDDEN':
-            return 'neutral'
         case 'DRAFT':
-            return 'info'
+            return 'neutral'
         default:
             return 'neutral'
     }

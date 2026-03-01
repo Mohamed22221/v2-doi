@@ -96,6 +96,10 @@ export default function HallsTable() {
                         label: t('halls.table.status.hidden'),
                         value: 'HIDDEN',
                     },
+                    {
+                        label: t('halls.table.status.draft'),
+                        value: 'DRAFT',
+                    },
                 ],
                 placeholder: t('halls.table.filters.allStatus'),
             },

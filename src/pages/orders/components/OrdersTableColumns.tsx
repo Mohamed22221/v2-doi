@@ -22,6 +22,7 @@ export function useOrdersTableColumns() {
                 cell: ({ row }) => (
                     <TwoLineText
                         title={row.original.id}
+                        titleLabel={t('orders.table.columns.orderId')}
                         size="sm"
                     />
                 ),
@@ -38,6 +39,8 @@ export function useOrdersTableColumns() {
                     <TwoLineText
                         title={row.original.buyer}
                         subtitle={row.original.buyerPhone}
+                        titleLabel={t('orders.table.columns.buyer')}
+                        subtitleLabel={t('orders.table.columns.phone')}
                         size="sm"
                     />
                 ),
