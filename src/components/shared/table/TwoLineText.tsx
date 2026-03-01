@@ -98,17 +98,20 @@ export default function TwoLineText({
                     ) : (
                         <div className="flex-shrink-0">
                             <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                <Icon name="assets" />
+                                <Icon name="camera" />
                             </div>
                         </div>
                     )}
                 </div>
             )}
             {trueImage && image === undefined && (
-                <div className="flex-shrink-0">
-                    <div className="w-full h-full flex items-center justify-center text-gray-400 rounded-full">
-                        <Icon name="assets" />
-                    </div>
+                <div
+                    className={[
+                        'flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center rounded-full',
+                        imageSizes[imageSize]
+                    ].join(' ')}
+                >
+                    <Icon name="camera" className="text-neutral-400" />
                 </div>
             )}
             {/* Text */}

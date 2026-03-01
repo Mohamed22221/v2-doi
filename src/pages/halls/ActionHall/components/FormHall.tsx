@@ -7,7 +7,6 @@ import dayjs from 'dayjs'
 // UI
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
-import Switcher from '@/components/ui/Switcher'
 import {
     Notification,
     toast,
@@ -41,7 +40,7 @@ import {
 import { getApiErrorMessage } from '@/api/error'
 
 // Types
-import type { HallVisibilityStatus, HallPayload } from '@/api/types/halls'
+import type { HallVisibilityStatus } from '@/api/types/halls'
 
 type FormValues = {
     name: string

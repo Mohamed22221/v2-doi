@@ -42,7 +42,7 @@ export function useSellerTableColumns() {
                         titleLabel={t('sellers.table.columns.name')}
                         subtitleLabel={t('sellers.table.columns.idPrefix')}
                         size="sm"
-                        trueImage={true}
+                    // trueImage={true}
                     />
                 ),
             },

@@ -20,6 +20,7 @@ export interface MainHall {
     extensionSeconds: number
     visibilityStatus: HallVisibilityStatus
     scheduledStartTime: string // ISO
+    category: Category
 }
 
 export interface HallItemDetails extends MainHall {
