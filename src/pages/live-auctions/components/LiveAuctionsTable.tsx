@@ -59,7 +59,7 @@ export default function LiveAuctionsTable() {
                     { label: t('halls.table.status.cancelled'), value: 'CANCELLED' },
                     { label: t('halls.table.status.draft'), value: 'DRAFT' },
                     { label: t('halls.table.status.archived'), value: 'ARCHIVED' },
-                    { label: t('halls.table.status.settled'), value: 'SETTLED' },
+                    { label: t('halls.table.status.settled'), value: 'SETTELD' },
 
                 ],
                 placeholder: t('liveAuctions.table.filters.allStatus'),

@@ -15,6 +15,7 @@ import { Product } from '@/api/types/products'
 // Local Components
 import { getStatusLabel, getStatusVariant } from './GetStatusLabel'
 import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
+import SellerNameCell from '@/components/helpers/SellerNameCell'
 
 
 /**
@@ -50,13 +51,9 @@ export function useFixedPriceTableColumns() {
             {
                 header: t('fixedPrice.table.columns.seller'),
                 accessorKey: 'user',
-                cell: ({ row }) => {
-                    const user = row.original.user
-                    if (user?.firstName || user?.lastName) {
-                        return `${user.firstName || ''} ${user.lastName || ''}`.trim()
-                    }
-                    return row.original.userId
-                },
+                cell: ({ row }) => (
+                    <SellerNameCell user={row.original.user} />
+                ),
             },
             // Category Column (Name + Image)
             // Displays the category name (translated) and its image.

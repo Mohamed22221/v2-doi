@@ -10,11 +10,11 @@ import Button from '@/components/ui/Button'
 import { getLiveAuctionStatusLabel, getLiveAuctionStatusVariant } from './GetStatusLabel'
 import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
 import { Category } from '@/api/types/categories'
+import SellerNameCell from '@/components/helpers/SellerNameCell'
 
 export function useLiveAuctionsTableColumns() {
     const navigate = useNavigate()
-    const { t, i18n } = useTranslation()
-    const pageLanguage = i18n.language
+    const { t } = useTranslation()
 
     return useMemo<ColumnDef<HallItem>[]>(() => {
         return [
@@ -37,20 +37,9 @@ export function useLiveAuctionsTableColumns() {
             {
                 header: t('liveAuctions.table.columns.seller'),
                 accessorKey: 'seller',
-                cell: ({ row }) => {
-                    const seller = row.original.product?.user?.seller
-                    if (!seller) return <span className="text-gray-400">—</span>
-                    return (
-                        <Link to={`/sellers/${row.original.product?.user?.id}`} className="hover:underline">
-                            <TwoLineText
-                                title={seller.businessName}
-                                titleLabel={t('liveAuctions.table.columns.seller')}
-                                size="sm"
-                            />
-                        </Link>
-
-                    )
-                },
+                cell: ({ row }) => (
+                    <SellerNameCell user={row.original.product?.user} />
+                ),
             },
             // 3 — Hall (localised name)
             {
@@ -82,7 +71,7 @@ export function useLiveAuctionsTableColumns() {
                     />
                 ),
             },
-            // 6 — Created At — same position (replaces dateRange since hall items have createdAt)
+            // 6 — Created At
             {
                 header: t('liveAuctions.table.columns.dateRange'),
                 accessorKey: 'createdAt',
@@ -94,7 +83,7 @@ export function useLiveAuctionsTableColumns() {
                     )
                 },
             },
-            // 7 — Actions — same position
+            // 7 — Actions
             {
                 header: '',
                 id: 'actions',
@@ -114,5 +103,5 @@ export function useLiveAuctionsTableColumns() {
                 ),
             },
         ]
-    }, [navigate, t, pageLanguage ])
+    }, [navigate, t])
 }
