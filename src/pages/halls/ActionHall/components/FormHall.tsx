@@ -1,46 +1,43 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Field, FieldProps, Form, Formik } from 'formik'
 import dayjs from 'dayjs'
+import classNames from 'classnames'
 
-// UI
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+// UI Components
 import {
+    Button,
+    Input,
     Notification,
     toast,
     Radio,
     FormContainer,
     FormItem,
 } from '@/components/ui'
-import classNames from 'classnames'
+import Icon from '@/components/ui/Icon/Icon'
 
-// Validation
-import getHallValidationSchema from './schema'
-
-// Components
-import HallImageUpload from './HallImageUpload'
+// Shared & Helper Components
 import FormHallSkeleton from './FormHallSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
-import Icon from '@/components/ui/Icon/Icon'
 import LanguageSelect from '@/components/helpers/LanguageSelect'
 import CategorySelect from '@/components/helpers/CategoriesSelect'
 import RegionsSelect from '@/components/helpers/RegionsSelect'
+import HallImageUpload from './HallImageUpload'
 import TimeSection from './TimeSection'
 
-// API hooks
-import {
-    useGetHallById,
-    useCreateHall,
-    useUpdateHall,
-} from '@/api/hooks/halls'
+// Hooks & API
+import { useGetHallById, useCreateHall, useUpdateHall } from '@/api/hooks/halls'
 import { getApiErrorMessage } from '@/api/error'
+import getHallValidationSchema from './schema'
 
 // Types
-import type { HallVisibilityStatus } from '@/api/types/halls'
+import type { HallVisibilityStatus, MainHall, HallItemDetails } from '@/api/types/halls'
+import { LanguageCode } from '@/api/types/common'
+
+// --- Types & Constants ---
 
 type FormValues = {
     name: string
@@ -58,231 +55,252 @@ type FormValues = {
     visibilityStatus: HallVisibilityStatus
 }
 
+const DEFAULT_INITIAL_VALUES: FormValues = {
+    name: '',
+    description: '',
+    categorySelectionType: 'all',
+    categoryIds: [],
+    regionId: null,
+    coverImage: '',
+    language: 'en',
+    localTranslations: {},
+    hallDate: null,
+    startingTime: '',
+    itemDuration: '',
+    extensionMinutes: 0,
+    visibilityStatus: 'DRAFT',
+}
+
+// --- Helper Functions ---
+
+const transformToPayload = (values: FormValues): MainHall => {
+    // 1. Prepare translations
+    const finalStore = {
+        ...values.localTranslations,
+        [values.language]: {
+            name: values.name,
+            description: values.description,
+        },
+    }
+
+    const translations = Object.entries(finalStore)
+        .filter(([, v]) => v.name?.trim() || v.description?.trim())
+        .map(([languageCode, v]) => ({
+            languageCode: languageCode.toUpperCase() as LanguageCode,
+            name: v.name || '',
+            description: v.description || '',
+        }))
+
+    // 2. Handle Date & Time
+    let scheduledStartTime: string | undefined = undefined
+    if (values.hallDate && values.startingTime) {
+        const combined = dayjs(
+            `${dayjs(values.hallDate).format('YYYY-MM-DD')}T${values.startingTime}:00`,
+        )
+        if (combined.isValid()) {
+            scheduledStartTime = combined.toISOString()
+        }
+    }
+
+    // 3. Durations
+    const itemBiddingDurationSeconds = values.itemDuration
+        ? Number(values.itemDuration) * 60
+        : undefined
+
+    const payload: MainHall = {
+        translations,
+        coverImage: values.coverImage || undefined,
+        categoryIds: values.categorySelectionType === 'all' ? [] : values.categoryIds || [],
+        regionId: values.regionId || '',
+        visibilityStatus: values.visibilityStatus,
+        extensionSeconds: 0,
+    }
+
+    if (itemBiddingDurationSeconds !== undefined && itemBiddingDurationSeconds >= 10) {
+        payload.itemBiddingDurationSeconds = itemBiddingDurationSeconds
+    }
+
+    if (scheduledStartTime) {
+        payload.scheduledStartTime = scheduledStartTime
+    }
+
+    return payload
+}
+
+const getInitialValues = (hall: HallItemDetails | undefined, currentLanguage: LanguageCode): FormValues => {
+    if (!hall) return { ...DEFAULT_INITIAL_VALUES, language: currentLanguage }
+
+    const translations =
+        hall.translations?.reduce<Record<string, { name: string; description: string }>>(
+            (acc, t) => {
+                const lang = t.languageCode.toLowerCase()
+                acc[lang] = { name: t.name, description: t.description || '' }
+                return acc
+            },
+            {},
+        ) || {}
+
+    const currentTranslation = hall.translations?.find(
+        (t) => t.languageCode.toLowerCase() === currentLanguage,
+    )
+
+    return {
+        ...DEFAULT_INITIAL_VALUES,
+        name: currentTranslation?.name || '',
+        description: currentTranslation?.description || '',
+        categorySelectionType: hall.categories && hall.categories.length > 0 ? 'specific' : 'all',
+        categoryIds: hall.categories?.map((cat) => cat.id) || [],
+        regionId: hall.regionId ?? null,
+        coverImage: hall.coverImage ?? '',
+        language: currentLanguage,
+        localTranslations: translations,
+        hallDate: hall.scheduledStartTime ? new Date(hall.scheduledStartTime) : null,
+        startingTime: hall.scheduledStartTime ? dayjs(hall.scheduledStartTime).format('HH:mm') : '',
+        itemDuration: hall.itemBiddingDurationSeconds ? hall.itemBiddingDurationSeconds / 60 : '',
+        visibilityStatus: hall.visibilityStatus ?? 'DRAFT',
+    }
+}
+
+// --- Sub-components ---
+
+interface FormActionsProps {
+    isUpdateMode: boolean
+    submitting: boolean
+    currentStatus: HallVisibilityStatus
+    onCancel: () => void
+    setFieldValue: (field: string, value: unknown, shouldValidate?: boolean) => void
+    submitForm: () => Promise<void>
+}
+
+const FormActions = ({
+    isUpdateMode,
+    submitting,
+    currentStatus,
+    onCancel,
+    setFieldValue,
+    submitForm,
+}: FormActionsProps) => {
+    const { t } = useTranslation()
+
+    const handleAction = (status: HallVisibilityStatus) => {
+        setFieldValue('visibilityStatus', status)
+        setTimeout(() => submitForm(), 0)
+    }
+
+    return (
+        <div className="mt-4 flex gap-3">
+            <Button
+                variant="solid"
+                type="button"
+                loading={submitting && currentStatus === 'ARCHIVED'}
+                disabled={submitting}
+                onClick={() => handleAction('ARCHIVED')}
+            >
+                {isUpdateMode ? t('halls.update.submit') : t('halls.create.submit')}
+            </Button>
+            <Button
+                type="button"
+                variant="plain"
+                className="border-[2px] !border-primary-200 hover:border-primary-200"
+                loading={submitting && currentStatus === 'DRAFT'}
+                disabled={submitting}
+                onClick={() => handleAction('DRAFT')}
+            >
+                {t('common.saveAsDraft')}
+            </Button>
+            <Button type="button" disabled={submitting} onClick={onCancel}>
+                {t('common.cancelChanges')}
+            </Button>
+        </div>
+    )
+}
+
+// --- Main Component ---
+
 const FormHall = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const isUpdateMode = Boolean(id)
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const currentLanguage = i18n.language as LanguageCode
 
-    // Fetch hall details for edit mode
-    const {
-        hall: hallDetails,
-        isLoading,
-        isError,
-        error,
-    } = useGetHallById(id as string)
-
+    const { hall: hallDetails, isLoading, isError, error } = useGetHallById(id as string)
     const { mutateAsync: createHall, isPending: isCreating } = useCreateHall()
     const { mutateAsync: updateHall, isPending: isUpdating } = useUpdateHall()
 
-    const [hallType, setHallType] = useState<'main' | 'sub'>('main')
+    useEffect(() => {
+        if (isUpdateMode && hallDetails && hallDetails.visibilityStatus !== 'DRAFT') {
+            toast.push(<Notification title={t('halls.errors.onlyDraftEditable')} type="danger" />)
+            navigate('/halls')
+        }
+    }, [isUpdateMode, hallDetails, navigate, t])
 
-    const initialValues: FormValues = {
-        name: '',
-        description: '',
-        categorySelectionType: 'all',
-        categoryIds: [],
-        regionId: null,
-        coverImage: '',
-        language: 'en',
-        localTranslations: {},
-        hallDate: null,
-        startingTime: '',
-        itemDuration: '',
-        extensionMinutes: 0,
-        visibilityStatus: 'DRAFT',
-    }
-
-    const handleSubmit = async (
-        values: FormValues,
-        setSubmitting: (v: boolean) => void,
-    ) => {
+    const handleSubmit = async (values: FormValues, setSubmitting: (v: boolean) => void) => {
         try {
-            // Final sync: save current visible fields to the store
-            const finalStore = {
-                ...values.localTranslations,
-                [values.language]: {
-                    name: values.name,
-                    description: values.description,
-                },
-            }
-
-            // Transform buffer into translations array
-            const translations = Object.entries(finalStore)
-                .filter(([, v]) => v.name?.trim() || v.description?.trim())
-                .map(([languageCode, v]) => ({
-                    languageCode: languageCode.toUpperCase() as any,
-                    name: v.name || '',
-                    description: v.description || '',
-                }))
-
-            // Merge Date and Time into ISO string
-            let scheduledStartTime: string | undefined = undefined
-            if (values.hallDate && values.startingTime) {
-                const combined = dayjs(`${dayjs(values.hallDate).format('YYYY-MM-DD')}T${values.startingTime}:00`)
-                if (combined.isValid()) {
-                    scheduledStartTime = combined.toISOString()
-                }
-            }
-
-            const itemBiddingDurationSeconds = values.itemDuration ? Number(values.itemDuration) * 60 : undefined
-            const extensionSeconds = values.extensionMinutes ? Number(values.extensionMinutes) * 60 : 0
-
-            const payload: any = {
-                translations,
-                coverImage: values.coverImage || undefined,
-                categoryId: values.categoryIds?.[0] || undefined,
-                regionId: values.regionId || undefined,
-                visibilityStatus: values.visibilityStatus,
-                extensionSeconds,
-            }
-
-            // Only add these if they meet backend requirements
-            if (itemBiddingDurationSeconds !== undefined && itemBiddingDurationSeconds >= 10) {
-                payload.itemBiddingDurationSeconds = itemBiddingDurationSeconds
-            }
-
-            if (scheduledStartTime) {
-                payload.scheduledStartTime = scheduledStartTime
-            }
+            const payload = transformToPayload(values)
 
             if (isUpdateMode && id) {
                 await updateHall({ id, data: payload })
-                toast.push(
-                    <Notification
-                        title={t('halls.update.success')}
-                        type="success"
-                    />,
-                )
+                toast.push(<Notification title={t('halls.update.success')} type="success" />)
             } else {
                 await createHall(payload)
-                toast.push(
-                    <Notification
-                        title={t('halls.create.success')}
-                        type="success"
-                    />,
-                )
+                toast.push(<Notification title={t('halls.create.success')} type="success" />)
             }
             navigate('/halls')
         } catch (error) {
-            toast.push(
-                <Notification
-                    title={getApiErrorMessage(error)}
-                    type="danger"
-                />,
-            )
+            toast.push(<Notification title={getApiErrorMessage(error)} type="danger" />)
         } finally {
             setSubmitting(false)
         }
     }
 
-    const getOptionClasses = (
-        option: string,
-        currentValue: string,
-        baseClassName: string = '',
-    ) => {
-        const isActive = currentValue === option
+    if (isUpdateMode && isLoading) return <FormHallSkeleton />
+    if (isUpdateMode && isError) return <ErrorState message={error?.message} fullPage={true} />
 
-        return classNames(
+    const optionClasses = (option: string, current: string, extra: string = '') =>
+        classNames(
             'border rounded-xl p-4 transition-all cursor-pointer flex items-start gap-4',
-            isActive
+            current === option
                 ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20'
                 : 'border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 hover:border-neutral-200 dark:hover:border-neutral-700',
-            baseClassName,
+            extra,
         )
-    }
-
-
-
-    useEffect(() => {
-        if (isUpdateMode && hallDetails) {
-            // parentId-based hall type detection
-            // (no parentId field on API yet, so default to main)
-            setHallType('main')
-        }
-    }, [hallDetails, isUpdateMode])
-
-    useEffect(() => {
-        if (isUpdateMode && hallDetails && hallDetails.visibilityStatus !== 'DRAFT') {
-            toast.push(
-                <Notification
-                    title={t('halls.errors.onlyDraftEditable')}
-                    type="danger"
-                />,
-            )
-            navigate('/halls')
-        }
-    }, [isUpdateMode, hallDetails, navigate, t])
-
-
-    if (isUpdateMode && isLoading) return <FormHallSkeleton />
-    if (isUpdateMode && isError) return <ErrorState message={(error as any)?.message} fullPage={true} />
-
 
     return (
         <Formik
             enableReinitialize
-            initialValues={
-                (isUpdateMode && hallDetails
-                    ? {
-                        ...initialValues,
-                        categorySelectionType: hallDetails.categoryId ? 'specific' : 'all' as 'all' | 'specific',
-                        categoryIds: hallDetails.categoryId ? [hallDetails.categoryId] : [],
-                        regionId: hallDetails.regionId ?? null,
-                        coverImage: hallDetails.coverImage ?? '',
-                        localTranslations:
-                            hallDetails.translations?.reduce(
-                                (acc: Record<string, { name: string; description: string }>, t) => {
-                                    const lang = t.languageCode.toLowerCase()
-                                    acc[lang] = {
-                                        name: t.name,
-                                        description: t.description || '',
-                                    }
-                                    return acc
-                                },
-                                {},
-                            ) ?? {},
-                        language: 'en',
-                        name: hallDetails.translations?.find(t => t.languageCode.toLowerCase() === 'en')?.name || '',
-                        description: hallDetails.translations?.find(t => t.languageCode.toLowerCase() === 'en')?.description || '',
-                        hallDate: hallDetails.scheduledStartTime ? new Date(hallDetails.scheduledStartTime) : null,
-                        startingTime: hallDetails.scheduledStartTime ? dayjs(hallDetails.scheduledStartTime).format('HH:mm') : '',
-                        itemDuration: hallDetails.itemBiddingDurationSeconds ? hallDetails.itemBiddingDurationSeconds / 60 : '',
-                        extensionMinutes: 0,
-                        visibilityStatus: hallDetails.visibilityStatus ?? 'DRAFT',
-                    }
-                    : initialValues) as FormValues
-            }
+            initialValues={getInitialValues(hallDetails, currentLanguage)}
             validationSchema={getHallValidationSchema(t)}
-            onSubmit={(values, { setSubmitting }) => {
-                console.log(values)
-                handleSubmit(values, setSubmitting)
-
-            }
-            }
+            onSubmit={(values, { setSubmitting }) => handleSubmit(values, setSubmitting)}
         >
-            {({
-                touched,
-                errors,
-                isSubmitting,
-                setFieldValue,
-                setValues,
-                values,
-                submitForm,
-            }) => {
+            {({ touched, errors, isSubmitting, setFieldValue, setValues, values, submitForm }) => {
                 const submitting = isSubmitting || isCreating || isUpdating
 
-                const initialCategoryOptions = React.useMemo(() =>
-                    hallDetails?.category ? [hallDetails.category] : [],
-                    [hallDetails?.category]
-                )
+                const onLanguageChange = (lang: string | null) => {
+                    if (!lang) return
+                    const updatedStore = {
+                        ...values.localTranslations,
+                        [values.language]: { name: values.name, description: values.description },
+                    }
+                    const next = updatedStore[lang]
+                    setValues(
+                        {
+                            ...values,
+                            localTranslations: updatedStore,
+                            language: lang,
+                            name: next?.name ?? '',
+                            description: next?.description ?? '',
+                        },
+                        true,
+                    )
+                }
 
                 return (
                     <Form>
                         <FormContainer>
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                {/* Left Column - General Information & Media Assets (lg:col-span-2) */}
                                 <div className="lg:col-span-2 space-y-4">
+                                    {/* General Information */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('halls.generalInformation')}
@@ -290,38 +308,15 @@ const FormHall = () => {
                                             rightSlot={
                                                 <LanguageSelect
                                                     value={values.language}
-                                                    onChange={(lang) => {
-                                                        if (!lang) return
-
-                                                        const updatedStore: Record<string, { name: string; description: string }> = {
-                                                            ...values.localTranslations,
-                                                            [values.language]: {
-                                                                name: values.name,
-                                                                description: values.description,
-                                                            },
-                                                        }
-
-                                                        const next = updatedStore[lang]
-                                                        setValues(
-                                                            {
-                                                                ...values,
-                                                                localTranslations: updatedStore,
-                                                                language: lang,
-                                                                name: next?.name ?? '',
-                                                                description: next?.description ?? '',
-                                                            },
-                                                            true,
-                                                        )
-                                                    }}
+                                                    onChange={onLanguageChange}
                                                 />
                                             }
                                         />
-
                                         <div className="pt-3">
                                             <FormItem
                                                 asterisk
                                                 label={t('halls.name')}
-                                                invalid={Boolean(touched.name && errors.name)}
+                                                invalid={!!(touched.name && errors.name)}
                                                 errorMessage={errors.name}
                                             >
                                                 <Field
@@ -334,20 +329,18 @@ const FormHall = () => {
                                             <FormItem
                                                 asterisk
                                                 label={t('locations.cities.modal.fields.regionLabel')}
-                                                invalid={Boolean(touched.regionId && errors.regionId)}
+                                                invalid={!!(touched.regionId && errors.regionId)}
                                                 errorMessage={errors.regionId}
                                             >
                                                 <RegionsSelect
                                                     value={values.regionId}
                                                     onChange={(val) => setFieldValue('regionId', val)}
                                                     placeholder={t('locations.cities.modal.fields.regionPlaceholder')}
-                                                    size='md'
+                                                    size="md"
                                                 />
                                             </FormItem>
 
-                                            <FormItem
-                                                label={t('halls.description')}
-                                            >
+                                            <FormItem label={t('halls.description')}>
                                                 <Field name="description">
                                                     {({ field }: FieldProps) => (
                                                         <Input
@@ -362,6 +355,7 @@ const FormHall = () => {
                                         </div>
                                     </BackgroundRounded>
 
+                                    {/* Media Assets */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('halls.mediaAssets')}
@@ -369,42 +363,33 @@ const FormHall = () => {
                                         />
                                         <div className="space-y-3 py-3">
                                             <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                                                <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">
-                                                    *
-                                                </span>
+                                                <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">*</span>
                                                 {t('halls.coverImage')} (4:3)
                                             </label>
                                             <HallImageUpload />
-
                                         </div>
                                     </BackgroundRounded>
-
-                                    {/* <TimeSection /> */}
                                 </div>
 
-                                {/* Right Column - Publishing & Classification (lg:col-span-1) */}
                                 <div className="lg:col-span-1 space-y-4">
                                     <TimeSection />
+
+                                    {/* Classification */}
                                     <BackgroundRounded className="px-6">
                                         <HeaderInformation
                                             title={t('halls.classification')}
                                             icon={<Icon name="classification" />}
                                         />
-
                                         <div className="py-3">
                                             <Radio.Group
                                                 vertical
                                                 value={values.categorySelectionType}
-                                                onChange={(val) => {
-                                                    setFieldValue('categorySelectionType', val)
-                                                }}
+                                                onChange={(val) => setFieldValue('categorySelectionType', val)}
                                                 className="w-full space-y-4"
                                             >
                                                 <div
-                                                    className={getOptionClasses('all', values.categorySelectionType)}
-                                                    onClick={() => {
-                                                        setFieldValue('categorySelectionType', 'all')
-                                                    }}
+                                                    className={optionClasses('all', values.categorySelectionType)}
+                                                    onClick={() => setFieldValue('categorySelectionType', 'all')}
                                                 >
                                                     <div className="flex gap-4 w-full">
                                                         <Radio value="all" />
@@ -415,7 +400,7 @@ const FormHall = () => {
                                                 </div>
 
                                                 <div
-                                                    className={getOptionClasses('specific', values.categorySelectionType, 'flex-col')}
+                                                    className={optionClasses('specific', values.categorySelectionType, 'flex-col')}
                                                     onClick={() => setFieldValue('categorySelectionType', 'specific')}
                                                 >
                                                     <div className="flex gap-4 w-full">
@@ -439,8 +424,6 @@ const FormHall = () => {
                                                                 size="sm"
                                                                 placeholder={t('halls.selectCategory')}
                                                                 value={values.categoryIds}
-                                                                initialId={values.categoryIds}
-                                                                initialOption={initialCategoryOptions}
                                                                 menuPortalZ={400}
                                                                 onChange={(opt) => setFieldValue('categoryIds', opt ?? [])}
                                                             />
@@ -458,51 +441,19 @@ const FormHall = () => {
                                 </div>
                             </div>
 
-                            <div className="mt-4 flex gap-3">
-
-
-
-
-                                <Button
-                                    variant="solid"
-                                    type="button"
-                                    loading={submitting}
-                                    disabled={submitting}
-                                    onClick={() => {
-                                        setFieldValue('visibilityStatus', 'ARCHIVED')
-                                        setTimeout(() => submitForm(), 0)
-                                    }}
-                                >
-                                    {isUpdateMode
-                                        ? t('halls.update.submit')
-                                        : t('halls.create.submit')}
-                                </Button>
-                                <Button
-                                    type="button"
-                                    variant="plain"
-                                    className="border-[2px] !border-primary-200 hover:border-primary-200 bg-"
-                                    loading={submitting}
-                                    disabled={submitting}
-                                    onClick={() => {
-                                        setFieldValue('visibilityStatus', 'DRAFT')
-                                        setTimeout(() => submitForm(), 0)
-                                    }}
-                                >
-                                    {t('common.saveAsDraft')}
-                                </Button>
-                                <Button
-                                    type="button"
-                                    onClick={() => navigate(-1)}
-                                    disabled={submitting}
-                                >
-                                    {t('common.cancelChanges')}
-                                </Button>
-                            </div>
+                            <FormActions
+                                submitting={submitting}
+                                isUpdateMode={isUpdateMode}
+                                currentStatus={values.visibilityStatus}
+                                setFieldValue={setFieldValue}
+                                submitForm={submitForm}
+                                onCancel={() => navigate(-1)}
+                            />
                         </FormContainer>
-                    </Form >
+                    </Form>
                 )
             }}
-        </Formik >
+        </Formik>
     )
 }
 

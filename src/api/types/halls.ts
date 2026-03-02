@@ -14,13 +14,13 @@ export interface HallTranslation {
 export interface MainHall {
     translations: HallTranslation[]
     coverImage?: string
-    categoryId: string
+    categoryIds: string[]
     regionId: string
-    itemBiddingDurationSeconds: number
+    itemBiddingDurationSeconds?: number
     extensionSeconds: number
     visibilityStatus: HallVisibilityStatus
-    scheduledStartTime: string // ISO
-    category: Category
+    scheduledStartTime?: string // ISO
+    categories?: Category[]
 }
 
 export interface HallItemDetails extends MainHall {

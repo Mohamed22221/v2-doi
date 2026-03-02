@@ -4,11 +4,11 @@
   }
 
   .side-nav-expand {
-    @apply sticky top-0 h-screen ;
+    @apply sticky top-0 h-screen flex-shrink-0 z-20 transition-all ease-in-out duration-200 overflow-y-hidden print:hidden;
   }
 
   .side-nav-content {
-    height: calc(100vh - theme("spacing.16"));
+    height: calc(104vh - theme("spacing.16"));
     @apply overflow-y-auto;
   }
 
@@ -21,6 +21,6 @@
   }
 
   .side-nav-transparent {
-    @apply  bg-white dark:bg-primary-900;
+    @apply bg-white dark:bg-primary-900;
   }
 }
