@@ -1626,7 +1626,9 @@
                 "active": "نشط",
                 "archieved": "مؤرشف",
                 "hidden": "مخفي",
-                "draft": "مسودة"
+                "draft": "مسودة",
+                "scheduled": "مجدول",
+                "ended": "منتهي"
             },
             "filters": {
                 "status": "الحالة:",

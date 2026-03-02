@@ -6,15 +6,17 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Checkbox from '@/components/ui/Checkbox'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { getLiveAuctionStatusLabel, getLiveAuctionStatusVariant } from '../../../live-auctions/components/GetStatusLabel'
 import Icon from '@/components/ui/Icon'
-import { LiveAuctionStatus } from '@/api/types/live-auctions'
 import useWindowSize from '@/components/ui/hooks/useWindowSize'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 import { useGetAssignableAuctions, useAssignItemsToHall } from '@/api/hooks/halls'
 import type { AssignableAuctionItem } from '@/api/types/hall-auctions'
 import Spinner from '@/components/ui/Spinner'
-import { Select, toast, Notification } from '@/components/ui'
+import toast from '@/components/ui/toast'
+import Notification from '@/components/ui/Notification'
+import { getStatusVariant, getStatusLabel } from '@/pages/fixed-price/components/GetStatusLabel'
+import CategorySelect from '@/components/helpers/CategoriesSelect'
+import { getApiErrorMessage } from '@/api/error'
 
 interface AssignLiveAuctionsModalProps {
     isOpen: boolean
@@ -34,6 +36,7 @@ const AssignLiveAuctionsModal = ({
     const { t } = useTranslation()
     const [searchValue, setSearchValue] = useState('')
     const [selectedIds, setSelectedIds] = useState<string[]>([])
+    const [categoryId, setCategoryId] = useState<string | null>(null)
     const debouncedSearch = useDebouncedValue(searchValue, 400)
 
     const windowSize = useWindowSize()
@@ -46,7 +49,7 @@ const AssignLiveAuctionsModal = ({
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
-    } = useGetAssignableAuctions(debouncedSearch, isOpen)
+    } = useGetAssignableAuctions(debouncedSearch, categoryId || undefined, isOpen)
 
     const { mutate: assignItems, isPending: isAssigning } = useAssignItemsToHall()
 
@@ -77,12 +80,10 @@ const AssignLiveAuctionsModal = ({
                 },
                 onError: (error) => {
                     toast.push(
-                        <Notification
-                            title={t('common.error') || 'Error'}
-                            type="danger"
-                        >
-                            {typeof error === 'string' ? error : (error as any)?.message || t('common.error')}
-                        </Notification>,
+                    <Notification
+                        title={getApiErrorMessage(error)}
+                        type="danger"
+                    />
                     )
                 }
             }
@@ -125,39 +126,39 @@ const AssignLiveAuctionsModal = ({
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-gray-500 uppercase whitespace-nowrap">
                             {t('halls.details.assignModal.filters.status')}:
                         </span>
                         <div className="flex-1">
-                            {/* <Select
+                             <Select
                                 size="sm"
                                 placeholder={t('halls.details.assignModal.filters.allStatus')}
                                 options={[]}
                                 value={statusFilter}
                                 onChange={(opt) => setStatusFilter(opt)}
-                            /> */}
+                            /> 
                         </div>
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-gray-500 uppercase whitespace-nowrap">
                             {t('halls.details.assignModal.filters.category')}:
                         </span>
                         <div className="flex-1">
-                            {/* <Select
-                                size="sm"
+                            <CategorySelect
+                                value={categoryId}
                                 placeholder={t('halls.details.assignModal.filters.allCategory')}
-                                options={[]}
-                                value={categoryFilter}
-                                onChange={(opt) => setCategoryFilter(opt)}
-                            /> */}
+                                size="sm"
+                                level={3}
+                                onChange={(val) => setCategoryId(val as string | null)}
+                            />
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-gray-500 uppercase whitespace-nowrap">
                             {t('halls.details.assignModal.filters.date')}:
                         </span>
-                        {/* <div className="flex-1">
+                        <div className="flex-1">
                             <Select
                                 size="sm"
                                 placeholder={t('halls.details.assignModal.filters.anytime')}
@@ -165,8 +166,8 @@ const AssignLiveAuctionsModal = ({
                                 value={dateFilter}
                                 onChange={(opt) => setDateFilter(opt)}
                             />
-                        </div> */}
-                    </div>
+                        </div> 
+                    </div> */}
                 </div>
 
                 <div className="sm:max-h-[380px] max-h-[300px] overflow-y-auto custom-scrollbar">
@@ -199,11 +200,12 @@ const AssignLiveAuctionsModal = ({
                                     checkboxClassOuter="h-[17px] w-[17px] sm:h-[32px] sm:w-[32px] rounded-[6px] sm:rounded-[8px]"
                                 />
                                 <div className="w-[45px] h-[45px] sm:w-[70px] sm:h-[70px] rounded-[10px] sm:rounded-[12px] overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
-                                    {auction?.image ? (
+                                    {auction?.images ? (
                                         <img
-                                            src={auction.image}
+                                            src={auction.images[0]?.url}
                                             alt={auction.title ?? ''}
                                             className="w-full h-full object-cover"
+                                            crossOrigin='anonymous'
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-400">
@@ -217,8 +219,8 @@ const AssignLiveAuctionsModal = ({
                                             {auction.title ?? '—'}
                                         </h4>
                                         <StatusPill
-                                            variant={getLiveAuctionStatusVariant((auction.status?.toLowerCase() ?? '') as LiveAuctionStatus)}
-                                            label={getLiveAuctionStatusLabel((auction.status?.toLowerCase() ?? '') as LiveAuctionStatus)}
+                                            variant={getStatusVariant(auction.effectiveStatus)}
+                                            label={getStatusLabel(auction.effectiveStatus, t)}
                                             size="smxs"
                                         />
                                     </div>

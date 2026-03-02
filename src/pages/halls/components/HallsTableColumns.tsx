@@ -1,5 +1,4 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { HiOutlinePencil } from 'react-icons/hi'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -13,10 +12,9 @@ import Badge from '@/components/ui/Badge'
 
 export function useHallsTableColumns() {
     const navigate = useNavigate()
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
 
     return useMemo<ColumnDef<HallItem>[]>(() => {
-        const lang = i18n.language
 
         return [
             {
@@ -28,9 +26,8 @@ export function useHallsTableColumns() {
                     return (
                         <TwoLineText
                             title={name}
-                            subtitle={row.original?.id}
+                            subtitle={t('users.table.columns.idPrefix') + ' ' + row.original?.id}
                             titleLabel={t('halls.table.columns.hallName')}
-                            subtitleLabel={t('halls.table.columns.id')}
                             size="sm"
                         />
                     )
@@ -75,14 +72,6 @@ export function useHallsTableColumns() {
                 id: 'actions',
                 cell: ({ row }) => (
                     <div className="w-[90px]">
-                        {/* <Button
-                            size="md"
-                            variant="default"
-                            icon={<HiOutlinePencil />}
-                            onClick={() =>
-                                navigate(`/halls/${row.original.id}/edit`)
-                            }
-                        /> */}
                         <Button
                             size="md"
                             shape="circle"
@@ -97,5 +86,5 @@ export function useHallsTableColumns() {
                 ),
             },
         ]
-    }, [navigate, t, i18n.language])
+    }, [navigate, t])
 }

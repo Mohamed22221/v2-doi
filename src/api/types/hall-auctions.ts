@@ -1,4 +1,5 @@
 import { Category } from "./categories"
+import { EffectiveStatus } from "./products"
 import { UserItem } from "./users"
 
 export type HallAuctionStatus =
@@ -42,6 +43,7 @@ export interface HallAuctionItem {
     status: HallAuctionStatus
     scheduledAt?: string
     startedAt?: string
+    createdAt?: string
     endedAt?: string
     product: HallAuctionProduct
 }
@@ -59,7 +61,9 @@ export interface AssignableAuctionItem {
     endedAt?: string
     product: AssignableAuctionProduct
     auctionStartingPriceIncVat: number
-    image?: string
+    images?: { url: string }[]
+    effectiveStatus: EffectiveStatus
+
 }
 
 export interface AssignItemsToHallPayload {

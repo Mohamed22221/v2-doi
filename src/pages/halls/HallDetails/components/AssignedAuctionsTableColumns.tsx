@@ -37,6 +37,7 @@ const getDisplayDate = (item: HallAuctionItem): string | null => {
     if (item.status === 'SCHEDULED' && item.scheduledAt) return item.scheduledAt
     if (item.startedAt) return item.startedAt
     if (item.endedAt) return item.endedAt
+    if (item.createdAt) return item.createdAt
     return null
 }
 

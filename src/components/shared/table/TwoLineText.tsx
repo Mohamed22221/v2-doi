@@ -58,7 +58,6 @@ export default function TwoLineText({
     titleClassName = '',
     subtitleClassName = '',
     titleLabel = '',
-    subtitleLabel = '',
     trueImage = false,
 }: Props) {
     const { t } = useTranslation()
@@ -79,7 +78,6 @@ export default function TwoLineText({
         md: 'w-10 h-10',
         lg: 'w-12 h-12',
     } as const
-    console.log(image)
     return (
         <div className={['flex gap-3', className].join(' ')}>
             {/* Image / Avatar */}
@@ -139,13 +137,13 @@ export default function TwoLineText({
                                 <span className="mr-1">{subtitlePrefix}</span>
                                 <TextEllipsis
                                     text={String(subtitle)}
-                                    maxTextCount={25}
+                                    maxTextCount={30}
                                 />
                             </>
                         ) : (
                             <TextEllipsis
                                 text={String(subtitle)}
-                                maxTextCount={25}
+                                maxTextCount={30}
                             />
                         )
                     )}

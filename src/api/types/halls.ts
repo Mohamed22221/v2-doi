@@ -1,6 +1,6 @@
 import { Category, LanguageCode } from './categories'
 
-export type HallVisibilityStatus = 'ACTIVE' | 'HIDDEN' | 'ARCHIVED' | 'DRAFT'
+export type HallVisibilityStatus = 'ACTIVE' | 'HIDDEN' | 'ARCHIVED' | 'SCHEDULED' | 'DRAFT' | 'ENDED'
 
 // Legacy status type kept for backward compat with mock-based form
 export type HallStatus = HallVisibilityStatus

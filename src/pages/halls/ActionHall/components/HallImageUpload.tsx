@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import ImageUpload from '@/components/shared/ImageUpload'
 
 type Props = {
@@ -10,7 +9,6 @@ const HallImageUpload = ({
     name = 'coverImage',
     uploadType = 'complaint',
 }: Props) => {
-    const { t } = useTranslation()
 
     return (
         <ImageUpload

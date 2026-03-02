@@ -1626,7 +1626,9 @@
                 "active": "Active",
                 "archieved": "Archived",
                 "hidden": "Hidden",
-                "draft": "Draft"
+                "draft": "Draft",
+                "scheduled": "Scheduled",
+                "ended": "Ended"
             },
             "filters": {
                 "status": "Status:",

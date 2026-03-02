@@ -12,6 +12,10 @@ export const getStatusLabel = (status: HallVisibilityStatus): string => {
             return i18n.t('halls.table.status.hidden')
         case 'DRAFT':
             return i18n.t('halls.table.status.draft')
+        case 'ENDED':
+            return i18n.t('halls.table.status.ended')
+        case 'SCHEDULED':
+            return i18n.t('halls.table.status.scheduled')
         default:
             return status
     }
@@ -22,10 +26,13 @@ export const getStatusVariant = (status: HallVisibilityStatus): StatusVariant =>
         case 'ACTIVE':
             return 'success'
         case 'ARCHIVED':
+        case 'SCHEDULED':
             return 'warning'
         case 'HIDDEN':
         case 'DRAFT':
             return 'neutral'
+        case 'ENDED':
+            return 'danger'
         default:
             return 'neutral'
     }

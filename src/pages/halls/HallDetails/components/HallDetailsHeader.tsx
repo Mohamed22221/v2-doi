@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
-import AccountId from '@/components/shared/cards/AccountId'
 import { Button, Icon } from '@/components/ui'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { HallItem, HallItemDetails } from '@/api/types/halls'
+import { HallItemDetails } from '@/api/types/halls'
 import { getStatusLabel, getStatusVariant } from '../../components/GetStatusLabel'
 
 interface HallDetailsHeaderProps {
@@ -19,7 +18,7 @@ const HallDetailsHeader = ({
     onSchedule,
     onDelete,
 }: HallDetailsHeaderProps) => {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const name = hall.translations?.[0]?.name
     const description = hall.translations?.[0]?.description
 
@@ -56,14 +55,16 @@ const HallDetailsHeader = ({
 
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                         <span className="font-medium text-primary-1000 dark:text-primary-100 text-sm">
-                            {hall.id}
+                          {t('users.table.columns.idPrefix')}  {hall.id}
                         </span>
-                        {description && <span className="text-gray-400">•</span>}
+                        {description && description.length < 30 && <span className="text-gray-400">•</span>}
                         {description && <p className="text-sm text-black dark:text-gray-400">
                             {description}
                         </p>}
                     </div>
+           
                     <div className="flex flex-wrap items-center gap-2 mt-2 sm:gap-3">
+                        
                         {hall.visibilityStatus === 'DRAFT' ? (
                             <>
                                 <Button
@@ -85,7 +86,7 @@ const HallDetailsHeader = ({
                                     {t('halls.details.deleteHall') || 'Delete Hall'}
                                 </Button>
                             </>
-                        ) : (
+                        ) : hall.visibilityStatus !== 'ENDED' ? (
                             <Button
                                 variant="solid"
                                 size="md"
@@ -95,11 +96,14 @@ const HallDetailsHeader = ({
                             >
                                 {t('halls.details.assignLiveAuctions')}
                             </Button>
+                        ) : (
+                                null
                         )}
                     </div>
 
 
                 </div>
+                
             </div>
 
         </BackgroundRounded>

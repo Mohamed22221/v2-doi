@@ -4,8 +4,8 @@ import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
-import { HallItem, HallItemDetails, HallPayload } from '../types/halls'
-import { AssignableAuctionItem, HallAuctionItem } from '../types/hall-auctions'
+import { HallItem, HallItemDetails, MainHall } from '../types/halls'
+import { HallAuctionItem } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 
 export const useGetAllHalls = () => {
@@ -72,7 +72,7 @@ export const useGetHallAuctions = (hallId: string) => {
 export const useCreateHall = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (data: HallPayload) => HallsServices.createHall(data),
+        mutationFn: (data: MainHall) => HallsServices.createHall(data),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ALL_HALLS],
@@ -84,7 +84,7 @@ export const useCreateHall = () => {
 export const useUpdateHall = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: HallPayload }) =>
+        mutationFn: ({ id, data }: { id: string; data: MainHall }) =>
             HallsServices.updateHall(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
@@ -93,11 +93,11 @@ export const useUpdateHall = () => {
     })
 }
 
-export const useGetAssignableAuctions = (search?: string, enabled = true) => {
+export const useGetAssignableAuctions = (search?: string, categoryId?: string, enabled = true) => {
     const { i18n } = useTranslation()
     const lang = i18n.language
     return useInfiniteQuery({
-        queryKey: ['ASSIGNABLE_AUCTIONS', search, lang],
+        queryKey: ['ASSIGNABLE_AUCTIONS', search, categoryId, lang],
         initialPageParam: 1,
         enabled,
         queryFn: ({ pageParam }) =>
@@ -105,6 +105,7 @@ export const useGetAssignableAuctions = (search?: string, enabled = true) => {
                 pageParam as number,
                 10,
                 search,
+                categoryId,
             ),
         getNextPageParam: (lastPage) =>
             lastPage.data.page < lastPage.data.totalPages
@@ -124,6 +125,9 @@ export const useAssignItemsToHall = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: ["ASSIGNABLE_AUCTIONS"],
             })
         },
     })

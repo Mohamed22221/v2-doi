@@ -1,15 +1,17 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFormikContext, Field, FieldProps } from 'formik'
-import { DatePicker, Input, FormItem, Icon, TimeInput } from '@/components/ui'
+import { DatePicker, Input, FormItem, Icon } from '@/components/ui'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import HeaderInformation from '@/components/shared/cards/HeaderInformation'
 
 import { HiOutlineClock, HiOutlineX } from 'react-icons/hi'
 
+import { FormValues } from './FormHall'
+
 const TimeSection = () => {
     const { t } = useTranslation()
-    const { errors, touched, setFieldValue } = useFormikContext<any>()
+    const { errors, touched, setFieldValue } = useFormikContext<FormValues>()
     const timeInputRef = useRef<HTMLInputElement>(null)
 
 

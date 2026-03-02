@@ -39,7 +39,7 @@ import { LanguageCode } from '@/api/types/common'
 
 // --- Types & Constants ---
 
-type FormValues = {
+export type FormValues = {
     name: string
     description: string
     categorySelectionType: 'all' | 'specific'

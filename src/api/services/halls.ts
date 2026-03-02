@@ -19,8 +19,8 @@ const HallsServices = {
     getHallAuctions: (hallId: string, searchParams: string): Promise<TAPIResponseItems<HallAuctionItem[]>> =>
         api.get(`/admin/hall-items/auctions/${hallId}?${searchParams}`),
 
-    getAssignableAuctions: (page: number, limit: number, search?: string): Promise<TAPIResponseItems<AssignableAuctionItem[]>> =>
-        api.get(`/admin/hall-items/auctions`, { params: { page, limit, ...(search ? { search } : {}) } }),
+    getAssignableAuctions: (page: number, limit: number, search?: string, categoryId?: string): Promise<TAPIResponseItems<AssignableAuctionItem[]>> =>
+        api.get(`/admin/hall-items/auctions`, { params: { page, limit, ...(search ? { search } : {}), ...(categoryId ? { categoryId } : {}) } }),
 
     assignItemsToHall: (id: string, data: { productIds: string[] }): Promise<TAPIResponseItem<AssignItemsToHallPayload>> =>
         api.post(`/admin/hall-items/${id}/items`, data),
