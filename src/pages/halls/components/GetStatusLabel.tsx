@@ -1,28 +1,38 @@
-import { HallStatus } from '@/api/types/halls'
+import { HallVisibilityStatus } from '@/api/types/halls'
 type StatusVariant = 'success' | 'danger' | 'warning' | 'info' | 'neutral'
 import i18n from 'i18next'
 
-export const getStatusLabel = (status: HallStatus): string => {
+export const getStatusLabel = (status: HallVisibilityStatus): string => {
     switch (status) {
-        case 'active':
+        case 'ACTIVE':
             return i18n.t('halls.table.status.active')
-        case 'achieved':
-            return i18n.t('halls.table.status.achieved')
-        case 'hidden':
+        case 'ARCHIVED':
+            return i18n.t('halls.table.status.archieved')
+        case 'HIDDEN':
             return i18n.t('halls.table.status.hidden')
+        case 'DRAFT':
+            return i18n.t('halls.table.status.draft')
+        case 'ENDED':
+            return i18n.t('halls.table.status.ended')
+        case 'SCHEDULED':
+            return i18n.t('halls.table.status.scheduled')
         default:
             return status
     }
 }
 
-export const getStatusVariant = (status: HallStatus): StatusVariant => {
+export const getStatusVariant = (status: HallVisibilityStatus): StatusVariant => {
     switch (status) {
-        case 'active':
+        case 'ACTIVE':
             return 'success'
-        case 'achieved':
+        case 'ARCHIVED':
+        case 'SCHEDULED':
             return 'warning'
-        case 'hidden':
+        case 'HIDDEN':
+        case 'DRAFT':
             return 'neutral'
+        case 'ENDED':
+            return 'danger'
         default:
             return 'neutral'
     }

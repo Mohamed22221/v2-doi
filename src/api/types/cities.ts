@@ -6,6 +6,7 @@ export interface City extends BaseEntity {
     regionId: string
     areasCount: number
     region?: {
+        id: string
         name: string
         nameAr: string
     }

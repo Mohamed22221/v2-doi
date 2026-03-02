@@ -245,8 +245,9 @@ function _Select<
                             boxShadow: getBoxShadow(state),
                             cursor: 'pointer',
                         },
+                        backgroundColor: mode === 'dark' ? 'transparent' : '#F8FAFC',
                         boxShadow: getBoxShadow(state),
-                        borderRadius: tw.radiusMd,
+                        borderRadius: '12px',
                         ...(isInvalid
                             ? { borderColor: tw.red }
                             : {}),

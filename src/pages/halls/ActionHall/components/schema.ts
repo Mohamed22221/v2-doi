@@ -7,39 +7,57 @@ const getHallValidationSchema = (t: TFunction) =>
             .trim()
             .required(t('halls.errors.nameRequired')),
 
-        parentId: Yup.string()
-            .nullable()
+        description: Yup.string()
+            .trim()
             .optional(),
 
-        status: Yup.string()
-            .oneOf(['active', 'achieved', 'hidden'])
-            .required(t('halls.errors.statusRequired')),
+        regionId: Yup.string()
+            .nullable()
+            .required(t('locations.cities.modal.errors.regionRequired')),
 
-        sortOrder: Yup.number()
-            .typeError(t('common.errors.number'))
-            .min(0, t('common.errors.min0'))
-            .required(t('halls.errors.sortOrderRequired')),
+        categorySelectionType: Yup.string()
+            .oneOf(['all', 'specific'])
+            .required(),
 
-        image: Yup.string()
+        categoryIds: Yup.array()
+            .when('categorySelectionType', {
+                is: 'specific',
+                then: (schema) => schema.min(1, t('halls.errors.categoryRequired')).required(t('halls.errors.categoryRequired')),
+                otherwise: (schema) => schema.optional(),
+            }),
+
+        coverImage: Yup.string()
             .trim()
-            .required(t('halls.errors.imageRequired'))
-            .test(
-                'is-valid-image-url',
-                t('halls.errors.invalidImageUrl'),
-                (value) => {
-                    if (!value) return false
+            .required(t('halls.errors.imageRequired')),
 
-                    const v = value.trim()
+        visibilityStatus: Yup.string()
+            .oneOf(['DRAFT', 'ARCHIVED'])
+            .required(),
 
-                    // ✅ allow absolute http/https OR relative path starting with /
-                    const isHttpUrl = /^https?:\/\/.+/i.test(v)
-                    const isRelative = /^\/.+/.test(v)
+        hallDate: Yup.date()
+            .nullable()
+            .when('visibilityStatus', {
+                is: 'ARCHIVED',
+                then: (schema) => schema.required(t('halls.errors.hallDateRequired')),
+                otherwise: (schema) => schema.nullable().optional(),
+            }),
 
-                    if (!isHttpUrl && !isRelative) return false
+        startingTime: Yup.string()
+            .nullable()
+            .when('visibilityStatus', {
+                is: 'ARCHIVED',
+                then: (schema) => schema.required(t('halls.errors.startingTimeRequired')),
+                otherwise: (schema) => schema.nullable().optional(),
+            }),
 
-                    return true
-                },
-            ),
+        itemDuration: Yup.number()
+            .typeError(t('common.errors.number'))
+            .min(1, t('common.errors.min1'))
+            .when('visibilityStatus', {
+                is: 'ARCHIVED',
+                then: (schema) => schema.required(t('halls.errors.itemDurationRequired')),
+                otherwise: (schema) => schema.optional(),
+            }),
     })
 
 export default getHallValidationSchema

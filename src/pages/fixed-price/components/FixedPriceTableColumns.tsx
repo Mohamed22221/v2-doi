@@ -39,6 +39,8 @@ export function useFixedPriceTableColumns() {
                         image={row.original.images?.[0]?.url}
                         title={row.original.title}
                         subtitle={row.original.id}
+                        titleLabel={t('fixedPrice.table.columns.item')}
+                        subtitleLabel={t('fixedPrice.table.columns.id')}
                         size="sm"
                     />
                 ),

@@ -1,15 +1,16 @@
 @layer components {
   .date-picker {
-    @apply z-40 max-w-xs shadow-xl dark:shadow-2xl bg-white dark:bg-gray-800 rounded-lg p-4;
+    @apply z-40 max-w-xs shadow-xl dark:shadow-2xl bg-white dark:bg-gray-800 rounded-xl p-4;
   }
 
   .date-picker-panel {
-    @apply rounded-lg;
+    @apply rounded-xl;
   }
 
   .date-picker-header-label {
     @apply cursor-pointer mx-0.5 select-none text-gray-900 dark:text-gray-100;
   }
+
   .date-picker-current-month {
     @apply text-gray-700 dark:text-gray-100;
   }
@@ -39,7 +40,7 @@
   }
 
   .date-picker-month-cell-inner {
-    @apply cursor-pointer px-4 py-2 rounded-lg select-none;
+    @apply cursor-pointer px-4 py-2 rounded-xl select-none;
   }
 
   .date-picker-year-cell {
@@ -47,7 +48,7 @@
   }
 
   .date-picker-year-cell-inner {
-    @apply cursor-pointer px-4 py-2 rounded-lg select-none font-semibold;
+    @apply cursor-pointer px-4 py-2 rounded-xl select-none font-semibold;
   }
 
   .date-picker-year-cell-disabled {
@@ -55,11 +56,11 @@
   }
 
   .picker {
-    @apply z-40 rounded-lg;
+    @apply z-40 rounded-xl;
   }
 
   .picker-panel {
-    @apply shadow-xl dark:shadow-2xl bg-white dark:bg-gray-700 rounded-lg p-4;
+    @apply shadow-xl dark:shadow-2xl bg-white dark:bg-gray-700 rounded-xl p-4;
   }
 
   .picker-view {
@@ -119,8 +120,9 @@
 
   .month-picker-cell,
   .year-picker-cell {
-    @apply text-center py-2 rounded-lg font-semibold;
+    @apply text-center py-2 rounded-xl font-semibold;
   }
+
   .month-picker-cell-disabled,
   .year-picker-cell-disabled {
     @apply opacity-30 bg-gray-300 cursor-not-allowed;

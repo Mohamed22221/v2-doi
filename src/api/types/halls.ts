@@ -1,6 +1,9 @@
-import { LanguageCode } from './common'
+import { Category, LanguageCode } from './categories'
 
-export type HallStatus = 'active' | 'achieved' | 'hidden'
+export type HallVisibilityStatus = 'ACTIVE' | 'HIDDEN' | 'ARCHIVED' | 'SCHEDULED' | 'DRAFT' | 'ENDED'
+
+// Legacy status type kept for backward compat with mock-based form
+export type HallStatus = HallVisibilityStatus
 
 export interface HallTranslation {
     languageCode: LanguageCode;
@@ -8,51 +11,25 @@ export interface HallTranslation {
     description?: string;
 }
 
-export interface HallItem {
-    id: string
-    name: string // This will be the name in current UI language
-    code: string
-    status: HallStatus
-    assignedCount: number
-    createdAt: string
-    parentId: string | null
-    parent?: HallItem | null
-    children?: HallItem[]
+export interface MainHall {
     translations: HallTranslation[]
-    sortOrder: number
-    image: string | null
+    coverImage?: string
+    categoryIds: string[]
+    regionId: string
+    itemBiddingDurationSeconds?: number
+    extensionSeconds: number
+    visibilityStatus: HallVisibilityStatus
+    scheduledStartTime?: string // ISO
+    categories?: Category[]
 }
 
-export interface HallPayload {
-    translations: HallTranslation[]
-    parentId?: string | null
-    status: HallStatus
-    sortOrder: number
-    image?: string | null
-    code: string
-}
-
-export interface AssignedAuctionItem {
+export interface HallItemDetails extends MainHall {
     id: string
-    itemName: string
-    itemCode: string
-    sellerName: string
-    categoryParent: string
-    categoryChild: string
-    status: 'live' | 'scheduled' | 'hidden' | 'ended' | 'rejected'
-    startDate: string
-    endDate: string
 }
 
-export interface AssignableAuction {
-    id: string
-    title: string
-    auctionCode: string
-    sellerName: string
-    status: string
-    category: string
-    date?: string
-    startingBid: number
-    currency: string
-    imageUrl: string
+// Real API shape — list endpoint
+export interface HallItem extends HallItemDetails {
+    createdAt?: string
+    itemsCount?: number
 }
+

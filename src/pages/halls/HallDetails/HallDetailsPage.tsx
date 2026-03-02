@@ -1,30 +1,35 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Breadcrumb, toast, Notification } from '@/components/ui'
-import HallDetailsHeader from './components/HallDetailsHeader'
+import { Breadcrumb } from '@/components/ui'
 import AssignedAuctionsTable from './components/AssignedAuctionsTable'
-import { HALL_DETAILS_MOCK } from '../data/hall-details.mock'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import AssignLiveAuctionsModal from './components/AssignLiveAuctionsModal'
+import HallActionModal from './components/HallActionModal'
+import type { HallActionType } from './components/HallActionModal'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useGetHallById } from '@/api/hooks/halls'
+import HallDetailsSkeleton from './components/HallDetailsSkeleton'
+import ErrorState from '@/components/shared/ErrorState'
+
+const HallDetailsHeader = lazy(() => import('./components/HallDetailsHeader'))
 
 const HallDetailsPage = () => {
     const { t, i18n } = useTranslation()
+    const { id } = useParams<{ id: string }>()
+    const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const currentLang = i18n.language
-    const translation =
-        HALL_DETAILS_MOCK.translations.find(
-            (tr) => tr.languageCode === currentLang,
-        ) || HALL_DETAILS_MOCK.translations[0]
+    const [hallActionType, setHallActionType] = useState<HallActionType | null>(null)
+    const { hall, isLoading, isError, errorMessage } = useGetHallById(id || "")
+    const name = hall?.translations?.[0]?.name
 
-    const handleAssign = (selectedIds: string[]) => {
-        console.log('Assigned IDs:', selectedIds)
-        toast.push(
-            <Notification
-                title={t('common.success') || 'Success'}
-                type="success"
-            >
-                {selectedIds.length} auctions have been assigned successfully.
-            </Notification>,
+
+
+
+    if (isError) {
+        return (
+            <div>
+                <ErrorState message={errorMessage ?? undefined} fullPage={true} />
+            </div>
         )
     }
 
@@ -36,11 +41,20 @@ const HallDetailsPage = () => {
                     { label: t('halls.details.title') },
                 ]}
             />
-
-            <HallDetailsHeader
-                hall={HALL_DETAILS_MOCK}
-                onAssignAuctions={() => setIsModalOpen(true)}
-            />
+            <Suspense fallback={<HallDetailsSkeleton />}>
+                {isLoading ? (
+                    <HallDetailsSkeleton />
+                ) : (
+                    hall && (
+                        <HallDetailsHeader
+                            hall={hall}
+                            onAssignAuctions={() => setIsModalOpen(true)}
+                            onSchedule={() => navigate(`/halls/${id}/edit`)}
+                            onDelete={() => setHallActionType('delete')}
+                        />
+                    )
+                )}
+            </Suspense>
             <BackgroundRounded>
                 <AssignedAuctionsTable />
             </BackgroundRounded>
@@ -48,11 +62,26 @@ const HallDetailsPage = () => {
             <AssignLiveAuctionsModal
                 isOpen={isModalOpen}
                 onOpenChange={setIsModalOpen}
-                hallName={translation?.name || HALL_DETAILS_MOCK.name}
-                onAssign={handleAssign}
+                hallName={name || ""}
+                hallId={id || ""}
             />
+
+            {hallActionType && (
+                <HallActionModal
+                    isOpen={!!hallActionType}
+                    onClose={() => setHallActionType(null)}
+                    type={hallActionType}
+                    hallId={id || ""}
+                    onConfirmSuccess={() => {
+                        if (hallActionType === 'delete') {
+                            navigate('/halls')
+                        }
+                    }}
+                />
+            )}
         </div>
     )
 }
 
 export default HallDetailsPage
+

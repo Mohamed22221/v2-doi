@@ -24,6 +24,8 @@ export function useDurationAuctionsTableColumns() {
                         image={row.original.image}
                         title={row.original.name}
                         subtitle={`${t('durationAuctions.table.idPrefix')} ${row.original.id}`}
+                        titleLabel={t('durationAuctions.table.columns.item')}
+                        subtitleLabel={t('durationAuctions.table.idPrefix')}
                         size="sm"
                     />
                 ),

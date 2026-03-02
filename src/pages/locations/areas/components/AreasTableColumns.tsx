@@ -30,6 +30,7 @@ export function useAreasTableColumns(
                     <TwoLineText
                         title={row.original.name}
                         subtitle={row.original.nameAr}
+                        titleLabel={t('locations.areas.table.columns.areaName')}
                         size="sm"
                     />
                 ),

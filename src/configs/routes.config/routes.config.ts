@@ -114,6 +114,11 @@ export const protectedRoutes = [
         component: lazy(() => import('@/pages/halls/HallDetails')),
     },
     {
+        key: 'halls',
+        path: '/halls/:id/edit',
+        component: lazy(() => import('@/pages/halls/ActionHall/UpdateHall')),
+    },
+    {
         key: 'orders',
         path: '/orders',
         component: lazy(() => import('@/pages/orders')),

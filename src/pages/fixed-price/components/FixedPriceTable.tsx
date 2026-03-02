@@ -84,6 +84,9 @@ export default function FixedPriceTable() {
                     { label: t('fixedPrice.table.status.outOfStock'), value: 'sold' },
                     { label: t('fixedPrice.table.status.pendingReview'), value: 'pending_approval' },
                     { label: t('fixedPrice.table.status.auctionScheduled'), value: 'auction_scheduled' },
+                    { label: t('fixedPrice.table.status.auctionLive'), value: 'auction_live' },
+                    { label: t('fixedPrice.table.status.auctionEnded'), value: 'auction_ended' },
+                    { label: t('fixedPrice.table.status.inactive'), value: 'inactive' },
                     { label: t('fixedPrice.table.status.draft'), value: 'draft' },
 
                 ],

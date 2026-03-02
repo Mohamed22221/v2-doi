@@ -31,7 +31,8 @@ export const useModelsTableColumns = ({
                         imageSize="sm"
                         title={`${row.original.name}`}
                         subtitle={row.original.id}
-                        subtitlePrefix={t('users.table.columns.idPrefix')}
+                        titleLabel={t('models.table.columns.modelName')}
+                        subtitleLabel={t('users.table.columns.idPrefix')}
                         size="sm"
                     />
                 ),

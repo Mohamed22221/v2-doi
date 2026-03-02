@@ -1,23 +1,29 @@
-import { useState, useMemo } from 'react'
+import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HiSearch } from 'react-icons/hi'
 import Dialog from '@/components/ui/Dialog'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
-import Select from '@/components/ui/Select'
 import Checkbox from '@/components/ui/Checkbox'
 import StatusPill from '@/components/shared/table/StatusPill'
-import { ASSIGNABLE_LIVE_AUCTIONS_MOCK } from '../../data/assign-live-auctions.mock'
-import { getLiveAuctionStatusLabel, getLiveAuctionStatusVariant } from '../../../live-auctions/components/GetStatusLabel'
 import Icon from '@/components/ui/Icon'
-import { LiveAuctionStatus } from '@/api/types/live-auctions'
 import useWindowSize from '@/components/ui/hooks/useWindowSize'
+import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
+import { useGetAssignableAuctions, useAssignItemsToHall } from '@/api/hooks/halls'
+import type { AssignableAuctionItem } from '@/api/types/hall-auctions'
+import Spinner from '@/components/ui/Spinner'
+import toast from '@/components/ui/toast'
+import Notification from '@/components/ui/Notification'
+import { getStatusVariant, getStatusLabel } from '@/pages/fixed-price/components/GetStatusLabel'
+import CategorySelect from '@/components/helpers/CategoriesSelect'
+import { getApiErrorMessage } from '@/api/error'
 
 interface AssignLiveAuctionsModalProps {
     isOpen: boolean
     onOpenChange: (open: boolean) => void
     hallName: string
-    onAssign: (selectedIds: string[]) => void
+    onAssign?: (selectedIds: string[]) => void
+    hallId: string
 }
 
 const AssignLiveAuctionsModal = ({
@@ -25,45 +31,68 @@ const AssignLiveAuctionsModal = ({
     onOpenChange,
     hallName,
     onAssign,
+    hallId,
 }: AssignLiveAuctionsModalProps) => {
     const { t } = useTranslation()
     const [searchValue, setSearchValue] = useState('')
     const [selectedIds, setSelectedIds] = useState<string[]>([])
-
-    // Filters (UI only for now as per request)
-    const [statusFilter, setStatusFilter] = useState<{ label: string; value: string } | null>(null)
-    const [categoryFilter, setCategoryFilter] = useState<{ label: string; value: string } | null>(null)
-    const [dateFilter, setDateFilter] = useState<{ label: string; value: string } | null>(null)
+    const [categoryId, setCategoryId] = useState<string | null>(null)
+    const debouncedSearch = useDebouncedValue(searchValue, 400)
 
     const windowSize = useWindowSize()
     const isMobile = windowSize.width && windowSize.width < 640
 
-    const filteredAuctions = useMemo(() => {
-        return ASSIGNABLE_LIVE_AUCTIONS_MOCK.filter((auction) => {
-            const matchesSearch =
-                auction.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-                auction.auctionCode.toLowerCase().includes(searchValue.toLowerCase()) ||
-                auction.sellerName.toLowerCase().includes(searchValue.toLowerCase())
+    const {
+        data,
+        isLoading,
+        isError,
+        hasNextPage,
+        fetchNextPage,
+        isFetchingNextPage,
+    } = useGetAssignableAuctions(debouncedSearch, categoryId || undefined, isOpen)
 
-            return matchesSearch
-        })
-    }, [searchValue])
+    const { mutate: assignItems, isPending: isAssigning } = useAssignItemsToHall()
 
-    const toggleSelection = (id: string) => {
+    const auctions: AssignableAuctionItem[] = data?.items ?? []
+
+    const toggleSelection = useCallback((id: string) => {
         setSelectedIds((prev) =>
             prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
         )
-    }
+    }, [])
 
     const handleAssign = () => {
-        onAssign(selectedIds)
-        onOpenChange(false)
-        setSelectedIds([]) // Reset for next time
+        assignItems(
+            { id: hallId, data: { productIds: selectedIds } },
+            {
+                onSuccess: () => {
+                    toast.push(
+                        <Notification
+                            title={t('common.success') || 'Success'}
+                            type="success"
+                        >
+                            {t('halls.details.assignModal.successMessage', { count: selectedIds.length }) || `${selectedIds.length} auctions have been assigned successfully.`}
+                        </Notification>,
+                    )
+                    onAssign?.(selectedIds)
+                    onOpenChange(false)
+                    setSelectedIds([])
+                },
+                onError: (error) => {
+                    toast.push(
+                    <Notification
+                        title={getApiErrorMessage(error)}
+                        type="danger"
+                    />
+                    )
+                }
+            }
+        )
     }
 
     const handleCancel = () => {
         onOpenChange(false)
-        setSelectedIds([]) // Reset for next time
+        setSelectedIds([])
     }
 
     return (
@@ -75,7 +104,6 @@ const AssignLiveAuctionsModal = ({
             height={isMobile ? '100vh' : undefined}
             bodyOpenClassName={"overflow-hidden"}
             contentClassName={isMobile ? 'overflow-y-auto pt-4 pb-0 px-2' : "pt-4 pb-0 px-2"}
-
             closable={true}
         >
             <div className="p-2 sm:p-4">
@@ -97,37 +125,36 @@ const AssignLiveAuctionsModal = ({
                         onChange={(e) => setSearchValue(e.target.value)}
                     />
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-gray-500 uppercase whitespace-nowrap">
                             {t('halls.details.assignModal.filters.status')}:
                         </span>
                         <div className="flex-1">
-                            <Select
+                             <Select
                                 size="sm"
                                 placeholder={t('halls.details.assignModal.filters.allStatus')}
                                 options={[]}
                                 value={statusFilter}
                                 onChange={(opt) => setStatusFilter(opt)}
-                            />
+                            /> 
                         </div>
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-gray-500 uppercase whitespace-nowrap">
                             {t('halls.details.assignModal.filters.category')}:
                         </span>
                         <div className="flex-1">
-                            <Select
-                                size="sm"
+                            <CategorySelect
+                                value={categoryId}
                                 placeholder={t('halls.details.assignModal.filters.allCategory')}
-                                options={[]}
-                                value={categoryFilter}
-                                onChange={(opt) => setCategoryFilter(opt)}
+                                size="sm"
+                                level={3}
+                                onChange={(val) => setCategoryId(val as string | null)}
                             />
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-gray-500 uppercase whitespace-nowrap">
                             {t('halls.details.assignModal.filters.date')}:
                         </span>
@@ -139,12 +166,27 @@ const AssignLiveAuctionsModal = ({
                                 value={dateFilter}
                                 onChange={(opt) => setDateFilter(opt)}
                             />
-                        </div>
-                    </div>
+                        </div> 
+                    </div> */}
                 </div>
 
-                <div className="sm:max-h-[320px] max-h-[300px] overflow-y-auto  custom-scrollbar">
-                    {filteredAuctions.map((auction) => (
+                <div className="sm:max-h-[380px] max-h-[300px] overflow-y-auto custom-scrollbar">
+                    {/* Loading state */}
+                    {isLoading && (
+                        <div className="flex items-center justify-center py-10">
+                            <Spinner size={30} />
+                        </div>
+                    )}
+
+                    {/* Error state */}
+                    {isError && !isLoading && (
+                        <div className="text-center py-10 text-red-400 text-sm">
+                            {t('common.error')}
+                        </div>
+                    )}
+
+                    {/* Auction Items */}
+                    {!isLoading && !isError && auctions.map((auction) => (
                         <div
                             key={auction.id}
                             className="flex items-center justify-between px-1 py-2 mb-1 rounded-xl transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
@@ -156,57 +198,78 @@ const AssignLiveAuctionsModal = ({
                                     className="pointer-events-none m-0 p-0"
                                     onChange={() => { }}
                                     checkboxClassOuter="h-[17px] w-[17px] sm:h-[32px] sm:w-[32px] rounded-[6px] sm:rounded-[8px]"
-
                                 />
                                 <div className="w-[45px] h-[45px] sm:w-[70px] sm:h-[70px] rounded-[10px] sm:rounded-[12px] overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
-                                    <img
-                                        src={auction.imageUrl}
-                                        alt={auction.title}
-                                        className="w-full h-full object-cover"
-                                    />
+                                    {auction?.images ? (
+                                        <img
+                                            src={auction.images[0]?.url}
+                                            alt={auction.title ?? ''}
+                                            className="w-full h-full object-cover"
+                                            crossOrigin='anonymous'
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                            <Icon name="assets" />
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-center gap-2 mb-0.5">
                                         <h4 className="text-[13px] sm:text-[17px] font-bold text-primary-800 dark:text-primary-100">
-                                            {auction.title}
+                                            {auction.title ?? '—'}
                                         </h4>
                                         <StatusPill
-                                            variant={getLiveAuctionStatusVariant(auction.status.toLowerCase() as LiveAuctionStatus)}
-                                            label={getLiveAuctionStatusLabel(auction.status.toLowerCase() as LiveAuctionStatus)}
+                                            variant={getStatusVariant(auction.effectiveStatus)}
+                                            label={getStatusLabel(auction.effectiveStatus, t)}
                                             size="smxs"
                                         />
                                     </div>
-                                    <p className="flex items-center gap-1 text-[11px] sm:text-[13px] text-gray-500 dark:text-gray-400">
+                                    <div className="flex items-center gap-1 text-[11px] sm:text-[13px] text-gray-500 dark:text-gray-400">
                                         <span>{t('halls.details.assignModal.row.seller')}:</span>
                                         <div className="flex items-center gap-1 sm:gap-3">
-                                            <span>{auction.sellerName}</span>
+                                            <span>{auction?.user?.firstName + ' ' + auction?.user?.lastName}</span>
                                             <span>•</span>
-                                            <span>{auction.auctionCode}</span>
-
+                                            <span>{auction?.user?.id}</span>
                                         </div>
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="text-right">
                                 <div className="text-[14px] sm:text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center justify-end gap-1">
-                                    {auction.startingBid.toLocaleString()}
+                                    {auction.auctionStartingPriceIncVat?.toLocaleString() ?? '—'}
                                     <Icon name="riyal" />
                                 </div>
-                                <p className="text-[10px] sm:text-[12px] text-gray-400  font-semibold leading-none mt-2">
+                                <p className="text-[10px] sm:text-[12px] text-gray-400 font-semibold leading-none mt-2">
                                     {t('halls.details.assignModal.row.startingBid')}
                                 </p>
                             </div>
                         </div>
                     ))}
-                    {filteredAuctions.length === 0 && (
+
+                    {/* Empty state */}
+                    {!isLoading && !isError && auctions.length === 0 && (
                         <div className="text-center py-10 text-gray-400">
                             {t('common.noData')}
+                        </div>
+                    )}
+
+                    {/* Load more */}
+                    {hasNextPage && (
+                        <div className="flex justify-center py-3">
+                            <Button
+                                size="sm"
+                                variant="plain"
+                                loading={isFetchingNextPage}
+                                onClick={() => fetchNextPage()}
+                            >
+                                {t('viewTable.filters.loadMore')}
+                            </Button>
                         </div>
                     )}
                 </div>
             </div>
 
-            <div className="p-3  flex items-center justify-between">
+            <div className="p-3 flex items-center justify-between">
                 <span className="text-gray-500 font-medium">
                     {selectedIds.length} {t('halls.details.assignModal.footer.selected')}
                 </span>
@@ -224,6 +287,7 @@ const AssignLiveAuctionsModal = ({
                         className="px-6 sm:px-10 !rounded-xl font-bold"
                         onClick={handleAssign}
                         disabled={selectedIds.length === 0}
+                        loading={isAssigning}
                     >
                         {t('halls.details.assignModal.footer.assign')}
                     </Button>

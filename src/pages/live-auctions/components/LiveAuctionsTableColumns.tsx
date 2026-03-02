@@ -24,6 +24,8 @@ export function useLiveAuctionsTableColumns() {
                         image={row.original.image}
                         title={row.original.name}
                         subtitle={`${t('liveAuctions.table.idPrefix')} ${row.original.id}`}
+                        titleLabel={t('liveAuctions.table.columns.item')}
+                        subtitleLabel={t('liveAuctions.table.idPrefix')}
                         size="sm"
                     />
                 ),
