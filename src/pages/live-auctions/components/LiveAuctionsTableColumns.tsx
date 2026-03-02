@@ -1,94 +1,108 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatDateTime } from '@/utils/formatDateTime'
-import { LiveAuctionItem } from '@/api/types/live-auctions'
+import { HallItem } from '@/api/types/hall-auctions'
 import TwoLineText from '@/components/shared/table/TwoLineText'
 import StatusPill from '@/components/shared/table/StatusPill'
 import Button from '@/components/ui/Button'
 import { getLiveAuctionStatusLabel, getLiveAuctionStatusVariant } from './GetStatusLabel'
+import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
+import { Category } from '@/api/types/categories'
 
 export function useLiveAuctionsTableColumns() {
     const navigate = useNavigate()
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const pageLanguage = i18n.language
 
-    return useMemo<ColumnDef<LiveAuctionItem>[]>(() => {
+    return useMemo<ColumnDef<HallItem>[]>(() => {
         return [
+            // 1 — Item (product title + id)
             {
                 header: t('liveAuctions.table.columns.item'),
-                accessorKey: 'name',
+                accessorKey: 'product',
                 cell: ({ row }) => (
                     <TwoLineText
                         imageSize="sm"
-                        image={row.original.image}
-                        title={row.original.name}
-                        subtitle={`${t('liveAuctions.table.idPrefix')} ${row.original.id}`}
+                        title={row.original.product?.title ?? ''}
+                        subtitle={`${t('liveAuctions.table.idPrefix')} ${row.original.product?.id ?? ''}`}
                         titleLabel={t('liveAuctions.table.columns.item')}
                         subtitleLabel={t('liveAuctions.table.idPrefix')}
                         size="sm"
                     />
                 ),
             },
+            // 2 — Seller (businessName + id)
             {
                 header: t('liveAuctions.table.columns.seller'),
                 accessorKey: 'seller',
+                cell: ({ row }) => {
+                    const seller = row.original.product?.user?.seller
+                    if (!seller) return <span className="text-gray-400">—</span>
+                    return (
+                        <Link to={`/sellers/${row.original.product?.user?.id}`} className="hover:underline">
+                            <TwoLineText
+                                title={seller.businessName}
+                                titleLabel={t('liveAuctions.table.columns.seller')}
+                                size="sm"
+                            />
+                        </Link>
+
+                    )
+                },
             },
+            // 3 — Hall (localised name)
             {
                 header: t('liveAuctions.table.columns.hall'),
                 accessorKey: 'hall',
-            },
-            {
-                header: t('liveAuctions.table.columns.category'),
-                accessorKey: 'categoryParent',
                 cell: ({ row }) => (
-                    <div className="flex flex-col">
-                        <span className="font-medium text-gray-900 dark:text-gray-100">
-                            {row.original.categoryParent}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                            → {row.original.categoryChild}
-                        </span>
-                    </div>
+                    <Link to={`/halls/${row.original.hall?.id}`} className="hover:underline text-gray-950">{row.original.hall?.translations[0]?.name || t('halls.table.columns.noHallName')}</Link>
                 ),
             },
+            // 4 — Category (localised name)
+            {
+                header: t('liveAuctions.table.columns.category'),
+                accessorKey: 'category',
+                cell: ({ row }) => {
+                    return (
+                        <CategoryBreadcrumb category={row.original?.product?.category as Category} orientation="vertical" />
+                    )
+                },
+            },
+            // 5 — Status — same position
             {
                 header: t('liveAuctions.table.columns.status'),
                 accessorKey: 'status',
                 cell: ({ row }) => (
                     <StatusPill
                         variant={getLiveAuctionStatusVariant(row.original.status)}
-                        label={getLiveAuctionStatusLabel(row.original.status)}
+                        label={getLiveAuctionStatusLabel(row.original.status, t)}
                         size="sm"
                     />
                 ),
             },
+            // 6 — Created At — same position (replaces dateRange since hall items have createdAt)
             {
                 header: t('liveAuctions.table.columns.dateRange'),
-                accessorKey: 'startDate',
+                accessorKey: 'createdAt',
                 cell: ({ row }) => {
-                    const { date: startDate, time: startTime } = formatDateTime(row.original.startDate)
-                    const { date: endDate, time: endTime } = formatDateTime(row.original.endDate)
-
-                    if (row.original.status === 'hidden' || row.original.status === 'rejected') {
-                        return <span className="text-gray-400">—</span>
-                    }
-
+                    const { date, time } = formatDateTime(row.original.createdAt)
                     return (
-                        <div className="flex flex-col text-[12px] ">
-                            <span>{startDate} – {startTime}</span>
-                            <span>{endDate} – {endTime}</span>
-                        </div>
+                        <TwoLineText title={date} subtitle={time} size="sm" />
+
                     )
                 },
             },
+            // 7 — Actions — same position
             {
                 header: '',
                 id: 'actions',
                 cell: ({ row }) => (
-                    <div className="w-[80px]">
+                    <div className="w-[90px]">
                         <Button
-                            // size="sm"
+                            size="md"
+                            shape="circle"
                             variant="default"
                             onClick={() =>
                                 navigate(`/live-auctions/${row.original.id}`)
@@ -100,5 +114,5 @@ export function useLiveAuctionsTableColumns() {
                 ),
             },
         ]
-    }, [navigate, t])
+    }, [navigate, t, pageLanguage ])
 }

@@ -10,6 +10,73 @@ export type HallAuctionStatus =
     | 'ENDED'
     | 'CANCELLED'
 
+/**
+ * Full status enum for hall items returned by GET /api/v1/admin/hall-items.
+ * Superset of HallAuctionStatus — used exclusively for the Hall Items table.
+ */
+export type HallItemStatus =
+    | 'SCHEDULED'
+    | 'ACTIVE'
+    | 'ENDED'
+    | 'REJECTED'
+    | 'CANCELLED'
+    | 'DRAFT'
+    | 'HIDDEN'
+    | 'ARCHIVED'
+    | 'SETTELD'
+
+// ---------------------------------------------------------------------------
+// Hall Items API shapes  (GET /api/v1/admin/hall-items)
+// ---------------------------------------------------------------------------
+
+export interface HallItemTranslation {
+    languageCode: string
+    name: string
+}
+
+export interface HallItemSeller {
+    id: string
+    businessName?: string
+}
+
+export interface HallItemProductUser {
+    id: string
+    seller?: HallItemSeller
+}
+
+export interface HallItemProduct {
+    id: string
+    title: string
+    user?: HallItemProductUser
+    category?: {
+        id: string
+        translations: HallItemTranslation[]
+    }
+}
+
+export interface HallItemHall {
+    id: string
+    translations: HallItemTranslation[]
+}
+
+/** Top-level item returned by GET /api/v1/admin/hall-items */
+export interface HallItem {
+    id: string
+    status: HallItemStatus
+    createdAt: string
+    hall: HallItemHall
+    product: HallItemProduct
+}
+
+/** Query params for GET /api/v1/admin/hall-items */
+export interface HallItemsParams {
+    page?: number
+    limit?: number
+    search?: string
+    status?: HallItemStatus | null
+    categoryId?: string | null
+}
+
 
 export interface HallAuctionUser {
     id: string

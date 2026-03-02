@@ -1620,15 +1620,20 @@
                 "hallName": "Hall Name",
                 "status": "Status",
                 "assigned": "Assigned",
-                "createdAt": "Created At"
+                "createdAt": "Created At",
+                "noHallName": "Hall name not specified"
             },
             "status": {
                 "active": "Active",
                 "archieved": "Archived",
+                "archived": "Archived",
                 "hidden": "Hidden",
                 "draft": "Draft",
                 "scheduled": "Scheduled",
-                "ended": "Ended"
+                "ended": "Ended",
+                "rejected": "Rejected",
+                "cancelled": "Cancelled",
+                "settled": "Settled"
             },
             "filters": {
                 "status": "Status:",
@@ -1917,6 +1922,26 @@
             "tooManyRequests": "Too many requests. Please try again shortly.",
             "serverError": "Server error. Please try again later.",
             "badRequest": "Please check your input and try again."
+        }
+    },
+    "hallItems": {
+        "table": {
+            "title": "Hall Items",
+            "searchPlaceholder": "Search by product title or seller",
+            "emptyText": "No items found in this hall.",
+            "columns": {
+                "hallName": "Hall Name",
+                "id": "ID",
+                "categoryName": "Category",
+                "product": "Product",
+                "seller": "Seller",
+                "status": "Status",
+                "createdAt": "Created At"
+            },
+            "filters": {
+                "status": "Status",
+                "allStatus": "All Status"
+            }
         }
     }
 }

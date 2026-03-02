@@ -1620,15 +1620,20 @@
                 "hallName": "اسم القاعة",
                 "status": "الحالة",
                 "assigned": "المسندة",
-                "createdAt": "أنشئت في"
+                "createdAt": "أنشئت في",
+                "noHallName": "اسم القاعة غير محدد"
             },
             "status": {
                 "active": "نشط",
                 "archieved": "مؤرشف",
+                "archived": "مؤرشف",
                 "hidden": "مخفي",
                 "draft": "مسودة",
                 "scheduled": "مجدول",
-                "ended": "منتهي"
+                "ended": "منتهي",
+                "rejected": "مرفوض",
+                "cancelled": "ملغي",
+                "settled": "تمت التسوية"
             },
             "filters": {
                 "status": "الحالة:",
@@ -1918,6 +1923,26 @@
             "tooManyRequests": "طلبات كثيرة جداً. يرجى المحاولة مرة أخرى بعد قليل.",
             "serverError": "خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.",
             "badRequest": "يرجى التأكد من البيانات المدخلة والمحاولة مرة أخرى."
+        }
+    },
+    "hallItems": {
+        "table": {
+            "title": "عناصر القاعة",
+            "searchPlaceholder": "البحث حسب عنوان المنتج أو البائع",
+            "emptyText": "لم يتم العثور على عناصر في هذه القاعة.",
+            "columns": {
+                "hallName": "اسم القاعة",
+                "id": "المعرف",
+                "categoryName": "الفئة",
+                "product": "المنتج",
+                "seller": "البائع",
+                "status": "الحالة",
+                "createdAt": "تاريخ الإنشاء"
+            },
+            "filters": {
+                "status": "الحالة",
+                "allStatus": "كل الحالات"
+            }
         }
     }
 }

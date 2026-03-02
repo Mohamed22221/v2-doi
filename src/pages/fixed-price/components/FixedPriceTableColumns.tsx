@@ -105,6 +105,7 @@ export function useFixedPriceTableColumns() {
                     <div className="w-[140px]">
                         <Button
                             size="md"
+                            shape="circle"
                             variant="default"
                             onClick={() =>
                                 navigate(`/fixed-price/${row.original.id}`)
