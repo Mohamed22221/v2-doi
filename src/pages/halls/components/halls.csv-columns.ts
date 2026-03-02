@@ -3,33 +3,21 @@ import { useTranslation } from 'react-i18next'
 import { HallItem } from '@/api/types/halls'
 import { CsvColumnDef } from '@/utils/csv/csv.utils'
 import { formatDateTime } from '@/utils/formatDateTime'
+import { getStatusLabel } from './GetStatusLabel'
 
 export const useHallsCsvColumns = () => {
-    const { t, i18n } = useTranslation()
-    const lang = i18n.language
+    const { t } = useTranslation()
 
     return useMemo<CsvColumnDef<HallItem>[]>(
         () => [
             {
                 header: t('halls.table.columns.hallName'),
                 accessor: (row: HallItem) =>
-                    lang === 'ar' ? row.nameAr : row.nameEn,
+                    row.translations?.[0]?.name || row.id || '',
             },
             {
                 header: t('halls.table.columns.status'),
-                accessor: (row: HallItem) => {
-                    const s = row.visibilityStatus
-                    switch (s) {
-                        case 'ACTIVE':
-                            return t('halls.table.status.active')
-                        case 'ARCHIVED':
-                            return t('halls.table.status.archieved')
-                        case 'HIDDEN':
-                            return t('halls.table.status.hidden')
-                        default:
-                            return s ?? ''
-                    }
-                },
+                accessor: (row: HallItem) => getStatusLabel(row.visibilityStatus),
             },
             {
                 header: t('halls.table.columns.assigned'),
@@ -44,6 +32,6 @@ export const useHallsCsvColumns = () => {
                 },
             },
         ],
-        [t, lang],
+        [t],
     )
 }
