@@ -6,13 +6,13 @@ import {
     useServerTable,
 } from '@/utils/hooks/useServerTable'
 import { useLiveAuctionsTableColumns } from './LiveAuctionsTableColumns'
-import { useGetHallItems } from '@/api/hooks/halls'
+import { useGetHallItems } from '@/api/hooks/live-auctions'
 import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 import { Category } from '@/api/types/categories'
 import { HallItem } from '@/api/types/hall-auctions'
 import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
-import HallsServices from '@/api/services/halls'
+import LiveAuctionsServices from '@/api/services/live-auctions'
 import { useLiveAuctionsCsvColumns } from './live-auctions.csv-columns'
 
 export default function LiveAuctionsTable() {
@@ -110,7 +110,7 @@ export default function LiveAuctionsTable() {
                 fileNamePrefix="live-auctions"
                 columns={csvColumns}
                 currentData={items}
-                serviceMethod={HallsServices.getHallItems}
+                serviceMethod={LiveAuctionsServices.getHallItems}
             />
         )
     }

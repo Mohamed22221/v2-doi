@@ -4,13 +4,12 @@ import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
-// Alias to avoid name clash with HallItem from hall-auctions
 import {
     HallItem as HallMainItem,
     HallItemDetails,
     MainHall,
 } from '../types/halls'
-import { HallAuctionItem, HallItem } from '../types/hall-auctions'
+import { HallAuctionItem } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 
 export const useGetAllHalls = () => {
@@ -22,28 +21,6 @@ export const useGetAllHalls = () => {
     const query = useQuery<TAPIResponseItems<HallMainItem[]>>({
         queryKey: [ReactQueryKeys.ALL_HALLS, queryString, lang],
         queryFn: () => HallsServices.getHalls(queryString),
-    })
-
-    return {
-        ...query,
-        items: query.data?.data?.items ?? [],
-        total: query.data?.data?.total ?? 0,
-        page: query.data?.data?.page ?? 1,
-        limit: query.data?.data?.limit ?? 10,
-        totalPages: query.data?.data?.totalPages ?? 1,
-        errorMessage: query.error ? getApiErrorMessage(query.error) : null,
-    }
-}
-
-export const useGetHallItems = () => {
-    const { i18n } = useTranslation()
-    const lang = i18n.language
-    const [searchParams] = useSearchParams()
-    const queryString = searchParams.toString()
-
-    const query = useQuery<TAPIResponseItems<HallItem[]>>({
-        queryKey: [ReactQueryKeys.HALL_ITEMS, queryString, lang],
-        queryFn: () => HallsServices.getHallItems(queryString),
     })
 
     return {

@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { formatDateTime } from '@/utils/formatDateTime'
 import TwoLineText from '@/components/shared/table/TwoLineText'
 import StatusPill from '@/components/shared/table/StatusPill'
@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button'
 import { HallAuctionItem, HallAuctionStatus } from '@/api/types/hall-auctions'
 import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
 import { Category } from '@/api/types/categories'
+import SellerNameCell from '@/components/helpers/SellerNameCell'
 
 type StatusVariant = 'success' | 'warning' | 'neutral' | 'danger' | 'info'
 
@@ -23,15 +24,6 @@ const getAuctionStatusVariant = (status?: HallAuctionStatus): StatusVariant => {
         default: return 'neutral'
     }
 }
-
-const getSellerName = (item: HallAuctionItem): string => {
-    const user = item.product?.user
-    if (!user) return '—'
-    if (user.businessName) return user.businessName
-    const full = [user.firstName, user.lastName].filter(Boolean).join(' ')
-    return full || '—'
-}
-
 
 const getDisplayDate = (item: HallAuctionItem): string | null => {
     if (item.status === 'SCHEDULED' && item.scheduledAt) return item.scheduledAt
@@ -65,7 +57,7 @@ export function useAssignedAuctionsTableColumns() {
             {
                 header: t('halls.details.table.columns.seller'),
                 accessorKey: 'product.user',
-                cell: ({ row }) => <Link to={`/sellers/${row.original?.product?.user?.id}`}>{getSellerName(row.original)}</Link>,
+                cell: ({ row }) => <SellerNameCell user={row.original.product?.user} />,
             },
             {
                 header: t('halls.details.table.columns.category'),
@@ -111,10 +103,11 @@ export function useAssignedAuctionsTableColumns() {
                 header: '',
                 id: 'actions',
                 cell: ({ row }) => (
-                    <div className="w-[80px]">
+                    <div className="w-[90px]">
                         <Button
+                            size="md"
+                            shape="circle"
                             variant="default"
-                            className="!rounded-xl"
                             onClick={() => navigate(`/live-auctions/${row.original.id}`)}
                         >
                             {t('halls.actions.view')}

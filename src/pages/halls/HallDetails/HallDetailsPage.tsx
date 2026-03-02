@@ -14,7 +14,7 @@ import ErrorState from '@/components/shared/ErrorState'
 const HallDetailsHeader = lazy(() => import('./components/HallDetailsHeader'))
 
 const HallDetailsPage = () => {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
