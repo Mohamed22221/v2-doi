@@ -36,24 +36,37 @@ const ActivityLog = ({ logs }: Props) => {
                         </thead>
                         <tbody className="divide-y divide-gray-50 dark:divide-gray-800/50">
                             {logs?.map((log, index) => {
-                                const { date, time } = formatDateTime(log.createdAt)
+                                const { date, time } = formatDateTime(
+                                    log.createdAt,
+                                )
                                 return (
                                     <tr key={index}>
                                         <td className="py-4 px-4 text-sm font-medium text-gray-900 dark:text-gray-100">
                                             {log.item}
                                         </td>
                                         <td className="py-4 px-4 text-sm text-gray-500">
-                                            {date} <span className="text-xs ml-1 text-neutral-300 font-normal">{time}</span>
+                                            {date}{' '}
+                                            <span className="text-xs ml-1 text-neutral-300 font-normal">
+                                                {time}
+                                            </span>
                                         </td>
                                         <td className="py-4 px-4 text-sm text-gray-500">
-                                            {log.reason || '-'}
+                                            {log.reason ||
+                                                t('common.noDataWithLabel', {
+                                                    name: t(
+                                                        'liveAuctions.details.reason',
+                                                    ),
+                                                })}
                                         </td>
                                     </tr>
                                 )
                             })}
                             {(!logs || logs.length === 0) && (
                                 <tr>
-                                    <td colSpan={3} className="py-10 text-center text-neutral-400">
+                                    <td
+                                        colSpan={3}
+                                        className="py-10 text-center text-neutral-400"
+                                    >
                                         {t('common.noData')}
                                     </td>
                                 </tr>

@@ -5,7 +5,6 @@ import {
     HallItemDetails,
     HideHallItemPayload,
     RejectHallItemPayload,
-    ReorderHallItemPayload,
 } from '../types/hall-auctions'
 
 const LiveAuctionsServices = {
@@ -34,8 +33,8 @@ const LiveAuctionsServices = {
         api.patch(`/admin/hall-items/item/unhide/${id}`),
 
     // PATCH /api/v1/admin/hall-items/item/{id}/reorder
-    reorderHallItem: (id: string, data: ReorderHallItemPayload): Promise<TAPIResponseItem<HallItemDetails>> =>
-        api.patch(`/admin/hall-items/item/${id}/reorder`, data),
+    reorderHallItem: (id: string): Promise<TAPIResponseItem<HallItemDetails>> =>
+        api.patch(`/admin/hall-items/item/${id}/reorder`),
 
     // POST /api/v1/admin/hall-items/item/{id}/end
     forceEndHallItem: (id: string): Promise<TAPIResponseItem<HallItemDetails>> =>

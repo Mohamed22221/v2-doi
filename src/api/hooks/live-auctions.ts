@@ -9,7 +9,7 @@ import {
     HallItemDetails,
     HideHallItemPayload,
     RejectHallItemPayload,
-    ReorderHallItemPayload,
+
 } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 
@@ -101,8 +101,7 @@ export const useUnhideHallItem = () => {
 export const useReorderHallItem = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: ReorderHallItemPayload }) =>
-            LiveAuctionsServices.reorderHallItem(id, data),
+        mutationFn: (id: string) => LiveAuctionsServices.reorderHallItem(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
             queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_AUCTIONS] })

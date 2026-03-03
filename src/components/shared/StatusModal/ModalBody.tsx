@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, FieldProps } from 'formik'
-import { Select, Input } from '@/components/ui'
+import { Input } from '@/components/ui'
 import { FormContainer, FormItem } from '@/components/ui/Form'
 import { StatusModalConfig } from './types'
 
@@ -27,26 +27,6 @@ const ModalBody = ({
         <FormContainer className="w-full">
             <div className="w-full space-y-1">
                 {children}
-                {config?.reasonLabel && (
-                    <FormItem
-                        asterisk
-                        label={config.reasonLabel}
-                        invalid={Boolean(touched.reason && errors.reason)}
-                        errorMessage={errors.reason}
-                    >
-                        <Field name="reason">
-                            {({ field, form }: FieldProps) => (
-                                <Select
-                                    placeholder={config.reasonPlaceholder}
-                                    options={config.reasons}
-                                    value={config.reasons?.find(r => r.value === field.value)}
-                                    onChange={(option) => form.setFieldValue(field.name, option?.value || '')}
-                                    isClearable
-                                />
-                            )}
-                        </Field>
-                    </FormItem>
-                )}
                 {config?.noteLabel && (
                     <FormItem
                         label={config.noteLabel}

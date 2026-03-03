@@ -73,7 +73,7 @@ function onRequest(config: InternalAxiosRequestConfig) {
     }
 
     const lang = store.getState().locale.currentLang || 'ar'
-    config.headers['x-language'] = lang
+    config.headers.set('x-language', lang)
 
     return config
 }

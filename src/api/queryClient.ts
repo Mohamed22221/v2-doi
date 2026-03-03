@@ -21,7 +21,7 @@ function isNetworkError(err: unknown): boolean {
         // Our normalization sets code but no status for network errors
         return !err.status && !!err.code
     }
-    const e = err as any
+    const e = err as AxiosError
     return !!e && e?.response == null && e?.request != null
 }
 

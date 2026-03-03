@@ -827,7 +827,8 @@
                 "reject": "Reject",
                 "hide": "Hide auction",
                 "forceEnd": "Force end",
-                "unhide": "Unhide item"
+                "unhide": "Unhide item",
+                "reorder": "Reorder"
             },
             "modals": {
                 "reasons": {
@@ -869,12 +870,22 @@
                     "description": "Are you sure you want to unhide this item? The item will become visible to users based on its current status.",
                     "confirm": "Unhide item"
                 },
+                "reorder": {
+                    "title": "Reorder Item",
+                    "description": "Are you sure you want to reorder this item? It will be moved to the next available slot in the auction queue.",
+                    "confirm": "Confirm Reorder"
+                },
                 "errors": {
                     "reasonRequired": "Reason is required"
                 }
             },
             "errors": {
-                "itemNotFound": "Auction not found"
+                "itemNotFound": "Auction not found",
+                "rejectSuccess": "Item rejected successfully",
+                "hideSuccess": "Item hidden successfully",
+                "unhideSuccess": "Item unhidden successfully",
+                "reorderSuccess": "Item reordered successfully",
+                "forceEndSuccess": "Auction force ended successfully"
             }
         }
     },

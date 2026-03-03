@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export type ModalType = 'reject' | 'hide' | 'force_end' | 'unhide'
+export type ModalType = 'reject' | 'hide' | 'force_end' | 'unhide' | 'reorder'
 
 export interface ReasonOption {
     label: string
@@ -31,6 +31,5 @@ export interface LiveAuctionStatusModalProps {
 }
 
 export interface FormValues {
-    reason: string
     note: string
 }

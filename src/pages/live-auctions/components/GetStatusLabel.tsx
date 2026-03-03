@@ -15,7 +15,7 @@ export const getLiveAuctionStatusLabel = (
         case 'DRAFT':     return t('halls.table.status.draft')
         case 'HIDDEN':    return t('halls.table.status.hidden')
         case 'ARCHIVED':  return t('halls.table.status.archived')
-        case 'SETTELD':   return t('halls.table.status.settled')
+        case 'SETTLED':   return t('halls.table.status.settled')
         default:          return status ?? ''
     }
 }
@@ -26,7 +26,7 @@ export const getLiveAuctionStatusVariant = (
     switch (status) {
         case 'ACTIVE':    return 'success'
         case 'SCHEDULED': return 'warning'
-        case 'SETTELD':   return 'info'
+        case 'SETTLED':   return 'info'
         case 'REJECTED':  return 'danger'
         case 'CANCELLED': return 'danger'
         case 'DRAFT':     return 'neutral'
