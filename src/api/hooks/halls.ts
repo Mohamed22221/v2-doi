@@ -11,6 +11,7 @@ import {
 } from '../types/halls'
 import { HallAuctionItem } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
+import { EffectiveStatus } from '../types/products'
 
 export const useGetAllHalls = () => {
     const { i18n } = useTranslation()
@@ -97,11 +98,11 @@ export const useUpdateHall = () => {
     })
 }
 
-export const useGetAssignableAuctions = (search?: string, categoryId?: string, enabled = true) => {
+export const useGetAssignableAuctions = (search?: string, categoryId?: string, effectiveStatus?: EffectiveStatus, enabled = true) => {
     const { i18n } = useTranslation()
     const lang = i18n.language
     return useInfiniteQuery({
-        queryKey: ['ASSIGNABLE_AUCTIONS', search, categoryId, lang],
+        queryKey: ['ASSIGNABLE_AUCTIONS', search, categoryId, effectiveStatus, lang],
         initialPageParam: 1,
         enabled,
         queryFn: ({ pageParam }) =>
@@ -110,6 +111,7 @@ export const useGetAssignableAuctions = (search?: string, categoryId?: string, e
                 10,
                 search,
                 categoryId,
+                effectiveStatus,
             ),
         getNextPageParam: (lastPage) =>
             lastPage.data.page < lastPage.data.totalPages
