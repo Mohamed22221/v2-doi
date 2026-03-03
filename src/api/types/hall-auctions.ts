@@ -145,7 +145,9 @@ export interface AssignItemsToHallPayload {
 export interface ActivityLogItem {
     item: string
     createdAt: string
-    reason?: string
+    note?: string
+    type: string
+    actorUserId: string
 }
 
 /** Hall shape nested inside HallItemDetails */
@@ -189,6 +191,8 @@ export interface HallItemDetails extends BaseEntity {
     status: HallItemStatus
     startedAt: string | null
     endedAt: string | null
+    calculatedStartTime: string | null
+    calculatedEndTime: string | null
     winnerUserId: string | null
     activityLogs: ActivityLogItem[]
 }

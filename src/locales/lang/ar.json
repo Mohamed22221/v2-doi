@@ -826,6 +826,20 @@
             "logItem": "المنتج",
             "createdAt": "أنشئت في",
             "reason": "السبب",
+            "event": "الحدث",
+            "logTypes": {
+                "itemCreated": "تم إنشاء المزاد من قِبل البائع",
+                "itemSubmitted": "تم إرسال المزاد للمراجعة",
+                "itemApproved": "تمت الموافقة على المزاد من قِبل الإدارة",
+                "itemRejected": "تم رفض المزاد من قِبل الإدارة",
+                "itemHidden": "تم إخفاء المزاد من قِبل الإدارة",
+                "itemUnhidden": "تم إظهار المزاد من قِبل الإدارة",
+                "itemScheduled": "تمت جدولة المزاد",
+                "itemLive": "بدأ المزاد مباشرةً",
+                "itemEnded": "انتهى المزاد",
+                "itemCancelled": "تم إلغاء المزاد",
+                "itemReordered": "تمت إعادة ترتيب المزاد"
+            },
             "actions": {
                 "reject": "رفض",
                 "hide": "إخفاء المزاد",

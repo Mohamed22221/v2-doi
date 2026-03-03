@@ -823,6 +823,20 @@
             "logItem": "Item",
             "createdAt": "Created At",
             "reason": "Reason",
+            "event": "Event",
+            "logTypes": {
+                "itemCreated": "Auction created by seller",
+                "itemSubmitted": "Auction submitted for review",
+                "itemApproved": "Auction approved by admin",
+                "itemRejected": "Auction rejected by admin",
+                "itemHidden": "Auction hidden by admin",
+                "itemUnhidden": "Auction unhidden by admin",
+                "itemScheduled": "Auction scheduled",
+                "itemLive": "Auction went live",
+                "itemEnded": "Auction ended",
+                "itemCancelled": "Auction cancelled",
+                "itemReordered": "Auction reordered"
+            },
             "actions": {
                 "reject": "Reject",
                 "hide": "Hide auction",

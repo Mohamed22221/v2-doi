@@ -195,10 +195,10 @@ const LiveAuctionStatusModal = ({
 
     return (
         <Dialog
+            width={500}
             isOpen={isOpen}
             onClose={onClose}
             onRequestClose={onClose}
-            width={500}
         >
             <Formik
                 initialValues={initialValues}
@@ -216,8 +216,8 @@ const LiveAuctionStatusModal = ({
                         />
                         <ModalFooter
                             config={config}
-                            onClose={onClose}
                             isPending={isPending}
+                            onClose={onClose}
                         />
                     </Form>
                 )}

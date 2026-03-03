@@ -15,10 +15,10 @@ interface Props {
 const PricingAndDescription = ({ data }: Props) => {
     const { t } = useTranslation()
     const { date: startDate, time: startTime } = formatDateTime(
-        data?.startedAt || '',
+        data?.calculatedStartTime || '',
     )
     const { date: endDate, time: endTime } = formatDateTime(
-        data?.product.auctionEndAt || '',
+        data?.calculatedEndTime || '',
     )
 
     const hallName =
@@ -74,7 +74,7 @@ const PricingAndDescription = ({ data }: Props) => {
                         <InfoRow
                             label={t('liveAuctions.details.start')}
                             value={
-                                data?.startedAt
+                                data?.calculatedStartTime
                                     ? `${startDate} – ${startTime}`
                                     : t('common.noDataWithLabel', {
                                           name: t('liveAuctions.details.start'),
@@ -84,7 +84,7 @@ const PricingAndDescription = ({ data }: Props) => {
                         <InfoRow
                             label={t('liveAuctions.details.end')}
                             value={
-                                data?.endedAt
+                                data?.calculatedEndTime
                                     ? `${endDate} – ${endTime}`
                                     : t('common.noDataWithLabel', {
                                           name: t('liveAuctions.details.end'),

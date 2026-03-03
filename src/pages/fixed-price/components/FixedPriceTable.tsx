@@ -146,7 +146,7 @@ export default function FixedPriceTable() {
             filters={tableQ.filters}
             isLoading={isLoading}
             emptyText={t('fixedPrice.table.emptyText')}
-            avatarInColumns={[0, 2]}
+            avatarInColumns={[0]}
             requestedPage={tableQ.requestedPage}
             isError={isError}
             errorText={errorMessage ?? ''}
