@@ -1,14 +1,16 @@
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import ErrorState from '../shared/ErrorState'
+import i18n from '@/locales'
 
 type Props = {
     children: React.ReactNode
 }
 
 const ErrorFallback = ({ error }: FallbackProps) => {
-   const message =
-    error instanceof Error ? error.message : 'Something went wrong'
-    console.log(message)
+    const message =
+        error instanceof Error
+            ? error.message
+            : i18n.t('common.somethingWentWrong')
     return (
         <div>
             <ErrorState message={message} fullPage={true} />

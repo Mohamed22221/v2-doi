@@ -54,7 +54,8 @@ export type ProductModerationStatus = 'pending' | 'approved' | 'rejected' | 'hid
 export type ProductBusinessStatus = 'available' | 'sold' | 'reserved'
 export type PublishStatus = 'published' | 'draft' | 'archived'
 export type SellType = 'fixed_price' | 'live_auction' | 'period_auction'
-export type EffectiveStatus = 'active' | 'pending_approval' | 'auction_scheduled' | 'rejected' | 'hidden' | 'sold' | 'draft'
+export type EffectiveStatus = 'active' | 'pending_approval' | 'auction_scheduled' | 'rejected' | 'hidden' | 'sold' | 'draft' | 'inactive' | 'auction_live' | 'auction_ended'
+//draft, pending_approval, rejected, active, inactive, auction_scheduled, auction_live, auction_ended, sold, hidden
 
 export interface Product extends BaseEntity {
     title: string

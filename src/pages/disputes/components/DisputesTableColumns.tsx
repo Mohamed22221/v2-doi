@@ -36,6 +36,8 @@ export function useDisputesTableColumns() {
                     <TwoLineText
                         title={row.original.buyer.name}
                         subtitle={row.original.buyer.phone}
+                        titleLabel={t('disputes.table.columns.buyer')}
+                        subtitleLabel={t('common.phone')}
                         size="sm"
                     />
                 ),

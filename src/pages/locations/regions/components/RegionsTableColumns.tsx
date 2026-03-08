@@ -27,7 +27,12 @@ export function useRegionsTableColumns(
                 header: t('locations.regions.table.columns.regionName'),
                 accessorKey: 'name',
                 cell: ({ row }) => (
-                    <TwoLineText title={row.original.name} subtitle={row.original.nameAr} size="sm" />
+                    <TwoLineText
+                        title={row.original.name}
+                        subtitle={row.original.nameAr}
+                        titleLabel={t('locations.regions.table.columns.regionName')}
+                        size="sm"
+                    />
 
                 ),
             },

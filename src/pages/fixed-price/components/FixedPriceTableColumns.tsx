@@ -15,6 +15,7 @@ import { Product } from '@/api/types/products'
 // Local Components
 import { getStatusLabel, getStatusVariant } from './GetStatusLabel'
 import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
+import SellerNameCell from '@/components/helpers/SellerNameCell'
 
 
 /**
@@ -39,6 +40,8 @@ export function useFixedPriceTableColumns() {
                         image={row.original.images?.[0]?.url}
                         title={row.original.title}
                         subtitle={row.original.id}
+                        titleLabel={t('fixedPrice.table.columns.item')}
+                        subtitleLabel={t('fixedPrice.table.columns.id')}
                         size="sm"
                     />
                 ),
@@ -48,13 +51,9 @@ export function useFixedPriceTableColumns() {
             {
                 header: t('fixedPrice.table.columns.seller'),
                 accessorKey: 'user',
-                cell: ({ row }) => {
-                    const user = row.original.user
-                    if (user?.firstName || user?.lastName) {
-                        return `${user.firstName || ''} ${user.lastName || ''}`.trim()
-                    }
-                    return row.original.userId
-                },
+                cell: ({ row }) => (
+                    <SellerNameCell user={row.original.user} />
+                ),
             },
             // Category Column (Name + Image)
             // Displays the category name (translated) and its image.
@@ -103,6 +102,7 @@ export function useFixedPriceTableColumns() {
                     <div className="w-[140px]">
                         <Button
                             size="md"
+                            shape="circle"
                             variant="default"
                             onClick={() =>
                                 navigate(`/fixed-price/${row.original.id}`)

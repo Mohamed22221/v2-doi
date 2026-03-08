@@ -30,6 +30,7 @@ export function useCitiesTableColumns(
                     <TwoLineText
                         title={row.original.name}
                         subtitle={row.original.nameAr}
+                        titleLabel={t('locations.cities.table.columns.cityName')}
                         size="sm"
                     />
                 ),

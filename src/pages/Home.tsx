@@ -1,5 +1,4 @@
 
-import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import Logo from '@/components/template/Logo'
 import { useTranslation } from 'react-i18next'
 

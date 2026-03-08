@@ -5,7 +5,7 @@ import { HiEye, HiTrash, HiOutlineUpload } from 'react-icons/hi'
 import Cropper, { Area } from 'react-easy-crop'
 import Dialog from '@/components/ui/Dialog'
 import Upload from '@/components/ui/Upload'
-import { Notification, Spinner, toast, Button } from '@/components/ui'
+import { Notification, Spinner, toast, Button, Icon } from '@/components/ui'
 import { useUploadFiles } from '@/api/hooks/storage'
 import AdaptableCard from '@/components/shared/AdaptableCard'
 import getCroppedImg from '@/utils/cropImage'
@@ -249,7 +249,7 @@ const ImageUpload = (props: Props) => {
                                     </>
                                 ) : (
                                     <div className="h-full w-full flex flex-col items-center justify-center text-xs text-gray-500 gap-1">
-                                        <HiOutlineUpload className="text-lg" />
+                                        <Icon name='camera' className="text-4xl mb-2" />
                                         <span className="text-center px-2">
                                             {placeholder || t('common.browse')}
                                         </span>
@@ -319,11 +319,11 @@ const ImageUpload = (props: Props) => {
                             </div>
                         )}
                         <div className={[
-                            'border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg border-none cursor-pointer hover:border-blue-500 transition-colors',
+                            'border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-[16px] border-none cursor-pointer hover:border-blue-500 transition-colors',
                             (isUploading || cropLoading) ? 'opacity-60 pointer-events-none' : ''
                         ].join(' ')}>
                             <div className="py-10 text-center flex flex-col items-center">
-                                <HiOutlineUpload className="text-4xl mb-2 text-gray-400" />
+                                <Icon name='camera' className="text-4xl mb-2" />
                                 <p className="font-semibold">
                                     <span className="text-gray-800 dark:text-white">{t('common.dropImage')} </span>
                                     <span className="text-blue-500">{t('common.browse')}</span>

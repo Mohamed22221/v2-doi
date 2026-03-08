@@ -37,6 +37,7 @@ export function useCategoriesTableColumns({
                             imageSize="sm"
                             image={row.original.image}
                             title={name}
+                            titleLabel={t('categories.table.columns.categoryName')}
                             size="sm"
                         />
                     )

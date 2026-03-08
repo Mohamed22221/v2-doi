@@ -12,6 +12,7 @@ export type LoginRequest = {
 
 export type LoginResponse = {
     access_token: string
+    refresh_token: string
     otpSessionId?: OtpSessionId
     code?: string
     user: {
@@ -29,6 +30,7 @@ export type VerifyOtpRequest = {
 
 export type VerifyOtpResponse = {
     access_token: string
+    refresh_token?: string
     user: LoginResponse['user']
 }
 export type ResendOtpRequest = {
@@ -66,4 +68,13 @@ export type VerifyForgotOtpResponse = {
 export type RequestNewPassword = {
     token: string
     newPassword: string
+}
+
+export type RefreshTokenRequest = {
+    refresh_token: string
+}
+
+export type RefreshTokenResponse = {
+    access_token: string
+    refresh_token: string
 }

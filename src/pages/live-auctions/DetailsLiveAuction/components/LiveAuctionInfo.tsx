@@ -1,17 +1,20 @@
-import { LiveAuctionItemDetails } from '@/api/types/live-auctions'
+import { HallItemDetails } from '@/api/types/hall-auctions'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { Button } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import LiveAuctionStatusModal from './LiveAuctionStatusModal'
-import { getLiveAuctionStatusLabel, getLiveAuctionStatusVariant } from '../../components/GetStatusLabel'
+import {
+    getLiveAuctionStatusLabel,
+    getLiveAuctionStatusVariant,
+} from '../../components/GetStatusLabel'
 import { ModalType } from './modalStatus/types'
 
 import AccountId from '@/components/shared/cards/AccountId'
 
 interface Props {
-    data?: LiveAuctionItemDetails
+    data?: HallItemDetails
 }
 
 const LiveAuctionInfo = ({ data }: Props) => {
@@ -34,11 +37,11 @@ const LiveAuctionInfo = ({ data }: Props) => {
                 <div>
                     <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-xl sm:text-2xl font-semibold ">
-                            {data?.name}
+                            {data?.product?.title}
                         </h2>
                         <StatusPill
                             variant={getLiveAuctionStatusVariant(data?.status)}
-                            label={getLiveAuctionStatusLabel(data?.status)}
+                            label={getLiveAuctionStatusLabel(data?.status, t)}
                             size="sm"
                         />
                     </div>
@@ -46,7 +49,7 @@ const LiveAuctionInfo = ({ data }: Props) => {
                 </div>
 
                 <div className="flex gap-3">
-                    {data?.status === 'scheduled' && (
+                    {data?.status === 'SCHEDULED' && (
                         <>
                             <Button
                                 variant="default"
@@ -59,7 +62,7 @@ const LiveAuctionInfo = ({ data }: Props) => {
                             <Button
                                 variant="solid"
                                 size="md"
-                                color='primary'
+                                color="primary"
                                 onClick={() => openModal('hide')}
                             >
                                 {t('liveAuctions.details.actions.hide')}
@@ -67,7 +70,7 @@ const LiveAuctionInfo = ({ data }: Props) => {
                         </>
                     )}
 
-                    {data?.status === 'live' && (
+                    {data?.status === 'ACTIVE' && (
                         <>
                             <Button
                                 variant="default"
@@ -88,10 +91,9 @@ const LiveAuctionInfo = ({ data }: Props) => {
                         </>
                     )}
 
-                    {data?.status === 'hidden' && (
+                    {data?.status === 'HIDDEN' && (
                         <Button
                             variant="solid"
-
                             size="md"
                             onClick={() => openModal('unhide')}
                         >
@@ -105,7 +107,9 @@ const LiveAuctionInfo = ({ data }: Props) => {
                 isOpen={modalConfig.isOpen}
                 type={modalConfig.type}
                 id={data?.id || ''}
-                onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
+                onClose={() =>
+                    setModalConfig({ ...modalConfig, isOpen: false })
+                }
             />
         </BackgroundRounded>
     )

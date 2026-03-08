@@ -8,7 +8,6 @@ import {
     Dialog,
     Notification,
     toast,
-    Select,
 } from '@/components/ui'
 import {
     ModalHeader,
@@ -17,9 +16,10 @@ import {
     StatusModalConfig,
 } from '@/components/shared/StatusModal'
 import { useCreateCity, useUpdateCity } from '@/api/hooks/cities'
-import { useGetAllRegions } from '@/api/hooks/regions'
 import { getApiErrorMessage } from '@/api/error'
 import { City } from '@/api/types/cities'
+import { useMemo } from 'react'
+import RegionsSelect from '@/components/helpers/RegionsSelect'
 
 type CityUpsertModalProps = {
     isOpen: boolean
@@ -32,13 +32,11 @@ const CityUpsertModal = ({
     onClose,
     city,
 }: CityUpsertModalProps) => {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const isEdit = Boolean(city?.id)
-    const isAr = i18n.language === 'ar'
 
     const { mutate: createCity, isPending: isCreating } = useCreateCity()
     const { mutate: updateCity, isPending: isUpdating } = useUpdateCity()
-    const { regions, isLoading: isRegionsLoading } = useGetAllRegions()
 
     const initialValues = {
         name: city?.name || '',
@@ -113,10 +111,10 @@ const CityUpsertModal = ({
         confirmColor: 'primary',
     }
 
-    const regionOptions = regions?.map((r) => ({
-        label: isAr ? r.nameAr : r.name,
-        value: r.id,
-    })) || []
+    const initialRegionOption = useMemo(() => {
+        if (!isEdit || !city?.regionId || !city?.region) return null
+        return city.region
+    }, [isEdit, city])
 
     return (
         <Dialog
@@ -168,12 +166,11 @@ const CityUpsertModal = ({
                                         invalid={Boolean(touched.regionId && errors.regionId)}
                                         errorMessage={errors.regionId}
                                     >
-                                        <Select
-                                            placeholder={t('locations.cities.modal.fields.regionPlaceholder')}
-                                            options={regionOptions}
-                                            value={regionOptions.find(opt => opt.value === values.regionId)}
-                                            onChange={(opt) => setFieldValue('regionId', opt?.value)}
-                                            isLoading={isRegionsLoading}
+                                        <RegionsSelect
+                                            value={values.regionId || null}
+                                            onChange={(val) => setFieldValue('regionId', val ?? '')}
+                                            initialOption={initialRegionOption}
+                                            errorPlaceholder={t('locations.cities.modal.fields.regionErrorPlaceholder')}
                                         />
                                     </FormItem>
                                 </FormContainer>

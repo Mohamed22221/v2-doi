@@ -24,8 +24,9 @@ export function useUserTableColumns() {
                         imageSize="sm"
                         image={row.original.image}
                         title={`${row.original.firstName} ${row.original.lastName}`}
-                        subtitle={row.original.id}
-                        subtitlePrefix={t('users.table.columns.idPrefix')}
+                        subtitle={row.original.email}
+                        titleLabel={t('users.table.columns.name')}
+                        subtitleLabel={t('users.table.columns.email')}
                         size="sm"
                     />
                 ),

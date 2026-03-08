@@ -11,6 +11,8 @@ import CityDeleteModal from './CityDeleteModal'
 // Hooks
 import { useGetAllCities } from '@/api/hooks/cities'
 import { useCitiesTableColumns } from './CitiesTableColumns'
+import { useCitiesCsvColumns } from './cities.csv-columns'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
 
 // Types
 import { City } from '@/api/types/cities'
@@ -59,20 +61,38 @@ export default function CitiesTable() {
     // Column definitions
     const columns = useCitiesTableColumns(onEdit, onDelete)
 
+    // CSV Export Configuration
+    const csvColumns = useCitiesCsvColumns()
+
     /**
      * HeaderActions Component
-     * Renders the "Add City" action in the table header.
      */
     const HeaderActions = () => {
         return (
-            <Button
-                size="md"
-                variant="solid"
-                icon={<HiOutlinePlus />}
-                onClick={onAdd}
-            >
-                {t('locations.cities.actions.addCity')}
-            </Button>
+            <div className="flex items-center gap-2">
+                <ServerCsvExportButton
+                    fileNamePrefix="cities"
+                    columns={csvColumns}
+                    currentData={cities}
+                    serviceMethod={async () => ({
+                        data: {
+                            cities: cities,
+                            total,
+                            page: 1,
+                            limit,
+                            totalPages: 1,
+                        },
+                    })}
+                />
+                <Button
+                    size="sm md:md"
+                    variant="solid"
+                    icon={<HiOutlinePlus />}
+                    onClick={onAdd}
+                >
+                    {t('locations.cities.actions.addCity')}
+                </Button>
+            </div>
         )
     }
 

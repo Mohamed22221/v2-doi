@@ -5,17 +5,16 @@ import store, { persistor } from './store'
 import Theme from '@/components/template/Theme'
 import Layout from '@/components/layouts'
 import './locales'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import queryClient from './api/queryClient'
 
-const client = new QueryClient()
 function App() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <QueryClientProvider client={client}>
+                <QueryClientProvider client={queryClient}>
                     <ReactQueryDevtools initialIsOpen={false} />
-
                     <BrowserRouter>
                         <Theme>
                             <Layout />

@@ -6,9 +6,11 @@
         "inactive": "Inactive",
         "edit": "Edit",
         "view": "View",
+        "delete": "Delete",
         "cancelChanges": "Cancel Changes",
         "dropImage": "Drop your image here, or",
         "browse": "browse",
+        "uploadCoverImage": "Upload Cover Image",
         "supportFormats": "Support: jpeg, png, webp",
         "loading": "Loading",
         "add": "Add",
@@ -41,7 +43,12 @@
         "productDefects": "Product Defects",
         "pricingAndStock": "Pricing & Stock",
         "availableQuantity": "Available Quantity",
-        "sellerName": "Seller Name"
+        "sellerName": "Seller Name",
+        "somethingWentWrong": "Something went wrong",
+        "saveAsDraft": "Save as Draft",
+        "noDataShort": "Not Found",
+        "new": "New",
+        "used": "Used"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -153,7 +160,8 @@
             "invalidPhone": "Please enter a valid phone number (+966501234567)",
             "passwordsDoNotMatch": "Your passwords do not match",
             "passwordIsRequired": "Password is required",
-            "otpRequired": "Please enter the 4-digit OTP code."
+            "otpRequired": "Please enter the 4-digit OTP code.",
+            "administratorOnly": "Only administrators are allowed to log in."
         }
     },
     "settings": {
@@ -614,6 +622,9 @@
                 "outOfStock": "Out of stock",
                 "pendingReview": "Pending Review",
                 "auctionScheduled": "Auction Scheduled",
+                "auctionLive": "Auction Live",
+                "auctionEnded": "Auction Ended",
+                "inactive": "Inactive",
                 "draft": "Draft"
             },
             "filters": {
@@ -815,11 +826,27 @@
             "logItem": "Item",
             "createdAt": "Created At",
             "reason": "Reason",
+            "event": "Event",
+            "logTypes": {
+                "itemCreated": "Auction created by seller",
+                "itemSubmitted": "Auction submitted for review",
+                "itemApproved": "Auction approved by admin",
+                "itemRejected": "Auction rejected by admin",
+                "itemHidden": "Auction hidden by admin",
+                "itemUnhidden": "Auction unhidden by admin",
+                "itemScheduled": "Auction scheduled",
+                "itemLive": "Auction went live",
+                "itemEnded": "Auction ended",
+                "itemCancelled": "Auction cancelled",
+                "itemReordered": "Auction reordered",
+                "auctionForceEnded": "Auction force ended by admin"
+            },
             "actions": {
                 "reject": "Reject",
                 "hide": "Hide auction",
                 "forceEnd": "Force end",
-                "unhide": "Unhide item"
+                "unhide": "Unhide item",
+                "reorder": "Reorder"
             },
             "modals": {
                 "reasons": {
@@ -861,12 +888,22 @@
                     "description": "Are you sure you want to unhide this item? The item will become visible to users based on its current status.",
                     "confirm": "Unhide item"
                 },
+                "reorder": {
+                    "title": "Reorder Item",
+                    "description": "Are you sure you want to reorder this item? It will be moved to the next available slot in the auction queue.",
+                    "confirm": "Confirm Reorder"
+                },
                 "errors": {
                     "reasonRequired": "Reason is required"
                 }
             },
             "errors": {
-                "itemNotFound": "Auction not found"
+                "itemNotFound": "Auction not found",
+                "rejectSuccess": "Item rejected successfully",
+                "hideSuccess": "Item hidden successfully",
+                "unhideSuccess": "Item unhidden successfully",
+                "reorderSuccess": "Item reordered successfully",
+                "forceEndSuccess": "Auction force ended successfully"
             }
         }
     },
@@ -1612,12 +1649,20 @@
                 "hallName": "Hall Name",
                 "status": "Status",
                 "assigned": "Assigned",
-                "createdAt": "Created At"
+                "createdAt": "Created At",
+                "noHallName": "Hall name not specified"
             },
             "status": {
                 "active": "Active",
-                "achieved": "Achieved",
-                "hidden": "Hidden"
+                "archieved": "Archived",
+                "archived": "Archived",
+                "hidden": "Hidden",
+                "draft": "Draft",
+                "scheduled": "Scheduled",
+                "ended": "Ended",
+                "rejected": "Rejected",
+                "cancelled": "Cancelled",
+                "settled": "Settled"
             },
             "filters": {
                 "status": "Status:",
@@ -1644,6 +1689,9 @@
         "descriptionPlaceholder": "Enter Description",
         "mediaAssets": "Media Assets",
         "coverImage": "COVER IMAGE",
+        "upload": {
+            "success": "Image uploaded successfully"
+        },
         "publishing": "Publishing",
         "activeStatus": "Status",
         "sortOrder": "Sort Order",
@@ -1652,32 +1700,89 @@
         "parentHall": "Parent Category",
         "subHall": "Sub Category",
         "selectParent": "Select Parent Category",
+        "categories": {
+            "all": "All",
+            "specific": "Specific Categories"
+        },
+        "selectCategory": "Select Specific Categories",
         "name": "Hall Name",
         "namePlaceholder": "Enter Hall Name",
+        "time": {
+            "title": "Time",
+            "hallDate": "Hall Date",
+            "hallDatePlaceholder": "Select Date",
+            "startingTime": "Starting Time",
+            "startingTimePlaceholder": "Select Time",
+            "itemDuration": "Item Duration",
+            "itemDurationPlaceholder": "Select Duration in mins",
+            "mins": "mins"
+        },
         "errors": {
             "nameRequired": "Hall name is required",
             "statusRequired": "Status is required",
             "sortOrderRequired": "Sort order is required",
             "imageRequired": "Cover image is required",
-            "invalidImageUrl": "Invalid image URL"
+            "invalidImageUrl": "Invalid image URL",
+            "categoryRequired": "At least one category is required",
+            "hallDateRequired": "Hall date is required",
+            "startingTimeRequired": "Starting time is required",
+            "itemDurationRequired": "Item duration is required",
+            "onlyDraftEditable": "Only draft halls can be edited",
+            "notEditable": "Hall is not editable"
         },
         "details": {
             "title": "Hall Details",
+            "scheduleHall": "Schedule Hall",
+            "deleteHall": "Delete Hall",
             "assignLiveAuctions": "Assign Live Auctions",
+            "manualReordering": "Manual Reordering",
+            "reorderingAllowed": "Allowed",
+            "reorderingLocked": "Locked",
+            "deleteModal": {
+                "title": "Delete Assigned Item",
+                "description": "Are you sure you want to remove this item from the hall? This action cannot be undone.",
+                "confirm": "Delete",
+                "cancel": "Cancel",
+                "success": "Item removed successfully"
+            },
+            "header": {
+                "title": "Auction Items",
+                "subtitle": "Add auction items to this hall and arrange their order before the auction begins.",
+                "addItems": "Add Items",
+                "sequenceTitle": "Auction Sequence",
+                "sequenceSubtitle": "This is the exact sequence bidders will see when the auction goes live."
+            },
+            "banner": {
+                "draggable": "Item order is unlocked. Drag the row handles to reorder items before the auction begins. The exact order will be auto-saved and locked once the auction goes Live."
+            },
             "table": {
                 "columns": {
                     "item": "Item",
                     "idPrefix": "ID:",
+                    "order": "Order",
                     "seller": "Seller",
                     "category": "Category",
                     "status": "Status",
                     "dateRange": "Date range"
                 },
-                "searchPlaceholder": "Search by Product name or seller"
+                "searchPlaceholder": "Search by Product",
+                "status": {
+                    "live": "Live",
+                    "scheduled": "Scheduled",
+                    "hidden": "Hidden",
+                    "ended": "Ended",
+                    "rejected": "Rejected",
+                    "cancelled": "Cancelled"
+                },
+                "filters": {
+                    "status": "Status:",
+                    "allStatus": "All Status"
+                }
             },
             "assignModal": {
                 "title": "Assign Live Auction",
                 "subtitle": "Select Auctions to add to",
+                "successMessage": "Auctions assigned successfully",
                 "searchPlaceholder": "Search by auction title, auction ID, or seller",
                 "filters": {
                     "status": "Status",
@@ -1695,6 +1800,18 @@
                 "row": {
                     "startingBid": "Starting Bid",
                     "seller": "Seller"
+                }
+            },
+            "modals": {
+                "schedule": {
+                    "title": "Schedule Hall",
+                    "description": "Are you sure you want to schedule this hall? It will become active and visible to users.",
+                    "confirm": "Schedule Hall"
+                },
+                "delete": {
+                    "title": "Delete Hall",
+                    "description": "Are you sure you want to delete this hall? This action cannot be undone.",
+                    "confirm": "Delete Hall"
                 }
             }
         },
@@ -1723,9 +1840,9 @@
                 "editTitle": "Edit Region",
                 "fields": {
                     "nameLabel": "Region Name (English)",
-                    "namePlaceholder": "Write Region Name",
-                    "nameArLabel": "اسم المنطقة (عربي)",
-                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                    "namePlaceholder": "Write Region Name (English)",
+                    "nameArLabel": "Region Name (Arabic)",
+                    "nameArPlaceholder": "Write Region Name (Arabic)"
                 },
                 "actions": {
                     "create": "Create",
@@ -1767,11 +1884,12 @@
                 "editTitle": "Edit City",
                 "fields": {
                     "nameLabel": "City Name (English)",
-                    "namePlaceholder": "Write City Name",
-                    "nameArLabel": "اسم المدينة (عربي)",
-                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "namePlaceholder": "Write City Name (English)",
+                    "nameArLabel": "City Name (Arabic)",
+                    "nameArPlaceholder": "Write City Name (Arabic)",
                     "regionLabel": "Region",
-                    "regionPlaceholder": "Select a Region"
+                    "regionPlaceholder": "Select a Region",
+                    "regionErrorPlaceholder": "Error loading regions"
                 },
                 "actions": {
                     "create": "Create",
@@ -1838,6 +1956,41 @@
                     "nameArRequired": "Area name is required",
                     "cityRequired": "City is required"
                 }
+            }
+        }
+    },
+    "api": {
+        "errors": {
+            "canceled": "Request canceled.",
+            "default": "An error occurred. Please try again.",
+            "timeout": "Request timed out. Please try again.",
+            "network": "Network error, please try again.",
+            "unauthorized": "Session expired. Please sign in again.",
+            "invalidCredentials": "Invalid credentials. Please check your email/phone and password.",
+            "forbidden": "You don't have permission to perform this action.",
+            "notFound": "Resource not found.",
+            "tooManyRequests": "Too many requests. Please try again shortly.",
+            "serverError": "Server error. Please try again later.",
+            "badRequest": "Please check your input and try again."
+        }
+    },
+    "hallItems": {
+        "table": {
+            "title": "Hall Items",
+            "searchPlaceholder": "Search by product title or seller",
+            "emptyText": "No items found in this hall.",
+            "columns": {
+                "hallName": "Hall Name",
+                "id": "ID",
+                "categoryName": "Category",
+                "product": "Product",
+                "seller": "Seller",
+                "status": "Status",
+                "createdAt": "Created At"
+            },
+            "filters": {
+                "status": "Status",
+                "allStatus": "All Status"
             }
         }
     }

@@ -6,13 +6,14 @@ import {
     useServerTable,
 } from '@/utils/hooks/useServerTable'
 import { useLiveAuctionsTableColumns } from './LiveAuctionsTableColumns'
-import { LiveAuctionItem } from '@/api/types/live-auctions'
-import { useGetLiveAuctions } from '../hooks/useGetLiveAuctions'
-import Button from '@/components/ui/Button'
-import { HiDownload } from 'react-icons/hi'
+import { useGetHallItems } from '@/api/hooks/live-auctions'
 import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 import { Category } from '@/api/types/categories'
+import { HallItem } from '@/api/types/hall-auctions'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
+import LiveAuctionsServices from '@/api/services/live-auctions'
+import { useLiveAuctionsCsvColumns } from './live-auctions.csv-columns'
 
 export default function LiveAuctionsTable() {
     const { t } = useTranslation()
@@ -50,11 +51,16 @@ export default function LiveAuctionsTable() {
                 value: null,
                 valueType: 'string',
                 options: [
-                    { label: t('liveAuctions.table.status.live'), value: 'live' },
-                    { label: t('liveAuctions.table.status.scheduled'), value: 'scheduled' },
-                    { label: t('liveAuctions.table.status.hidden'), value: 'hidden' },
-                    { label: t('liveAuctions.table.status.ended'), value: 'ended' },
-                    { label: t('liveAuctions.table.status.rejected'), value: 'rejected' },
+                    { label: t('halls.table.status.active'), value: 'ACTIVE' },
+                    { label: t('halls.table.status.scheduled'), value: 'SCHEDULED' },
+                    { label: t('halls.table.status.hidden'), value: 'HIDDEN' },
+                    { label: t('halls.table.status.ended'), value: 'ENDED' },
+                    { label: t('halls.table.status.rejected'), value: 'REJECTED' },
+                    { label: t('halls.table.status.cancelled'), value: 'CANCELLED' },
+                    { label: t('halls.table.status.draft'), value: 'DRAFT' },
+                    { label: t('halls.table.status.archived'), value: 'ARCHIVED' },
+                    { label: t('halls.table.status.settled'), value: 'SETTELD' },
+
                 ],
                 placeholder: t('liveAuctions.table.filters.allStatus'),
             },
@@ -93,34 +99,24 @@ export default function LiveAuctionsTable() {
         isError,
         errorMessage,
         limit
-    } = useGetLiveAuctions({
-        search: tableQ.searchValue,
-        status: tableQ.filters.find(f => f.key === 'status')?.value as string,
-        category: tableQ.filters.find(f => f.key === 'categoryId')?.value as string,
-        page: tableQ.requestedPage,
-        limit: tableQ.pageSize
-    })
+    } = useGetHallItems()
 
     const columns = useLiveAuctionsTableColumns()
-
-    const handleExport = () => {
-        console.log('Exporting CSV...')
-    }
+    const csvColumns = useLiveAuctionsCsvColumns()
 
     const HeaderActions = () => {
         return (
-            <Button
-                size="sm md:md"
-                icon={<HiDownload className="text-primary-500 dark:text-primary-100" />}
-                onClick={handleExport}
-            >
-                {t('common.exportCsv') || 'Export CSV'}
-            </Button>
+            <ServerCsvExportButton
+                fileNamePrefix="live-auctions"
+                columns={csvColumns}
+                currentData={items}
+                serviceMethod={LiveAuctionsServices.getHallItems}
+            />
         )
     }
 
     return (
-        <ViewTable<LiveAuctionItem>
+        <ViewTable<HallItem>
             showSearch
             title={t('liveAuctions.table.title') || 'Live Auctions'}
             columns={columns}

@@ -21,6 +21,18 @@ const CitiesServices = {
     ): Promise<TAPIResponseItem<City>> => api.put(`/admin/cities/${id}`, data),
     deleteCity: (id: string): Promise<TAPIResponseItem<null>> =>
         api.delete(`/admin/cities/${id}`),
+    getInfinityCities: (
+        page: number,
+        limit: number = 10,
+        search?: string,
+    ): Promise<TAPIResponseCities<City[]>> =>
+        api.get('/admin/cities', {
+            params: {
+                page,
+                limit,
+                ...(search && { search }),
+            },
+        }),
 }
 
 export default CitiesServices

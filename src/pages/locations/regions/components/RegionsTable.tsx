@@ -11,6 +11,8 @@ import RegionDeleteModal from './RegionDeleteModal'
 // Hooks
 import { useGetAllRegions } from '@/api/hooks/regions'
 import { useRegionsTableColumns } from './RegionsTableColumns'
+import { useRegionsCsvColumns } from './regions.csv-columns'
+import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
 
 // Types
 import { Region } from '@/api/types/regions'
@@ -54,20 +56,38 @@ export default function RegionsTable() {
     // Column definitions
     const columns = useRegionsTableColumns(onEdit, onDelete)
 
+    // CSV Export Configuration
+    const csvColumns = useRegionsCsvColumns()
+
     /**
      * HeaderActions Component
-     * Renders the "Add Region" action in the table header.
      */
     const HeaderActions = () => {
         return (
-            <Button
-                size="md"
-                variant="solid"
-                icon={<HiOutlinePlus />}
-                onClick={onAdd}
-            >
-                {t('locations.regions.actions.addRegion')}
-            </Button>
+            <div className="flex items-center gap-2">
+                <ServerCsvExportButton
+                    fileNamePrefix="regions"
+                    columns={csvColumns}
+                    currentData={regions}
+                    serviceMethod={async () => ({
+                        data: {
+                            regions: regions,
+                            total,
+                            page: 1,
+                            limit,
+                            totalPages: 1,
+                        },
+                    })}
+                />
+                <Button
+                    size="sm md:md"
+                    variant="solid"
+                    icon={<HiOutlinePlus />}
+                    onClick={onAdd}
+                >
+                    {t('locations.regions.actions.addRegion')}
+                </Button>
+            </div>
         )
     }
 

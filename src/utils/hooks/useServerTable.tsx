@@ -170,14 +170,22 @@ export function useServerTable(opts: {
         initialFilters.map((f) => {
             const fromUrl = searchParams.get(f.key)
             if (fromUrl === null || fromUrl.trim() === '') {
-                return { ...f, value: f.value ?? null, dateValue: f.dateValue ?? null }
+                return {
+                    ...f,
+                    value: f.value ?? null,
+                    dateValue: f.dateValue ?? null,
+                }
             }
 
             // Handle year type filters - parse year from URL to Date
             if (f.type === 'year') {
                 const year = parseInt(fromUrl, 10)
                 if (!Number.isNaN(year)) {
-                    return { ...f, value: null, dateValue: new Date(year, 0, 1) }
+                    return {
+                        ...f,
+                        value: null,
+                        dateValue: new Date(year, 0, 1),
+                    }
                 }
                 return { ...f, value: null, dateValue: null }
             }
@@ -404,49 +412,10 @@ export function useServerTable(opts: {
         filtersManuallyModifiedRef.current = false
         setSearchValue('')
         setCurrentPage(1)
-        setFilters((prev) => prev.map((f) => ({ ...f, value: null, dateValue: null })))
+        setFilters((prev) =>
+            prev.map((f) => ({ ...f, value: null, dateValue: null })),
+        )
     }, [])
-
-    useEffect(() => {
-        setFilters((prev) => {
-            const prevMap = new Map(prev.map((f) => [f.key, f]))
-
-            return initialFilters.map((f) => {
-                const fromUrl = searchParams.get(f.key)
-                const existing = prevMap.get(f.key)
-
-                if (fromUrl !== null && fromUrl.trim() !== '') {
-                    // Handle year type filters
-                    if (f.type === 'year') {
-                        const year = parseInt(fromUrl, 10)
-                        if (!Number.isNaN(year)) {
-                            return { ...f, value: null, dateValue: new Date(year, 0, 1) }
-                        }
-                        return { ...f, value: null, dateValue: null }
-                    }
-
-                    // Handle date type filters
-                    if (f.type === 'date') {
-                        const date = new Date(fromUrl)
-                        if (!Number.isNaN(date.getTime())) {
-                            return { ...f, value: null, dateValue: date }
-                        }
-                        return { ...f, value: null, dateValue: null }
-                    }
-
-                    const type: FilterValueType = f.valueType ?? 'string'
-                    return { ...f, value: parseFilterValue(fromUrl, type) }
-                }
-
-                // Preserve existing dateValue for year/date filters
-                if (f.type === 'year' || f.type === 'date') {
-                    return { ...f, value: null, dateValue: existing?.dateValue ?? f.dateValue ?? null }
-                }
-
-                return { ...f, value: existing?.value ?? f.value ?? null }
-            })
-        })
-    }, [initialFilters, searchParams])
 
     return {
         searchValue,

@@ -39,8 +39,10 @@ export function useSellerTableColumns() {
                         image={row.original?.user?.image || undefined}
                         title={`${row.original?.user?.firstName} ${row.original?.user?.lastName}`}
                         subtitle={row.original?.user?.id}
-                        subtitlePrefix={t('sellers.table.columns.idPrefix')}
+                        titleLabel={t('sellers.table.columns.name')}
+                        subtitleLabel={t('sellers.table.columns.idPrefix')}
                         size="sm"
+                    // trueImage={true}
                     />
                 ),
             },

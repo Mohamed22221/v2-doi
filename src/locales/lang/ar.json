@@ -6,9 +6,11 @@
         "inactive": "غير نشط",
         "edit": "تعديل",
         "view": "عرض",
+        "delete": "حذف",
         "cancelChanges": "إلغاء التغييرات",
         "dropImage": "اسحب الصورة هنا، أو",
         "browse": "تصفح",
+        "uploadCoverImage": "رفع صورة الغلاف",
         "supportFormats": "الصيغ المدعومة: jpeg, png, webp",
         "loading": "تحميل",
         "add": "إضافة",
@@ -41,7 +43,13 @@
         "productDefects": "عيوب المنتج",
         "pricingAndStock": "التسعير والمخزون",
         "availableQuantity": "الكمية المتوفرة",
-        "sellerName": "اسم البائع"
+        "sellerName": "اسم البائع",
+        "somethingWentWrong": "حدث خطأ ما",
+        "saveAsDraft": "حفظ كمسودة",
+        "noDataShort": "لا يوجد",
+        "noDataWithLabel": "لا يوجد {{name}}",
+        "new": "جديد",
+        "used": "مستعمل"
     },
     "nav": {
         "dashboard": "اللوحة الرئيسية",
@@ -153,7 +161,8 @@
             "invalidPhone": "يرجى إدخال رقم هاتف صالح (+966501234567)",
             "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
             "passwordIsRequired": "كلمة المرور مطلوبة",
-            "otpRequired": "يرجى إدخال رمز OTP المكون من 4 أرقام."
+            "otpRequired": "يرجى إدخال رمز OTP المكون من 4 أرقام.",
+            "administratorOnly": "يُسمح فقط للمسؤولين بتسجيل الدخول."
         }
     },
     "settings": {
@@ -614,6 +623,9 @@
                 "outOfStock": "نفد من المخزون",
                 "pendingReview": "قيد المراجعة",
                 "auctionScheduled": "مُجدول للمزاد",
+                "auctionLive": "مزاد مباشر",
+                "auctionEnded": "مزاد منتهي",
+                "inactive": "غير نشط",
                 "draft": "مسودة"
             },
             "filters": {
@@ -815,11 +827,27 @@
             "logItem": "المنتج",
             "createdAt": "أنشئت في",
             "reason": "السبب",
+            "event": "الحدث",
+            "logTypes": {
+                "itemCreated": "تم إنشاء المزاد من قِبل البائع",
+                "itemSubmitted": "تم إرسال المزاد للمراجعة",
+                "itemApproved": "تمت الموافقة على المزاد من قِبل الإدارة",
+                "itemRejected": "تم رفض المزاد من قِبل الإدارة",
+                "itemHidden": "تم إخفاء المزاد من قِبل الإدارة",
+                "itemUnhidden": "تم إظهار المزاد من قِبل الإدارة",
+                "itemScheduled": "تمت جدولة المزاد",
+                "itemLive": "بدأ المزاد مباشرةً",
+                "itemEnded": "انتهى المزاد",
+                "itemCancelled": "تم إلغاء المزاد",
+                "itemReordered": "تمت إعادة ترتيب المزاد",
+                "auctionForceEnded": "تم إنهاء المزاد قسراً من قِبل الإدارة"
+            },
             "actions": {
                 "reject": "رفض",
                 "hide": "إخفاء المزاد",
                 "forceEnd": "إنهاء المزاد",
-                "unhide": "إظهار المنتج"
+                "unhide": "إظهار المنتج",
+                "reorder": "إعادة الترتيب"
             },
             "modals": {
                 "reasons": {
@@ -836,7 +864,7 @@
                     "title": "رفض المنتج",
                     "description": "هل أنت متأكد من رغبتك في رفض هذا العنصر؟ سيتم رفض هذا المنتج ولن يظهر في التطبيق أو الموقع الإلكتروني.",
                     "reasonLabel": "سبب الرفض",
-                    "reasonPlaceholder": "اختر سبباً",
+                    "reasonPlaceholder": "اكتب السبب",
                     "noteLabel": "ملاحظة",
                     "notePlaceholder": "أضف ملاحظة...",
                     "confirm": "رفض المنتج"
@@ -861,12 +889,24 @@
                     "description": "هل أنت متأكد من رغبتك في إظهار هذا المنتج؟ سيصبح المنتج مرئياً للمستخدمين بناءً على حالته الحالية.",
                     "confirm": "إظهار المنتج"
                 },
+                "reorder": {
+                    "title": "إعادة ترتيب المنتج",
+                    "description": "هل أنت متأكد من رغبتك في إعادة ترتيب هذا المنتج؟ سيتم نقله إلى أقرب موعد متاح في قائمة انتظار المزاد.",
+                    "confirm": "تأكيد إعادة الترتيب"
+                },
                 "errors": {
-                    "reasonRequired": "السبب مطلوب"
+                    "reasonRequired": "السبب مطلوب",
+                    "noteRequired": "هذا الحقل مطلوب",
+                    "noteMin": "يجب أن يكون النص 5 أحرف على الأقل"
                 }
             },
             "errors": {
-                "itemNotFound": "المزاد غير موجود"
+                "itemNotFound": "المزاد غير موجود",
+                "rejectSuccess": "تم رفض المنتج بنجاح",
+                "hideSuccess": "تم إخفاء المنتج بنجاح",
+                "unhideSuccess": "تم إظهار المنتج بنجاح",
+                "reorderSuccess": "تم تحديث ترتيب المنتج بنجاح",
+                "forceEndSuccess": "تم إنهاء المزاد قسراً بنجاح"
             }
         }
     },
@@ -1606,18 +1646,26 @@
     "halls": {
         "table": {
             "title": "إدارة القاعات",
-            "searchPlaceholder": "البحث عن طريق اسم القاعة أو الكود",
+            "searchPlaceholder": "البحث باسم القاعة ",
             "emptyText": "لم يتم العثور على قاعات",
             "columns": {
                 "hallName": "اسم القاعة",
                 "status": "الحالة",
                 "assigned": "المسندة",
-                "createdAt": "أنشئت في"
+                "createdAt": "أنشئت في",
+                "noHallName": "اسم القاعة غير محدد"
             },
             "status": {
                 "active": "نشط",
-                "achieved": "مكتمل",
-                "hidden": "مخفي"
+                "archieved": "مؤرشف",
+                "archived": "مؤرشف",
+                "hidden": "مخفي",
+                "draft": "مسودة",
+                "scheduled": "مجدول",
+                "ended": "منتهي",
+                "rejected": "مرفوض",
+                "cancelled": "ملغي",
+                "settled": "تمت التسوية"
             },
             "filters": {
                 "status": "الحالة:",
@@ -1644,6 +1692,9 @@
         "descriptionPlaceholder": "أدخل الوصف",
         "mediaAssets": "أصول الوسائط",
         "coverImage": "صورة الغلاف",
+        "upload": {
+            "success": "تم رفع الصورة بنجاح"
+        },
         "publishing": "النشر",
         "activeStatus": "الحالة",
         "sortOrder": "ترتيب العرض",
@@ -1652,32 +1703,89 @@
         "parentHall": "فئة رئيسية",
         "subHall": "فئة فرعية",
         "selectParent": "اختر الفئة الرئيسية",
+        "categories": {
+            "all": "الكل",
+            "specific": "فئات محددة"
+        },
+        "selectCategory": "اختر فئات محددة",
         "name": "اسم القاعة",
         "namePlaceholder": "أدخل اسم القاعة",
+        "time": {
+            "title": "الوقت",
+            "hallDate": "تاريخ القاعة",
+            "hallDatePlaceholder": "اختر التاريخ",
+            "startingTime": "وقت البدء",
+            "startingTimePlaceholder": "اختر الوقت",
+            "itemDuration": "مدة العنصر",
+            "itemDurationPlaceholder": "اختر المدة بالدقائق",
+            "mins": "دقيقة"
+        },
         "errors": {
             "nameRequired": "اسم القاعة مطلوب",
             "statusRequired": "الحالة مطلوبة",
             "sortOrderRequired": "ترتيب العرض مطلوب",
             "imageRequired": "صورة الغلاف مطلوبة",
-            "invalidImageUrl": "رابط الصورة غير صالح"
+            "invalidImageUrl": "رابط الصورة غير صالح",
+            "categoryRequired": "مطلوب فئة واحدة على الأقل",
+            "hallDateRequired": "تاريخ القاعة مطلوب",
+            "startingTimeRequired": "وقت البدء مطلوب",
+            "itemDurationRequired": "مدة العنصر مطلوبة",
+            "onlyDraftEditable": "يمكن تعديل القاعات المسودة فقط",
+            "notEditable": "القاعة غير قابلة للتعديل"
         },
         "details": {
             "title": "تفاصيل القاعة",
+            "scheduleHall": "جدولة القاعة",
+            "deleteHall": "حذف القاعة",
             "assignLiveAuctions": "تعيين المزادات المباشرة",
+            "manualReordering": "إعادة الترتيب اليدوي",
+            "reorderingAllowed": "مسموح",
+            "reorderingLocked": "مقفل",
+            "deleteModal": {
+                "title": "حذف عنصر مسند",
+                "description": "هل أنت متأكد من رغبتك في إزالة هذا العنصر من القاعة؟ لا يمكن التراجع عن هذا الإجراء.",
+                "confirm": "حذف",
+                "cancel": "إلغاء",
+                "success": "تمت إزالة العنصر بنجاح"
+            },
+            "header": {
+                "title": "عناصر المزاد",
+                "subtitle": "أضف عناصر المزاد إلى هذه القاعة ورتب ترتيبها قبل بدء المزاد.",
+                "addItems": "إضافة عناصر",
+                "sequenceTitle": "تسلسل المزاد",
+                "sequenceSubtitle": "هذا هو التسلسل الدقيق الذي سيراه المزايدون عند بدء المزاد."
+            },
+            "banner": {
+                "draggable": "ترتيب العناصر متاح. اسحب مقابض الصفوف لإعادة ترتيب العناصر قبل بدء المزاد. سيتم حفظ الترتيب الدقيق وقفل المزاد بمجرد بدئه."
+            },
             "table": {
                 "columns": {
                     "item": "العنصر",
                     "idPrefix": "معرف:",
+                    "order": "الترتيب",
                     "seller": "البائع",
                     "category": "الفئة",
                     "status": "الحالة",
                     "dateRange": "نطاق التاريخ"
                 },
-                "searchPlaceholder": "البحث عن طريق اسم المنتج أو البائع"
+                "searchPlaceholder": "البحث عن اسم المنتج",
+                "status": {
+                    "live": "مباشر",
+                    "scheduled": "مجدول",
+                    "hidden": "مخفي",
+                    "ended": "منتهي",
+                    "rejected": "مرفوض",
+                    "cancelled": "ملغي"
+                },
+                "filters": {
+                    "status": "الحالة:",
+                    "allStatus": "جميع الحالات"
+                }
             },
             "assignModal": {
                 "title": "تعيين مزاد مباشر",
                 "subtitle": "حدد المزادات لإضافتها إلى",
+                "successMessage": "تم تعيين المزادات بنجاح",
                 "searchPlaceholder": "ابحث عن طريق عنوان المزاد أو معرف المزاد أو البائع",
                 "filters": {
                     "status": "الحالة",
@@ -1695,6 +1803,18 @@
                 "row": {
                     "startingBid": "مزايدة البداية",
                     "seller": "البائع"
+                }
+            },
+            "modals": {
+                "schedule": {
+                    "title": "جدولة القاعة",
+                    "description": "هل أنت متأكد من جدولة هذه القاعة؟ ستصبح نشطة ومرئية للمستخدمين.",
+                    "confirm": "جدولة القاعة"
+                },
+                "delete": {
+                    "title": "حذف القاعة",
+                    "description": "هل أنت متأكد من حذف هذه القاعة؟ لا يمكن التراجع عن هذا الإجراء.",
+                    "confirm": "حذف القاعة"
                 }
             }
         },
@@ -1722,10 +1842,10 @@
                 "createTitle": "إضافة منطقة",
                 "editTitle": "تعديل المنطقة",
                 "fields": {
-                    "nameLabel": "اسم المنطقة (English)",
+                    "nameLabel": "اسم المنطقة (الإنجليزية)",
                     "namePlaceholder": "اكتب اسم المنطقة بالإنجليزية",
-                    "nameArLabel": "اسم المنطقة (عربي)",
-                    "nameArPlaceholder": "اكتب اسم المنطقة"
+                    "nameArLabel": "اسم المنطقة (العربية)",
+                    "nameArPlaceholder": "اكتب اسم المنطقة بالعربية"
                 },
                 "actions": {
                     "create": "إضافة",
@@ -1766,12 +1886,13 @@
                 "createTitle": "إضافة مدينة",
                 "editTitle": "تعديل المدينة",
                 "fields": {
-                    "nameLabel": "اسم المدينة (English)",
+                    "nameLabel": "اسم المدينة (الإنجليزية)",
                     "namePlaceholder": "اكتب اسم المدينة بالإنجليزية",
-                    "nameArLabel": "اسم المدينة (عربي)",
-                    "nameArPlaceholder": "اكتب اسم المدينة",
+                    "nameArLabel": "اسم المدينة (العربية)",
+                    "nameArPlaceholder": "اكتب اسم المدينة بالعربية",
                     "regionLabel": "المنطقة",
-                    "regionPlaceholder": "اختر المنطقة"
+                    "regionPlaceholder": "اختر المنطقة",
+                    "regionErrorPlaceholder": "حدث خطأ في تحميل المناطق"
                 },
                 "actions": {
                     "create": "إضافة",
@@ -1812,12 +1933,13 @@
                 "createTitle": "إضافة حي",
                 "editTitle": "تعديل الحي",
                 "fields": {
-                    "nameLabel": "اسم الحي (English)",
+                    "nameLabel": "اسم الحي (الإنجليزية)",
                     "namePlaceholder": "اكتب اسم الحي بالإنجليزية",
-                    "nameArLabel": "اسم الحي (عربي)",
-                    "nameArPlaceholder": "اكتب اسم الحي",
+                    "nameArLabel": "اسم الحي (العربية)",
+                    "nameArPlaceholder": "اكتب اسم الحي بالعربية",
                     "cityLabel": "المدينة",
-                    "cityPlaceholder": "اختر المدينة"
+                    "cityPlaceholder": "اختر المدينة",
+                    "cityErrorPlaceholder": "حدث خطأ في تحميل المدن"
                 },
                 "actions": {
                     "create": "إضافة",
@@ -1838,6 +1960,41 @@
                     "nameArRequired": "اسم الحي مطلوب",
                     "cityRequired": "المدينة مطلوبة"
                 }
+            }
+        }
+    },
+    "api": {
+        "errors": {
+            "canceled": "تم إلغاء الطلب.",
+            "default": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+            "timeout": "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.",
+            "network": "خطأ في الشبكة، يرجى المحاولة مرة أخرى.",
+            "unauthorized": "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+            "invalidCredentials": "بيانات الاعتماد غير صالحة. يرجى التأكد من البريد الإلكتروني/الهاتف وكلمة المرور.",
+            "forbidden": "ليس لديك صلاحية للقيام بهذا الإجراء.",
+            "notFound": "المورد غير موجود.",
+            "tooManyRequests": "طلبات كثيرة جداً. يرجى المحاولة مرة أخرى بعد قليل.",
+            "serverError": "خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.",
+            "badRequest": "يرجى التأكد من البيانات المدخلة والمحاولة مرة أخرى."
+        }
+    },
+    "hallItems": {
+        "table": {
+            "title": "عناصر القاعة",
+            "searchPlaceholder": "البحث حسب عنوان المنتج أو البائع",
+            "emptyText": "لم يتم العثور على عناصر في هذه القاعة.",
+            "columns": {
+                "hallName": "اسم القاعة",
+                "id": "المعرف",
+                "categoryName": "الفئة",
+                "product": "المنتج",
+                "seller": "البائع",
+                "status": "الحالة",
+                "createdAt": "تاريخ الإنشاء"
+            },
+            "filters": {
+                "status": "الحالة",
+                "allStatus": "كل الحالات"
             }
         }
     }

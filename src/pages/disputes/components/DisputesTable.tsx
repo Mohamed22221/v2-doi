@@ -90,7 +90,6 @@ export default function DisputesTable() {
 
     const handleExport = () => {
         // Placeholder for export functionality
-        console.log('Exporting CSV...')
         alert('Exporting CSV... (This is a placeholder)')
     }
 

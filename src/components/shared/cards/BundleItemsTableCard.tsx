@@ -90,7 +90,10 @@ export default function BundleItemsTableCard({
                         imageAlt={row.original.title}
                         imageSize="lg"
                         title={row.original.title}
-                        subtitle={`ID: ${row.original.id}`}
+                        subtitle={row.original.id}
+                        subtitlePrefix="ID: "
+                        titleLabel={t('common.item')}
+                        subtitleLabel="ID"
                         size="sm"
                     />
                 ),

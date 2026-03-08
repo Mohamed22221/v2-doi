@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next'
 import ViewTable from '@/components/ui/Table/ViewTable/ViewTable'
 
 // Hooks
-import { ServerFilterConfig, useServerTable } from '@/utils/hooks/useServerTable'
+import {
+    ServerFilterConfig,
+    useServerTable,
+} from '@/utils/hooks/useServerTable'
 import { useFixedPriceTableColumns } from './FixedPriceTableColumns'
 import { useGetAllProducts } from '@/api/hooks/products'
 import { useGetAllCategoriesSelect } from '@/api/hooks/categories'
@@ -13,6 +16,7 @@ import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 import ServerCsvExportButton from '@/components/shared/ServerCsvExportButton'
 import ProductsServices from '@/api/services/products'
 import { useFixedPriceCsvColumns } from './fixed-price.csv-columns'
+import { getEffectiveStatusOptions } from '@/components/helpers/effective-status.options'
 
 // Types
 import { Product } from '@/api/types/products'
@@ -31,14 +35,8 @@ export default function FixedPriceTable() {
     const debouncedCategorySearch = useDebouncedValue(categorySearch, 400)
 
     // Fetch products
-    const {
-        products,
-        isLoading,
-        total,
-        errorMessage,
-        isError,
-        limit,
-    } = useGetAllProducts()
+    const { products, isLoading, total, errorMessage, isError, limit } =
+        useGetAllProducts()
 
     // Fetch categories for the filter
     const {
@@ -77,16 +75,7 @@ export default function FixedPriceTable() {
                 label: t('fixedPrice.table.filters.status'),
                 value: null,
                 valueType: 'string',
-                options: [
-                    { label: t('fixedPrice.table.status.active'), value: 'active' },
-                    { label: t('fixedPrice.table.status.rejected'), value: 'rejected' },
-                    { label: t('fixedPrice.table.status.hidden'), value: 'hidden' },
-                    { label: t('fixedPrice.table.status.outOfStock'), value: 'sold' },
-                    { label: t('fixedPrice.table.status.pendingReview'), value: 'pending_approval' },
-                    { label: t('fixedPrice.table.status.auctionScheduled'), value: 'auction_scheduled' },
-                    { label: t('fixedPrice.table.status.draft'), value: 'draft' },
-
-                ],
+                options: getEffectiveStatusOptions(t, 'fixedPrice'),
                 placeholder: t('fixedPrice.table.filters.allStatus'),
             },
             {
@@ -157,17 +146,16 @@ export default function FixedPriceTable() {
             filters={tableQ.filters}
             isLoading={isLoading}
             emptyText={t('fixedPrice.table.emptyText')}
-            avatarInColumns={[0, 2]}
+            avatarInColumns={[0]}
             requestedPage={tableQ.requestedPage}
             isError={isError}
             errorText={errorMessage ?? ''}
+            headerActions={<HeaderActions />}
+            showExportButton={false}
             onPageChange={tableQ.onPageChange}
             onFilterChange={tableQ.onFilterChange}
             onSearchChange={tableQ.onSearchChange}
             onClearAll={tableQ.clearAll}
-            headerActions={<HeaderActions />}
-            showExportButton={false}
         />
     )
 }
-

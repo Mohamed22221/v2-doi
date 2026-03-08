@@ -21,6 +21,12 @@ export const getStatusLabel = (status: EffectiveStatus | undefined, t: TFunction
             return t('fixedPrice.table.status.pendingReview')
         case 'auction_scheduled':
             return t('fixedPrice.table.status.auctionScheduled')
+        case 'auction_live':
+            return t('fixedPrice.table.status.auctionLive')
+        case 'auction_ended':
+            return t('fixedPrice.table.status.auctionEnded')
+        case 'inactive':
+            return t('fixedPrice.table.status.inactive')
         case 'draft':
             return t('fixedPrice.table.status.draft')
         default:
@@ -36,15 +42,19 @@ export const getStatusLabel = (status: EffectiveStatus | undefined, t: TFunction
 export const getStatusVariant = (status?: EffectiveStatus) => {
     switch (status) {
         case 'active':
+        case 'auction_live':
             return 'success'
 
         case 'pending_approval':
+        case 'auction_scheduled':
             return 'warning'
         case 'rejected':
+        case 'inactive':
             return 'danger'
         case 'hidden':
         case 'sold':
         case 'draft':
+        case 'auction_ended':
             return 'neutral'
         default:
             return 'neutral'

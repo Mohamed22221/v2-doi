@@ -1,12 +1,13 @@
 import { Breadcrumb } from '@/components/ui'
-import { useGetLiveAuctionDetails } from '../hooks/useGetLiveAuctionDetails'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import ErrorState from '@/components/shared/ErrorState'
+import { TApprovalStatus } from '@/api/types/sellers'
 import UserInfoSkeleton from '@/components/shared/loaders/UserInfoSkeleton'
 import InfoCardSkeleton from '@/components/shared/loaders/InfoCardSkeleton'
 import ActivityLogSkeleton from '@/components/shared/loaders/ActivityLogSkeleton'
+import { useGetHallItemById } from '@/api/hooks/live-auctions'
 
 const LiveAuctionInfo = lazy(() => import('./components/LiveAuctionInfo'))
 const PricingAndDescription = lazy(
@@ -28,28 +29,34 @@ const DetailsLiveAuctionSkeleton = () => (
 const DetailsLiveAuctionPage = () => {
     const { t } = useTranslation()
     const { id } = useParams()
-    const { data, isError, isLoading, error } = useGetLiveAuctionDetails(id!)
+    const { hallItem, isError, isLoading, errorMessage } = useGetHallItemById(
+        id!,
+    )
 
     if (isError) {
-        return <ErrorState message={error?.message} fullPage={true} />
+        return (
+            <ErrorState message={errorMessage ?? undefined} fullPage={true} />
+        )
     }
 
     return (
         <>
             <Breadcrumb
                 items={[
-                    { label: t('nav.collapseMenu.liveAuctions'), path: '/live-auctions' },
+                    {
+                        label: t('nav.collapseMenu.liveAuctions'),
+                        path: '/live-auctions',
+                    },
                     { label: t('liveAuctions.details.title') },
                 ]}
             />
 
             <div className="flex flex-col gap-6">
-
                 <Suspense fallback={<UserInfoSkeleton />}>
                     {isLoading ? (
                         <UserInfoSkeleton />
                     ) : (
-                        <LiveAuctionInfo data={data?.data} />
+                        <LiveAuctionInfo data={hallItem} />
                     )}
                 </Suspense>
 
@@ -58,10 +65,28 @@ const DetailsLiveAuctionPage = () => {
                         <DetailsLiveAuctionSkeleton />
                     ) : (
                         <>
-                            <PricingAndDescription data={data?.data} />
-                            <MediaAssets media={data?.data?.mediaAssets} />
-                            <SellerInfo seller={data?.data?.sellerDetails} />
-                            <ActivityLog logs={data?.data?.activityLog} />
+                            <PricingAndDescription data={hallItem} />
+                            <MediaAssets
+                                media={hallItem?.product?.images?.map(
+                                    (img) => img.url,
+                                )}
+                            />
+                            <SellerInfo
+                                seller={
+                                    hallItem?.product?.user
+                                        ? {
+                                              id: hallItem.product.user.id,
+                                              name: `${hallItem.product.user.firstName} ${hallItem.product.user.lastName}`,
+                                              phone: hallItem.product.user
+                                                  .phone,
+                                              approvalStatus:
+                                                  (hallItem.product.user.seller?.approvalStatus?.toLowerCase() as TApprovalStatus) ||
+                                                  'pending',
+                                          }
+                                        : undefined
+                                }
+                            />
+                            <ActivityLog logs={hallItem?.activityLogs} />
                         </>
                     )}
                 </Suspense>

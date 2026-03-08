@@ -4,10 +4,12 @@ import { ModalType } from './types'
 
 const getLiveAuctionStatusValidationSchema = (t: TFunction, type: ModalType) => {
     return Yup.object().shape({
-        reason: (type === 'reject' || type === 'hide')
-            ? Yup.string().required(t('liveAuctions.details.modals.errors.reasonRequired'))
+        note: (type === 'reject' || type === 'hide')
+            ? Yup.string()
+                  .required(t('liveAuctions.details.modals.errors.noteRequired'))
+                  .min(5, t('liveAuctions.details.modals.errors.noteMin'))
             : Yup.string(),
-        note: Yup.string(),
+
     })
 }
 

@@ -1,60 +1,95 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Formik } from 'formik'
-import {
-    Dialog,
-    Notification,
-    toast,
-    Icon,
-} from '@/components/ui'
+import { Dialog, Notification, toast, Icon } from '@/components/ui'
 
-import { ModalHeader, ModalBody, ModalFooter } from '@/components/shared/StatusModal'
+import {
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+} from '@/components/shared/StatusModal'
 import getLiveAuctionStatusValidationSchema from './modalStatus/schema'
-import { LiveAuctionStatusModalProps, FormValues, ModalConfig, ReasonOption } from './modalStatus/types'
+import {
+    LiveAuctionStatusModalProps,
+    FormValues,
+    ModalConfig,
+} from './modalStatus/types'
+import {
+    useRejectHallItem,
+    useHideHallItem,
+    useUnhideHallItem,
+    useForceEndHallItem,
+} from '@/api/hooks/live-auctions'
+import { getApiErrorMessage } from '@/api/error'
 
 const LiveAuctionStatusModal = ({
     isOpen,
     onClose,
     type,
+    id,
     onConfirmSuccess,
 }: LiveAuctionStatusModalProps) => {
     const { t } = useTranslation()
-    const [isPending, setIsPending] = useState(false)
 
-    const rejectionReasons: ReasonOption[] = [
-        { label: t('liveAuctions.details.modals.reasons.incorrectCategory'), value: 'incorrect_category' },
-        { label: t('liveAuctions.details.modals.reasons.blurryImages'), value: 'blurry_images' },
-        { label: t('liveAuctions.details.modals.reasons.missingDescription'), value: 'missing_description' },
-        { label: t('liveAuctions.details.modals.reasons.duplicateItem'), value: 'duplicate_item' },
-        { label: t('liveAuctions.details.modals.reasons.other'), value: 'other' },
-    ]
+    const { mutate: reject, isPending: isRejecting } = useRejectHallItem()
+    const { mutate: hide, isPending: isHiding } = useHideHallItem()
+    const { mutate: unhide, isPending: isUnhiding } = useUnhideHallItem()
+    const { mutate: forceEnd, isPending: isForceEnding } = useForceEndHallItem()
 
-    const hidingReasons: ReasonOption[] = [
-        { label: t('liveAuctions.details.modals.reasons.outOfSeason'), value: 'out_of_season' },
-        { label: t('liveAuctions.details.modals.reasons.temporarilyUnavailable'), value: 'temporarily_unavailable' },
-        { label: t('liveAuctions.details.modals.reasons.testing'), value: 'testing' },
-        { label: t('liveAuctions.details.modals.reasons.other'), value: 'other' },
-    ]
+    const isPending = isRejecting || isHiding || isUnhiding || isForceEnding
 
     const initialValues: FormValues = {
-        reason: '',
         note: '',
     }
 
-    const onConfirm = async (values: FormValues) => {
-        setIsPending(true)
-        // Simulate API call
-        setTimeout(() => {
-            setIsPending(false)
+    const onConfirm = (values: FormValues) => {
+        const onSuccess = () => {
+            const successMessages: Record<string, string> = {
+                reject: t('liveAuctions.details.errors.rejectSuccess'),
+                hide: t('liveAuctions.details.errors.hideSuccess'),
+                unhide: t('liveAuctions.details.errors.unhideSuccess'),
+                force_end: t('liveAuctions.details.errors.forceEndSuccess'),
+            }
+
             toast.push(
                 <Notification
-                    title={t('common.success')}
+                    title={successMessages[type] || t('common.success')}
                     type="success"
-                />
+                />,
             )
             onClose()
             if (onConfirmSuccess) onConfirmSuccess()
-        }, 1000)
+        }
+
+        const onError = (error: unknown) => {
+            toast.push(
+                <Notification
+                    title={getApiErrorMessage(error)}
+                    type="danger"
+                />,
+            )
+        }
+
+        switch (type) {
+            case 'reject':
+                reject(
+                    { id, data: { rejectReason: values.note } },
+                    { onSuccess, onError },
+                )
+                break
+            case 'hide':
+                hide(
+                    { id, data: { hiddenReason: values.note } },
+                    { onSuccess, onError },
+                )
+                break
+            case 'unhide':
+                unhide(id, { onSuccess, onError })
+                break
+            case 'force_end':
+                forceEnd(id, { onSuccess, onError })
+                break
+        }
     }
 
     const getModalConfig = (): ModalConfig => {
@@ -62,28 +97,38 @@ const LiveAuctionStatusModal = ({
             case 'reject':
                 return {
                     title: t('liveAuctions.details.modals.reject.title'),
-                    description: t('liveAuctions.details.modals.reject.description'),
+                    description: t(
+                        'liveAuctions.details.modals.reject.description',
+                    ),
                     icon: <Icon name="errorModal" />,
-                    reasonLabel: t('liveAuctions.details.modals.reject.reasonLabel'),
-                    reasonPlaceholder: t('liveAuctions.details.modals.reject.reasonPlaceholder'),
-                    reasons: rejectionReasons,
-                    noteLabel: t('liveAuctions.details.modals.reject.noteLabel'),
-                    notePlaceholder: t('liveAuctions.details.modals.reject.notePlaceholder'),
-                    confirmText: t('liveAuctions.details.modals.reject.confirm'),
+                    noteLabel: t(
+                        'liveAuctions.details.modals.reject.reasonLabel',
+                    ),
+                    notePlaceholder: t(
+                        'liveAuctions.details.modals.reject.notePlaceholder',
+                    ),
+                    confirmText: t(
+                        'liveAuctions.details.modals.reject.confirm',
+                    ),
                     confirmVariant: 'solid',
                     confirmColor: 'red',
                 }
             case 'hide':
                 return {
                     title: t('liveAuctions.details.modals.hide.title'),
-                    description: t('liveAuctions.details.modals.hide.description'),
+                    description: t(
+                        'liveAuctions.details.modals.hide.description',
+                    ),
                     icon: <Icon name="errorModal" />,
-                    reasonLabel: t('liveAuctions.details.modals.hide.reasonLabel'),
-                    reasonPlaceholder: t('liveAuctions.details.modals.hide.reasonPlaceholder'),
-                    reasons: hidingReasons,
-                    noteLabel: t('liveAuctions.details.modals.hide.noteLabel'),
-                    notePlaceholder: t('liveAuctions.details.modals.hide.notePlaceholder'),
-                    footerText: t('liveAuctions.details.modals.hide.footerText'),
+                    noteLabel: t(
+                        'liveAuctions.details.modals.hide.reasonLabel',
+                    ),
+                    notePlaceholder: t(
+                        'liveAuctions.details.modals.hide.notePlaceholder',
+                    ),
+                    footerText: t(
+                        'liveAuctions.details.modals.hide.footerText',
+                    ),
                     confirmText: t('liveAuctions.details.modals.hide.confirm'),
                     confirmVariant: 'solid',
                     confirmColor: 'red',
@@ -91,21 +136,30 @@ const LiveAuctionStatusModal = ({
             case 'force_end':
                 return {
                     title: t('liveAuctions.details.modals.forceEnd.title'),
-                    description: t('liveAuctions.details.modals.forceEnd.description'),
+                    description: t(
+                        'liveAuctions.details.modals.forceEnd.description',
+                    ),
                     icon: <Icon name="errorModal" />,
-                    confirmText: t('liveAuctions.details.modals.forceEnd.confirm'),
+                    confirmText: t(
+                        'liveAuctions.details.modals.forceEnd.confirm',
+                    ),
                     confirmVariant: 'solid',
                     confirmColor: 'red',
                 }
             case 'unhide':
                 return {
                     title: t('liveAuctions.details.modals.unhide.title'),
-                    description: t('liveAuctions.details.modals.unhide.description'),
+                    description: t(
+                        'liveAuctions.details.modals.unhide.description',
+                    ),
                     icon: <Icon name="hideModal" />,
-                    confirmText: t('liveAuctions.details.modals.unhide.confirm'),
+                    confirmText: t(
+                        'liveAuctions.details.modals.unhide.confirm',
+                    ),
                     confirmVariant: 'solid',
                     confirmColor: 'primary',
                 }
+
             default:
                 return {
                     title: '',
@@ -122,10 +176,10 @@ const LiveAuctionStatusModal = ({
 
     return (
         <Dialog
+            width={500}
             isOpen={isOpen}
             onClose={onClose}
             onRequestClose={onClose}
-            width={500}
         >
             <Formik
                 initialValues={initialValues}
@@ -143,8 +197,8 @@ const LiveAuctionStatusModal = ({
                         />
                         <ModalFooter
                             config={config}
-                            onClose={onClose}
                             isPending={isPending}
+                            onClose={onClose}
                         />
                     </Form>
                 )}

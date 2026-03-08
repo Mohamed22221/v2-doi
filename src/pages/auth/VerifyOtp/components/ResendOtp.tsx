@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui'
 import { useEffect, useState } from 'react'
+import { useAppSelector } from '@/store'
 
 const RESEND_SECONDS = 60
 interface ResendOtpProps {
@@ -11,6 +12,7 @@ const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
     const { t } = useTranslation()
     const [resendIn, setResendIn] = useState(0)
     const [isResending, setIsResending] = useState(false)
+    const { otpSessionId } = useAppSelector((state) => state.auth.session)
 
     // timer
     useEffect(() => {
@@ -28,8 +30,7 @@ const ResendOtp = ({ setMessage, onResend }: ResendOtpProps) => {
 
         setIsResending(true)
         try {
-            const otpSessionId = localStorage.getItem('otp-session-id') || ''
-            await onResend({ otpSessionId })
+            await onResend({ otpSessionId: otpSessionId || '' })
             setResendIn(RESEND_SECONDS)
         } catch (error) {
             setMessage(t('auth.verifyOtp.failedToResend'))

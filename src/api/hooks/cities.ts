@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import CitiesServices, { TAPIResponseCities } from '../services/cities'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
@@ -62,5 +62,26 @@ export const useDeleteCity = () => {
                 queryKey: [ReactQueryKeys.ALL_CITIES],
             })
         },
+    })
+}
+
+export function useGetAllCitiesSelect(search?: string) {
+    return useInfiniteQuery({
+        queryKey: ['ALL_CITIES_SELECT', search],
+        initialPageParam: 1,
+        queryFn: ({ pageParam }) =>
+            CitiesServices.getInfinityCities(
+                pageParam as number,
+                10,
+                search,
+            ),
+        getNextPageParam: (lastPage) =>
+            lastPage.data.page < lastPage.data.totalPages
+                ? lastPage.data.page + 1
+                : undefined,
+        select: (data) => ({
+            ...data,
+            items: data.pages.flatMap((p) => p.data.cities),
+        }),
     })
 }
