@@ -33,7 +33,7 @@ const PricingAndDescription = ({ data }: Props) => {
         data?.product?.auctionStartingPriceIncVat ?? '0',
     )
     const currentHighestBid =
-        parseFloat(data?.product?.auctionCurrentPriceIncVat ?? '0') || undefined
+        parseFloat(data?.product?.auctionMinBidIncrement ?? '0') || undefined
 
     return (
         <BackgroundRounded>
@@ -155,7 +155,9 @@ const PricingAndDescription = ({ data }: Props) => {
                                     )}
                                     value={
                                         <AuctionCounter
-                                            endTime={data?.endedAt || ''}
+                                            endTime={
+                                                data?.calculatedEndTime || ''
+                                            }
                                         />
                                     }
                                 />

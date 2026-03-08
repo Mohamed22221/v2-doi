@@ -15,6 +15,7 @@ export const ACTIVITY_LOG_TYPE_LABELS: Record<string, string> = {
     ITEM_ENDED: 'liveAuctions.details.logTypes.itemEnded',
     ITEM_CANCELLED: 'liveAuctions.details.logTypes.itemCancelled',
     ITEM_REORDERED: 'liveAuctions.details.logTypes.itemReordered',
+    AUCTION_FORCE_ENDED: 'liveAuctions.details.logTypes.auctionForceEnded',
 }
 
 /**

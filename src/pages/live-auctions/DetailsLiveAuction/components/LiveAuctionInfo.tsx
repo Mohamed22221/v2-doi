@@ -91,18 +91,6 @@ const LiveAuctionInfo = ({ data }: Props) => {
                         </>
                     )}
 
-                    {(data?.status === 'SCHEDULED' ||
-                        data?.status === 'DRAFT') && (
-                        <Button
-                            variant="solid"
-                            size="md"
-                            color="primary"
-                            onClick={() => openModal('reorder')}
-                        >
-                            {t('liveAuctions.details.actions.reorder')}
-                        </Button>
-                    )}
-
                     {data?.status === 'HIDDEN' && (
                         <Button
                             variant="solid"

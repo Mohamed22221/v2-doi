@@ -177,6 +177,7 @@ export interface HallItemDetailsProduct extends BaseEntity {
     defects: string | null
     auctionStartingPriceIncVat: string | null
     auctionCurrentPriceIncVat: string | null
+    auctionMinBidIncrement: string | null
     auctionEndAt: string | null
 }
 

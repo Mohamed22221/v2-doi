@@ -46,7 +46,9 @@
         "sellerName": "Seller Name",
         "somethingWentWrong": "Something went wrong",
         "saveAsDraft": "Save as Draft",
-        "noDataShort": "Not Found"
+        "noDataShort": "Not Found",
+        "new": "New",
+        "used": "Used"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -836,7 +838,8 @@
                 "itemLive": "Auction went live",
                 "itemEnded": "Auction ended",
                 "itemCancelled": "Auction cancelled",
-                "itemReordered": "Auction reordered"
+                "itemReordered": "Auction reordered",
+                "auctionForceEnded": "Auction force ended by admin"
             },
             "actions": {
                 "reject": "Reject",

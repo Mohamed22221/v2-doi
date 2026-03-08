@@ -839,7 +839,8 @@
                 "itemLive": "بدأ المزاد مباشرةً",
                 "itemEnded": "انتهى المزاد",
                 "itemCancelled": "تم إلغاء المزاد",
-                "itemReordered": "تمت إعادة ترتيب المزاد"
+                "itemReordered": "تمت إعادة ترتيب المزاد",
+                "auctionForceEnded": "تم إنهاء المزاد قسراً من قِبل الإدارة"
             },
             "actions": {
                 "reject": "رفض",

@@ -19,7 +19,6 @@ import {
     useHideHallItem,
     useUnhideHallItem,
     useForceEndHallItem,
-    useReorderHallItem,
 } from '@/api/hooks/live-auctions'
 import { getApiErrorMessage } from '@/api/error'
 
@@ -36,10 +35,8 @@ const LiveAuctionStatusModal = ({
     const { mutate: hide, isPending: isHiding } = useHideHallItem()
     const { mutate: unhide, isPending: isUnhiding } = useUnhideHallItem()
     const { mutate: forceEnd, isPending: isForceEnding } = useForceEndHallItem()
-    const { mutate: reorder, isPending: isReordering } = useReorderHallItem()
 
-    const isPending =
-        isRejecting || isHiding || isUnhiding || isForceEnding || isReordering
+    const isPending = isRejecting || isHiding || isUnhiding || isForceEnding
 
     const initialValues: FormValues = {
         note: '',
@@ -51,7 +48,6 @@ const LiveAuctionStatusModal = ({
                 reject: t('liveAuctions.details.errors.rejectSuccess'),
                 hide: t('liveAuctions.details.errors.hideSuccess'),
                 unhide: t('liveAuctions.details.errors.unhideSuccess'),
-                reorder: t('liveAuctions.details.errors.reorderSuccess'),
                 force_end: t('liveAuctions.details.errors.forceEndSuccess'),
             }
 
@@ -92,9 +88,6 @@ const LiveAuctionStatusModal = ({
                 break
             case 'force_end':
                 forceEnd(id, { onSuccess, onError })
-                break
-            case 'reorder':
-                reorder(id, { onSuccess, onError })
                 break
         }
     }
@@ -166,19 +159,7 @@ const LiveAuctionStatusModal = ({
                     confirmVariant: 'solid',
                     confirmColor: 'primary',
                 }
-            case 'reorder':
-                return {
-                    title: t('liveAuctions.details.modals.reorder.title'),
-                    description: t(
-                        'liveAuctions.details.modals.reorder.description',
-                    ),
-                    icon: <Icon name="hideModal" />,
-                    confirmText: t(
-                        'liveAuctions.details.modals.reorder.confirm',
-                    ),
-                    confirmVariant: 'solid',
-                    confirmColor: 'primary',
-                }
+
             default:
                 return {
                     title: '',
