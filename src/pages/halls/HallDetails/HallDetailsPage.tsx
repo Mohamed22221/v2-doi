@@ -18,17 +18,19 @@ const HallDetailsPage = () => {
     const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [hallActionType, setHallActionType] = useState<HallActionType | null>(null)
-    const { hall, isLoading, isError, errorMessage } = useGetHallById(id || "")
+    const [hallActionType, setHallActionType] = useState<HallActionType | null>(
+        null,
+    )
+    const { hall, isLoading, isError, errorMessage } = useGetHallById(id || '')
     const name = hall?.translations?.[0]?.name
-
-
-
 
     if (isError) {
         return (
             <div>
-                <ErrorState message={errorMessage ?? undefined} fullPage={true} />
+                <ErrorState
+                    message={errorMessage ?? undefined}
+                    fullPage={true}
+                />
             </div>
         )
     }
@@ -56,27 +58,30 @@ const HallDetailsPage = () => {
                 )}
             </Suspense>
             <BackgroundRounded>
-                <AssignedAuctionsTable />
+                <AssignedAuctionsTable
+                    hallStatus={hall?.visibilityStatus}
+                    hallName={name || ''}
+                />
             </BackgroundRounded>
 
             <AssignLiveAuctionsModal
                 isOpen={isModalOpen}
+                hallName={name || ''}
+                hallId={id || ''}
                 onOpenChange={setIsModalOpen}
-                hallName={name || ""}
-                hallId={id || ""}
             />
 
             {hallActionType && (
                 <HallActionModal
                     isOpen={!!hallActionType}
-                    onClose={() => setHallActionType(null)}
                     type={hallActionType}
-                    hallId={id || ""}
+                    hallId={id || ''}
                     onConfirmSuccess={() => {
                         if (hallActionType === 'delete') {
                             navigate('/halls')
                         }
                     }}
+                    onClose={() => setHallActionType(null)}
                 />
             )}
         </div>
@@ -84,4 +89,3 @@ const HallDetailsPage = () => {
 }
 
 export default HallDetailsPage
-

@@ -6,6 +6,7 @@
         "inactive": "Inactive",
         "edit": "Edit",
         "view": "View",
+        "delete": "Delete",
         "cancelChanges": "Cancel Changes",
         "dropImage": "Drop your image here, or",
         "browse": "browse",
@@ -1731,10 +1732,26 @@
             "scheduleHall": "Schedule Hall",
             "deleteHall": "Delete Hall",
             "assignLiveAuctions": "Assign Live Auctions",
+            "deleteModal": {
+                "title": "Delete Assigned Item",
+                "description": "Are you sure you want to remove this item from the hall? This action cannot be undone.",
+                "confirm": "Delete",
+                "cancel": "Cancel",
+                "success": "Item removed successfully"
+            },
+            "header": {
+                "title": "Auction Items",
+                "subtitle": "Add auction items to this hall and arrange their order before the auction begins.",
+                "addItems": "Add Items"
+            },
+            "banner": {
+                "draggable": "Item order is unlocked. Drag the row handles to reorder items before the auction begins. The exact order will be auto-saved and locked once the auction goes Live."
+            },
             "table": {
                 "columns": {
                     "item": "Item",
                     "idPrefix": "ID:",
+                    "order": "Order",
                     "seller": "Seller",
                     "category": "Category",
                     "status": "Status",

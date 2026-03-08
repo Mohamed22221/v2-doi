@@ -1,4 +1,9 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+    useInfiniteQuery,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query'
 import HallsServices from '../services/halls'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +18,8 @@ import { HallAuctionItem } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 import { EffectiveStatus } from '../types/products'
 
+const EMPTY_ARRAY: unknown[] = []
+
 export const useGetAllHalls = () => {
     const { i18n } = useTranslation()
     const lang = i18n.language
@@ -26,7 +33,7 @@ export const useGetAllHalls = () => {
 
     return {
         ...query,
-        items: query.data?.data?.items ?? [],
+        items: query.data?.data?.items ?? (EMPTY_ARRAY as HallMainItem[]),
         total: query.data?.data?.total ?? 0,
         page: query.data?.data?.page ?? 1,
         limit: query.data?.data?.limit ?? 10,
@@ -65,7 +72,7 @@ export const useGetHallAuctions = (hallId: string) => {
 
     return {
         ...query,
-        items: query.data?.data?.items ?? [],
+        items: query.data?.data?.items ?? (EMPTY_ARRAY as HallAuctionItem[]),
         total: query.data?.data?.total ?? 0,
         page: query.data?.data?.page ?? 1,
         limit: query.data?.data?.limit ?? 10,
@@ -92,17 +99,38 @@ export const useUpdateHall = () => {
         mutationFn: ({ id, data }: { id: string; data: MainHall }) =>
             HallsServices.updateHall(id, data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_DETAILS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_HALLS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_DETAILS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ASSIGNABLE_AUCTIONS],
+            })
         },
     })
 }
 
-export const useGetAssignableAuctions = (search?: string, categoryId?: string, effectiveStatus?: EffectiveStatus, enabled = true) => {
+export const useGetAssignableAuctions = (
+    search?: string,
+    categoryId?: string,
+    effectiveStatus?: EffectiveStatus,
+    enabled = true,
+) => {
     const { i18n } = useTranslation()
     const lang = i18n.language
     return useInfiniteQuery({
-        queryKey: ['ASSIGNABLE_AUCTIONS', search, categoryId, effectiveStatus, lang],
+        queryKey: [
+            ReactQueryKeys.ASSIGNABLE_AUCTIONS,
+            search,
+            categoryId,
+            effectiveStatus,
+            lang,
+        ],
         initialPageParam: 1,
         enabled,
         queryFn: ({ pageParam }) =>
@@ -127,13 +155,25 @@ export const useGetAssignableAuctions = (search?: string, categoryId?: string, e
 export const useAssignItemsToHall = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: ({ id, data }: { id: string, data: { productIds: string[] } }) => HallsServices.assignItemsToHall(id, data),
+        mutationFn: ({
+            id,
+            data,
+        }: {
+            id: string
+            data: { productIds: string[] }
+        }) => HallsServices.assignItemsToHall(id, data),
         onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_HALLS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_DETAILS],
+            })
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.HALL_AUCTIONS],
             })
             queryClient.invalidateQueries({
-                queryKey: ["ASSIGNABLE_AUCTIONS"],
+                queryKey: [ReactQueryKeys.ASSIGNABLE_AUCTIONS],
             })
         },
     })
@@ -144,8 +184,12 @@ export const useArchiveHall = () => {
     return useMutation({
         mutationFn: (id: string) => HallsServices.archiveHall(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_DETAILS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_DETAILS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_HALLS],
+            })
         },
     })
 }
@@ -155,7 +199,24 @@ export const useDeleteHall = () => {
     return useMutation({
         mutationFn: (id: string) => HallsServices.deleteHall(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.ALL_HALLS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ALL_HALLS],
+            })
+        },
+    })
+}
+
+export const useDeleteHallItem = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id: string) => HallsServices.deleteHallItem(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.ASSIGNABLE_AUCTIONS],
+            })
         },
     })
 }

@@ -31,7 +31,7 @@ const getHallValidationSchema = (t: TFunction) =>
             .required(t('halls.errors.imageRequired')),
 
         visibilityStatus: Yup.string()
-            .oneOf(['DRAFT', 'ARCHIVED'])
+            .oneOf(['DRAFT', 'SCHEDULED'])
             .required(),
 
         hallDate: Yup.date()

@@ -165,6 +165,7 @@ const AssignLiveAuctionsModal = ({
                                 )}
                                 value={statusFilter}
                                 onChange={(val) => setStatusFilter(val)}
+                                size="sm"
                             />
                         </div>
                     </div>

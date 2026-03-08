@@ -215,9 +215,9 @@ const FormActions = ({
             <Button
                 variant="solid"
                 type="button"
-                loading={submitting && currentStatus === 'ARCHIVED'}
+                loading={submitting && currentStatus === 'SCHEDULED'}
                 disabled={submitting}
-                onClick={() => handleAction('ARCHIVED')}
+                onClick={() => handleAction('SCHEDULED')}
             >
                 {isUpdateMode
                     ? t('halls.update.submit')

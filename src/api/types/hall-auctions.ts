@@ -1,18 +1,15 @@
 import { BaseEntity } from './common'
 import { Category } from './categories'
-import {
-    EffectiveStatus,
-    ProductStatus,
-} from './products'
+import { EffectiveStatus, ProductStatus } from './products'
 import { UserItem } from './users'
-import {  SellerItem } from './sellers'
+import { SellerItem } from './sellers'
 
 // =============================================================================
 // Status Types
 // =============================================================================
 
 export type HallAuctionStatus =
-    | 'LIVE'
+    | 'ACTIVE'
     | 'SCHEDULED'
     | 'REJECTED'
     | 'HIDDEN'
@@ -96,6 +93,7 @@ export interface HallAuctionItem {
     product: {
         id: string
         title: string
+        auctionStartingPriceIncVat: string
         user?: {
             id: string
             firstName?: string
@@ -105,6 +103,7 @@ export interface HallAuctionItem {
             }
         }
         category?: Category
+        images?: { url: string }[]
     }
 }
 
@@ -208,4 +207,3 @@ export interface RejectHallItemPayload {
 export interface HideHallItemPayload {
     hiddenReason: string
 }
-

@@ -9,7 +9,9 @@ import {
     flexRender,
 } from '@tanstack/react-table'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { ConnectDragSource } from 'react-dnd'
 import Button from '../../Button'
+import DraggableRow from './DraggableRow'
 import { HiDownload } from 'react-icons/hi'
 import ViewTableFilters, {
     FilterValue,
@@ -57,6 +59,16 @@ export interface ViewTableProps<TData extends object = object> {
     headerActions?: ReactNode
     getRowClassName?: (row: TData) => string
     isRowDeleted?: (row: TData) => boolean
+    /** Enable row drag-and-drop reordering (default: false) */
+    enableDrag?: boolean
+    /** Called when a row is dragged to a new position */
+    onRowReorder?: (dragIndex: number, hoverIndex: number) => void
+    /** Accessor to get a unique id from row data (defaults to 'id') */
+    getRowId?: (row: TData) => string | number
+    /** Optional: filter which rows can be dragged */
+    canDragRow?: (row: TData) => boolean
+    /** Optional: filter which rows can be drop targets */
+    canDropOnRow?: (row: TData) => boolean
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -88,7 +100,12 @@ const ViewTable = <TData extends object>({
     requestedPage,
     headerActions,
     getRowClassName,
-    isRowDeleted
+    isRowDeleted,
+    enableDrag = false,
+    onRowReorder,
+    getRowId,
+    canDragRow,
+    canDropOnRow,
 }: ViewTableProps<TData>) => {
     const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
@@ -107,14 +124,14 @@ const ViewTable = <TData extends object>({
         getCoreRowModel: getCoreRowModel(),
     })
 
-
     return (
         <div>
             {title && (
                 <>
-
                     <div className="px-4 md:px-5 flex flex-col md:flex-row md:justify-between md:items-center py-4 md:py-0 md:h-[90px] min-h-[70px] gap-4">
-                        <h3 className="text-[17px] md:text-[24px] font-semibold">{title || t('viewTable.defaultTitle')}</h3>
+                        <h3 className="text-[17px] md:text-[24px] font-semibold">
+                            {title || t('viewTable.defaultTitle')}
+                        </h3>
                         <div className="flex flex-wrap items-center gap-2">
                             {headerActions}
                             {showExportButton && (
@@ -125,7 +142,8 @@ const ViewTable = <TData extends object>({
                                     }
                                     onClick={onExport}
                                 >
-                                    {exportButtonText || t('viewTable.defaultExportButtonText')}
+                                    {exportButtonText ||
+                                        t('viewTable.defaultExportButtonText')}
                                 </Button>
                             )}
                         </div>
@@ -134,10 +152,11 @@ const ViewTable = <TData extends object>({
                 </>
             )}
 
-
             <ViewTableFilters
                 showSearch={showSearch}
-                searchPlaceholder={searchPlaceholder || t('viewTable.defaultSearchPlaceholder')}
+                searchPlaceholder={
+                    searchPlaceholder || t('viewTable.defaultSearchPlaceholder')
+                }
                 searchValue={searchValue}
                 filters={safeFilters}
                 showClearAll={showClearAll}
@@ -170,33 +189,73 @@ const ViewTable = <TData extends object>({
                     />
                 ) : (
                     <TBody>
-                        {table.getRowModel().rows.map((row) => {
+                        {table.getRowModel().rows.map((row, rowIndex) => {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const rowData = row.original as any
                             const deleted = isRowDeleted
                                 ? isRowDeleted(row.original)
-                                : !!rowData.deletedAt || rowData.isDeleted === true
+                                : !!rowData.deletedAt ||
+                                  rowData.isDeleted === true
 
                             const rowThemeClass = getRowClassName
                                 ? getRowClassName(row.original)
                                 : ''
 
+                            const rowClassName = classNames(
+                                rowThemeClass,
+                                deleted && 'bg-red-50 dark:bg-red-900/10',
+                            )
+
+                            const cells = (dragRef?: ConnectDragSource) =>
+                                row.getVisibleCells().map((cell) => (
+                                    <Td key={cell.id}>
+                                        {cell.column.id === 'drag-handle' &&
+                                        dragRef
+                                            ? flexRender(
+                                                  cell.column.columnDef.cell,
+                                                  {
+                                                      ...cell.getContext(),
+                                                      dragRef,
+                                                  },
+                                              )
+                                            : flexRender(
+                                                  cell.column.columnDef.cell,
+                                                  cell.getContext(),
+                                              )}
+                                    </Td>
+                                ))
+
+                            if (enableDrag && onRowReorder) {
+                                const rowId = getRowId
+                                    ? getRowId(row.original)
+                                    : (rowData.id ?? row.id)
+
+                                return (
+                                    <DraggableRow
+                                        key={row.id}
+                                        id={rowId}
+                                        index={rowIndex}
+                                        className={rowClassName}
+                                        canDrag={
+                                            canDragRow
+                                                ? canDragRow(row.original)
+                                                : true
+                                        }
+                                        canDrop={
+                                            canDropOnRow
+                                                ? canDropOnRow(row.original)
+                                                : true
+                                        }
+                                        onMoveRow={onRowReorder}
+                                    >
+                                        {(dragRef) => cells(dragRef)}
+                                    </DraggableRow>
+                                )
+                            }
+
                             return (
-                                <Tr
-                                    key={row.id}
-                                    className={classNames(
-                                        rowThemeClass,
-                                        deleted &&
-                                        'bg-red-50 dark:bg-red-900/10',
-                                    )}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <Td key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext(),
-                                            )}
-                                        </Td>
-                                    ))}
+                                <Tr key={row.id} className={rowClassName}>
+                                    {cells()}
                                 </Tr>
                             )
                         })}
