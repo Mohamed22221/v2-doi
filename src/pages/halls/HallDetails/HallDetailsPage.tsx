@@ -10,6 +10,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useGetHallById } from '@/api/hooks/halls'
 import HallDetailsSkeleton from './components/HallDetailsSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
+import AuctionSequence from './components/AuctionSequence'
+import { HallAuctionItem } from '@/api/types/hall-auctions'
 
 const HallDetailsHeader = lazy(() => import('./components/HallDetailsHeader'))
 
@@ -22,6 +24,7 @@ const HallDetailsPage = () => {
         null,
     )
     const { hall, isLoading, isError, errorMessage } = useGetHallById(id || '')
+    const [sharedItems, setSharedItems] = useState<HallAuctionItem[]>([])
     const name = hall?.translations?.[0]?.name
 
     if (isError) {
@@ -34,6 +37,11 @@ const HallDetailsPage = () => {
             </div>
         )
     }
+
+    const showSequence =
+        (hall?.visibilityStatus === 'DRAFT' ||
+            hall?.visibilityStatus === 'SCHEDULED') &&
+        sharedItems.length > 0
 
     return (
         <div className="flex flex-col gap-4">
@@ -57,12 +65,28 @@ const HallDetailsPage = () => {
                     )
                 )}
             </Suspense>
-            <BackgroundRounded>
-                <AssignedAuctionsTable
-                    hallStatus={hall?.visibilityStatus}
-                    hallName={name || ''}
-                />
-            </BackgroundRounded>
+            <div
+                className={
+                    showSequence ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : ''
+                }
+            >
+                <div className={showSequence ? 'lg:col-span-2' : ''}>
+                    <BackgroundRounded>
+                        <AssignedAuctionsTable
+                            hallStatus={hall?.visibilityStatus}
+                            hallName={name || ''}
+                            onDataChange={setSharedItems}
+                        />
+                    </BackgroundRounded>
+                </div>
+                {showSequence && (
+                    <div className="lg:col-span-1">
+                        <BackgroundRounded className="h-full border  p-6 bg-white">
+                            <AuctionSequence items={sharedItems} />
+                        </BackgroundRounded>
+                    </div>
+                )}
+            </div>
 
             <AssignLiveAuctionsModal
                 isOpen={isModalOpen}

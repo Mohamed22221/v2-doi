@@ -7,8 +7,8 @@ import type { ConnectDragSource } from 'react-dnd'
 import TwoLineText from '@/components/shared/table/TwoLineText'
 import StatusPill from '@/components/shared/table/StatusPill'
 import { HallAuctionItem, HallAuctionStatus } from '@/api/types/hall-auctions'
-import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
-import { Category } from '@/api/types/categories'
+// import { CategoryBreadcrumb } from '@/components/helpers/CategoryBreadcrumb'
+// import { Category } from '@/api/types/categories'
 import SellerNameCell from '@/components/helpers/SellerNameCell'
 import { Icon } from '@/components/ui'
 import DeleteAssignedItemModal from './DeleteAssignedItemModal'
@@ -132,21 +132,21 @@ export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
                     <SellerNameCell user={row.original.product?.user} />
                 ),
             },
-            {
-                header: t('halls.details.table.columns.category'),
-                accessorKey: 'product.category',
-                cell: ({ row }) => {
-                    return (
-                        <CategoryBreadcrumb
-                            category={
-                                row.original?.product?.category as Category
-                            }
-                            orientation="vertical"
-                            size="md"
-                        />
-                    )
-                },
-            },
+            // {
+            //     header: t('halls.details.table.columns.category'),
+            //     accessorKey: 'product.category',
+            //     cell: ({ row }) => {
+            //         return (
+            //             <CategoryBreadcrumb
+            //                 category={
+            //                     row.original?.product?.category as Category
+            //                 }
+            //                 orientation="vertical"
+            //                 size="md"
+            //             />
+            //         )
+            //     },
+            // },
             {
                 header: t('halls.details.table.columns.status'),
                 accessorKey: 'status',

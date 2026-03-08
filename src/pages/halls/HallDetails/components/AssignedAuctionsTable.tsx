@@ -18,9 +18,11 @@ import { HiOutlinePlus } from 'react-icons/hi'
 export default function AssignedAuctionsTable({
     hallStatus,
     hallName,
+    onDataChange,
 }: {
     hallStatus?: string
     hallName?: string
+    onDataChange?: (items: HallAuctionItem[]) => void
 }) {
     const { t } = useTranslation()
     const { id: hallId } = useParams<{ id: string }>()
@@ -39,6 +41,11 @@ export default function AssignedAuctionsTable({
             setOrderedItems(items)
         }
     }, [items])
+
+    // Expose ordered items to parent
+    useEffect(() => {
+        onDataChange?.(orderedItems)
+    }, [orderedItems, onDataChange])
 
     /** Swap two rows by their indices (standard splice approach) */
     const handleRowReorder = useCallback(
@@ -111,8 +118,8 @@ export default function AssignedAuctionsTable({
             <div className="flex flex-col">
                 {/* Header Section */}
                 {isDraggableHall && (
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 px-4 border-b border-gray-100 dark:border-gray-800">
-                        <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 px-4 border-b mt-2 border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center gap-4 ">
                             <div className=" flex items-center justify-center flex-shrink-0">
                                 <Icon name="bundleList" />
                             </div>
@@ -120,13 +127,14 @@ export default function AssignedAuctionsTable({
                                 <h3 className="text-xl font-bold text-[#1E293B] dark:text-gray-100">
                                     {t('halls.details.header.title')}
                                 </h3>
-                                <p className="text-sm text-slate-400 dark:text-gray-400 max-w-md">
+                                <p className="text-sm text-slate-400 dark:text-gray-400 max-w-[600px]">
                                     {t('halls.details.header.subtitle')}
                                 </p>
                             </div>
                         </div>
 
                         <Button
+                            type="button"
                             variant="solid"
                             className="!rounded-xl font-bold px-6 h-11 flex items-center gap-2"
                             icon={
@@ -141,7 +149,7 @@ export default function AssignedAuctionsTable({
 
                 {/* Draggable Info Banner */}
                 {isDraggableHall && (
-                    <div className="flex items-center gap-4 p-5 mx-5 bg-[#FFFBEB] dark:bg-yellow-900/10 border border-[#FEF3C7] dark:border-yellow-900/20 rounded-2xl mb-8 shadow-sm">
+                    <div className="flex items-center gap-4 p-5 mx-5 bg-[#FFFBEB] dark:bg-yellow-900/10 border border-[#FEF3C7] dark:border-yellow-900/20 rounded-2xl mb-3 shadow-sm">
                         <Icon
                             name="infoAlert"
                             className="text-yellow-400 w-5 h-5 justify-center items-center"

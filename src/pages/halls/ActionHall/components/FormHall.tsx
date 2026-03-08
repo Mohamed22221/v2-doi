@@ -29,9 +29,16 @@ import HallImageUpload from './HallImageUpload'
 import TimeSection from './TimeSection'
 
 // Hooks & API
-import { useGetHallById, useCreateHall, useUpdateHall } from '@/api/hooks/halls'
+import {
+    useGetHallById,
+    useCreateHall,
+    useUpdateHall,
+    useGetHallAuctions,
+} from '@/api/hooks/halls'
 import { getApiErrorMessage } from '@/api/error'
 import getHallValidationSchema from './schema'
+import AssignedAuctionsTable from '../../HallDetails/components/AssignedAuctionsTable'
+import AuctionSequence from '../../HallDetails/components/AuctionSequence'
 
 // Types
 import type {
@@ -257,6 +264,8 @@ const FormHall = () => {
     } = useGetHallById(id as string)
     const { mutateAsync: createHall, isPending: isCreating } = useCreateHall()
     const { mutateAsync: updateHall, isPending: isUpdating } = useUpdateHall()
+    const { items: auctions, isLoading: isLoadingAuctions } =
+        useGetHallAuctions(id as string)
 
     useEffect(() => {
         if (
@@ -371,244 +380,279 @@ const FormHall = () => {
                 }
 
                 return (
-                    <Form>
-                        <FormContainer>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                <div className="lg:col-span-2 space-y-4">
-                                    {/* General Information */}
-                                    <BackgroundRounded className="px-6">
-                                        <HeaderInformation
-                                            title={t(
-                                                'halls.generalInformation',
-                                            )}
-                                            icon={<Icon name="info" />}
-                                            rightSlot={
-                                                <LanguageSelect
-                                                    value={values.language}
-                                                    onChange={onLanguageChange}
-                                                />
-                                            }
-                                        />
-                                        <div className="pt-3">
-                                            <FormItem
-                                                asterisk
-                                                label={t('halls.name')}
-                                                invalid={
-                                                    !!(
-                                                        touched.name &&
-                                                        errors.name
-                                                    )
-                                                }
-                                                errorMessage={errors.name}
-                                            >
-                                                <Field
-                                                    name="name"
-                                                    component={Input}
-                                                    placeholder={t(
-                                                        'halls.namePlaceholder',
-                                                    )}
-                                                />
-                                            </FormItem>
-
-                                            <FormItem
-                                                asterisk
-                                                label={t(
-                                                    'locations.cities.modal.fields.regionLabel',
+                    <>
+                        <Form>
+                            <FormContainer>
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                                    <div className="lg:col-span-2 space-y-4">
+                                        {/* General Information */}
+                                        <BackgroundRounded className="px-6">
+                                            <HeaderInformation
+                                                title={t(
+                                                    'halls.generalInformation',
                                                 )}
-                                                invalid={
-                                                    !!(
-                                                        touched.regionId &&
-                                                        errors.regionId
-                                                    )
+                                                icon={<Icon name="info" />}
+                                                rightSlot={
+                                                    <LanguageSelect
+                                                        value={values.language}
+                                                        onChange={
+                                                            onLanguageChange
+                                                        }
+                                                    />
                                                 }
-                                                errorMessage={errors.regionId}
-                                            >
-                                                <RegionsSelect
-                                                    value={values.regionId}
-                                                    placeholder={t(
-                                                        'locations.cities.modal.fields.regionPlaceholder',
+                                            />
+                                            <div className="pt-3">
+                                                <FormItem
+                                                    asterisk
+                                                    label={t('halls.name')}
+                                                    invalid={
+                                                        !!(
+                                                            touched.name &&
+                                                            errors.name
+                                                        )
+                                                    }
+                                                    errorMessage={errors.name}
+                                                >
+                                                    <Field
+                                                        name="name"
+                                                        component={Input}
+                                                        placeholder={t(
+                                                            'halls.namePlaceholder',
+                                                        )}
+                                                    />
+                                                </FormItem>
+
+                                                <FormItem
+                                                    asterisk
+                                                    label={t(
+                                                        'locations.cities.modal.fields.regionLabel',
                                                     )}
-                                                    size="md"
+                                                    invalid={
+                                                        !!(
+                                                            touched.regionId &&
+                                                            errors.regionId
+                                                        )
+                                                    }
+                                                    errorMessage={
+                                                        errors.regionId
+                                                    }
+                                                >
+                                                    <RegionsSelect
+                                                        value={values.regionId}
+                                                        placeholder={t(
+                                                            'locations.cities.modal.fields.regionPlaceholder',
+                                                        )}
+                                                        size="md"
+                                                        onChange={(val) =>
+                                                            setFieldValue(
+                                                                'regionId',
+                                                                val,
+                                                            )
+                                                        }
+                                                    />
+                                                </FormItem>
+
+                                                <FormItem
+                                                    label={t(
+                                                        'halls.description',
+                                                    )}
+                                                >
+                                                    <Field name="description">
+                                                        {({
+                                                            field,
+                                                        }: FieldProps) => (
+                                                            <Input
+                                                                {...field}
+                                                                textArea
+                                                                rows={4}
+                                                                placeholder={t(
+                                                                    'halls.descriptionPlaceholder',
+                                                                )}
+                                                            />
+                                                        )}
+                                                    </Field>
+                                                </FormItem>
+                                            </div>
+                                        </BackgroundRounded>
+
+                                        {/* Media Assets */}
+                                        <BackgroundRounded className="px-6">
+                                            <HeaderInformation
+                                                title={t('halls.mediaAssets')}
+                                                icon={<Icon name="assets" />}
+                                            />
+                                            <div className="space-y-3 py-3">
+                                                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                                    <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">
+                                                        *
+                                                    </span>
+                                                    {t('halls.coverImage')}{' '}
+                                                    (4:3)
+                                                </label>
+                                                <HallImageUpload />
+                                            </div>
+                                        </BackgroundRounded>
+                                        {/* Auction Items Table — only in edit mode */}
+                                        {isUpdateMode && (
+                                            <BackgroundRounded className="mt-4">
+                                                <AssignedAuctionsTable
+                                                    hallStatus={
+                                                        hallDetails?.visibilityStatus
+                                                    }
+                                                    hallName={
+                                                        hallDetails
+                                                            ?.translations?.[0]
+                                                            ?.name || ''
+                                                    }
+                                                />
+                                            </BackgroundRounded>
+                                        )}
+                                    </div>
+
+                                    <div className="lg:col-span-1 space-y-4">
+                                        <TimeSection />
+
+                                        {/* Classification */}
+                                        <BackgroundRounded className="px-6">
+                                            <HeaderInformation
+                                                title={t(
+                                                    'halls.classification',
+                                                )}
+                                                icon={
+                                                    <Icon name="classification" />
+                                                }
+                                            />
+                                            <div className="py-3">
+                                                <Radio.Group
+                                                    vertical
+                                                    value={
+                                                        values.categorySelectionType
+                                                    }
+                                                    className="w-full space-y-4"
                                                     onChange={(val) =>
                                                         setFieldValue(
-                                                            'regionId',
+                                                            'categorySelectionType',
                                                             val,
                                                         )
                                                     }
-                                                />
-                                            </FormItem>
-
-                                            <FormItem
-                                                label={t('halls.description')}
-                                            >
-                                                <Field name="description">
-                                                    {({
-                                                        field,
-                                                    }: FieldProps) => (
-                                                        <Input
-                                                            {...field}
-                                                            textArea
-                                                            rows={4}
-                                                            placeholder={t(
-                                                                'halls.descriptionPlaceholder',
-                                                            )}
-                                                        />
-                                                    )}
-                                                </Field>
-                                            </FormItem>
-                                        </div>
-                                    </BackgroundRounded>
-
-                                    {/* Media Assets */}
-                                    <BackgroundRounded className="px-6">
-                                        <HeaderInformation
-                                            title={t('halls.mediaAssets')}
-                                            icon={<Icon name="assets" />}
-                                        />
-                                        <div className="space-y-3 py-3">
-                                            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                                                <span className="text-red-500 ltr:mr-1 rtl:ml-1 mx-2">
-                                                    *
-                                                </span>
-                                                {t('halls.coverImage')} (4:3)
-                                            </label>
-                                            <HallImageUpload />
-                                        </div>
-                                    </BackgroundRounded>
-                                </div>
-
-                                <div className="lg:col-span-1 space-y-4">
-                                    <TimeSection />
-
-                                    {/* Classification */}
-                                    <BackgroundRounded className="px-6">
-                                        <HeaderInformation
-                                            title={t('halls.classification')}
-                                            icon={
-                                                <Icon name="classification" />
-                                            }
-                                        />
-                                        <div className="py-3">
-                                            <Radio.Group
-                                                vertical
-                                                value={
-                                                    values.categorySelectionType
-                                                }
-                                                className="w-full space-y-4"
-                                                onChange={(val) =>
-                                                    setFieldValue(
-                                                        'categorySelectionType',
-                                                        val,
-                                                    )
-                                                }
-                                            >
-                                                <div
-                                                    className={optionClasses(
-                                                        'all',
-                                                        values.categorySelectionType,
-                                                    )}
-                                                    onClick={() =>
-                                                        setFieldValue(
-                                                            'categorySelectionType',
+                                                >
+                                                    <div
+                                                        className={optionClasses(
                                                             'all',
-                                                        )
-                                                    }
-                                                >
-                                                    <div className="flex gap-4 w-full">
-                                                        <Radio value="all" />
-                                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
-                                                            {t(
-                                                                'halls.categories.all',
-                                                            )}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div
-                                                    className={optionClasses(
-                                                        'specific',
-                                                        values.categorySelectionType,
-                                                        'flex-col',
-                                                    )}
-                                                    onClick={() =>
-                                                        setFieldValue(
-                                                            'categorySelectionType',
-                                                            'specific',
-                                                        )
-                                                    }
-                                                >
-                                                    <div className="flex gap-4 w-full">
-                                                        <Radio value="specific" />
-                                                        <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
-                                                            {t(
-                                                                'halls.categories.specific',
-                                                            )}
-                                                        </span>
-                                                    </div>
-
-                                                    {values.categorySelectionType ===
-                                                        'specific' && (
-                                                        <div
-                                                            className="w-full mt-1 pt-2 border-t border-dashed border-neutral-100 dark:border-neutral-700"
-                                                            onClick={(e) =>
-                                                                e.stopPropagation()
-                                                            }
-                                                        >
-                                                            <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
+                                                            values.categorySelectionType,
+                                                        )}
+                                                        onClick={() =>
+                                                            setFieldValue(
+                                                                'categorySelectionType',
+                                                                'all',
+                                                            )
+                                                        }
+                                                    >
+                                                        <div className="flex gap-4 w-full">
+                                                            <Radio value="all" />
+                                                            <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm">
                                                                 {t(
-                                                                    'halls.selectCategory',
+                                                                    'halls.categories.all',
                                                                 )}
-                                                            </label>
-                                                            <CategorySelect
-                                                                isMulti
-                                                                level={3}
-                                                                size="sm"
-                                                                placeholder={t(
-                                                                    'halls.selectCategory',
-                                                                )}
-                                                                value={
-                                                                    values.categoryIds
-                                                                }
-                                                                menuPortalZ={
-                                                                    400
-                                                                }
-                                                                onChange={(
-                                                                    opt,
-                                                                ) =>
-                                                                    setFieldValue(
-                                                                        'categoryIds',
-                                                                        opt ??
-                                                                            [],
-                                                                    )
-                                                                }
-                                                            />
-                                                            {touched.categoryIds &&
-                                                                errors.categoryIds && (
-                                                                    <div className="text-xs text-red-500 mt-1">
-                                                                        {
-                                                                            errors.categoryIds as string
-                                                                        }
-                                                                    </div>
-                                                                )}
+                                                            </span>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </Radio.Group>
-                                        </div>
-                                    </BackgroundRounded>
-                                </div>
-                            </div>
+                                                    </div>
 
-                            <FormActions
-                                submitting={submitting}
-                                isUpdateMode={isUpdateMode}
-                                currentStatus={values.visibilityStatus}
-                                setFieldValue={setFieldValue}
-                                submitForm={submitForm}
-                                onCancel={() => navigate(-1)}
-                            />
-                        </FormContainer>
-                    </Form>
+                                                    <div
+                                                        className={optionClasses(
+                                                            'specific',
+                                                            values.categorySelectionType,
+                                                            'flex-col',
+                                                        )}
+                                                        onClick={() =>
+                                                            setFieldValue(
+                                                                'categorySelectionType',
+                                                                'specific',
+                                                            )
+                                                        }
+                                                    >
+                                                        <div className="flex gap-4 w-full">
+                                                            <Radio value="specific" />
+                                                            <span className="font-semibold text-neutral-800 dark:text-neutral-100 text-sm block mb-1">
+                                                                {t(
+                                                                    'halls.categories.specific',
+                                                                )}
+                                                            </span>
+                                                        </div>
+
+                                                        {values.categorySelectionType ===
+                                                            'specific' && (
+                                                            <div
+                                                                className="w-full mt-1 pt-2 border-t border-dashed border-neutral-100 dark:border-neutral-700"
+                                                                onClick={(e) =>
+                                                                    e.stopPropagation()
+                                                                }
+                                                            >
+                                                                <label className="block text-[11px] font-bold text-primary-500 dark:text-primary-100 uppercase tracking-wider mb-2">
+                                                                    {t(
+                                                                        'halls.selectCategory',
+                                                                    )}
+                                                                </label>
+                                                                <CategorySelect
+                                                                    isMulti
+                                                                    level={3}
+                                                                    size="sm"
+                                                                    placeholder={t(
+                                                                        'halls.selectCategory',
+                                                                    )}
+                                                                    value={
+                                                                        values.categoryIds
+                                                                    }
+                                                                    menuPortalZ={
+                                                                        400
+                                                                    }
+                                                                    onChange={(
+                                                                        opt,
+                                                                    ) =>
+                                                                        setFieldValue(
+                                                                            'categoryIds',
+                                                                            opt ??
+                                                                                [],
+                                                                        )
+                                                                    }
+                                                                />
+                                                                {touched.categoryIds &&
+                                                                    errors.categoryIds && (
+                                                                        <div className="text-xs text-red-500 mt-1">
+                                                                            {
+                                                                                errors.categoryIds as string
+                                                                            }
+                                                                        </div>
+                                                                    )}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </Radio.Group>
+                                            </div>
+                                        </BackgroundRounded>
+                                        {isUpdateMode &&
+                                            !isLoadingAuctions &&
+                                            (auctions?.length || 0) > 0 && (
+                                                <BackgroundRounded className=" border  p-6 bg-white">
+                                                    <AuctionSequence
+                                                        items={auctions || []}
+                                                    />
+                                                </BackgroundRounded>
+                                            )}
+                                    </div>
+                                </div>
+
+                                <FormActions
+                                    submitting={submitting}
+                                    isUpdateMode={isUpdateMode}
+                                    currentStatus={values.visibilityStatus}
+                                    setFieldValue={setFieldValue}
+                                    submitForm={submitForm}
+                                    onCancel={() => navigate(-1)}
+                                />
+                            </FormContainer>
+                        </Form>
+                    </>
                 )
             }}
         </Formik>

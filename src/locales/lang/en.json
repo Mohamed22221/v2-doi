@@ -1735,6 +1735,9 @@
             "scheduleHall": "Schedule Hall",
             "deleteHall": "Delete Hall",
             "assignLiveAuctions": "Assign Live Auctions",
+            "manualReordering": "Manual Reordering",
+            "reorderingAllowed": "Allowed",
+            "reorderingLocked": "Locked",
             "deleteModal": {
                 "title": "Delete Assigned Item",
                 "description": "Are you sure you want to remove this item from the hall? This action cannot be undone.",
@@ -1745,7 +1748,9 @@
             "header": {
                 "title": "Auction Items",
                 "subtitle": "Add auction items to this hall and arrange their order before the auction begins.",
-                "addItems": "Add Items"
+                "addItems": "Add Items",
+                "sequenceTitle": "Auction Sequence",
+                "sequenceSubtitle": "This is the exact sequence bidders will see when the auction goes live."
             },
             "banner": {
                 "draggable": "Item order is unlocked. Drag the row handles to reorder items before the auction begins. The exact order will be auto-saved and locked once the auction goes Live."
