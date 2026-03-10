@@ -75,6 +75,10 @@ module.exports = {
 				},
 			}),
 
+			fontFamily: {
+				arabic: ['Cairo', 'sans-serif'],
+				english: ['Montserrat', 'sans-serif'],
+			},
 			colors: {
 				primary: {
 					50: '#EDF1F7',
