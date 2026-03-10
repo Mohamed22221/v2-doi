@@ -208,3 +208,7 @@ export interface RejectHallItemPayload {
 export interface HideHallItemPayload {
     hiddenReason: string
 }
+
+export interface ReorderHallItemPayload {
+    newOrder: number
+}

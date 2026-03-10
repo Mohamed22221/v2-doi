@@ -1741,6 +1741,9 @@
             "manualReordering": "إعادة الترتيب اليدوي",
             "reorderingAllowed": "مسموح",
             "reorderingLocked": "مقفل",
+            "reorder": {
+                "success": "تم تحديث الترتيب بنجاح"
+            },
             "deleteModal": {
                 "title": "حذف عنصر مسند",
                 "description": "هل أنت متأكد من رغبتك في إزالة هذا العنصر من القاعة؟ لا يمكن التراجع عن هذا الإجراء.",

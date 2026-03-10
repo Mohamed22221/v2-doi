@@ -5,11 +5,14 @@ import {
     HallItemDetails,
     HideHallItemPayload,
     RejectHallItemPayload,
+    ReorderHallItemPayload,
 } from '../types/hall-auctions'
 
 const LiveAuctionsServices = {
     // GET /api/v1/admin/hall-items
-    getHallItems: (searchParams: string): Promise<TAPIResponseItems<HallItem[]>> =>
+    getHallItems: (
+        searchParams: string,
+    ): Promise<TAPIResponseItems<HallItem[]>> =>
         api.get(`/admin/hall-items?${searchParams}`),
 
     // GET /api/v1/admin/hall-items/item/{id}
@@ -21,11 +24,17 @@ const LiveAuctionsServices = {
         api.delete(`/admin/hall-items/item/${id}`),
 
     // PATCH /api/v1/admin/hall-items/item/reject/{id}
-    rejectHallItem: (id: string, data: RejectHallItemPayload): Promise<TAPIResponseItem<HallItemDetails>> =>
+    rejectHallItem: (
+        id: string,
+        data: RejectHallItemPayload,
+    ): Promise<TAPIResponseItem<HallItemDetails>> =>
         api.patch(`/admin/hall-items/item/reject/${id}`, data),
 
     // PATCH /api/v1/admin/hall-items/item/hide/{id}
-    hideHallItem: (id: string, data: HideHallItemPayload): Promise<TAPIResponseItem<HallItemDetails>> =>
+    hideHallItem: (
+        id: string,
+        data: HideHallItemPayload,
+    ): Promise<TAPIResponseItem<HallItemDetails>> =>
         api.patch(`/admin/hall-items/item/hide/${id}`, data),
 
     // PATCH /api/v1/admin/hall-items/item/unhide/{id}
@@ -33,11 +42,16 @@ const LiveAuctionsServices = {
         api.patch(`/admin/hall-items/item/unhide/${id}`),
 
     // PATCH /api/v1/admin/hall-items/item/{id}/reorder
-    reorderHallItem: (id: string): Promise<TAPIResponseItem<HallItemDetails>> =>
-        api.patch(`/admin/hall-items/item/${id}/reorder`),
+    reorderHallItem: (
+        id: string,
+        data: ReorderHallItemPayload,
+    ): Promise<TAPIResponseItem<HallItemDetails>> =>
+        api.patch(`/admin/hall-items/item/${id}/reorder`, data),
 
     // POST /api/v1/admin/hall-items/item/{id}/end
-    forceEndHallItem: (id: string): Promise<TAPIResponseItem<HallItemDetails>> =>
+    forceEndHallItem: (
+        id: string,
+    ): Promise<TAPIResponseItem<HallItemDetails>> =>
         api.post(`/admin/hall-items/item/${id}/end`),
 }
 

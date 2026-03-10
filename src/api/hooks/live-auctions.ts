@@ -9,7 +9,7 @@ import {
     HallItemDetails,
     HideHallItemPayload,
     RejectHallItemPayload,
-
+    ReorderHallItemPayload,
 } from '../types/hall-auctions'
 import { TAPIResponseItems, TAPIResponseItem } from '../types/api'
 
@@ -57,8 +57,12 @@ export const useDeleteHallItem = () => {
     return useMutation({
         mutationFn: (id: string) => LiveAuctionsServices.deleteHallItem(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_AUCTIONS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEMS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
         },
     })
 }
@@ -66,11 +70,20 @@ export const useDeleteHallItem = () => {
 export const useRejectHallItem = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: RejectHallItemPayload }) =>
-            LiveAuctionsServices.rejectHallItem(id, data),
+        mutationFn: ({
+            id,
+            data,
+        }: {
+            id: string
+            data: RejectHallItemPayload
+        }) => LiveAuctionsServices.rejectHallItem(id, data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEMS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS],
+            })
         },
     })
 }
@@ -81,8 +94,12 @@ export const useHideHallItem = () => {
         mutationFn: ({ id, data }: { id: string; data: HideHallItemPayload }) =>
             LiveAuctionsServices.hideHallItem(id, data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEMS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS],
+            })
         },
     })
 }
@@ -92,8 +109,12 @@ export const useUnhideHallItem = () => {
     return useMutation({
         mutationFn: (id: string) => LiveAuctionsServices.unhideHallItem(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEMS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS],
+            })
         },
     })
 }
@@ -101,10 +122,20 @@ export const useUnhideHallItem = () => {
 export const useReorderHallItem = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (id: string) => LiveAuctionsServices.reorderHallItem(id),
+        mutationFn: ({
+            id,
+            data,
+        }: {
+            id: string
+            data: ReorderHallItemPayload
+        }) => LiveAuctionsServices.reorderHallItem(id, data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_AUCTIONS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEMS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
         },
     })
 }
@@ -114,9 +145,15 @@ export const useForceEndHallItem = () => {
     return useMutation({
         mutationFn: (id: string) => LiveAuctionsServices.forceEndHallItem(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEMS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS] })
-            queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.HALL_AUCTIONS] })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEMS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_ITEM_DETAILS],
+            })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_AUCTIONS],
+            })
         },
     })
 }

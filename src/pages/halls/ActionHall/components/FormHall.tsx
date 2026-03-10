@@ -37,7 +37,7 @@ import {
 } from '@/api/hooks/halls'
 import { getApiErrorMessage } from '@/api/error'
 import getHallValidationSchema from './schema'
-import AssignedAuctionsTable from '../../HallDetails/components/AssignedAuctionsTable'
+import AssignedAuctionsTable from '../../HallDetails/components/hallTable/AssignedAuctionsTable'
 import AuctionSequence from '../../HallDetails/components/AuctionSequence'
 
 // Types

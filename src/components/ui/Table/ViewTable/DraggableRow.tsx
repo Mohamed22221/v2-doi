@@ -19,6 +19,8 @@ export interface DraggableRowProps {
     index: number
     /** Callback fired when a row is dragged over another */
     onMoveRow: (dragIndex: number, hoverIndex: number) => void
+    /** Callback fired when a row is dropped successfully */
+    onReorderEnd?: (index: number) => void
     /** Optional className for the <tr> */
     className?: string
     /** Render-prop children — receives the drag connector for the handle */
@@ -41,6 +43,7 @@ export default function DraggableRow({
     id,
     index,
     onMoveRow,
+    onReorderEnd,
     className,
     children,
     canDrag = true,
@@ -89,6 +92,11 @@ export default function DraggableRow({
         type: ROW_TYPE,
         item: () => ({ id, index, type: ROW_TYPE }),
         canDrag: () => canDrag,
+        end: (item, monitor) => {
+            if (item && monitor.didDrop() && onReorderEnd) {
+                onReorderEnd(item.index)
+            }
+        },
         collect: (monitor) => ({ isDragging: monitor.isDragging() }),
     })
 

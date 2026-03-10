@@ -164,8 +164,8 @@ const AssignLiveAuctionsModal = ({
                                     'halls.details.assignModal.filters.allStatus',
                                 )}
                                 value={statusFilter}
-                                onChange={(val) => setStatusFilter(val)}
                                 size="sm"
+                                onChange={(val) => setStatusFilter(val)}
                             />
                         </div>
                     </div>
@@ -188,7 +188,7 @@ const AssignLiveAuctionsModal = ({
                     </div>
                 </div>
 
-                <div className="sm:max-h-[380px] max-h-[300px] overflow-y-auto custom-scrollbar">
+                <div className="sm:max-h-[43vh]  max-h-[53vh] ] overflow-y-auto custom-scrollbar">
                     {/* Loading state */}
                     {isLoading && (
                         <div className="flex items-center justify-center py-10">
@@ -209,7 +209,7 @@ const AssignLiveAuctionsModal = ({
                         auctions.map((auction) => (
                             <div
                                 key={auction.id}
-                                className="flex items-center justify-between px-1 py-2 mb-1 rounded-xl transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+                                className="flex items-center justify-between px-1  py-2 mb-1 rounded-xl transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
                                 onClick={() => toggleSelection(auction.id)}
                             >
                                 <div className="flex items-center gap-3">

@@ -11,7 +11,7 @@ import { HallAuctionItem, HallAuctionStatus } from '@/api/types/hall-auctions'
 // import { Category } from '@/api/types/categories'
 import SellerNameCell from '@/components/helpers/SellerNameCell'
 import { Icon } from '@/components/ui'
-import DeleteAssignedItemModal from './DeleteAssignedItemModal'
+import DeleteAssignedItemModal from '../hallHeader/DeleteAssignedItemModal'
 
 type StatusVariant = 'success' | 'warning' | 'neutral' | 'danger' | 'info'
 
@@ -65,6 +65,7 @@ export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
                 header: t('halls.details.table.columns.order', {
                     defaultValue: 'Order',
                 }),
+                accessorKey: 'id',
                 size: 70,
                 cell: (info) => {
                     const index = info.row.index + 1
