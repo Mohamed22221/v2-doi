@@ -78,7 +78,11 @@ function RegionsSelect({
     )
 
     const resolvedPlaceholder = useMemo(() => {
-        if (!isError) return placeholder ?? t('locations.cities.modal.fields.regionPlaceholder')
+        if (!isError)
+            return (
+                placeholder ??
+                t('locations.cities.modal.fields.regionPlaceholder')
+            )
         const apiMessage = getApiErrorMessage(error)
         return apiMessage || errorPlaceholder
     }, [isError, error, placeholder, errorPlaceholder, t])

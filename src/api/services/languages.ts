@@ -36,7 +36,7 @@ const LanguagesServices = {
 
     deactivateLanguage: (id: string): Promise<TAPIResponseItem<Language>> =>
         api.patch(`/admin/languages/${id}/deactivate`),
-    
+
     getInfinityLanguages: (
         page: number,
         limit = 10,

@@ -71,6 +71,7 @@ export interface ViewTableProps<TData extends object = object> {
     canDragRow?: (row: TData) => boolean
     /** Optional: filter which rows can be drop targets */
     canDropOnRow?: (row: TData) => boolean
+    showPagination?: boolean
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -109,6 +110,7 @@ const ViewTable = <TData extends object>({
     getRowId,
     canDragRow,
     canDropOnRow,
+    showPagination = true,
 }: ViewTableProps<TData>) => {
     const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
@@ -279,15 +281,17 @@ const ViewTable = <TData extends object>({
                 <EmptyState text={emptyText} />
             )}
 
-            <div className="flex items-center justify-between mt-4">
-                <Pagination
-                    pageSize={pageSize}
-                    currentPage={requestedPage}
-                    total={total}
-                    onChange={onPageChange}
-                />
-                <div style={{ minWidth: 130 }} />
-            </div>
+            {showPagination && (
+                <div className="flex items-center justify-between mt-4">
+                    <Pagination
+                        pageSize={pageSize}
+                        currentPage={requestedPage}
+                        total={total}
+                        onChange={onPageChange}
+                    />
+                    <div style={{ minWidth: 130 }} />
+                </div>
+            )}
         </div>
     )
 }

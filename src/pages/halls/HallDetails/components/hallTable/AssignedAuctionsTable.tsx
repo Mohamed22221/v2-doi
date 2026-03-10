@@ -5,7 +5,11 @@ import { DndProvider } from 'react-dnd-multi-backend'
 import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 import ViewTable from '@/components/ui/Table/ViewTable/ViewTable'
 import { useAssignedAuctionsTableColumns } from './AssignedAuctionsTableColumns'
-import { HallAuctionItem } from '@/api/types/hall-auctions'
+import {
+    HallAuctionItem,
+    AssignableAuctionItem,
+    HallAuctionStatus,
+} from '@/api/types/hall-auctions'
 import { useGetHallAuctions } from '@/api/hooks/halls'
 import { useReorderHallItem } from '@/api/hooks/live-auctions'
 import { useServerTable } from '@/utils/hooks/useServerTable'
@@ -20,18 +24,27 @@ import { useAssignedAuctionsTableFilters } from './useAssignedAuctionsTableFilte
 export default function AssignedAuctionsTable({
     hallStatus,
     hallName,
-    // onDataChange,
+    mode = 'api',
+    items: localItems = [],
+    onItemsChange,
 }: {
     hallStatus?: string
     hallName?: string
-    onDataChange?: (items: HallAuctionItem[]) => void
+    mode?: 'api' | 'local'
+    items?: HallAuctionItem[]
+    onItemsChange?: (items: HallAuctionItem[]) => void
 }) {
     const { t } = useTranslation()
     const { id: hallId } = useParams<{ id: string }>()
 
     // 1. API Hooks
-    const { items, isLoading, isError, errorMessage, total, limit } =
-        useGetHallAuctions(hallId ?? '')
+    const {
+        items: apiItems,
+        isLoading: isApiLoading,
+        isError,
+        errorMessage,
+        total: apiTotal,
+    } = useGetHallAuctions(mode === 'api' ? (hallId ?? '') : '')
     const { mutate: reorderItem } = useReorderHallItem()
 
     // 2. State
@@ -40,21 +53,35 @@ export default function AssignedAuctionsTable({
 
     // 3. Effects
     useEffect(() => {
-        setOrderedItems(items)
-    }, [items])
-
-    // useEffect(() => {
-    //     onDataChange?.(orderedItems)
-    // }, [orderedItems, onDataChange])
+        if (mode === 'api') {
+            setOrderedItems(apiItems)
+        } else {
+            setOrderedItems(localItems)
+        }
+    }, [apiItems, localItems, mode])
 
     // 4. Table Config & Hooks
     const isDraggableHall = hallStatus === 'DRAFT' || hallStatus === 'SCHEDULED'
     const filtersConfig = useAssignedAuctionsTableFilters()
-    const { columns, deleteModal } =
-        useAssignedAuctionsTableColumns(isDraggableHall)
+
+    const handleDelete = useCallback(
+        (id: string) => {
+            if (mode === 'local') {
+                const updated = orderedItems.filter((item) => item.id !== id)
+                onItemsChange?.(updated)
+            }
+        },
+        [mode, orderedItems, onItemsChange],
+    )
+
+    const { columns, deleteModal } = useAssignedAuctionsTableColumns(
+        isDraggableHall,
+        mode === 'local' ? handleDelete : undefined,
+        mode,
+    )
 
     const tableQ = useServerTable({
-        pageSize: limit,
+        pageSize: 1000,
         initialFilters: filtersConfig,
         searchParamKey: 'search',
         pageParamKey: 'page',
@@ -76,8 +103,20 @@ export default function AssignedAuctionsTable({
 
     const handleReorderEnd = useCallback(
         (draggedItem: HallAuctionItem, newIndex: number) => {
-            const globalNewOrder =
-                (tableQ.currentPage - 1) * tableQ.pageSize + newIndex + 1
+            if (mode === 'local') {
+                const updated = [...orderedItems]
+                const dragIndex = orderedItems.findIndex(
+                    (item) => item.id === draggedItem.id,
+                )
+                if (dragIndex !== -1) {
+                    const [removed] = updated.splice(dragIndex, 1)
+                    updated.splice(newIndex, 0, removed)
+                    onItemsChange?.(updated)
+                }
+                return
+            }
+
+            const globalNewOrder = newIndex + 1
 
             reorderItem(
                 {
@@ -102,12 +141,38 @@ export default function AssignedAuctionsTable({
                                 type="danger"
                             />,
                         )
-                        setOrderedItems(items)
+                        setOrderedItems(apiItems)
                     },
                 },
             )
         },
-        [reorderItem, t, items, tableQ.currentPage, tableQ.pageSize],
+        [reorderItem, t, apiItems, mode, orderedItems, onItemsChange],
+    )
+
+    const handleAssignItemsLocal = useCallback(
+        (selectedItems: AssignableAuctionItem[]) => {
+            // Map selected items to HallAuctionItem shape if necessary
+            // In local mode, the modal will return full objects
+            const newItems = selectedItems
+                .filter((item) => !orderedItems.some((i) => i.id === item.id))
+                .map((item) => ({
+                    id: item?.id,
+                    status: item?.effectiveStatus as unknown as HallAuctionStatus,
+                    product: {
+                        id: item.product?.id || item.id,
+                        title: item.title,
+                        auctionStartingPriceIncVat: (
+                            item.auctionStartingPriceIncVat ?? 0
+                        ).toString(),
+                        user: item.user,
+                        images: item.images,
+                        // Missing category here might be okay for now if not used in creation flow display
+                    },
+                })) as HallAuctionItem[]
+
+            onItemsChange?.([...orderedItems, ...newItems])
+        },
+        [orderedItems, onItemsChange],
     )
 
     return (
@@ -119,39 +184,46 @@ export default function AssignedAuctionsTable({
                 />
 
                 <ViewTable<HallAuctionItem>
-                    showSearch
+                    showSearch={mode === 'api'}
                     enableDrag={isDraggableHall}
                     columns={columns}
                     data={orderedItems}
-                    total={total ?? 0}
-                    pageSize={tableQ.pageSize}
+                    total={
+                        mode === 'api' ? (apiTotal ?? 0) : orderedItems.length
+                    }
+                    pageSize={1000}
                     searchPlaceholder={t(
                         'halls.details.table.searchPlaceholder',
                     )}
                     searchValue={tableQ.searchValue}
-                    filters={tableQ.filters}
-                    isLoading={isLoading}
+                    filters={mode === 'api' ? tableQ.filters : undefined}
+                    isLoading={mode === 'api' ? isApiLoading : false}
                     emptyText={t('common.noData')}
-                    requestedPage={tableQ.requestedPage}
-                    isError={isError}
+                    requestedPage={1}
+                    isError={mode === 'api' ? isError : false}
                     errorText={errorMessage ?? ''}
                     showExportButton={false}
-                    onPageChange={tableQ.onPageChange}
+                    showPagination={false}
                     onFilterChange={tableQ.onFilterChange}
                     onSearchChange={tableQ.onSearchChange}
+                    onPageChange={() => {}}
                     onClearAll={tableQ.clearAll}
                     onRowReorder={handleRowReorder}
                     onReorderEnd={handleReorderEnd}
                 />
             </div>
 
-            {deleteModal}
+            {mode === 'api' && deleteModal}
 
             <AssignLiveAuctionsModal
                 isOpen={isAssignModalOpen}
                 hallName={hallName || ''}
                 hallId={hallId ?? ''}
+                skipApiCall={mode === 'local'}
                 onOpenChange={setIsAssignModalOpen}
+                onAssignItems={
+                    mode === 'local' ? handleAssignItemsLocal : undefined
+                }
             />
         </DndProvider>
     )

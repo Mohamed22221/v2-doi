@@ -80,9 +80,16 @@ function CategorySelect({
     // However, usually initialId is used for single select. For multi-select, initialOptions is often preferred.
     // If we only have one initialId, we can still use the existing hook.
     const { category: singleInitialCategory, isLoading: isInitialLoading } =
-        useGetCategoryById(initialIds.length === 1 && !initialOptions.length ? initialIds[0] : '', {
-            enabled: Boolean(initialIds.length === 1 && !initialOptions.length),
-        })
+        useGetCategoryById(
+            initialIds.length === 1 && !initialOptions.length
+                ? initialIds[0]
+                : '',
+            {
+                enabled: Boolean(
+                    initialIds.length === 1 && !initialOptions.length,
+                ),
+            },
+        )
 
     const isLoading = isListLoading || isInitialLoading
 
@@ -92,7 +99,8 @@ function CategorySelect({
         const fetchedOptions =
             categoriesData?.items?.map((cat: Category) => {
                 const byPageLang = cat.translations?.find(
-                    (tr: CategoryTranslation) => tr.languageCode === pageLanguage
+                    (tr: CategoryTranslation) =>
+                        tr.languageCode === pageLanguage,
                 )?.name
 
                 const label = byPageLang || cat.slug
@@ -105,7 +113,9 @@ function CategorySelect({
 
         // Collect all potential initial categories and unify them
         const initialMap = new Map<CategoryId, Category>()
-        initialOptions.forEach(cat => { if (cat) initialMap.set(cat.id, cat) })
+        initialOptions.forEach((cat) => {
+            if (cat) initialMap.set(cat.id, cat)
+        })
         if (singleInitialCategory) {
             initialMap.set(singleInitialCategory.id, singleInitialCategory)
         }
@@ -115,7 +125,8 @@ function CategorySelect({
         initialMap.forEach((cat, id) => {
             if (!fetchedOptions.some((o) => o.value === id)) {
                 const byPageLang = cat.translations?.find(
-                    (tr: CategoryTranslation) => tr.languageCode === pageLanguage
+                    (tr: CategoryTranslation) =>
+                        tr.languageCode === pageLanguage,
                 )?.name
 
                 const label = byPageLang || cat.slug
@@ -129,7 +140,7 @@ function CategorySelect({
     const selectedOption = useMemo(() => {
         if (isMulti) {
             const values = Array.isArray(value) ? value : value ? [value] : []
-            // Filter categoryOptions to find existing ones, but also handle cases where value might be present 
+            // Filter categoryOptions to find existing ones, but also handle cases where value might be present
             // even if not in categoryOptions yet (though extraOptions should cover it)
             return categoryOptions.filter((o) => values.includes(o.value))
         }
@@ -176,4 +187,3 @@ function CategorySelect({
 }
 
 export default CategorySelect
-

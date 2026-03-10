@@ -113,6 +113,7 @@ export interface AssignableAuctionItem {
     title: string
     user?: UserItem
     status: HallAuctionStatus
+
     auctionCode?: string
     startingBid?: number
     scheduledAt?: string

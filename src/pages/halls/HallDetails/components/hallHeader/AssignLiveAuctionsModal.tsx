@@ -32,7 +32,9 @@ interface AssignLiveAuctionsModalProps {
     onOpenChange: (open: boolean) => void
     hallName: string
     onAssign?: (selectedIds: string[]) => void
+    onAssignItems?: (items: AssignableAuctionItem[]) => void
     hallId: string
+    skipApiCall?: boolean
 }
 
 const AssignLiveAuctionsModal = ({
@@ -40,7 +42,9 @@ const AssignLiveAuctionsModal = ({
     onOpenChange,
     hallName,
     onAssign,
+    onAssignItems,
     hallId,
+    skipApiCall = false,
 }: AssignLiveAuctionsModalProps) => {
     const { t } = useTranslation()
     const [searchValue, setSearchValue] = useState('')
@@ -80,6 +84,16 @@ const AssignLiveAuctionsModal = ({
     }, [])
 
     const handleAssign = () => {
+        if (skipApiCall) {
+            const selectedItems = auctions.filter((a) =>
+                selectedIds.includes(a.id),
+            )
+            onAssignItems?.(selectedItems)
+            onOpenChange(false)
+            setSelectedIds([])
+            return
+        }
+
         assignItems(
             { id: hallId, data: { productIds: selectedIds } },
             {
@@ -304,6 +318,7 @@ const AssignLiveAuctionsModal = ({
                             <Button
                                 size="sm"
                                 variant="plain"
+                                type="button"
                                 loading={isFetchingNextPage}
                                 onClick={() => fetchNextPage()}
                             >
@@ -322,6 +337,7 @@ const AssignLiveAuctionsModal = ({
                 <div className="flex gap-2">
                     <Button
                         variant="default"
+                        type="button"
                         className="px-6 sm:px-10 !rounded-xl"
                         onClick={handleCancel}
                     >
@@ -330,6 +346,7 @@ const AssignLiveAuctionsModal = ({
                     <Button
                         variant="solid"
                         color="primary"
+                        type="button"
                         className="px-6 sm:px-10 !rounded-xl font-bold"
                         disabled={selectedIds.length === 0}
                         loading={isAssigning}
