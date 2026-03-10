@@ -1730,6 +1730,7 @@
             "hallDateRequired": "تاريخ القاعة مطلوب",
             "startingTimeRequired": "وقت البدء مطلوب",
             "itemDurationRequired": "مدة العنصر مطلوبة",
+            "startingTimeInPast": "وقت البدء يجب أن يكون في المستقبل",
             "onlyDraftEditable": "يمكن تعديل القاعات المسودة فقط",
             "notEditable": "القاعة غير قابلة للتعديل"
         },
