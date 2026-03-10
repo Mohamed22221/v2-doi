@@ -1,14 +1,20 @@
 import { Category, LanguageCode } from './categories'
 
-export type HallVisibilityStatus = 'ACTIVE' | 'HIDDEN' | 'ARCHIVED' | 'SCHEDULED' | 'DRAFT' | 'ENDED'
+export type HallVisibilityStatus =
+    | 'ACTIVE'
+    | 'HIDDEN'
+    | 'ARCHIVED'
+    | 'SCHEDULED'
+    | 'DRAFT'
+    | 'ENDED'
 
 // Legacy status type kept for backward compat with mock-based form
 export type HallStatus = HallVisibilityStatus
 
 export interface HallTranslation {
-    languageCode: LanguageCode;
-    name: string;
-    description?: string;
+    languageCode: LanguageCode
+    name: string
+    description?: string
 }
 
 export interface MainHall {
@@ -21,6 +27,7 @@ export interface MainHall {
     visibilityStatus: HallVisibilityStatus
     scheduledStartTime?: string // ISO
     categories?: Category[]
+    productIds?: string[]
 }
 
 export interface HallItemDetails extends MainHall {
@@ -32,4 +39,3 @@ export interface HallItem extends HallItemDetails {
     createdAt?: string
     itemsCount?: number
 }
-

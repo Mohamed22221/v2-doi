@@ -1,19 +1,21 @@
 import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Breadcrumb } from '@/components/ui'
-import AssignedAuctionsTable from './components/AssignedAuctionsTable'
+import AssignedAuctionsTable from './components/hallTable/AssignedAuctionsTable'
 import BackgroundRounded from '@/components/shared/BackgroundRounded'
-import AssignLiveAuctionsModal from './components/AssignLiveAuctionsModal'
-import HallActionModal from './components/HallActionModal'
-import type { HallActionType } from './components/HallActionModal'
+import AssignLiveAuctionsModal from './components/hallHeader/AssignLiveAuctionsModal'
+import HallActionModal from './components/hallHeader/HallActionModal'
+import type { HallActionType } from './components/hallHeader/HallActionModal'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useGetHallById } from '@/api/hooks/halls'
-import HallDetailsSkeleton from './components/HallDetailsSkeleton'
+import HallDetailsSkeleton from './components/skeleton/HallDetailsSkeleton'
 import ErrorState from '@/components/shared/ErrorState'
-import AuctionSequence from './components/AuctionSequence'
+// import AuctionSequence from './components/AuctionSequence'
 import { HallAuctionItem } from '@/api/types/hall-auctions'
 
-const HallDetailsHeader = lazy(() => import('./components/HallDetailsHeader'))
+const HallDetailsHeader = lazy(
+    () => import('./components/hallHeader/HallDetailsHeader'),
+)
 
 const HallDetailsPage = () => {
     const { t } = useTranslation()
@@ -79,13 +81,13 @@ const HallDetailsPage = () => {
                         />
                     </BackgroundRounded>
                 </div>
-                {showSequence && (
+                {/* {showSequence && (
                     <div className="lg:col-span-1">
                         <BackgroundRounded className="h-full border  p-6 bg-white">
                             <AuctionSequence items={sharedItems} />
                         </BackgroundRounded>
                     </div>
-                )}
+                )} */}
             </div>
 
             <AssignLiveAuctionsModal

@@ -134,14 +134,22 @@ export const useDeleteLanguage = () => {
 export const useHardDeleteLanguage = () => {
     const queryClient = useQueryClient()
 
-    const mutation = useMutation<TAPIResponseItem<Language>, Error, { id: string | number }>({
-        mutationFn: ({ id }) => LanguagesServices.hardDeleteLanguage(id.toString()),
+    const mutation = useMutation<
+        TAPIResponseItem<Language>,
+        Error,
+        { id: string | number }
+    >({
+        mutationFn: ({ id }) =>
+            LanguagesServices.hardDeleteLanguage(id.toString()),
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ALL_LANGUAGES],
             })
             queryClient.invalidateQueries({
-                queryKey: [ReactQueryKeys.LANGUAGE_BY_ID, variables.id.toString()],
+                queryKey: [
+                    ReactQueryKeys.LANGUAGE_BY_ID,
+                    variables.id.toString(),
+                ],
             })
         },
     })

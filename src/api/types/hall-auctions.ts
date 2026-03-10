@@ -113,6 +113,7 @@ export interface AssignableAuctionItem {
     title: string
     user?: UserItem
     status: HallAuctionStatus
+
     auctionCode?: string
     startingBid?: number
     scheduledAt?: string
@@ -207,4 +208,8 @@ export interface RejectHallItemPayload {
 
 export interface HideHallItemPayload {
     hiddenReason: string
+}
+
+export interface ReorderHallItemPayload {
+    newOrder: number
 }

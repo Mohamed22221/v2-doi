@@ -1727,6 +1727,7 @@
             "hallDateRequired": "Hall date is required",
             "startingTimeRequired": "Starting time is required",
             "itemDurationRequired": "Item duration is required",
+            "startingTimeInPast": "Starting time must be in the future",
             "onlyDraftEditable": "Only draft halls can be edited",
             "notEditable": "Hall is not editable"
         },
@@ -1738,6 +1739,9 @@
             "manualReordering": "Manual Reordering",
             "reorderingAllowed": "Allowed",
             "reorderingLocked": "Locked",
+            "reorder": {
+                "success": "Order updated successfully"
+            },
             "deleteModal": {
                 "title": "Delete Assigned Item",
                 "description": "Are you sure you want to remove this item from the hall? This action cannot be undone.",

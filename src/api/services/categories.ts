@@ -38,7 +38,9 @@ const CategoriesServices = {
         id: string
         targetCategoryId: string
     }): Promise<TAPIResponseItem<Category>> =>
-        api.delete(`/admin/categories/${id}/hard`, { data: { targetCategoryId } }),
+        api.delete(`/admin/categories/${id}/hard`, {
+            data: { targetCategoryId },
+        }),
 
     restoreCategory: (id: string): Promise<TAPIResponseItem<Category>> =>
         api.patch(`/admin/categories/${id}/restore`),

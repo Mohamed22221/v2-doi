@@ -11,7 +11,12 @@ import { HallAuctionItem, HallAuctionStatus } from '@/api/types/hall-auctions'
 // import { Category } from '@/api/types/categories'
 import SellerNameCell from '@/components/helpers/SellerNameCell'
 import { Icon } from '@/components/ui'
-import DeleteAssignedItemModal from './DeleteAssignedItemModal'
+import DeleteAssignedItemModal from '../hallHeader/DeleteAssignedItemModal'
+import {
+    getStatusLabel,
+    getStatusVariant,
+} from '@/pages/fixed-price/components/GetStatusLabel'
+import { EffectiveStatus } from '@/api/types/products'
 
 type StatusVariant = 'success' | 'warning' | 'neutral' | 'danger' | 'info'
 
@@ -45,7 +50,11 @@ const getAuctionStatusLabel = (
     })
 }
 
-export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
+export function useAssignedAuctionsTableColumns(
+    isDraggable: boolean,
+    onDelete?: (id: string) => void,
+    mode: 'api' | 'local' = 'api',
+) {
     const { t } = useTranslation()
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [selectedItem, setSelectedItem] = useState<{
@@ -65,7 +74,8 @@ export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
                 header: t('halls.details.table.columns.order', {
                     defaultValue: 'Order',
                 }),
-                size: 70,
+                accessorKey: 'id',
+                size: 50,
                 cell: (info) => {
                     const index = info.row.index + 1
 
@@ -150,12 +160,30 @@ export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
             {
                 header: t('halls.details.table.columns.status'),
                 accessorKey: 'status',
+                width: 200,
                 cell: ({ row }) => {
                     const status = row.original.status
-                    const label = getAuctionStatusLabel(status, t)
+                    if (mode === 'local') {
+                        const effectiveStatus =
+                            status as unknown as EffectiveStatus
+                        return (
+                            <StatusPill
+                                variant={getStatusVariant(effectiveStatus)}
+                                label={getStatusLabel(effectiveStatus, t)}
+                                size="sm"
+                            />
+                        )
+                    }
+
+                    const label = getAuctionStatusLabel(
+                        status as HallAuctionStatus,
+                        t,
+                    )
                     return (
                         <StatusPill
-                            variant={getAuctionStatusVariant(status)}
+                            variant={getAuctionStatusVariant(
+                                status as HallAuctionStatus,
+                            )}
                             label={label}
                             size="sm"
                         />
@@ -181,23 +209,32 @@ export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
             {
                 header: '',
                 id: 'actions',
+                width: 50,
                 cell: ({ row }) => (
-                    <div className="w-[90px] flex items-center gap-3">
-                        <Link
-                            to={`/live-auctions/${row.original.id}`}
-                            className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 w-[40px] h-[40px] flex items-center justify-center"
-                        >
-                            <Icon name="eya" />
-                        </Link>
+                    <div className="flex items-center gap-3">
+                        {mode === 'api' && (
+                            <Link
+                                to={`/live-auctions/${row.original.id}`}
+                                className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 w-[40px] h-[40px] flex items-center justify-center"
+                            >
+                                <Icon name="eya" />
+                            </Link>
+                        )}
+
                         {isDraggable && (
                             <button
+                                type="button"
                                 className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 w-[40px] h-[40px] flex items-center justify-center"
-                                onClick={() =>
-                                    handleDeleteClick(
-                                        row.original.id,
-                                        row.original.product?.title ?? '',
-                                    )
-                                }
+                                onClick={() => {
+                                    if (onDelete) {
+                                        onDelete(row.original.id)
+                                    } else {
+                                        handleDeleteClick(
+                                            row.original.id,
+                                            row.original.product?.title ?? '',
+                                        )
+                                    }
+                                }}
                             >
                                 <Icon name="delete" className="text-red-400" />
                             </button>
@@ -206,7 +243,7 @@ export function useAssignedAuctionsTableColumns(isDraggable: boolean) {
                 ),
             },
         ]
-    }, [t, isDraggable])
+    }, [t, isDraggable, onDelete, mode])
 
     return {
         columns,

@@ -63,12 +63,15 @@ export interface ViewTableProps<TData extends object = object> {
     enableDrag?: boolean
     /** Called when a row is dragged to a new position */
     onRowReorder?: (dragIndex: number, hoverIndex: number) => void
+    /** Called when a reorder operation is completed */
+    onReorderEnd?: (item: TData, newIndex: number) => void
     /** Accessor to get a unique id from row data (defaults to 'id') */
     getRowId?: (row: TData) => string | number
     /** Optional: filter which rows can be dragged */
     canDragRow?: (row: TData) => boolean
     /** Optional: filter which rows can be drop targets */
     canDropOnRow?: (row: TData) => boolean
+    showPagination?: boolean
 }
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -103,9 +106,11 @@ const ViewTable = <TData extends object>({
     isRowDeleted,
     enableDrag = false,
     onRowReorder,
+    onReorderEnd,
     getRowId,
     canDragRow,
     canDropOnRow,
+    showPagination = true,
 }: ViewTableProps<TData>) => {
     const { t } = useTranslation()
     // Make sure filters always have a value string (controlled)
@@ -122,6 +127,11 @@ const ViewTable = <TData extends object>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getRowId: (row, index) => {
+            if (getRowId) return String(getRowId(row))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return (row as any).id ?? String(index)
+        },
     })
 
     return (
@@ -226,14 +236,10 @@ const ViewTable = <TData extends object>({
                                 ))
 
                             if (enableDrag && onRowReorder) {
-                                const rowId = getRowId
-                                    ? getRowId(row.original)
-                                    : (rowData.id ?? row.id)
-
                                 return (
                                     <DraggableRow
                                         key={row.id}
-                                        id={rowId}
+                                        id={row.id}
                                         index={rowIndex}
                                         className={rowClassName}
                                         canDrag={
@@ -247,6 +253,12 @@ const ViewTable = <TData extends object>({
                                                 : true
                                         }
                                         onMoveRow={onRowReorder}
+                                        onReorderEnd={(newIndex) =>
+                                            onReorderEnd?.(
+                                                row.original,
+                                                newIndex,
+                                            )
+                                        }
                                     >
                                         {(dragRef) => cells(dragRef)}
                                     </DraggableRow>
@@ -269,15 +281,17 @@ const ViewTable = <TData extends object>({
                 <EmptyState text={emptyText} />
             )}
 
-            <div className="flex items-center justify-between mt-4">
-                <Pagination
-                    pageSize={pageSize}
-                    currentPage={requestedPage}
-                    total={total}
-                    onChange={onPageChange}
-                />
-                <div style={{ minWidth: 130 }} />
-            </div>
+            {showPagination && (
+                <div className="flex items-center justify-between mt-4">
+                    <Pagination
+                        pageSize={pageSize}
+                        currentPage={requestedPage}
+                        total={total}
+                        onChange={onPageChange}
+                    />
+                    <div style={{ minWidth: 130 }} />
+                </div>
+            )}
         </div>
     )
 }

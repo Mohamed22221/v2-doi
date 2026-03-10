@@ -44,10 +44,9 @@ export const useGetAllHalls = () => {
 
 export const useGetHallById = (id: string) => {
     const { i18n } = useTranslation()
-    const lang = i18n.language
-
+    const currentLang = i18n.language
     const query = useQuery<TAPIResponseItem<HallItemDetails>>({
-        queryKey: [ReactQueryKeys.HALL_DETAILS, id, lang],
+        queryKey: [ReactQueryKeys.HALL_DETAILS, id, currentLang],
         queryFn: () => HallsServices.getHallById(id),
         enabled: !!id,
     })
@@ -63,7 +62,12 @@ export const useGetHallAuctions = (hallId: string) => {
     const { i18n } = useTranslation()
     const lang = i18n.language
     const [searchParams] = useSearchParams()
-    const queryString = searchParams.toString()
+
+    const filteredParams = new URLSearchParams(searchParams.toString())
+    filteredParams.delete('page')
+    filteredParams.set('limit', '1000') // Fetch all
+    const queryString = filteredParams.toString()
+
     const query = useQuery<TAPIResponseItems<HallAuctionItem[]>>({
         queryKey: [ReactQueryKeys.HALL_AUCTIONS, hallId, lang, queryString],
         queryFn: () => HallsServices.getHallAuctions(hallId, queryString),
@@ -75,7 +79,7 @@ export const useGetHallAuctions = (hallId: string) => {
         items: query.data?.data?.items ?? (EMPTY_ARRAY as HallAuctionItem[]),
         total: query.data?.data?.total ?? 0,
         page: query.data?.data?.page ?? 1,
-        limit: query.data?.data?.limit ?? 10,
+        limit: query.data?.data?.limit ?? 1000,
         totalPages: query.data?.data?.totalPages ?? 1,
         errorMessage: query.error ? getApiErrorMessage(query.error) : null,
     }

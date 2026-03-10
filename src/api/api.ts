@@ -8,10 +8,7 @@ import { TOKEN_TYPE } from './constants/api.constant'
 import { ApiErrorClass, normalizeApiError } from './error'
 import { API_URL, API_VERSION } from '@/configs/env'
 import store from '@/store'
-import {
-    signOutSuccess,
-    tokenUpdated,
-} from '@/store/slices/auth/sessionSlice'
+import { signOutSuccess, tokenUpdated } from '@/store/slices/auth/sessionSlice'
 import i18n from '@/locales'
 
 // ────────────────────────────────────────────
@@ -49,7 +46,8 @@ async function doRefresh(): Promise<string> {
     const newAccessToken: string | undefined = data?.access_token
     const newRefreshToken: string | undefined = data?.refresh_token
 
-    if (!newAccessToken) throw new Error('Refresh response missing access_token')
+    if (!newAccessToken)
+        throw new Error('Refresh response missing access_token')
 
     store.dispatch(
         tokenUpdated({
@@ -69,11 +67,14 @@ function onRequest(config: InternalAxiosRequestConfig) {
 
     if (!config.headers.Authorization) {
         const { accessToken } = store.getState().auth.session
-        if (accessToken) config.headers.Authorization = `${TOKEN_TYPE}${accessToken}`
+        if (accessToken)
+            config.headers.Authorization = `${TOKEN_TYPE}${accessToken}`
     }
 
-    const lang = store.getState().locale.currentLang || 'ar'
-    config.headers.set('x-language', lang)
+    if (!config.headers.get('x-language')) {
+        const lang = store.getState().locale.currentLang || 'ar'
+        config.headers.set('x-language', lang)
+    }
 
     return config
 }
@@ -83,7 +84,8 @@ function onRequest(config: InternalAxiosRequestConfig) {
 // ────────────────────────────────────────────
 async function onResponse(res: AxiosResponse) {
     const url = res.config.url || ''
-    const isLoginResponse = url.includes('/auth/login') || url.includes('/auth/verify-otp')
+    const isLoginResponse =
+        url.includes('/auth/login') || url.includes('/auth/verify-otp')
 
     const data = res.data?.data || res.data
     const accessToken = data?.access_token
@@ -91,17 +93,19 @@ async function onResponse(res: AxiosResponse) {
     if (isLoginResponse && accessToken) {
         try {
             const profileRes = await authApi.get('/auth/profile', {
-                headers: { Authorization: `Bearer ${accessToken}` }
+                headers: { Authorization: `Bearer ${accessToken}` },
             })
 
             const profileData = profileRes.data?.data || profileRes.data
             const role = profileData?.role
 
             if (role !== 'Administrator') {
-                return Promise.reject(new ApiErrorClass({
-                    message: i18n.t('auth.errors.administratorOnly'),
-                    status: 403,
-                }))
+                return Promise.reject(
+                    new ApiErrorClass({
+                        message: i18n.t('auth.errors.administratorOnly'),
+                        status: 403,
+                    }),
+                )
             }
         } catch (error) {
             return Promise.reject(new ApiErrorClass(normalizeApiError(error)))
@@ -129,14 +133,19 @@ async function onResponseError(error: unknown) {
 
     const axiosError = error as AxiosError
     const status = axiosError.response?.status
-    const originalRequest = (axiosError.config as (InternalAxiosRequestConfig & { _retry?: boolean }) | undefined)
+    const originalRequest = axiosError.config as
+        | (InternalAxiosRequestConfig & { _retry?: boolean })
+        | undefined
 
     if (!originalRequest) {
         return Promise.reject(new ApiErrorClass(normalizeApiError(error)))
     }
 
     const url = originalRequest.url ?? ''
-    const isAuthEndpoint = url.includes('/auth/login') || url.includes('/auth/refresh') || url.includes('/auth/verify-otp')
+    const isAuthEndpoint =
+        url.includes('/auth/login') ||
+        url.includes('/auth/refresh') ||
+        url.includes('/auth/verify-otp')
 
     if (status === 401 && !isAuthEndpoint && !originalRequest._retry) {
         originalRequest._retry = true

@@ -6,7 +6,7 @@ import { HallItemDetails } from '@/api/types/halls'
 import {
     getStatusLabel,
     getStatusVariant,
-} from '../../components/GetStatusLabel'
+} from '../../../components/GetStatusLabel'
 
 interface HallDetailsHeaderProps {
     hall: HallItemDetails

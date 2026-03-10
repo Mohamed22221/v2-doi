@@ -8,7 +8,11 @@ import {
 import { useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../error'
 import type { TAPIResponseItems, TAPIResponseItem } from '../types/api'
-import { Category, CategoryPayload, CategoryTreeNode } from '../types/categories'
+import {
+    Category,
+    CategoryPayload,
+    CategoryTreeNode,
+} from '../types/categories'
 import CategoriesServices from '../services/categories'
 import ReactQueryKeys from '../constants/apikeys.constant'
 import { useAppSelector } from '@/store'
@@ -161,7 +165,8 @@ export const useHardDeleteCategory = () => {
         Error,
         { id: string; targetCategoryId: string }
     >({
-        mutationFn: (variables) => CategoriesServices.hardDeleteCategory(variables),
+        mutationFn: (variables) =>
+            CategoriesServices.hardDeleteCategory(variables),
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ALL_CATEGORIES],

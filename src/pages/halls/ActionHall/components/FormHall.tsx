@@ -33,12 +33,12 @@ import {
     useGetHallById,
     useCreateHall,
     useUpdateHall,
-    useGetHallAuctions,
+    // useGetHallAuctions,
 } from '@/api/hooks/halls'
 import { getApiErrorMessage } from '@/api/error'
 import getHallValidationSchema from './schema'
-import AssignedAuctionsTable from '../../HallDetails/components/AssignedAuctionsTable'
-import AuctionSequence from '../../HallDetails/components/AuctionSequence'
+import AssignedAuctionsTable from '../../HallDetails/components/hallTable/AssignedAuctionsTable'
+// import AuctionSequence from '../../HallDetails/components/hallTable/AuctionSequence'
 
 // Types
 import type {
@@ -47,6 +47,7 @@ import type {
     HallItemDetails,
 } from '@/api/types/halls'
 import { LanguageCode } from '@/api/types/common'
+import { HallAuctionItem } from '@/api/types/hall-auctions'
 
 // --- Types & Constants ---
 
@@ -64,6 +65,8 @@ export type FormValues = {
     itemDuration: number | string
     extensionMinutes: number | string
     visibilityStatus: HallVisibilityStatus
+    productIds: string[]
+    assignedItems: HallAuctionItem[]
 }
 
 const DEFAULT_INITIAL_VALUES: FormValues = {
@@ -80,6 +83,8 @@ const DEFAULT_INITIAL_VALUES: FormValues = {
     itemDuration: '',
     extensionMinutes: 0,
     visibilityStatus: 'DRAFT',
+    productIds: [],
+    assignedItems: [],
 }
 
 // --- Helper Functions ---
@@ -141,6 +146,10 @@ const transformToPayload = (values: FormValues): MainHall => {
         payload.scheduledStartTime = scheduledStartTime
     }
 
+    if (values.productIds && values.productIds.length > 0) {
+        payload.productIds = values.productIds
+    }
+
     return payload
 }
 
@@ -184,6 +193,8 @@ const getInitialValues = (
             ? hall.itemBiddingDurationSeconds / 60
             : '',
         visibilityStatus: hall.visibilityStatus ?? 'DRAFT',
+        productIds: [],
+        assignedItems: [],
     }
 }
 
@@ -264,8 +275,8 @@ const FormHall = () => {
     } = useGetHallById(id as string)
     const { mutateAsync: createHall, isPending: isCreating } = useCreateHall()
     const { mutateAsync: updateHall, isPending: isUpdating } = useUpdateHall()
-    const { items: auctions, isLoading: isLoadingAuctions } =
-        useGetHallAuctions(id as string)
+    // const { items: auctions, isLoading: isLoadingAuctions } =
+    //     useGetHallAuctions(id as string)
 
     useEffect(() => {
         if (
@@ -492,21 +503,36 @@ const FormHall = () => {
                                                 <HallImageUpload />
                                             </div>
                                         </BackgroundRounded>
-                                        {/* Auction Items Table — only in edit mode */}
-                                        {isUpdateMode && (
-                                            <BackgroundRounded className="mt-4">
-                                                <AssignedAuctionsTable
-                                                    hallStatus={
-                                                        hallDetails?.visibilityStatus
-                                                    }
-                                                    hallName={
-                                                        hallDetails
-                                                            ?.translations?.[0]
-                                                            ?.name || ''
-                                                    }
-                                                />
-                                            </BackgroundRounded>
-                                        )}
+                                        {/* Auction Items Table */}
+                                        <BackgroundRounded className="mt-4">
+                                            <AssignedAuctionsTable
+                                                mode={
+                                                    isUpdateMode
+                                                        ? 'api'
+                                                        : 'local'
+                                                }
+                                                items={values.assignedItems}
+                                                hallStatus={
+                                                    hallDetails?.visibilityStatus ||
+                                                    values.visibilityStatus
+                                                }
+                                                hallName={
+                                                    hallDetails
+                                                        ?.translations?.[0]
+                                                        ?.name || values.name
+                                                }
+                                                onItemsChange={(items) => {
+                                                    setFieldValue(
+                                                        'assignedItems',
+                                                        items,
+                                                    )
+                                                    setFieldValue(
+                                                        'productIds',
+                                                        items.map((i) => i.id),
+                                                    )
+                                                }}
+                                            />
+                                        </BackgroundRounded>
                                     </div>
 
                                     <div className="lg:col-span-1 space-y-4">
@@ -630,7 +656,7 @@ const FormHall = () => {
                                                 </Radio.Group>
                                             </div>
                                         </BackgroundRounded>
-                                        {isUpdateMode &&
+                                        {/* {isUpdateMode &&
                                             !isLoadingAuctions &&
                                             (auctions?.length || 0) > 0 && (
                                                 <BackgroundRounded className=" border  p-6 bg-white">
@@ -638,7 +664,7 @@ const FormHall = () => {
                                                         items={auctions || []}
                                                     />
                                                 </BackgroundRounded>
-                                            )}
+                                            )} */}
                                     </div>
                                 </div>
 
