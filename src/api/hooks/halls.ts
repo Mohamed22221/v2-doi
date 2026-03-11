@@ -132,6 +132,9 @@ export const useUpdateHall = () => {
             queryClient.invalidateQueries({
                 queryKey: [ReactQueryKeys.ASSIGNABLE_AUCTIONS],
             })
+            queryClient.invalidateQueries({
+                queryKey: [ReactQueryKeys.HALL_TRANSLATIONS],
+            })
         },
     })
 }
