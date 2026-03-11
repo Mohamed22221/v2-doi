@@ -3,6 +3,7 @@ import api from '../api'
 import {
     HallItem as HallMainItem,
     HallItemDetails,
+    HallTranslationDetail,
     MainHall,
 } from '../types/halls'
 import {
@@ -29,7 +30,10 @@ const HallsServices = {
 
     getHallById: (id: string): Promise<TAPIResponseItem<HallMainItem>> =>
         api.get(`/admin/halls/${id}`),
-
+    getHallTranslations: (
+        id: string,
+    ): Promise<TAPIResponseItem<HallTranslationDetail[]>> =>
+        api.get(`/admin/halls/${id}/translations`),
     getHallAuctions: (
         hallId: string,
         searchParams: string,

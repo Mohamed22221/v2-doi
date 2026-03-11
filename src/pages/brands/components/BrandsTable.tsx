@@ -20,9 +20,8 @@ import { useBrandCsvColumns } from './Brands.csv-columns'
 import RestoreBrandModal from './RestoreBrandModal'
 import useDebouncedValue from '@/utils/hooks/useDebouncedValue'
 
-
 export default function BrandsTable() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -185,9 +184,7 @@ export default function BrandsTable() {
 
     const selectedBrandName = useMemo(() => {
         if (!selectedBrand) return ''
-        return (
-            selectedBrand.translations[0]?.name ?? selectedBrand.slug
-        )
+        return selectedBrand.translations[0]?.name ?? selectedBrand.slug
     }, [selectedBrand])
 
     return (

@@ -43,5 +43,6 @@ const ReactQueryKeys = {
     HALL_ITEMS: 'hall-items',
     HALL_ITEM_DETAILS: 'hall-item-details',
     ASSIGNABLE_AUCTIONS: 'assignable-auctions',
+    HALL_TRANSLATIONS: 'hall-translations',
 }
 export default ReactQueryKeys

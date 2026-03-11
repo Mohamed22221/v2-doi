@@ -46,71 +46,69 @@ const HallDetailsPage = () => {
         sharedItems.length > 0
 
     return (
-        <div className="flex flex-col gap-4">
+        <>
             <Breadcrumb
                 items={[
                     { label: t('nav.halls'), path: '/halls' },
                     { label: t('halls.details.title') },
                 ]}
             />
-            <Suspense fallback={<HallDetailsSkeleton />}>
-                {isLoading ? (
-                    <HallDetailsSkeleton />
-                ) : (
-                    hall && (
-                        <HallDetailsHeader
-                            hall={hall}
-                            onAssignAuctions={() => setIsModalOpen(true)}
-                            onSchedule={() => navigate(`/halls/${id}/edit`)}
-                            onDelete={() => setHallActionType('delete')}
-                        />
-                    )
-                )}
-            </Suspense>
-            <div
-                className={
-                    showSequence ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : ''
-                }
-            >
-                <div className={showSequence ? 'lg:col-span-2' : ''}>
-                    <BackgroundRounded>
-                        <AssignedAuctionsTable
-                            hallStatus={hall?.visibilityStatus}
-                            hallName={name || ''}
-                            onDataChange={setSharedItems}
-                        />
-                    </BackgroundRounded>
-                </div>
-                {/* {showSequence && (
-                    <div className="lg:col-span-1">
-                        <BackgroundRounded className="h-full border  p-6 bg-white">
-                            <AuctionSequence items={sharedItems} />
+            <div className="flex flex-col gap-4 md:gap-6">
+                <Suspense fallback={<HallDetailsSkeleton />}>
+                    {isLoading ? (
+                        <HallDetailsSkeleton />
+                    ) : (
+                        hall && (
+                            <HallDetailsHeader
+                                hall={hall}
+                                onAssignAuctions={() => setIsModalOpen(true)}
+                                onSchedule={() => navigate(`/halls/${id}/edit`)}
+                                onDelete={() => setHallActionType('delete')}
+                            />
+                        )
+                    )}
+                </Suspense>
+                <div
+                    className={
+                        showSequence
+                            ? 'grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6'
+                            : ''
+                    }
+                >
+                    <div className={showSequence ? 'lg:col-span-2' : ''}>
+                        <BackgroundRounded>
+                            <AssignedAuctionsTable
+                                hallStatus={hall?.visibilityStatus}
+                                hallName={name || ''}
+                                showExportButton={true}
+                                onItemsChange={setSharedItems}
+                            />
                         </BackgroundRounded>
                     </div>
-                )} */}
-            </div>
+                </div>
 
-            <AssignLiveAuctionsModal
-                isOpen={isModalOpen}
-                hallName={name || ''}
-                hallId={id || ''}
-                onOpenChange={setIsModalOpen}
-            />
-
-            {hallActionType && (
-                <HallActionModal
-                    isOpen={!!hallActionType}
-                    type={hallActionType}
+                <AssignLiveAuctionsModal
+                    isOpen={isModalOpen}
+                    hallName={name || ''}
                     hallId={id || ''}
-                    onConfirmSuccess={() => {
-                        if (hallActionType === 'delete') {
-                            navigate('/halls')
-                        }
-                    }}
-                    onClose={() => setHallActionType(null)}
+                    onOpenChange={setIsModalOpen}
                 />
-            )}
-        </div>
+
+                {hallActionType && (
+                    <HallActionModal
+                        isOpen={!!hallActionType}
+                        type={hallActionType}
+                        hallId={id || ''}
+                        onConfirmSuccess={() => {
+                            if (hallActionType === 'delete') {
+                                navigate('/halls')
+                            }
+                        }}
+                        onClose={() => setHallActionType(null)}
+                    />
+                )}
+            </div>
+        </>
     )
 }
 

@@ -9,7 +9,6 @@ const HallImageUpload = ({
     name = 'coverImage',
     uploadType = 'complaint',
 }: Props) => {
-
     return (
         <ImageUpload
             name={name}
@@ -17,6 +16,8 @@ const HallImageUpload = ({
             tPrefix="halls"
             crop={true}
             aspectRatio={4 / 3}
+            maxWidth="100%"
+            maxHeight="400px"
         />
     )
 }
