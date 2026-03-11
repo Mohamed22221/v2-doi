@@ -39,7 +39,7 @@ const getAuctionStatusVariant = (status?: HallAuctionStatus): StatusVariant => {
     }
 }
 
-const getAuctionStatusLabel = (
+export const getAuctionStatusLabel = (
     status: HallAuctionStatus | undefined,
     t: (key: string, options?: Record<string, unknown>) => string,
 ): string => {

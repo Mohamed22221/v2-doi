@@ -11,7 +11,7 @@ import type { ReactNode, ComponentPropsWithRef, MouseEvent } from 'react'
 
 export interface ButtonProps
     extends CommonProps,
-    Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
+        Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
     active?: boolean
     block?: boolean
     color?: string // e.g. "red", "green", "blue", or "red-600"
@@ -20,7 +20,7 @@ export interface ButtonProps
     loading?: boolean
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void
     shape?: TypeAttributes.Shape
-    size?: TypeAttributes.Size | (string & {})
+    size?: TypeAttributes.Size | (string & unknown)
     variant?: 'solid' | 'twoTone' | 'plain' | 'default' | 'link'
 }
 
@@ -138,7 +138,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     const inputGroupSize = useInputGroup()?.size
 
     const defaultClass = 'button'
-    const sizeIconClass = 'inline-flex items-center justify-center'
 
     const splitedColor = color?.split('-') || []
     const buttonSize = size || inputGroupSize || formControlSize || controlSize
@@ -217,8 +216,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
         activeColor,
         textColor,
     }: ButtonColor) => {
-        return `${bgColor} ${disabled || loading ? disabledClass : hoverColor + ' ' + activeColor
-            } ${textColor}`
+        return `${bgColor} ${
+            disabled || loading ? disabledClass : hoverColor + ' ' + activeColor
+        } ${textColor}`
     }
 
     const solidColor = () => {
@@ -283,9 +283,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
                 ? `bg-gray-100 border border-gray-300 dark:bg-gray-500 dark:border-gray-500`
                 : `bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700`,
             textColor: `text-gray-600 dark:text-gray-100`,
-            hoverColor: active
-                ? ''
-                : `hover:bg-gray-50 dark:hover:bg-gray-600`,
+            hoverColor: active ? '' : `hover:bg-gray-50 dark:hover:bg-gray-600`,
             activeColor: `active:bg-gray-100 dark:active:bg-gray-500 dark:active:border-gray-500`,
         }
         return getBtnColor(btn)
@@ -297,9 +295,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
                 ? `bg-gray-100 dark:bg-gray-500`
                 : 'bg-transparent border border-transparent',
             textColor: `text-gray-600 dark:text-gray-100`,
-            hoverColor: active
-                ? ''
-                : `hover:bg-gray-50 dark:hover:bg-gray-600`,
+            hoverColor: active ? '' : `hover:bg-gray-50 dark:hover:bg-gray-600`,
             activeColor: `active:bg-gray-100 dark:active:bg-gray-500 dark:active:border-gray-500`,
         }
         return getBtnColor(btn)

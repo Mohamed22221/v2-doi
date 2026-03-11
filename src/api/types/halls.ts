@@ -17,6 +17,11 @@ export interface HallTranslation {
     description?: string
 }
 
+export interface HallTranslationDetail extends HallTranslation {
+    id: string
+    hallId: string
+}
+
 export interface MainHall {
     translations: HallTranslation[]
     coverImage?: string

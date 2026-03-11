@@ -33,6 +33,7 @@ import {
     useGetHallById,
     useCreateHall,
     useUpdateHall,
+    useGetHallTranslations,
     // useGetHallAuctions,
 } from '@/api/hooks/halls'
 import { getApiErrorMessage } from '@/api/error'
@@ -45,6 +46,7 @@ import type {
     HallVisibilityStatus,
     MainHall,
     HallItemDetails,
+    HallTranslationDetail,
 } from '@/api/types/halls'
 import { LanguageCode } from '@/api/types/common'
 import { HallAuctionItem } from '@/api/types/hall-auctions'
@@ -156,11 +158,14 @@ const transformToPayload = (values: FormValues): MainHall => {
 const getInitialValues = (
     hall: HallItemDetails | undefined,
     currentLanguage: LanguageCode,
+    serverTranslations?: HallTranslationDetail[],
 ): FormValues => {
     if (!hall) return { ...DEFAULT_INITIAL_VALUES, language: currentLanguage }
 
+    const translationsSource = serverTranslations ?? []
+
     const translations =
-        hall.translations?.reduce<
+        translationsSource?.reduce<
             Record<string, { name: string; description: string }>
         >((acc, t) => {
             const lang = t.languageCode.toLowerCase()
@@ -168,7 +173,7 @@ const getInitialValues = (
             return acc
         }, {}) || {}
 
-    const currentTranslation = hall.translations?.find(
+    const currentTranslation = translationsSource?.find(
         (t) => t.languageCode.toLowerCase() === currentLanguage,
     )
 
@@ -273,6 +278,10 @@ const FormHall = () => {
         isError,
         error,
     } = useGetHallById(id as string)
+    const {
+        translations: serverTranslations,
+        isLoading: isLoadingTranslations,
+    } = useGetHallTranslations(id as string)
     const { mutateAsync: createHall, isPending: isCreating } = useCreateHall()
     const { mutateAsync: updateHall, isPending: isUpdating } = useUpdateHall()
     // const { items: auctions, isLoading: isLoadingAuctions } =
@@ -331,7 +340,8 @@ const FormHall = () => {
         }
     }
 
-    if (isUpdateMode && isLoading) return <FormHallSkeleton />
+    if (isUpdateMode && (isLoading || isLoadingTranslations))
+        return <FormHallSkeleton />
     if (isUpdateMode && isError)
         return <ErrorState message={error?.message} fullPage={true} />
 
@@ -351,7 +361,11 @@ const FormHall = () => {
     return (
         <Formik
             enableReinitialize
-            initialValues={getInitialValues(hallDetails, currentLanguage)}
+            initialValues={getInitialValues(
+                hallDetails,
+                currentLanguage,
+                serverTranslations,
+            )}
             validationSchema={getHallValidationSchema(t)}
             onSubmit={(values, { setSubmitting }) =>
                 handleSubmit(values, setSubmitting)
@@ -503,41 +517,9 @@ const FormHall = () => {
                                                 <HallImageUpload />
                                             </div>
                                         </BackgroundRounded>
-                                        {/* Auction Items Table */}
-                                        <BackgroundRounded className="mt-4">
-                                            <AssignedAuctionsTable
-                                                mode={
-                                                    isUpdateMode
-                                                        ? 'api'
-                                                        : 'local'
-                                                }
-                                                items={values.assignedItems}
-                                                hallStatus={
-                                                    hallDetails?.visibilityStatus ||
-                                                    values.visibilityStatus
-                                                }
-                                                hallName={
-                                                    hallDetails
-                                                        ?.translations?.[0]
-                                                        ?.name || values.name
-                                                }
-                                                onItemsChange={(items) => {
-                                                    setFieldValue(
-                                                        'assignedItems',
-                                                        items,
-                                                    )
-                                                    setFieldValue(
-                                                        'productIds',
-                                                        items.map((i) => i.id),
-                                                    )
-                                                }}
-                                            />
-                                        </BackgroundRounded>
                                     </div>
 
                                     <div className="lg:col-span-1 space-y-4">
-                                        <TimeSection />
-
                                         {/* Classification */}
                                         <BackgroundRounded className="px-6">
                                             <HeaderInformation
@@ -656,18 +638,34 @@ const FormHall = () => {
                                                 </Radio.Group>
                                             </div>
                                         </BackgroundRounded>
-                                        {/* {isUpdateMode &&
-                                            !isLoadingAuctions &&
-                                            (auctions?.length || 0) > 0 && (
-                                                <BackgroundRounded className=" border  p-6 bg-white">
-                                                    <AuctionSequence
-                                                        items={auctions || []}
-                                                    />
-                                                </BackgroundRounded>
-                                            )} */}
+                                        <TimeSection />
                                     </div>
                                 </div>
-
+                                {/* Auction Items Table */}
+                                <BackgroundRounded className="mt-4">
+                                    <AssignedAuctionsTable
+                                        mode={isUpdateMode ? 'api' : 'local'}
+                                        items={values.assignedItems}
+                                        hallStatus={
+                                            hallDetails?.visibilityStatus ||
+                                            values.visibilityStatus
+                                        }
+                                        hallName={
+                                            hallDetails?.translations?.[0]
+                                                ?.name || values.name
+                                        }
+                                        onItemsChange={(items) => {
+                                            setFieldValue(
+                                                'assignedItems',
+                                                items,
+                                            )
+                                            setFieldValue(
+                                                'productIds',
+                                                items.map((i) => i.id),
+                                            )
+                                        }}
+                                    />
+                                </BackgroundRounded>
                                 <FormActions
                                     submitting={submitting}
                                     isUpdateMode={isUpdateMode}

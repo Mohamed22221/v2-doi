@@ -18,6 +18,7 @@ import AssignLiveAuctionsModal from '../hallHeader/AssignLiveAuctionsModal'
 import { getApiErrorMessage } from '@/api/error'
 import AssignedAuctionsTableHeader from './AssignedAuctionsTableHeader'
 import { useAssignedAuctionsTableFilters } from './useAssignedAuctionsTableFilters'
+import { useAssignedAuctionsCsvColumns } from './assigned-auctions.csv-columns'
 
 // ── Main Component ─────────────────────────────────────────────
 
@@ -27,12 +28,14 @@ export default function AssignedAuctionsTable({
     mode = 'api',
     items: localItems = [],
     onItemsChange,
+    showExportButton = false,
 }: {
     hallStatus?: string
     hallName?: string
     mode?: 'api' | 'local'
     items?: HallAuctionItem[]
     onItemsChange?: (items: HallAuctionItem[]) => void
+    showExportButton?: boolean
 }) {
     const { t } = useTranslation()
     const { id: hallId } = useParams<{ id: string }>()
@@ -175,11 +178,17 @@ export default function AssignedAuctionsTable({
         [orderedItems, onItemsChange],
     )
 
+    const csvColumns = useAssignedAuctionsCsvColumns()
+
     return (
         <DndProvider options={HTML5toTouch}>
             <div className="flex flex-col">
                 <AssignedAuctionsTableHeader
                     isDraggable={isDraggableHall}
+                    showExportButton={showExportButton}
+                    csvFileNamePrefix={`hall_${hallId}_auctions`}
+                    csvColumns={csvColumns}
+                    csvData={orderedItems}
                     onAddClick={() => setIsAssignModalOpen(true)}
                 />
 

@@ -5,10 +5,12 @@ import { useCsvExport, ExportOptions } from '@/utils/hooks/useCsvExport'
 
 interface CsvExportButtonProps<T> extends ExportOptions<T> {
     className?: string
+    size?: 'sm' | 'md'
 }
 
 export default function CsvExportButton<T>({
     className,
+    size,
     ...exportOptions
 }: CsvExportButtonProps<T>) {
     const { t } = useTranslation()
@@ -17,7 +19,7 @@ export default function CsvExportButton<T>({
 
     const title = (
         <Button
-            size="sm md:md"
+            size={size ? size : 'sm md:md'}
             className={className}
             icon={
                 isExporting ? (
@@ -38,16 +40,16 @@ export default function CsvExportButton<T>({
         <Dropdown renderTitle={title} placement="bottom-end">
             <Dropdown.Item
                 eventKey="current"
-                onClick={exportCurrentPage}
                 disabled={isExporting}
+                onClick={exportCurrentPage}
             >
                 {t('viewTable.exportCurrentPage')}
             </Dropdown.Item>
             {exportOptions.fetchPage && (
                 <Dropdown.Item
                     eventKey="all"
-                    onClick={exportAll}
                     disabled={isExporting}
+                    onClick={exportAll}
                 >
                     {t('viewTable.exportAll')}
                 </Dropdown.Item>

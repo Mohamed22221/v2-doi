@@ -83,7 +83,11 @@ function deepEqualFilters(
             filterA.hidden !== filterB.hidden ||
             filterA.loading !== filterB.loading ||
             filterA.label !== filterB.label ||
-            filterA.placeholder !== filterB.placeholder
+            filterA.placeholder !== filterB.placeholder ||
+            filterA.infinity?.hasNextPage !== filterB.infinity?.hasNextPage ||
+            filterA.infinity?.isFetchingNextPage !==
+                filterB.infinity?.isFetchingNextPage ||
+            filterA.infinity?.isFetching !== filterB.infinity?.isFetching
         ) {
             return false
         }
@@ -245,8 +249,8 @@ export function useServerTable(opts: {
 
                     // If we have an existing filter with a value, preserve it
                     // (this handles the case where initialFilters structure changes)
-                    if (existingFilter && existingFilter.value !== null) {
-                        return { ...f, value: existingFilter.value }
+                    if (existingFilter && (existingFilter.value !== null || existingFilter.dateValue !== null)) {
+                        return { ...f, value: existingFilter.value, dateValue: existingFilter.dateValue }
                     }
 
                     // Otherwise use the value from initialFilters
@@ -267,7 +271,7 @@ export function useServerTable(opts: {
                     const existingFilter = currentFilterMap.get(f.key)
                     if (existingFilter) {
                         // Preserve user's value, but update other properties
-                        return { ...f, value: existingFilter.value }
+                        return { ...f, value: existingFilter.value, dateValue: existingFilter.dateValue }
                     }
                     // New filter from initialFilters
                     const fromUrl = searchParams.get(f.key)

@@ -12,6 +12,7 @@ import { getApiErrorMessage } from '../error'
 import {
     HallItem as HallMainItem,
     HallItemDetails,
+    HallTranslationDetail,
     MainHall,
 } from '../types/halls'
 import { HallAuctionItem } from '../types/hall-auctions'
@@ -54,6 +55,22 @@ export const useGetHallById = (id: string) => {
     return {
         ...query,
         hall: query.data?.data,
+        errorMessage: query.error ? getApiErrorMessage(query.error) : null,
+    }
+}
+
+export const useGetHallTranslations = (id: string) => {
+    const { i18n } = useTranslation()
+    const lang = i18n.language
+    const query = useQuery<TAPIResponseItem<HallTranslationDetail[]>>({
+        queryKey: [ReactQueryKeys.HALL_TRANSLATIONS, id, lang],
+        queryFn: () => HallsServices.getHallTranslations(id),
+        enabled: !!id,
+    })
+
+    return {
+        ...query,
+        translations: query.data?.data,
         errorMessage: query.error ? getApiErrorMessage(query.error) : null,
     }
 }

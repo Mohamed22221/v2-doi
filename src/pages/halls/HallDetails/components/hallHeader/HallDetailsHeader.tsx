@@ -17,7 +17,6 @@ interface HallDetailsHeaderProps {
 
 const HallDetailsHeader = ({
     hall,
-    onAssignAuctions,
     onSchedule,
     onDelete,
 }: HallDetailsHeaderProps) => {
@@ -28,7 +27,7 @@ const HallDetailsHeader = ({
     return (
         <BackgroundRounded>
             <div className="flex flex-col md:flex-row md:mx-4 items-start gap-1">
-                <div className="w-[250px] h-[200px] md:w-[250px] md:h-[200px] rounded-[10px] sm:rounded-[12px] overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
+                <div className="w-full h-[180px] sm:h-[200px] md:w-[250px] md:h-[200px] rounded-[10px] sm:rounded-[12px] overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-700">
                     {hall?.coverImage ? (
                         <img
                             src={hall.coverImage}
@@ -42,10 +41,10 @@ const HallDetailsHeader = ({
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col gap-4 p-4 md:gap-2 sm:px-4 sm:py-3 w-full">
-                    <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col gap-3 p-4 md:gap-2 md:px-4 md:py-3 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-3 flex-wrap">
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
+                            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">
                                 {name}
                             </h2>
                             <StatusPill
@@ -56,14 +55,13 @@ const HallDetailsHeader = ({
                                 size="sm"
                             />
                         </div>
-                        <div className="flex flex-wrap items-center gap-2  sm:gap-3">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                             {hall.visibilityStatus === 'DRAFT' ? (
                                 <>
                                     <Button
                                         variant="solid"
-                                        size="md"
-                                        color="primary"
-                                        className="w-full sm:w-auto font-bold px-8 !rounded-xl"
+                                        size="sm"
+                                        className="flex-1 sm:flex-none sm:w-auto font-bold px-3 sm:px-8 !rounded-xl text-xs sm:text-sm md:text-base h-9 sm:h-11"
                                         onClick={onSchedule}
                                     >
                                         {t('halls.details.scheduleHall') ||
@@ -71,50 +69,40 @@ const HallDetailsHeader = ({
                                     </Button>
                                     <Button
                                         variant="default"
-                                        size="md"
+                                        size="sm"
                                         color="red"
-                                        className="w-full sm:w-auto font-bold px-8 !rounded-xl"
+                                        className="flex-1 sm:flex-none sm:w-auto font-bold px-3 sm:px-8 !rounded-xl text-xs sm:text-sm md:text-base h-9 sm:h-11"
                                         onClick={onDelete}
                                     >
                                         {t('halls.details.deleteHall') ||
                                             'Delete Hall'}
                                     </Button>
                                 </>
-                            ) : hall.visibilityStatus !== 'ENDED' ? (
-                                <Button
-                                    variant="solid"
-                                    size="md"
-                                    color="primary"
-                                    className="w-full sm:w-auto font-bold px-8 !rounded-xl"
-                                    onClick={onAssignAuctions}
-                                >
-                                    {t('halls.details.assignLiveAuctions')}
-                                </Button>
                             ) : null}
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2 mt-2 flex-wrap">
-                        <span className="font-medium text-primary-1000 dark:text-primary-100 text-sm">
+                    <div className="flex items-center gap-2 mt-1 sm:mt-2 flex-wrap">
+                        <span className="font-medium text-primary-1000 dark:text-primary-100 text-[10px] sm:text-xs md:text-sm">
                             {t('users.table.columns.idPrefix')} {hall.id}
                         </span>
-                        {description && description.length < 30 && (
-                            <span className="text-gray-400">•</span>
-                        )}
                         {description && (
-                            <p className="text-sm text-black dark:text-gray-400">
-                                {description}
-                            </p>
+                            <>
+                                <span className="text-gray-400">•</span>
+                                <p className="text-[10px] sm:text-xs md:text-sm text-black dark:text-gray-400">
+                                    {description}
+                                </p>
+                            </>
                         )}
                     </div>
 
-                    <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[#98A2B3] dark:text-gray-400 font-medium">
+                    <div className="flex items-center gap-2 mt-0.5 sm:mt-1">
+                        <span className="text-[#98A2B3] dark:text-gray-400 font-medium text-[10px] sm:text-xs md:text-sm">
                             {t('halls.details.manualReordering')}
                         </span>
                         <div className="flex items-center gap-1.5 ml-1">
                             <span
-                                className={`w-2.5 h-2.5 rounded-full ${
+                                className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${
                                     hall.visibilityStatus === 'DRAFT' ||
                                     hall.visibilityStatus === 'SCHEDULED'
                                         ? 'bg-[#10B981]'
@@ -122,7 +110,7 @@ const HallDetailsHeader = ({
                                 }`}
                             ></span>
                             <span
-                                className={`text-sm font-semibold ${
+                                className={`text-[10px] sm:text-xs md:text-sm font-semibold ${
                                     hall.visibilityStatus === 'DRAFT' ||
                                     hall.visibilityStatus === 'SCHEDULED'
                                         ? 'text-[#10B981]'
